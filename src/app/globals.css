@@ -1,0 +1,235 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-inter), sans-serif;
+  --font-display: var(--font-outfit), sans-serif;
+  --font-serif: var(--font-instrument), serif;
+
+  --color-primary: #8b5cf6;
+  --color-secondary: #38bdf8;
+
+  --animate-float-slow: float 6s ease-in-out infinite;
+  --animate-float-slower: float 8s ease-in-out infinite;
+  --animate-float-fast: float 5s ease-in-out infinite;
+  --animate-float-delayed: float 7s ease-in-out infinite 1s;
+  --animate-float-reverse: float-reverse 7s ease-in-out infinite;
+  --animate-scroll-up: scroll-up 45s linear infinite;
+  --animate-scroll-down: scroll-down 45s linear infinite;
+  --animate-scroll-left: scroll-left 40s linear infinite;
+  --animate-scroll-right: scroll-right 40s linear infinite;
+  --animate-responsive-resize: responsive-resize-extended 10s ease-in-out
+    infinite;
+  --animate-text-reveal: text-reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1)
+    backwards;
+  --animate-fade-in: fade-in 1s ease-out forwards;
+  --animate-figma-cursor: figma-cursor 4s ease-in-out infinite;
+  --animate-figma-element: figma-element 4s ease-in-out infinite;
+  --animate-typing: typing 2s steps(20, end) infinite;
+  --animate-scroll-feed: scroll-feed 8s linear infinite;
+  --animate-rank-up: rank-up 5s ease-in-out infinite;
+  --animate-rank-down-1: rank-down-1 5s ease-in-out infinite;
+  --animate-rank-down-2: rank-down-2 5s ease-in-out infinite;
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-15px);
+    }
+  }
+  @keyframes float-reverse {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(15px);
+    }
+  }
+  @keyframes scroll-up {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(-50%);
+    }
+  }
+  @keyframes scroll-down {
+    0% {
+      transform: translateY(-50%);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+  @keyframes scroll-left {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+  @keyframes scroll-right {
+    0% {
+      transform: translateX(-50%);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+  @keyframes responsive-resize-extended {
+    0%,
+    15% {
+      width: 100%;
+    }
+    25%,
+    45% {
+      width: 55%;
+    }
+    55%,
+    75% {
+      width: 30%;
+    }
+    85%,
+    100% {
+      width: 100%;
+    }
+  }
+  @keyframes text-reveal {
+    0% {
+      transform: translateY(100%);
+      opacity: 0;
+      filter: blur(10px);
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+      filter: blur(0px);
+    }
+  }
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  @keyframes figma-cursor {
+    0%,
+    10% {
+      transform: translate(10px, 10px);
+    }
+    25% {
+      transform: translate(60px, 50px);
+    }
+    30% {
+      transform: translate(60px, 50px) scale(0.9);
+    }
+    55% {
+      transform: translate(140px, 20px) scale(0.9);
+    }
+    65% {
+      transform: translate(140px, 20px) scale(1);
+    }
+    85% {
+      transform: translate(160px, 120px);
+    }
+    100% {
+      transform: translate(10px, 10px);
+    }
+  }
+  @keyframes figma-element {
+    0%,
+    25% {
+      transform: translate(0, 0);
+    }
+    30% {
+      transform: scale(0.95);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    55% {
+      transform: translate(80px, -30px) scale(0.95);
+    }
+    65% {
+      transform: translate(80px, -30px) scale(1);
+    }
+    90%,
+    100% {
+      transform: translate(0, 0);
+    }
+  }
+  @keyframes typing {
+    0% {
+      width: 0;
+    }
+    100% {
+      width: 100%;
+    }
+  }
+  @keyframes scroll-feed {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(-50%);
+    }
+  }
+  @keyframes rank-up {
+    0%,
+    20% {
+      transform: translateY(200%);
+      background-color: #ffffff;
+    }
+    30%,
+    85% {
+      transform: translateY(0);
+      background-color: #f0fdf4;
+      border-color: #86efac;
+    }
+    95%,
+    100% {
+      transform: translateY(200%);
+      background-color: #ffffff;
+    }
+  }
+  @keyframes rank-down-1 {
+    0%,
+    20% {
+      transform: translateY(0);
+    }
+    30%,
+    85% {
+      transform: translateY(100%);
+    }
+    95%,
+    100% {
+      transform: translateY(0);
+    }
+  }
+  @keyframes rank-down-2 {
+    0%,
+    20% {
+      transform: translateY(100%);
+    }
+    30%,
+    85% {
+      transform: translateY(200%);
+    }
+    95%,
+    100% {
+      transform: translateY(100%);
+    }
+  }
+}
+
+html,
+body {
+  background: linear-gradient(to bottom, #ffffff 0%, #ffffff 50%, #f1f5f9 100%);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  min-height: 100vh;
+}
