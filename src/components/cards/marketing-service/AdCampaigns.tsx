@@ -28,47 +28,55 @@ const AdCampaigns = () => {
           <Avatar />
           <Meta>
             <BrandName>Twoja Marka</BrandName>
-            <Sponsored>Sponsorowane • <GlobeIcon>🌎</GlobeIcon></Sponsored>
+            <Sponsored>
+              Sponsorowane • <GlobeIcon>🌎</GlobeIcon>
+            </Sponsored>
           </Meta>
           <ActionBtn>Obserwuj</ActionBtn>
         </Header>
 
         <AdContent>
           <AdText>
-            Skalujemy sprzedaż przez <Hash>#MetaAds</Hash> i <Hash>#TikTok</Hash>.
-            Sprawdź nasze wyniki! 🚀
+            Skalujemy sprzedaż przez <Hash>#MetaAds</Hash> i{" "}
+            <Hash>#TikTok</Hash>. Sprawdź nasze wyniki! 🚀
           </AdText>
           <VisualPreview>
-             <PlayButton>▶</PlayButton>
-             <LiveOverlay>LIVE</LiveOverlay>
+            <PlayButton>▶</PlayButton>
+            <LiveOverlay>LIVE</LiveOverlay>
           </VisualPreview>
         </AdContent>
 
         <Footer>
           <StatsRow>
             <StatGroup>
-               <ReactionStack>
-                  <Emoji style={{zIndex: 3}}>❤️</Emoji>
-                  <Emoji style={{zIndex: 2, left: 12}}>👍</Emoji>
-                  <Emoji style={{zIndex: 1, left: 24}}>🔥</Emoji>
-               </ReactionStack>
-               <StatText>2.4k</StatText>
+              <ReactionStack>
+                <Emoji style={{ zIndex: 3 }}>❤️</Emoji>
+                <Emoji style={{ zIndex: 2, left: 12 }}>👍</Emoji>
+                <Emoji style={{ zIndex: 1, left: 24 }}>🔥</Emoji>
+              </ReactionStack>
+              <StatText>2.4k</StatText>
             </StatGroup>
             <StatText>482 komentarze</StatText>
           </StatsRow>
-          <CtaButton
-             whileHover={{ scale: 1.02 }}
-             whileTap={{ scale: 0.98 }}
-          >
-             Więcej
+          <CtaButton whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+            Więcej
           </CtaButton>
         </Footer>
 
         {/* Floating Particles */}
-        <FloatingReaction style={{ top: '20%', right: '-10%' }}>👍</FloatingReaction>
-        <FloatingReaction style={{ top: '60%', right: '-15%', animationDelay: '1s' }}>❤️</FloatingReaction>
-        <FloatingReaction style={{ top: '40%', left: '-10%', animationDelay: '2s' }}>🚀</FloatingReaction>
-
+        <FloatingReaction style={{ top: "20%", right: "-10%" }}>
+          👍
+        </FloatingReaction>
+        <FloatingReaction
+          style={{ top: "60%", right: "-15%", animationDelay: "1s" }}
+        >
+          ❤️
+        </FloatingReaction>
+        <FloatingReaction
+          style={{ top: "40%", left: "-10%", animationDelay: "2s" }}
+        >
+          🚀
+        </FloatingReaction>
       </GlassCard>
     </Container>
   );
@@ -89,7 +97,7 @@ const GradientBlob = styled(motion.div)<{ $color: string }>`
   position: absolute;
   width: 150px;
   height: 150px;
-  background: ${p => p.$color};
+  background: ${(p) => p.$color};
   filter: blur(60px);
   opacity: 0.6;
   border-radius: 50%;
@@ -100,10 +108,11 @@ const GlassCard = styled(motion.div)`
   width: 280px;
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 24px;
   padding: 16px;
-  box-shadow: 
+  box-shadow:
     0 20px 40px -10px rgba(0, 0, 0, 0.2),
     inset 0 0 0 1px rgba(255, 255, 255, 0.1);
   position: relative;
@@ -122,9 +131,16 @@ const Header = styled.div`
 const Avatar = styled.div`
   width: 36px;
   height: 36px;
-  background: linear-gradient(135deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
+  background: linear-gradient(
+    135deg,
+    #f09433 0%,
+    #e6683c 25%,
+    #dc2743 50%,
+    #cc2366 75%,
+    #bc1888 100%
+  );
   border-radius: 50%;
-  border: 2px solid rgba(255,255,255,0.2);
+  border: 2px solid rgba(255, 255, 255, 0.2);
 `;
 
 const Meta = styled.div`
@@ -139,7 +155,7 @@ const BrandName = styled.div`
 
 const Sponsored = styled.div`
   font-size: 10px;
-  color: rgba(255,255,255,0.7);
+  color: rgba(255, 255, 255, 0.7);
   display: flex;
   align-items: center;
   gap: 4px;
@@ -152,7 +168,7 @@ const GlobeIcon = styled.span`
 
 const ActionBtn = styled.button`
   background: transparent;
-  border: 1px solid rgba(255,255,255,0.3);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   color: #fff;
   font-size: 10px;
   padding: 4px 8px;
@@ -168,7 +184,7 @@ const AdContent = styled.div`
 
 const AdText = styled.div`
   font-size: 12px;
-  color: rgba(255,255,255,0.9);
+  color: rgba(255, 255, 255, 0.9);
   line-height: 1.4;
 `;
 
@@ -186,14 +202,15 @@ const VisualPreview = styled.div`
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  box-shadow: inset 0 0 20px rgba(0,0,0,0.2);
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.2);
 `;
 
 const PlayButton = styled.div`
   width: 40px;
   height: 40px;
-  background: rgba(0,0,0,0.4);
+  background: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -201,7 +218,7 @@ const PlayButton = styled.div`
   color: #fff;
   font-size: 14px;
   padding-left: 2px;
-  border: 1px solid rgba(255,255,255,0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 `;
 
 const LiveOverlay = styled.div`
@@ -251,12 +268,12 @@ const Emoji = styled.div`
   align-items: center;
   justify-content: center;
   font-size: 10px;
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 `;
 
 const StatText = styled.div`
   font-size: 10px;
-  color: rgba(255,255,255,0.6);
+  color: rgba(255, 255, 255, 0.6);
 `;
 
 const CtaButton = styled(motion.button)`
@@ -276,10 +293,19 @@ const FloatingReaction = styled.div`
   font-size: 24px;
   animation: floatUp 3s ease-in infinite;
   opacity: 0;
-  
+
   @keyframes floatUp {
-    0% { transform: translateY(0) scale(0.5); opacity: 0; }
-    20% { opacity: 1; transform: translateY(-20px) scale(1.1); }
-    100% { transform: translateY(-100px) scale(1); opacity: 0; }
+    0% {
+      transform: translateY(0) scale(0.5);
+      opacity: 0;
+    }
+    20% {
+      opacity: 1;
+      transform: translateY(-20px) scale(1.1);
+    }
+    100% {
+      transform: translateY(-100px) scale(1);
+      opacity: 0;
+    }
   }
 `;

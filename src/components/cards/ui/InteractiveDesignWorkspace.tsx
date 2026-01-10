@@ -84,6 +84,7 @@ export const InteractiveDesignWorkspace: React.FC<
         style={{
           backgroundColor: "rgba(15, 23, 42, 0.4)", // Slightly clearer deep background
           backdropFilter: "blur(20px)",
+          WebkitBackdropFilter: "blur(20px)",
           transform: `rotateX(${rotate.x}deg) rotateY(${rotate.y}deg)`,
           transformStyle: "preserve-3d",
         }}

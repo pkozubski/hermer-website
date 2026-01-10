@@ -131,10 +131,12 @@ const Dashboard = styled(motion.div)`
   width: 320px;
   background: rgba(15, 23, 42, 0.65);
   backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 20px;
   padding: 20px;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5),
+  box-shadow:
+    0 25px 50px -12px rgba(0, 0, 0, 0.5),
     inset 0 0 0 1px rgba(255, 255, 255, 0.05);
   display: flex;
   flex-direction: column;

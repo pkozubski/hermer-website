@@ -155,7 +155,8 @@ const Layer = styled(motion.div)`
   padding: 20px;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4),
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.4),
     inset 0 0 0 1px rgba(255, 255, 255, 0.05);
   display: flex;
   flex-direction: column;
@@ -202,16 +203,15 @@ const Block = styled.div<{
   border: 1px solid ${(p) => p.$border || "transparent"};
   border-radius: ${(p) => p.$radius || "6px"};
   backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 `;
 
 const GridPattern = styled.div`
   position: absolute;
   inset: 0;
   opacity: 0.15;
-  background-image: linear-gradient(
-      rgba(255, 255, 255, 0.5) 1px,
-      transparent 1px
-    ),
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.5) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.5) 1px, transparent 1px);
   background-size: 20px 20px;
   border-radius: 20px;

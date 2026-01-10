@@ -150,6 +150,7 @@ const FluidButton: React.FC<FluidButtonProps> = ({
         .to(mainBlobRef.current, {
           backgroundColor: "#262626CC", // neutral-800 with 0.8 opacity
           backdropFilter: "blur(16px)",
+          WebkitBackdropFilter: "blur(16px)",
         });
 
       // --- SCROLL TRIGGER ---

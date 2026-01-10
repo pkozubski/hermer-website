@@ -164,14 +164,17 @@ const ProjectCard = ({
 
 export function Projects() {
   return (
-    <section className="py-24 md:py-32 bg-transparent relative z-10 w-full">
+    <section
+      id="projects"
+      className="py-24 md:py-32 bg-transparent relative z-10 w-full"
+    >
       <div className="container mx-auto px-4 md:px-8">
         {/* Header */}
         <div className="w-full flex flex-col md:flex-row justify-between items-start md:items-end mb-16 md:mb-24 gap-6">
           <SplitRevealTitle
             line1="Wybrane"
             line2="Realizacje"
-            className="text-5xl md:text-8xl"
+            className="text-5xl md:text-8xl text-white"
           />
           <LineReveal
             lines={[

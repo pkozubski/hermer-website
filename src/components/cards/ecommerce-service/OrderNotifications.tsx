@@ -6,7 +6,11 @@ const OrderNotifications = () => {
   const notifs = [
     { title: "Nowe zamówienie #4821", time: "Teraz", amount: "+ 249 PLN" },
     { title: "Płatność przyjęta", time: "2 min temu", amount: "PayU" },
-    { title: "Kowalski opłacił koszyk", time: "5 min temu", amount: "+ 1200 PLN" },
+    {
+      title: "Kowalski opłacił koszyk",
+      time: "5 min temu",
+      amount: "+ 1200 PLN",
+    },
   ];
 
   return (
@@ -53,7 +57,7 @@ const PhoneFrame = styled.div`
   border-radius: 24px;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 20px 40px -10px rgba(0,0,0,0.1);
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
 `;
 
 const Notch = styled.div`
@@ -79,12 +83,13 @@ const List = styled.div`
 const Notification = styled(motion.div)`
   background: rgba(243, 244, 246, 0.8);
   backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
   padding: 10px;
   border-radius: 12px;
   display: flex;
   align-items: center;
   gap: 10px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
 `;
 
 const IconBox = styled.div`
@@ -117,5 +122,5 @@ const Sub = styled.div`
 const Amount = styled.div<{ $highlight?: boolean }>`
   font-size: 10px;
   font-weight: 700;
-  color: ${p => p.$highlight ? "#10b981" : "#6b7280"};
+  color: ${(p) => (p.$highlight ? "#10b981" : "#6b7280")};
 `;

@@ -1,17 +1,30 @@
-/* eslint-disable react/no-unescaped-entities */
-"use client";
-
 import React from "react";
 import { Header } from "@/components/Header";
-import { OfferHero } from "@/components/OfferHero";
 import { Footer } from "@/components/Footer";
+import { SmoothScroll } from "@/components/SmoothScroll";
+import { OfferPageHero } from "@/components/oferta/OfferPageHero";
+import { StatementSection } from "@/components/oferta/StatementSection";
+import { ServicesGrid } from "@/components/oferta/ServicesGrid";
+import { TrustSection } from "@/components/oferta/TrustSection";
+import { ProcessSection } from "@/components/oferta/ProcessSection";
+import { Faq } from "@/components/Faq";
+import { Contact } from "@/components/Contact";
 
 export default function OfferPage() {
   return (
-    <main className="bg-slate-50 min-h-screen">
-      <Header />
-      <OfferHero />
+    <div className="min-h-screen bg-[#FAFAFA] text-slate-900">
+      <SmoothScroll />
+      <Header allowVisibility={true} />
+      <main>
+        <OfferPageHero />
+        <StatementSection />
+        <ServicesGrid />
+        <TrustSection />
+        <ProcessSection />
+        <Faq />
+        <Contact />
+      </main>
       <Footer />
-    </main>
+    </div>
   );
 }

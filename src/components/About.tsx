@@ -107,7 +107,7 @@ export const About: React.FC = () => {
             <SplitRevealTitle
               line1="Nie jesteśmy"
               line2="kolejną agencją"
-              className="text-6xl md:text-9xl tracking-tighter w-full"
+              className="text-6xl md:text-9xl tracking-tighter w-full text-white"
             />
           </div>
         </div>

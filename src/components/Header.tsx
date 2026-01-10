@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import Link from "next/link";
 import { ChevronDown, Menu, X } from "lucide-react";
 
 export const Header: React.FC<{ allowVisibility?: boolean }> = ({
@@ -41,12 +42,12 @@ export const Header: React.FC<{ allowVisibility?: boolean }> = ({
   }, []);
 
   const navLinks = [
-    { name: "Home", href: "#" },
-    { name: "Oferta", href: "#", hasDropdown: true },
-    { name: "Realizacje", href: "#" },
-    { name: "Opinie", href: "#" },
-    { name: "O firmie", href: "#" },
-    { name: "Blog", href: "#" },
+    { name: "Home", href: "/" },
+    { name: "Oferta", href: "/oferta", hasDropdown: true },
+    { name: "Realizacje", href: "/#projects" },
+    { name: "Opinie", href: "/#testimonials" },
+    { name: "O firmie", href: "/#about" },
+    { name: "Blog", href: "/#blog" },
   ];
 
   return (
@@ -67,8 +68,8 @@ export const Header: React.FC<{ allowVisibility?: boolean }> = ({
       <div className="w-full max-w-screen-2xl flex items-center justify-between relative z-10">
         {/* Logo Section */}
         <div className="flex flex-col items-start">
-          <a
-            href="#"
+          <Link
+            href="/"
             className="block text-slate-900 hover:opacity-90 transition-opacity"
           >
             <svg
@@ -123,31 +124,31 @@ export const Header: React.FC<{ allowVisibility?: boolean }> = ({
                 </clipPath>
               </defs>
             </svg>
-          </a>
+          </Link>
         </div>
 
         {/* Desktop Navigation */}
-        <nav className="hidden lg:flex ite`ms-center gap-10">
+        <nav className="hidden lg:flex items-center gap-10">
           {navLinks.map((link) => (
-            <a
+            <Link
               key={link.name}
               href={link.href}
               className="text-sm font-medium text-slate-700 hover:text-primary transition-colors flex items-center gap-1"
             >
               {link.name}
               {link.hasDropdown && <ChevronDown size={14} className="mt-0.5" />}
-            </a>
+            </Link>
           ))}
         </nav>
 
         {/* Desktop CTA */}
         <div className="hidden lg:block">
-          <a
-            href="#contact"
+          <Link
+            href="/#contact"
             className="px-8 py-3 border border-slate-200 text-slate-900 rounded-full text-sm font-semibold hover:border-primary hover:text-primary transition-all duration-300 bg-white/50 hover:bg-white"
           >
             Kontakt
-          </a>
+          </Link>
         </div>
 
         {/* Mobile Menu Toggle */}
@@ -162,7 +163,7 @@ export const Header: React.FC<{ allowVisibility?: boolean }> = ({
         {isMobileMenuOpen && (
           <div className="absolute top-full left-0 w-full bg-white shadow-2xl py-8 px-6 flex flex-col gap-6 lg:hidden border-t border-slate-100 z-50">
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.name}
                 href={link.href}
                 className="text-lg font-medium text-slate-800 hover:text-primary flex items-center justify-between"
@@ -170,15 +171,15 @@ export const Header: React.FC<{ allowVisibility?: boolean }> = ({
               >
                 {link.name}
                 {link.hasDropdown && <ChevronDown size={16} />}
-              </a>
+              </Link>
             ))}
-            <a
-              href="#contact"
+            <Link
+              href="/#contact"
               className="px-8 py-4 bg-primary text-white rounded-full text-center font-medium mt-4 shadow-lg shadow-primary/20"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Kontakt
-            </a>
+            </Link>
           </div>
         )}
       </div>

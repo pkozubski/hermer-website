@@ -197,6 +197,7 @@ const FloatingCard = styled(motion.div)`
   border-radius: 14px;
   box-shadow: 0 15px 40px -10px rgba(0, 0, 0, 0.9);
   backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   display: flex;
   flex-direction: column;
   gap: 8px;

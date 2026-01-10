@@ -1,3 +1,4 @@
+"use client";
 import React, { useRef } from "react";
 import { Star, Quote } from "lucide-react";
 import {
@@ -195,7 +196,7 @@ export const Testimonials = () => {
             <SplitRevealTitle
               line1="Zaufali nam"
               line2="Liderzy Branży."
-              className="text-5xl md:text-7xl"
+              className="text-5xl md:text-7xl text-white"
             />
           </div>
 

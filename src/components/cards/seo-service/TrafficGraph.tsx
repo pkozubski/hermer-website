@@ -7,66 +7,68 @@ const TrafficGraph = () => {
     <Container>
       <ChartWrapper>
         <GridLines>
-           {[1,2,3,4].map(i => <Line key={i} />)}
+          {[1, 2, 3, 4].map((i) => (
+            <Line key={i} />
+          ))}
         </GridLines>
-        
-        <svg viewBox="0 0 300 150" style={{ overflow: 'visible' }}>
-           <defs>
-              <linearGradient id="trafficGradient" x1="0" y1="0" x2="0" y2="1">
-                 <stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.4" />
-                 <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0" />
-              </linearGradient>
-           </defs>
-           
-           {/* Area Fill */}
-           <motion.path 
-              d="M0,120 C40,110 60,130 100,90 C140,50 180,80 220,40 C260,0 280,30 300,10 L300,150 L0,150 Z"
-              fill="url(#trafficGradient)"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1, delay: 0.5 }}
-           />
 
-           {/* The Line */}
-           <motion.path
-              d="M0,120 C40,110 60,130 100,90 C140,50 180,80 220,40 C260,0 280,30 300,10"
-              fill="none"
-              stroke="#8b5cf6" // Violet neon
-              strokeWidth="4"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              initial={{ pathLength: 0 }}
-              animate={{ pathLength: 1 }}
-              transition={{ duration: 2, ease: "easeInOut" }}
-              style={{ filter: "drop-shadow(0 0 8px rgba(139, 92, 246, 0.6))" }}
-           />
-           
-           {/* Floating Dots */}
-           {[
-              { cx: 100, cy: 90 },
-              { cx: 220, cy: 40 },
-              { cx: 300, cy: 10 }
-           ].map((dot, i) => (
-              <motion.circle
-                key={i}
-                cx={dot.cx}
-                cy={dot.cy}
-                r="5"
-                fill="#fff"
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ delay: 1 + (i * 0.5), type: "spring" }}
-              />
-           ))}
+        <svg viewBox="0 0 300 150" style={{ overflow: "visible" }}>
+          <defs>
+            <linearGradient id="trafficGradient" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#8b5cf6" stopOpacity="0.4" />
+              <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0" />
+            </linearGradient>
+          </defs>
+
+          {/* Area Fill */}
+          <motion.path
+            d="M0,120 C40,110 60,130 100,90 C140,50 180,80 220,40 C260,0 280,30 300,10 L300,150 L0,150 Z"
+            fill="url(#trafficGradient)"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1, delay: 0.5 }}
+          />
+
+          {/* The Line */}
+          <motion.path
+            d="M0,120 C40,110 60,130 100,90 C140,50 180,80 220,40 C260,0 280,30 300,10"
+            fill="none"
+            stroke="#8b5cf6" // Violet neon
+            strokeWidth="4"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            initial={{ pathLength: 0 }}
+            animate={{ pathLength: 1 }}
+            transition={{ duration: 2, ease: "easeInOut" }}
+            style={{ filter: "drop-shadow(0 0 8px rgba(139, 92, 246, 0.6))" }}
+          />
+
+          {/* Floating Dots */}
+          {[
+            { cx: 100, cy: 90 },
+            { cx: 220, cy: 40 },
+            { cx: 300, cy: 10 },
+          ].map((dot, i) => (
+            <motion.circle
+              key={i}
+              cx={dot.cx}
+              cy={dot.cy}
+              r="5"
+              fill="#fff"
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ delay: 1 + i * 0.5, type: "spring" }}
+            />
+          ))}
         </svg>
 
         <StatsCard
-           initial={{ y: 20, opacity: 0 }}
-           animate={{ y: 0, opacity: 1 }}
-           transition={{ delay: 1.8 }}
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 1.8 }}
         >
-           <Label>Ruch Organiczny</Label>
-           <Value>+348%</Value>
+          <Label>Ruch Organiczny</Label>
+          <Value>+348%</Value>
         </StatsCard>
       </ChartWrapper>
     </Container>
@@ -115,6 +117,7 @@ const StatsCard = styled(motion.div)`
   padding: 8px 16px;
   border-radius: 12px;
   backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 `;
 
 const Label = styled.div`
