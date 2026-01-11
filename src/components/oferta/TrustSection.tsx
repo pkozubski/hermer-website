@@ -1,27 +1,28 @@
 "use client";
 import React from "react";
 import { motion } from "framer-motion";
-import { ShieldCheck, Trophy, Rocket, Quote } from "lucide-react";
-import { SplitRevealTitle } from "../ui/SplitRevealTitle";
-import { LineReveal } from "../ui/LineReveal";
+import { Quote, Star } from "lucide-react";
+import Image from "next/image";
 
 const LogoMarquee = () => {
-  const logos = Array(12)
-    .fill(0)
-    .map((_, i) => i); // Placeholders
+  const brandNames = [
+    "Solaris", "Vortex", "Luna", "Nova", "Aura", "Zenith",
+    "Pulse", "Echo", "Atlas", "Onyx", "Swift", "Peak"
+  ];
+
   return (
-    <div className="w-full overflow-hidden flex py-10 opacity-30 grayscale relative z-10">
+    <div className="w-full overflow-hidden flex py-12 opacity-40 grayscale hover:grayscale-0 transition-all duration-700 relative z-10">
       <motion.div
-        className="flex gap-16 items-center whitespace-nowrap"
-        animate={{ x: [0, -1000] }}
-        transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+        className="flex gap-20 items-center whitespace-nowrap"
+        animate={{ x: [0, -1500] }}
+        transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
       >
-        {[...logos, ...logos].map((_, i) => (
+        {[...brandNames, ...brandNames, ...brandNames].map((name, i) => (
           <div
             key={i}
-            className="text-2xl font-bold text-white tracking-tighter"
+            className="text-xl md:text-2xl font-display font-medium text-slate-400 tracking-tight hover:text-[#916AFF] transition-colors duration-300 pointer-events-none select-none uppercase"
           >
-            CLIENT_LOGO {i}
+            {name}
           </div>
         ))}
       </motion.div>
@@ -29,117 +30,86 @@ const LogoMarquee = () => {
   );
 };
 
-const TrustCard = ({ icon: Icon, title, desc, delay }: any) => (
+const TrustFeature = ({ title, desc, delay }: { title: string; desc: string; delay: number }) => (
   <motion.div
-    initial={{ opacity: 0, scale: 0.9, filter: "blur(10px)" }}
-    whileInView={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+    initial={{ opacity: 0, scale: 0.95 }}
+    whileInView={{ opacity: 1, scale: 1 }}
     viewport={{ once: true }}
-    transition={{ delay, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-    className="group relative p-8 bg-white/[0.03] backdrop-blur-md border border-white/[0.08] rounded-2xl overflow-hidden hover:bg-white/[0.06] transition-colors duration-500"
+    whileHover={{ y: -5 }}
+    transition={{ delay, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+    className="group bg-slate-50 border border-slate-200 p-8 rounded-3xl hover:border-[#916AFF]/30 hover:shadow-lg hover:shadow-purple-500/5 transition-all duration-300"
   >
-    {/* Subtelny gradientowy blik na hover */}
-    <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 blur-[50px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-
-    <div className="relative z-10">
-      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500/20 to-blue-500/20 flex items-center justify-center mb-6 text-white border border-white/10 group-hover:scale-110 transition-transform duration-500">
-        <Icon size={24} />
-      </div>
-      <h3 className="text-xl font-bold text-white mb-3">{title}</h3>
-      <p className="text-slate-400 leading-relaxed text-sm font-light">
-        {desc}
-      </p>
-    </div>
+    <h3 className="text-xl font-bold text-slate-900 tracking-tight mb-3 group-hover:text-[#916AFF] transition-colors">{title}</h3>
+    <p className="text-slate-600 text-sm leading-relaxed font-light">
+      {desc}
+    </p>
   </motion.div>
 );
 
 export const TrustSection = () => {
   return (
-    <section className="bg-[#0A0A0A] py-32 relative overflow-hidden">
-      {/* Background Gradients */}
-      <div className="absolute top-0 left-1/4 w-[1000px] h-[1000px] bg-purple-900/10 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-0 right-1/4 w-[800px] h-[800px] bg-blue-900/10 rounded-full blur-[120px] pointer-events-none" />
+    <section className="bg-white py-32 relative overflow-hidden border-t border-slate-50">
+      {/* Background Subtle Elements */}
+      <div className="absolute top-0 left-1/4 w-[1000px] h-[1000px] bg-purple-50/30 rounded-full blur-[120px] pointer-events-none" />
 
-      <div className="container mx-auto px-4 sm:px-8 lg:px-16 relative z-10">
-        <div className="text-center mb-24 max-w-4xl mx-auto">
-          <SplitRevealTitle
-            line1="Partnerzy w"
-            line2="Sukcesie."
-            className="text-6xl md:text-8xl text-white mb-6 justify-center"
-          />
-          <div className="flex justify-center">
-            <div className="overflow-hidden">
-              <LineReveal
-                lines={[
-                  "Nie pracujemy dla Ciebie. Pracujemy z Tobą.",
-                  "Zobacz, dlaczego marki wybierają nasze wsparcie.",
-                ]}
-                className="text-slate-400 text-lg sm:text-xl text-center"
-              />
-            </div>
-          </div>
-        </div>
+      <div className="w-full px-4 sm:px-8 lg:px-16 relative z-10 text-center">
+        {/* Title */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="mb-20"
+        >
+          <span className="text-[#916AFF] text-xs font-bold uppercase tracking-[0.2em] mb-4 block">Zaufanie & Wyniki</span>
+          <h2 className="text-5xl md:text-7xl lg:text-8xl font-display font-medium tracking-tighter text-slate-900 leading-[1.1]">
+            Współpraca, która <br className="hidden md:block" />
+            przynosi realną wartość.
+          </h2>
+        </motion.div>
 
-        {/* Marquee */}
-        <div className="mb-32 mask-image-gradient">
+        {/* Improved Marquee */}
+        <div className="mb-32 relative">
+          <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-white to-transparent z-20 pointer-events-none" />
+          <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-white to-transparent z-20 pointer-events-none" />
           <LogoMarquee />
         </div>
 
-        {/* Trust Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-32">
-          <TrustCard
-            icon={Trophy}
-            title="Jakość Premium"
-            desc="Zero gotowców. Każdy projekt to unikalna, szyta na miarę realizacja, która wyróżnia Cię na tle konkurencji."
-            delay={0.1}
-          />
-          <TrustCard
-            icon={ShieldCheck}
-            title="Bezpieczeństwo"
-            desc="Stabilne serwery, certyfikaty SSL, regularne backupy. Twój biznes online jest bezpieczny jak w twierdzy."
-            delay={0.2}
-          />
-          <TrustCard
-            icon={Rocket}
-            title="Skalowalność"
-            desc="Budujemy rozwiązania, które rosną razem z Tobą. Od startupu po korporację. Bez długu technologicznego."
-            delay={0.3}
-          />
-        </div>
-
-        {/* Single Big Testimonial - Refined */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="max-w-5xl mx-auto text-center relative"
-        >
-          {/* Decorative Quote Icon behind */}
-          <div className="absolute top-[-40px] left-1/2 -translate-x-1/2 opacity-5 pointer-events-none">
-            <Quote size={200} className="fill-white text-white" />
-          </div>
-
-          <div className="mb-8 flex justify-center text-[#916AFF]">
-            {[1, 2, 3, 4, 5].map((i) => (
-              <ShieldCheck key={i} size={24} className="fill-current" />
-            ))}
-          </div>
-          <blockquote className="text-3xl md:text-5xl font-medium text-white leading-tight mb-10 relative z-10">
-            "Współpraca z Hermer to była najlepsza decyzja biznesowa w tym roku.
-            ROI z kampanii przekroczyło nasze najśmielsze oczekiwania."
-          </blockquote>
-          <div className="flex flex-col items-center relative z-10">
-            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 mb-4 p-[2px]">
-              <div className="w-full h-full rounded-full bg-slate-900 border border-white/10 flex items-center justify-center text-white font-bold text-xl">
-                MS
+        {/* High-End Testimonial Layout */}
+        <div className="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-center border-t border-slate-100 pt-20">
+          <div className="lg:col-span-7 text-left">
+            <div className="mb-6 flex gap-1 text-[#916AFF]">
+              {[1, 2, 3, 4, 5].map((i) => (
+                <Star key={i} size={16} className="fill-current" />
+              ))}
+            </div>
+            <blockquote className="text-2xl md:text-3xl lg:text-4xl font-medium font-display text-slate-900 leading-[1.2] mb-10 tracking-tight">
+              "Hermer nie jest typową agencją. To zespół, który faktycznie rozumie proces sprzedaży i potrafi go przełożyć na język kodu i designu. Nasz wzrost po wdrożeniu nowej strategii to ponad 400%."
+            </blockquote>
+            <div className="flex items-center gap-4">
+              <div className="w-14 h-14 rounded-full bg-slate-100 flex items-center justify-center border border-slate-200 overflow-hidden">
+                <div className="font-bold text-slate-600">MS</div>
+              </div>
+              <div>
+                <div className="font-bold text-slate-900 text-lg">Marek Sadowski</div>
+                <div className="text-slate-400 text-xs font-semibold uppercase tracking-widest mt-0.5">CEO, Founders Group</div>
               </div>
             </div>
-            <div className="font-bold text-white text-lg">Michał Sadowski</div>
-            <div className="text-slate-500 uppercase tracking-widest text-xs font-semibold mt-1">
-              CEO, Brand24
-            </div>
           </div>
-        </motion.div>
+
+          <div className="lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6 text-left">
+            <TrustFeature
+              title="Partnerstwo Strategiczne"
+              desc="Nie ograniczamy się do realizacji briefu. Kwestionujemy, optymalizujemy i wspólnie szukamy najlepszej drogi do celu."
+              delay={0.2}
+            />
+            <TrustFeature
+              title="Transparentny Proces"
+              desc="Od pierwszego warsztatu po start kampanii. Masz pełny wgląd w postępy i jasną komunikację na każdym etapie."
+              delay={0.3}
+            />
+          </div>
+        </div>
       </div>
     </section>
   );

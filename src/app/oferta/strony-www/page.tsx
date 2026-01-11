@@ -2,23 +2,28 @@ import React from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { SmoothScroll } from "@/components/SmoothScroll";
-import { Contact } from "@/components/Contact";
-import { WebDesignHero } from "@/components/oferta/web-design/WebDesignHero";
-import { WebDesignFeatures } from "@/components/oferta/web-design/WebDesignFeatures";
-import { WebDesignProcess } from "@/components/oferta/web-design/WebDesignProcess";
-import { TechStack } from "@/components/oferta/web-design/TechStack";
+
+import { WebsiteOfferHero } from "@/components/oferta/WebsiteOfferHero";
+import { ProcessSection } from "@/components/oferta/ProcessSection";
+import { FeaturesSection } from "@/components/oferta/FeaturesSection";
+import { TechStackSection } from "@/components/oferta/TechStackSection";
+import { PricingSection } from "@/components/oferta/PricingSection";
+import { WebsiteOfferFaq } from "@/components/oferta/WebsiteOfferFaq";
+import { SimpleContactSection } from "@/components/oferta/SimpleContactSection";
 
 export default function WebDesignPage() {
   return (
-    <div className="min-h-screen bg-[#FAFAFA] text-slate-900">
+    <div className="min-h-screen bg-white text-slate-900">
       <SmoothScroll />
       <Header allowVisibility={true} />
       <main>
-        <WebDesignHero />
-        <WebDesignFeatures />
-        <WebDesignProcess />
-        <TechStack />
-        <Contact />
+        <WebsiteOfferHero />
+        <ProcessSection />
+        <FeaturesSection />
+        <TechStackSection />
+        <PricingSection />
+        <WebsiteOfferFaq />
+        <SimpleContactSection />
       </main>
       <Footer />
     </div>

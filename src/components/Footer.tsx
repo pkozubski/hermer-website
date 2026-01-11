@@ -34,7 +34,7 @@ export const Footer: React.FC = () => {
             <div className="max-w-4xl">
               <h2 className="text-4xl md:text-6xl lg:text-8xl font-bold text-white tracking-tighter mb-8 leading-none break-normal">
                 <div className="overflow-hidden pb-4 md:pb-8">Masz pomysł</div>
-                <div className="overflow-hidden text-neutral-500 pb-4 md:pb-8 -mt-2 md:-mt-4">
+                <div className="overflow-hidden pb-4 md:pb-8">
                   na nowy projekt?
                 </div>
               </h2>

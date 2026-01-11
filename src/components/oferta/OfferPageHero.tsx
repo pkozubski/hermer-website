@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 
 export const OfferPageHero = () => {
   return (
-    <section className="relative min-h-[90vh] w-full flex flex-col items-center justify-center overflow-hidden bg-[#FAFAFA] py-20">
+    <section className="relative min-h-[90vh] w-full flex flex-col items-center justify-center overflow-hidden bg-white py-20">
       {/* Central Content */}
       <div className="container mx-auto px-4 relative z-10 flex flex-col items-center">
         <motion.div
@@ -16,7 +16,7 @@ export const OfferPageHero = () => {
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="text-center max-w-5xl mx-auto"
         >
-          <h1 className="text-4xl  lg:text-5xl xl:text-7xl 2xl:text-[5rem] font-display font-medium tracking-tighter text-slate-900 leading-[1.05] mb-6 sm:mb-8">
+          <h1 className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl 2xl:text-[7rem] font-display font-medium tracking-tighter text-slate-900 leading-[1.05] mb-6 sm:mb-8">
             Zbudujemy Ci stronę,
             <br />
             a potem sprawimy,

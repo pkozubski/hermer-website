@@ -366,8 +366,9 @@ const Slide = styled.section<{ $type: string }>`
   ${(props) =>
     props.$type === "structure"
       ? css`
-          background: radial-gradient(circle at top left, #1e293b, #0f172a);
-          border: 1px solid rgba(59, 130, 246, 0.2);
+          background: #ffffff;
+          border: 1px solid rgba(145, 106, 255, 0.2);
+          box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.6);
         `
       : props.$type === "metrics"
         ? css`
@@ -482,7 +483,7 @@ const SlideTitle = styled.h4<{ $type: string }>`
     -apple-system,
     sans-serif;
   font-weight: 800;
-  color: ${(props) => (props.$type === "reviews" ? "#1f2937" : "#fff")};
+  color: ${(props) => (props.$type === "reviews" || props.$type === "structure" ? "#1f2937" : "#fff")};
 `;
 
 const SlideSubtitle = styled.p<{ $type: string }>`
@@ -494,7 +495,7 @@ const SlideSubtitle = styled.p<{ $type: string }>`
     -apple-system,
     sans-serif;
   color: ${(props) =>
-    props.$type === "reviews" ? "#6b7280" : "rgba(255, 255, 255, 0.6)"};
+    props.$type === "reviews" || props.$type === "structure" ? "#6b7280" : "rgba(255, 255, 255, 0.6)"};
 `;
 
 const MetricsLabel = styled.p`

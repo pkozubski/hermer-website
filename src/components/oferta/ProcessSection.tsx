@@ -1,104 +1,71 @@
 "use client";
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 
-const STEPS = [
-  {
-    id: 1,
-    title: "Odkrycie",
-    subtitle: "Discovery",
-    desc: "Analizujemy Twój biznes, konkurencję i grupę docelową. Definiujemy cele i KPI. To fundament, bez którego nie ruszamy.",
-    detail: "Workshop & Audyt",
-  },
-  {
-    id: 2,
-    title: "Strategia",
-    subtitle: "UX & Design",
-    desc: "Tworzymy makiety i architekturę informacji. Projektujemy unikalny język wizualny, który przemawia do emocji Twoich klientów.",
-    detail: "Prototypy & UI",
-  },
-  {
-    id: 3,
-    title: "Realizacja",
-    subtitle: "Development",
-    desc: "Kodujemy. Czysty, wydajny i bezpieczny kod. Integrujemy systemy i testujemy każde kliknięcie.",
-    detail: "Next.js & Performance",
-  },
-  {
-    id: 4,
-    title: "Wzrost",
-    subtitle: "Launch & Scale",
-    desc: "Wdrożenie to dopiero początek. Optymalizujemy konwersję, uruchamiamy kampanie i skalujemy wyniki.",
-    detail: "Analytics & Ads",
-  },
-];
+import React from "react";
+import { Search, PenTool, Code2, Rocket } from "lucide-react";
 
-export const ProcessSection = () => {
-  const [activeStep, setActiveStep] = useState(0);
+import { SplitRevealTitle } from "../ui/SplitRevealTitle";
+import { LineReveal } from "../ui/LineReveal";
+
+export const ProcessSection: React.FC = () => {
+  const steps = [
+    {
+      icon: Search,
+      title: "1. Analiza i Strategia",
+      description:
+        "Poznajemy Twój biznes, konkurencję i cele. Tworzymy makietę funkcjonalną (UX) i dobieramy technologię.",
+    },
+    {
+      icon: PenTool,
+      title: "2. UI Design",
+      description:
+        "Projektujemy unikalny wygląd strony. Dbamy o detale, typografię i spójność z Twoją marką.",
+    },
+    {
+      icon: Code2,
+      title: "3. Development",
+      description:
+        "Programujemy stronę zgodnie ze standardami. Czysty kod, szybkość ładowania i optymalizacja pod Google.",
+    },
+    {
+      icon: Rocket,
+      title: "4. Wdrożenie i Start",
+      description:
+        "Testujemy, instalujemy na serwerze i szkolimy Cię z obsługi panelu. Twoja strona jest gotowa na podbój rynku.",
+    },
+  ];
 
   return (
-    <section className="py-24 bg-white">
-      <div className="container mx-auto px-4 sm:px-8 lg:px-16">
-        <div className="mb-20">
-          <span className="text-slate-900 font-bold tracking-widest uppercase text-xs mb-4 block">
-            Workflow
-          </span>
-          <h2 className="text-6xl md:text-[8rem] leading-[0.9] font-medium text-slate-900">
-            Od Chaosu do <span className="">Wyniku.</span>
-          </h2>
+    <section className="py-24 bg-white border-t border-slate-100">
+      <div className="container mx-auto px-4 md:px-8">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-20 gap-8">
+          <SplitRevealTitle
+            line1="Jak"
+            line2="Pracujemy?"
+            className="text-slate-900! text-5xl md:text-8xl"
+          />
+          <LineReveal
+            lines={[
+              "Przejrzysty proces to klucz do sukcesu. Od koncepcji do",
+              "wdrożenia – prowadzimy Cię za rękę na każdym etapie.",
+            ]}
+            className="text-slate-500 text-sm md:text-base leading-relaxed max-w-md text-left md:text-right"
+          />
         </div>
 
-        <div className="flex flex-col lg:flex-row gap-12 lg:gap-24">
-          {/* Steps List */}
-          <div className="lg:w-1/3 flex flex-col gap-4">
-            {STEPS.map((step, idx) => (
-              <div
-                key={step.id}
-                onClick={() => setActiveStep(idx)}
-                className={`cursor-pointer p-6 rounded-2xl transition-all duration-300 border ${activeStep === idx ? "bg-slate-900 border-slate-900 shadow-xl scale-105" : "bg-transparent border-transparent hover:bg-slate-50"}`}
-              >
-                <div
-                  className={`text-xs font-bold uppercase tracking-widest mb-2 ${activeStep === idx ? "text-slate-400" : "text-slate-400"}`}
-                >
-                  Etap 0{step.id}
-                </div>
-                <div
-                  className={`text-2xl font-bold ${activeStep === idx ? "text-white" : "text-slate-900"}`}
-                >
-                  {step.title}
-                </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {steps.map((step, index) => (
+            <div key={index} className="group">
+              <div className="w-12 h-12 rounded-full bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-900 mb-6 group-hover:bg-[#916AFF] group-hover:text-white group-hover:border-[#916AFF] transition-all duration-300">
+                <step.icon className="w-5 h-5" strokeWidth={2} />
               </div>
-            ))}
-          </div>
-
-          {/* Content Display */}
-          <div className="lg:w-2/3 relative min-h-[400px]">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeStep}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.5 }}
-                className="bg-[#FAFAFA] rounded-[40px] p-8 md:p-16 h-full flex flex-col justify-center border border-slate-100"
-              >
-                <div className="text-[#916AFF] font-mono mb-6 text-sm">
-                  // {STEPS[activeStep].subtitle}
-                </div>
-                <h3 className="text-3xl md:text-5xl font-bold text-slate-900 mb-6 max-w-xl">
-                  {STEPS[activeStep].desc}
-                </h3>
-                <div className="mt-auto pt-8 border-t border-slate-200">
-                  <div className="flex items-center gap-3">
-                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                    <span className="font-bold text-slate-900 uppercase tracking-widest text-xs">
-                      Deliverable: {STEPS[activeStep].detail}
-                    </span>
-                  </div>
-                </div>
-              </motion.div>
-            </AnimatePresence>
-          </div>
+              <h3 className="text-xl font-bold mb-3 text-slate-900">
+                {step.title}
+              </h3>
+              <p className="text-slate-500 text-sm leading-relaxed">
+                {step.description}
+              </p>
+            </div>
+          ))}
         </div>
       </div>
     </section>

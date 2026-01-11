@@ -3,7 +3,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { OfferPageHero } from "@/components/oferta/OfferPageHero";
-import { StatementSection } from "@/components/oferta/StatementSection";
+import { PillStatementSection } from "@/components/oferta/PillStatementSection";
 import { ServicesGrid } from "@/components/oferta/ServicesGrid";
 import { TrustSection } from "@/components/oferta/TrustSection";
 import { ProcessSection } from "@/components/oferta/ProcessSection";
@@ -17,7 +17,7 @@ export default function OfferPage() {
       <Header allowVisibility={true} />
       <main>
         <OfferPageHero />
-        <StatementSection />
+        <PillStatementSection />
         <ServicesGrid />
         <TrustSection />
         <ProcessSection />

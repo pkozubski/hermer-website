@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="pl" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hermer - Efektywne strony internetowe (Full)</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Typekit -->
+    <link rel="stylesheet" href="https://use.typekit.net/vpe5mno.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#916AFF',
+                        slate: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            300: '#cbd5e1',
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                            950: '#020617',
+                        },
+                        neutral: {
+                            800: '#262626',
+                            900: '#171717',
+                            950: '#0a0a0a',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['"Instrument Serif"', 'serif'],
+                        display: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .font-serif {
+            font-family: 'Instrument Serif', serif;
+        }
+
+        /* Custom scroll animations simulation */
+        @keyframes scroll-up {
+            from {
+                transform: translateY(0);
+            }
+
+            to {
+                transform: translateY(-50%);
+            }
+        }
+
+        @keyframes scroll-down {
+            from {
+                transform: translateY(-50%);
+            }
+
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        .animate-scroll-up {
+            animation: scroll-up 60s linear infinite;
+        }
+
+        .animate-scroll-down {
+            animation: scroll-down 60s linear infinite;
+        }
+
+        /* Hide scrollbar for horizontal scroll areas */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+
+<body class="bg-white text-slate-900 antialiased overflow-x-hidden selection:bg-[#916AFF] selection:text-white">
+
+    <!-- HEADER -->
+    <header
+        class="fixed top-0 left-0 right-0 w-full py-4 sm:py-6 px-4 sm:px-8 lg:px-16 flex items-center justify-center z-50 bg-white/80 backdrop-blur-md border-b border-transparent">
+        <div class="w-full max-w-screen-2xl flex items-center justify-between relative z-10">
+            <!-- Logo -->
+            <a href="#" class="block text-slate-900 hover:opacity-90 transition-opacity">
+                <svg width="140" height="36" viewBox="0 0 235 60" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    class="w-auto h-8 sm:h-10">
+                    <g clip-path="url(#clip0_logo)">
+                        <path
+                            d="M26.8897 14.5579C2.11033 7.68716 0.13615 0.884442 0 0.0681152C0.204225 1.36063 2.723 16.5987 18.4484 19.5919V30.6804C18.4484 32.6531 18.3122 34.1497 18.108 35.1021C17.9038 36.0545 17.4953 36.8708 16.8826 37.4831C16.338 38.0273 15.7254 38.4355 15.0446 38.7076C14.3639 38.9797 13.4108 39.1157 12.3216 39.1838V39.864H30.9742V39.1838C29.8169 39.1157 28.9319 38.9797 28.2512 38.7076C27.5704 38.4355 26.9577 38.0273 26.4131 37.4831C25.8005 36.8708 25.392 36.0545 25.1878 35.1021C24.9836 34.1497 24.8474 32.6531 24.8474 30.6804V20.8164C39.6878 24.1497 51.6009 31.3606 58.0681 39.864C58.0681 39.796 53.3028 21.9049 26.8897 14.5579Z"
+                            fill="#1F1F1F" />
+                        <path
+                            d="M87.3404 33.6736C87 34.5579 86.5235 35.3743 85.9108 36.0545C85.0939 37.0749 84.0047 37.8232 82.7113 38.2994C81.4178 38.7756 79.784 39.0477 77.8779 39.0477C75.9718 39.0477 74.5422 38.7756 73.453 38.2314C72.3638 37.6872 71.4789 36.8708 70.9343 35.7144C70.5939 35.0341 70.3897 34.2178 70.2535 33.1974C70.1174 32.177 70.0493 30.6123 70.0493 28.3674V22.8572H71.4108C72.6361 22.8572 73.5892 22.9933 74.338 23.1974C75.0868 23.4695 75.7676 23.8096 76.2441 24.3538C76.7206 24.8981 77.1291 25.5103 77.4014 26.2586C77.6737 27.0069 77.8779 28.0273 78.0141 29.2518H78.5587L78.6267 16.3266H78.0821C77.946 17.5511 77.7418 18.5035 77.5375 19.1157C77.3333 19.728 76.9929 20.2722 76.5164 20.7484C76.0399 21.2246 75.4272 21.5647 74.6784 21.7688C73.9296 21.9729 72.8404 22.0409 71.3427 22.0409H70.1174V7.61915H75.6314C77.3333 7.61915 78.6948 7.7552 79.716 7.95928C80.7371 8.16337 81.6221 8.57153 82.3709 9.18377C83.2559 9.86405 84.0047 10.6123 84.4812 11.4967C84.9577 12.3811 85.2981 13.4695 85.5023 14.83H86.0469L85.6385 6.87085H59.7019V7.41507C60.6549 7.48309 61.4037 7.61915 61.9483 7.82323C62.4929 8.02731 63.0375 8.36745 63.446 8.84364C63.9225 9.38786 64.2629 10.0001 64.4671 10.8164C64.6713 11.6328 64.7394 12.8572 64.7394 14.4899V32.313C64.7394 33.9457 64.6713 35.1702 64.4671 35.9865C64.2629 36.8028 63.9225 37.4151 63.446 37.9593C62.9695 38.4355 62.4929 38.7756 61.8803 38.9797C61.3357 39.1838 60.5868 39.3198 59.6338 39.3879V39.9321H88.4296L88.7699 30.3402H88.2253C88.0211 31.6328 87.6807 32.7892 87.3404 33.6736Z"
+                            fill="#1F1F1F" />
+                        <!-- Simplified rest of letters for brevity -->
+                        <rect x="90" y="20" width="10" height="20" fill="#1F1F1F" />
+                        <rect x="110" y="20" width="10" height="20" fill="#1F1F1F" />
+                        <circle cx="230" cy="35" r="5" fill="#916AFF" />
+                    </g>
+                    <defs>
+                        <clipPath id="clip0_logo">
+                            <rect width="235" height="60" fill="white" />
+                        </clipPath>
+                    </defs>
+                </svg>
+            </a>
+
+            <!-- Desktop Nav -->
+            <nav class="hidden lg:flex items-center gap-10">
+                <a href="#"
+                    class="text-sm font-medium text-slate-700 hover:text-primary transition-colors flex items-center gap-1">Home</a>
+                <a href="#offer"
+                    class="text-sm font-medium text-slate-700 hover:text-primary transition-colors flex items-center gap-1">Oferta</a>
+                <a href="#projects"
+                    class="text-sm font-medium text-slate-700 hover:text-primary transition-colors flex items-center gap-1">Realizacje</a>
+                <a href="#testimonials"
+                    class="text-sm font-medium text-slate-700 hover:text-primary transition-colors flex items-center gap-1">Opinie</a>
+                <a href="#about"
+                    class="text-sm font-medium text-slate-700 hover:text-primary transition-colors flex items-center gap-1">O
+                    firmie</a>
+                <a href="#blog"
+                    class="text-sm font-medium text-slate-700 hover:text-primary transition-colors flex items-center gap-1">Blog</a>
+            </nav>
+
+            <!-- CTA -->
+            <div class="hidden lg:block">
+                <a href="#contact"
+                    class="px-8 py-3 border border-slate-200 text-slate-900 rounded-full text-sm font-semibold hover:border-primary hover:text-primary transition-all duration-300 bg-white/50 hover:bg-white">
+                    Kontakt
+                </a>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button class="lg:hidden text-slate-800">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="4" x2="20" y1="12" y2="12" />
+                    <line x1="4" x2="20" y1="6" y2="6" />
+                    <line x1="4" x2="20" y1="18" y2="18" />
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section
+        class="w-full px-4 sm:px-8 lg:px-8 overflow-hidden bg-white isolate flex items-center relative h-auto min-h-screen py-20 lg:py-0 z-0 text-center lg:text-left">
+        <div
+            class="absolute inset-0 -z-10 bg-[linear-gradient(to_right,#f1f5f9_1px,transparent_1px),linear-gradient(to_bottom,#f1f5f9_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]">
+        </div>
+
+        <div
+            class="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-0 items-center relative w-full z-0 perspective-[2000px]">
+
+            <!-- Left Column Cards -->
+            <div class="hidden lg:block col-span-3 w-[320px] h-[650px] relative overflow-hidden select-none"
+                style="mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent); transform: perspective(1500px) rotateY(12deg) translateZ(-20px);">
+                <div class="absolute w-full animate-scroll-up flex flex-col gap-6 pt-6">
+                    <div class="w-full mb-8 px-4">
+                        <div class="relative bg-white border border-slate-50 overflow-hidden rounded-2xl shadow-sm p-6">
+                            <div class="flex items-center gap-3 mb-6 pb-4 border-b border-slate-50"><span
+                                    class="bg-blue-50 text-blue-500 p-2 rounded-full font-bold">Code</span><span
+                                    class="text-sm font-medium text-slate-600">Development</span></div>
+                            <div class="h-24 bg-slate-50 rounded w-full"></div>
+                        </div>
+                    </div>
+                    <div class="w-full mb-8 px-4">
+                        <div class="relative bg-white border border-slate-50 overflow-hidden rounded-2xl shadow-sm p-6">
+                            <div class="flex items-center gap-3 mb-6 pb-4 border-b border-slate-50"><span
+                                    class="bg-blue-50 text-blue-500 p-2 rounded-full font-bold">Mob</span><span
+                                    class="text-sm font-medium text-slate-600">Responsywność</span></div>
+                            <div class="h-24 bg-slate-50 rounded w-full"></div>
+                        </div>
+                    </div>
+                    <div class="w-full mb-8 px-4">
+                        <div class="relative bg-white border border-slate-50 overflow-hidden rounded-2xl shadow-sm p-6">
+                            <div class="flex items-center gap-3 mb-6 pb-4 border-b border-slate-50"><span
+                                    class="bg-orange-50 text-orange-500 p-2 rounded-full font-bold">Mkt</span><span
+                                    class="text-sm font-medium text-slate-600">Marketing</span></div>
+                            <div class="h-24 bg-slate-50 rounded w-full"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Center Text -->
+            <div
+                class="col-span-1 lg:col-span-6 flex flex-col items-center text-center z-20 relative px-4 pt-12 lg:pt-32">
+                <h1
+                    class="text-4xl sm:text-6xl lg:text-5xl xl:text-7xl 2xl:text-[7rem] leading-[1.05] text-slate-900 mb-6 sm:mb-8 tracking-tight pb-4">
+                    <span class="block font-medium tracking-tighter">Profesjonalne</span>
+                    <span class="block font-medium tracking-tighter">strony</span>
+                    <span class="block font-medium tracking-tighter">internetowe</span>
+                </h1>
+
+                <p
+                    class="text-slate-600 text-base sm:text-lg lg:text-xl max-w-lg mb-8 lg:mb-10 font-light leading-relaxed tracking-wide">
+                    Zajmiemy się Twoim projektem kompleksowo. <br class="hidden sm:block" />
+                    Od projektu zaprojektowania Twojej strony po wdrożenie
+                </p>
+
+                <button
+                    class="group relative px-6 py-3 sm:px-10 sm:py-5 bg-[#916AFF] text-white rounded-full font-bold text-sm sm:text-lg transition-all duration-300 hover:shadow-[0_0_30px_rgba(145,106,255,0.5)] hover:scale-105 active:scale-95 flex items-center gap-3 overflow-hidden">
+                    <span class="relative z-10">Rozpocznij projekt</span>
+                    <div
+                        class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center group-hover:bg-white group-hover:text-[#916AFF] transition-all duration-300">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m9 18 6-6-6-6" />
+                        </svg>
+                    </div>
+                </button>
+
+                <div class="w-full max-w-xs h-px bg-slate-200 mt-10 lg:mt-16 mb-8 lg:mb-10"></div>
+
+                <div class="flex flex-nowrap justify-center gap-2 sm:gap-8 lg:gap-16 w-full">
+                    <div class="flex flex-col items-center">
+                        <span
+                            class="text-2xl sm:text-4xl lg:text-5xl font-semibold text-[#1A1A1A] flex items-center tracking-tight mb-2">700<span
+                                class="text-[#916AFF] text-lg sm:text-2xl lg:text-3xl align-top ml-1">+</span></span>
+                        <span
+                            class="font-serif italic text-slate-500 text-[10px] sm:text-base lg:text-xl">zrealizowanych
+                            projektów</span>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <span
+                            class="text-2xl sm:text-4xl lg:text-5xl font-semibold text-[#1A1A1A] flex items-center tracking-tight mb-2">98<span
+                                class="text-[#916AFF] text-lg sm:text-2xl lg:text-3xl align-top ml-1">%</span></span>
+                        <span class="font-serif italic text-slate-500 text-[10px] sm:text-base lg:text-xl">zadowolonych
+                            klientów</span>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <span
+                            class="text-2xl sm:text-4xl lg:text-5xl font-semibold text-[#1A1A1A] flex items-center tracking-tight mb-2">15<span
+                                class="text-[#916AFF] text-lg sm:text-2xl lg:text-3xl align-top ml-1">+</span></span>
+                        <span class="font-serif italic text-slate-500 text-[10px] sm:text-base lg:text-xl">ekspertów w
+                            zespole</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column Cards -->
+            <div class="hidden lg:block col-span-3 w-[320px] h-[650px] relative overflow-hidden select-none"
+                style="mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent); transform: perspective(1500px) rotateY(-12deg) translateZ(-20px);">
+                <div class="absolute w-full top-[-50%] animate-scroll-down flex flex-col gap-6 pt-6 text-left">
+                    <div class="w-full mb-8 px-4">
+                        <div class="relative bg-white border border-slate-50 overflow-hidden rounded-2xl shadow-sm p-6">
+                            <div class="flex items-center gap-3 mb-6 pb-4 border-b border-slate-50"><span
+                                    class="bg-purple-50 text-purple-500 p-2 rounded-full font-bold">Ui</span><span
+                                    class="text-sm font-medium text-slate-600">UI/UX Design</span></div>
+                            <div class="h-24 bg-slate-50 rounded w-full"></div>
+                        </div>
+                    </div>
+                    <div class="w-full mb-8 px-4">
+                        <div class="relative bg-white border border-slate-50 overflow-hidden rounded-2xl shadow-sm p-6">
+                            <div class="flex items-center gap-3 mb-6 pb-4 border-b border-slate-50"><span
+                                    class="bg-green-50 text-green-500 p-2 rounded-full font-bold">SEO</span><span
+                                    class="text-sm font-medium text-slate-600">SEO</span></div>
+                            <div class="h-24 bg-slate-50 rounded w-full"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- OFFER SECTION -->
+    <section id="offer" class="relative z-20 h-auto py-24 bg-white overflow-hidden">
+        <div class="container mx-auto px-4 sm:px-8">
+            <div class="mb-16 max-w-3xl">
+                <h2 class="text-5xl sm:text-6xl lg:text-8xl tracking-tighter mb-8 text-slate-900">
+                    <span class="block">Nasza</span>
+                    <span class="block">Oferta</span>
+                </h2>
+                <p class="text-slate-500 text-lg sm:text-xl leading-relaxed max-w-lg">
+                    Oferta, która zachwyca formą i dowozi wynik. Budujemy widoczność i sprzedaż.
+                </p>
+            </div>
+
+            <!-- Horizontal Scroll Container -->
+            <div class="flex overflow-x-auto gap-6 pb-12 snap-x px-4 no-scrollbar">
+
+                <!-- Card 1: Websites -->
+                <article
+                    class="snap-center shrink-0 w-[85vw] md:w-[60vw] lg:w-[40vw] max-w-xl bg-white rounded-[32px] border border-slate-100 shadow-xl overflow-hidden group">
+                    <div class="p-8">
+                        <div class="flex justify-between items-center mb-6">
+                            <span
+                                class="bg-blue-50 text-blue-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Websites</span>
+                            <span class="text-slate-300 font-mono">01</span>
+                        </div>
+                        <h3 class="text-3xl font-bold mb-4">Strony WWW</h3>
+                        <p class="text-slate-500 mb-8">Projektujemy i wdrażamy szybkie strony, landing pages oraz
+                            wizytówki. Łączymy UX, design i development.</p>
+                        <ul class="flex flex-wrap gap-2 mb-8">
+                            <li
+                                class="bg-slate-50 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide text-slate-600">
+                                Design</li>
+                            <li
+                                class="bg-slate-50 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide text-slate-600">
+                                Development</li>
+                        </ul>
+                        <button
+                            class="flex items-center gap-2 font-bold text-slate-900 border-b-2 border-transparent group-hover:border-[#916AFF] group-hover:text-[#916AFF] transition-all">
+                            Zobacz szczegóły <span class="text-xl">→</span>
+                        </button>
+                    </div>
+                    <div class="h-48 bg-slate-50 border-t border-slate-100 relative overflow-hidden">
+                        <div
+                            class="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,_var(--tw-gradient-stops))] from-blue-100/50 to-transparent">
+                        </div>
+                        <!-- Visual mockup placeholder -->
+                        <div
+                            class="absolute top-8 left-8 right-8 bottom-0 bg-white rounded-t-xl shadow-lg border border-slate-200">
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Card 2: E-commerce -->
+                <article
+                    class="snap-center shrink-0 w-[85vw] md:w-[60vw] lg:w-[40vw] max-w-xl bg-white rounded-[32px] border border-slate-100 shadow-xl overflow-hidden group">
+                    <div class="p-8">
+                        <div class="flex justify-between items-center mb-6">
+                            <span
+                                class="bg-pink-50 text-pink-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">E-commerce</span>
+                            <span class="text-slate-300 font-mono">02</span>
+                        </div>
+                        <h3 class="text-3xl font-bold mb-4">Sklepy Online</h3>
+                        <p class="text-slate-500 mb-8">Sklepy, które sprzedają. UX nastawiony na konwersję, szybkie
+                            płatności i intuicyjna nawigacja.</p>
+                        <ul class="flex flex-wrap gap-2 mb-8">
+                            <li
+                                class="bg-slate-50 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide text-slate-600">
+                                Woocommerce</li>
+                            <li
+                                class="bg-slate-50 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide text-slate-600">
+                                Shopify</li>
+                        </ul>
+                        <button
+                            class="flex items-center gap-2 font-bold text-slate-900 border-b-2 border-transparent group-hover:border-[#916AFF] group-hover:text-[#916AFF] transition-all">
+                            Zobacz szczegóły <span class="text-xl">→</span>
+                        </button>
+                    </div>
+                    <div class="h-48 bg-slate-50 border-t border-slate-100 relative overflow-hidden">
+                        <div
+                            class="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,_var(--tw-gradient-stops))] from-pink-100/50 to-transparent">
+                        </div>
+                        <div
+                            class="absolute top-8 left-8 right-8 bottom-0 bg-white rounded-t-xl shadow-lg border border-slate-200">
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Card 3: SEO -->
+                <article
+                    class="snap-center shrink-0 w-[85vw] md:w-[60vw] lg:w-[40vw] max-w-xl bg-white rounded-[32px] border border-slate-100 shadow-xl overflow-hidden group">
+                    <div class="p-8">
+                        <div class="flex justify-between items-center mb-6">
+                            <span
+                                class="bg-green-50 text-green-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">SEO</span>
+                            <span class="text-slate-300 font-mono">03</span>
+                        </div>
+                        <h3 class="text-3xl font-bold mb-4">Pozycjonowanie</h3>
+                        <p class="text-slate-500 mb-8">Bądź widoczny w Google. Audyty, optymalizacja techniczna i
+                            content marketing, który buduje ruch.</p>
+                        <ul class="flex flex-wrap gap-2 mb-8">
+                            <li
+                                class="bg-slate-50 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide text-slate-600">
+                                Audyt</li>
+                            <li
+                                class="bg-slate-50 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide text-slate-600">
+                                Optymalizacja</li>
+                        </ul>
+                        <button
+                            class="flex items-center gap-2 font-bold text-slate-900 border-b-2 border-transparent group-hover:border-[#916AFF] group-hover:text-[#916AFF] transition-all">
+                            Zobacz szczegóły <span class="text-xl">→</span>
+                        </button>
+                    </div>
+                    <div class="h-48 bg-slate-50 border-t border-slate-100 relative overflow-hidden">
+                        <div
+                            class="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,_var(--tw-gradient-stops))] from-green-100/50 to-transparent">
+                        </div>
+                        <div
+                            class="absolute top-8 left-8 right-8 bottom-0 bg-white rounded-t-xl shadow-lg border border-slate-200">
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- UNIFIED DARK SECTION (About, Projects, Testimonials) -->
+    <section class="relative bg-neutral-900 text-white overflow-hidden pb-24">
+        <!-- Background Decor -->
+        <div
+            class="absolute top-0 right-[-10%] w-[800px] h-[800px] bg-[#916AFF]/10 rounded-full blur-[120px] pointer-events-none">
+        </div>
+        <div
+            class="absolute bottom-0 left-[-10%] w-[800px] h-[800px] bg-[#52D8EA]/5 rounded-full blur-[120px] pointer-events-none">
+        </div>
+
+        <!-- ABOUT (Bento Grid) -->
+        <div id="about" class="container mx-auto px-4 md:px-8 pt-32 mb-32 relative z-10">
+            <h2 class="text-6xl md:text-9xl tracking-tighter mb-16">
+                <span class="block">Nie jesteśmy</span>
+                <span class="block text-neutral-500">kolejną agencją</span>
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-[minmax(250px,auto)]">
+                <!-- Card 1 -->
+                <div
+                    class="lg:col-span-2 bg-neutral-800/50 border border-white/5 rounded-3xl p-10 flex flex-col justify-between">
+                    <h3 class="text-3xl font-medium mb-6">Zamieniamy chaos w <span
+                            class="bg-clip-text text-transparent bg-gradient-to-r from-[#52D8EA] to-[#916AFF] font-bold">cyfrowy
+                            porządek.</span></h3>
+                    <p class="text-neutral-400 text-lg leading-relaxed max-w-xl">
+                        Hermer powstał z buntu przeciwko przeciętności. Połączyliśmy inżynierską precyzję z artystyczną
+                        duszą.
+                    </p>
+                </div>
+                <!-- Card 2 Stats -->
+                <div class="bg-neutral-800/50 border border-white/5 rounded-3xl p-10 flex flex-col justify-center">
+                    <div class="text-7xl font-bold mb-2 flex items-baseline">14<span
+                            class="text-[#916AFF] text-4xl">+</span></div>
+                    <div class="text-neutral-400">Lat doświadczenia</div>
+                </div>
+                <!-- Card 3 Reviews -->
+                <div class="bg-white/5 border border-white/5 rounded-3xl p-10 backdrop-blur-md">
+                    <div class="w-12 h-12 rounded-xl bg-[#916AFF] flex items-center justify-center mb-8">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+                            <polygon
+                                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                            </polygon>
+                        </svg>
+                    </div>
+                    <div class="text-4xl font-bold mb-2">100%</div>
+                    <div class="text-neutral-400 text-sm">Gwarancja satysfakcji</div>
+                </div>
+                <!-- Card 4 Team -->
+                <div
+                    class="lg:col-span-2 bg-neutral-800/50 border border-white/5 rounded-3xl p-10 flex items-center justify-between group cursor-pointer hover:bg-[#916AFF] transition-colors duration-500">
+                    <div>
+                        <div class="text-xs font-bold uppercase tracking-widest mb-2 opacity-70">Zacznijmy</div>
+                        <h3 class="text-4xl font-bold">Rozpocznij projekt</h3>
+                    </div>
+                    <div
+                        class="w-16 h-16 rounded-full bg-white text-neutral-900 flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <span class="text-2xl">→</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-12 text-center sticky bottom-8 z-20 pointer-events-none">
+                <button
+                    class="pointer-events-auto bg-white/10 backdrop-blur-md border border-white/20 text-white px-8 py-3 rounded-full text-sm font-bold uppercase tracking-wider hover:bg-white hover:text-neutral-900 transition-all">Poznaj
+                    nas bliżej</button>
+            </div>
+        </div>
+
+        <!-- PROJECTS -->
+        <div id="projects" class="container mx-auto px-4 md:px-8 mb-32 relative z-10">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-24 gap-8">
+                <h2 class="text-5xl md:text-8xl tracking-tighter">
+                    <span class="block">Wybrane</span>
+                    <span class="block text-neutral-500">Realizacje</span>
+                </h2>
+                <p class="text-neutral-400 max-w-xs text-sm uppercase tracking-wide leading-relaxed text-right">
+                    Wybór naszych najbardziej pasjonujących projektów zrealizowanych dla klientów.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-16">
+                <!-- Project 1 -->
+                <div class="group cursor-pointer">
+                    <div class="aspect-[16/10] bg-neutral-800 rounded-3xl mb-6 overflow-hidden relative">
+                        <div class="absolute inset-0 bg-neutral-700/50 animate-pulse"></div>
+                        <!-- Placeholder image -->
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <div class="text-xs font-bold text-neutral-500 uppercase tracking-wider">Design • Development
+                        </div>
+                        <h3 class="text-3xl font-medium group-hover:text-[#916AFF] transition-colors">Broenergia</h3>
+                    </div>
+                </div>
+                <!-- Project 2 -->
+                <div class="group cursor-pointer md:mt-16">
+                    <div class="aspect-[16/10] bg-neutral-800 rounded-3xl mb-6 overflow-hidden relative">
+                        <div class="absolute inset-0 bg-neutral-700/50 animate-pulse"></div>
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <div class="text-xs font-bold text-neutral-500 uppercase tracking-wider">E-commerce • UX/UI
+                        </div>
+                        <h3 class="text-3xl font-medium group-hover:text-[#916AFF] transition-colors">Nexon Pharma</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-12 text-center sticky bottom-8 z-20 pointer-events-none">
+                <button
+                    class="pointer-events-auto bg-white/10 backdrop-blur-md border border-white/20 text-white px-8 py-3 rounded-full text-sm font-bold uppercase tracking-wider hover:bg-white hover:text-neutral-900 transition-all">Wszystkie
+                    realizacje</button>
+            </div>
+        </div>
+
+        <!-- TESTIMONIALS -->
+        <div id="testimonials" class="container mx-auto px-4 md:px-8 relative z-10">
+            <h2 class="text-5xl md:text-7xl tracking-tighter mb-16">
+                Zaufali nam <br />
+                <span class="text-neutral-500">Liderzy Branży.</span>
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Review Card -->
+                <div class="bg-white/5 backdrop-blur-md border border-white/10 p-8 rounded-2xl">
+                    <div class="flex gap-1 text-[#FBBC05] mb-4">★★★★★</div>
+                    <p class="text-neutral-300 text-lg leading-relaxed mb-6">"Wyniki SEO przerosły oczekiwania. Ruch
+                        organiczny wzrósł o 300% w kwartał."</p>
+                    <div>
+                        <div class="font-bold text-white">Anna Nowak</div>
+                        <div class="text-sm text-neutral-500">Marketing Dir. @ EcoLife</div>
+                    </div>
+                </div>
+                <div class="bg-white/5 backdrop-blur-md border border-white/10 p-8 rounded-2xl md:mt-12">
+                    <div class="flex gap-1 text-[#FBBC05] mb-4">★★★★★</div>
+                    <p class="text-neutral-300 text-lg leading-relaxed mb-6">"Sklep e-commerce stał się maszyną do
+                        sprzedaży. Konwersja skoczyła dwukrotnie."</p>
+                    <div>
+                        <div class="font-bold text-white">Piotr Wiśniewski</div>
+                        <div class="text-sm text-neutral-500">Founder @ CoffeeLover</div>
+                    </div>
+                </div>
+                <div class="bg-white/5 backdrop-blur-md border border-white/10 p-8 rounded-2xl">
+                    <div class="flex gap-1 text-[#FBBC05] mb-4">★★★★★</div>
+                    <p class="text-neutral-300 text-lg leading-relaxed mb-6">"Projekt oddany przed czasem, bez
+                        kompromisów jakościowych. Rzadkość."</p>
+                    <div>
+                        <div class="font-bold text-white">Monika Zając</div>
+                        <div class="text-sm text-neutral-500">Owner @ BeautySpace</div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-12 text-center sticky bottom-8 z-20 pointer-events-none">
+                <button
+                    class="pointer-events-auto bg-white/10 backdrop-blur-md border border-white/20 text-white px-8 py-3 rounded-full text-sm font-bold uppercase tracking-wider hover:bg-white hover:text-neutral-900 transition-all">Zobacz
+                    więcej opinii</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- BLOG SECTION -->
+    <section id="blog" class="py-24 bg-slate-50 overflow-hidden">
+        <div class="container mx-auto px-4 md:px-8 mb-12 flex justify-between items-end">
+            <h2 class="text-5xl md:text-8xl tracking-tighter text-slate-900">
+                Strefa <br /> Wiedzy
+            </h2>
+            <button class="hidden md:flex font-bold text-[#916AFF] uppercase tracking-wider items-center gap-2">
+                Zobacz wszystkie →
+            </button>
+        </div>
+
+        <div class="flex overflow-x-auto gap-8 px-4 md:px-8 pb-12 no-scrollbar">
+            <!-- Post 1 -->
+            <div class="w-[300px] md:w-[400px] shrink-0 group cursor-pointer">
+                <div class="aspect-[3/4] bg-slate-200 rounded-3xl mb-6 relative overflow-hidden">
+                    <div
+                        class="absolute top-6 left-6 bg-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest">
+                        Tech</div>
+                </div>
+                <div class="text-xs font-mono text-slate-400 mb-2">01 — 2024</div>
+                <h3 class="text-2xl font-bold leading-tight group-hover:text-[#916AFF] transition-colors">Jak AI zmienia
+                    web design?</h3>
+            </div>
+            <!-- Post 2 -->
+            <div class="w-[300px] md:w-[400px] shrink-0 group cursor-pointer">
+                <div class="aspect-[3/4] bg-slate-200 rounded-3xl mb-6 relative overflow-hidden">
+                    <div
+                        class="absolute top-6 left-6 bg-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest">
+                        SEO</div>
+                </div>
+                <div class="text-xs font-mono text-slate-400 mb-2">02 — 2024</div>
+                <h3 class="text-2xl font-bold leading-tight group-hover:text-[#916AFF] transition-colors">Core Web
+                    Vitals w praktyce</h3>
+            </div>
+            <!-- Post 3 -->
+            <div class="w-[300px] md:w-[400px] shrink-0 group cursor-pointer">
+                <div class="aspect-[3/4] bg-slate-200 rounded-3xl mb-6 relative overflow-hidden">
+                    <div
+                        class="absolute top-6 left-6 bg-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest">
+                        UX</div>
+                </div>
+                <div class="text-xs font-mono text-slate-400 mb-2">03 — 2024</div>
+                <h3 class="text-2xl font-bold leading-tight group-hover:text-[#916AFF] transition-colors">Psychologia
+                    koloru w e-commerce</h3>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section id="contact" class="py-24 bg-white relative">
+        <div class="container mx-auto px-4 md:px-8">
+            <div class="flex flex-col lg:flex-row gap-16 lg:gap-32">
+                <!-- Info -->
+                <div class="lg:w-5/12">
+                    <h2 class="text-7xl lg:text-9xl tracking-tighter mb-8 leading-none text-slate-900">
+                        Zacznijmy <br /> Projekt
+                    </h2>
+                    <p class="text-slate-500 text-lg font-medium mb-12">Masz wizję? My mamy technologię.</p>
+
+                    <div class="space-y-12">
+                        <div>
+                            <div class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Email</div>
+                            <a href="mailto:kontakt@hermer.agency"
+                                class="text-3xl font-bold text-slate-900 hover:text-[#916AFF]">kontakt@hermer.agency</a>
+                        </div>
+                        <div>
+                            <div class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Telefon</div>
+                            <a href="tel:+48123456789"
+                                class="text-3xl font-bold text-slate-900 hover:text-[#916AFF]">+48 123 456 789</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form -->
+                <div class="lg:w-7/12 bg-slate-50 rounded-3xl p-8 lg:p-12">
+                    <form class="flex flex-col gap-12">
+                        <div class="border-b border-slate-200 pb-2">
+                            <label class="block text-xs font-bold uppercase tracking-widest mb-4 text-slate-400">01. Jak
+                                się nazywasz?</label>
+                            <input type="text" placeholder="Imię i Nazwisko"
+                                class="w-full bg-transparent text-2xl font-bold text-slate-900 placeholder-slate-300 focus:outline-none">
+                        </div>
+                        <div class="border-b border-slate-200 pb-2">
+                            <label class="block text-xs font-bold uppercase tracking-widest mb-4 text-slate-400">02.
+                                Twój Email</label>
+                            <input type="email" placeholder="adres@email.com"
+                                class="w-full bg-transparent text-2xl font-bold text-slate-900 placeholder-slate-300 focus:outline-none">
+                        </div>
+                        <div class="border-b border-slate-200 pb-2">
+                            <label class="block text-xs font-bold uppercase tracking-widest mb-4 text-slate-400">03. O
+                                projekcie</label>
+                            <textarea rows="3" placeholder="Opowiedz nam o swoim pomyśle..."
+                                class="w-full bg-transparent text-2xl font-bold text-slate-900 placeholder-slate-300 focus:outline-none resize-none"></textarea>
+                        </div>
+                        <button type="button"
+                            class="bg-slate-900 text-white rounded-full py-8 text-xl font-bold hover:bg-[#916AFF] transition-colors">Wyślij
+                            Wiadomość</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ SECTION -->
+    <section class="py-24 bg-white relative">
+        <div class="container mx-auto px-4 md:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
+                <p class="text-slate-500 font-medium text-lg max-w-sm">Jasne zasady to fundament dobrej współpracy. Oto
+                    konkrety, o które pytacie najczęściej.</p>
+                <h2 class="text-5xl lg:text-9xl tracking-tighter text-right text-slate-900">
+                    Warto <br /> Wiedzieć
+                </h2>
+            </div>
+
+            <div class="max-w-4xl">
+                <!-- FAQ Item 1 -->
+                <div class="border-b border-slate-200 py-8 group cursor-pointer">
+                    <div class="flex items-center">
+                        <span class="font-mono text-slate-400 mr-8 text-sm">01</span>
+                        <h3
+                            class="text-2xl md:text-3xl font-bold text-slate-900 group-hover:text-slate-600 transition-colors flex-1">
+                            Ile czasu trwa stworzenie strony?</h3>
+                        <span class="text-slate-400 group-hover:text-[#916AFF] transition-colors text-2xl">+</span>
+                    </div>
+                    <p class="mt-4 text-slate-500 text-lg hidden group-hover:block transition-all">Proste wizytówki
+                        zamykamy w 7-14 dni. Rozbudowane serwisy i e-commerce to proces 4-8 tygodniowy.</p>
+                </div>
+                <!-- FAQ Item 2 -->
+                <div class="border-b border-slate-200 py-8 group cursor-pointer">
+                    <div class="flex items-center">
+                        <span class="font-mono text-slate-400 mr-8 text-sm">02</span>
+                        <h3
+                            class="text-2xl md:text-3xl font-bold text-slate-900 group-hover:text-slate-600 transition-colors flex-1">
+                            Czy otrzymam fakturę VAT?</h3>
+                        <span class="text-slate-400 group-hover:text-[#916AFF] transition-colors text-2xl">+</span>
+                    </div>
+                </div>
+                <!-- FAQ Item 3 -->
+                <div class="border-b border-slate-200 py-8 group cursor-pointer">
+                    <div class="flex items-center">
+                        <span class="font-mono text-slate-400 mr-8 text-sm">03</span>
+                        <h3
+                            class="text-2xl md:text-3xl font-bold text-slate-900 group-hover:text-slate-600 transition-colors flex-1">
+                            Czy będę mógł edytować treść?</h3>
+                        <span class="text-slate-400 group-hover:text-[#916AFF] transition-colors text-2xl">+</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-neutral-950 text-neutral-400 pt-24 pb-32 relative overflow-hidden">
+        <div class="absolute inset-0 bg-neutral-900/50"></div>
+        <div
+            class="absolute -top-40 -right-40 w-96 h-96 bg-purple-500/10 blur-[120px] rounded-full pointer-events-none">
+        </div>
+        <div class="absolute top-40 -left-40 w-96 h-96 bg-blue-500/10 blur-[120px] rounded-full pointer-events-none">
+        </div>
+
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <!-- CTA Section -->
+            <div class="mb-24 border-b border-white/5 pb-24">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-12">
+                    <div class="max-w-4xl">
+                        <h2
+                            class="text-4xl md:text-6xl lg:text-8xl font-bold text-white tracking-tighter mb-8 leading-none">
+                            <div class="pb-4">Masz pomysł</div>
+                            <div class="pb-4">na nowy projekt?</div>
+                        </h2>
+                        <a href="#contact"
+                            class="inline-flex items-center gap-4 bg-white text-neutral-950 px-10 py-6 rounded-full text-xl font-bold hover:bg-[#916AFF] hover:text-white transition-all duration-300">
+                            <span>Rozpocznij wycenę</span>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="7" y1="17" x2="17" y2="7" />
+                                <polyline points="7 7 17 7 17 17" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Links Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8 mb-24">
+                <div class="lg:col-span-4 space-y-8 pr-12">
+                    <a href="#" class="block text-white text-3xl font-bold tracking-tighter">Hermer<span
+                            class="text-[#916AFF]">.</span></a>
+                    <p class="text-neutral-500 text-sm leading-relaxed">Tworzymy innowacyjne rozwiązania cyfrowe, które
+                        pomagają firmom rosnąć.</p>
+                </div>
+                <div class="lg:col-span-2 lg:col-start-6">
+                    <h4 class="text-white font-bold mb-6 text-lg">Menu</h4>
+                    <ul class="space-y-4">
+                        <li><a href="#" class="text-neutral-500 hover:text-white transition-colors">Strona główna</a>
+                        </li>
+                        <li><a href="#projects"
+                                class="text-neutral-500 hover:text-white transition-colors">Realizacje</a></li>
+                        <li><a href="#testimonials"
+                                class="text-neutral-500 hover:text-white transition-colors">Opinie</a></li>
+                    </ul>
+                </div>
+                <div class="lg:col-span-3">
+                    <h4 class="text-white font-bold mb-6 text-lg">Kontakt</h4>
+                    <ul class="space-y-8">
+                        <li>
+                            <p class="text-xs text-neutral-600 uppercase tracking-wider font-bold mb-2">Napisz do nas
+                            </p>
+                            <a href="mailto:bok@e-hermer.pl"
+                                class="text-xl font-semibold text-white hover:text-[#916AFF] transition-colors">bok@e-hermer.pl</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="flex flex-col md:flex-row justify-between items-end gap-6 pt-8 border-t border-white/5">
+                <p class="text-xs text-neutral-600">© 2024 Hermer. Wszelkie prawa zastrzeżone.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>
