@@ -16,7 +16,7 @@ export const WebsiteOfferHero: React.FC = () => {
                     Web Development
                 </div>
 
-                <h1 className="text-5xl sm:text-6xl lg:text-8xl leading-[1.05] text-slate-900 mb-8 tracking-tighter font-semibold">
+                <h1 className="text-4xl sm:text-5xl lg:text-7xl leading-[1.05] text-slate-900 mb-8 tracking-tighter font-semibold">
                     Strony, które{" "}
                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#916AFF] to-blue-500">
                         sprzedają.
