@@ -36,7 +36,7 @@ export const PillStatementSection = () => {
                         Tworzymy cyfrowe doświadczenia
                         <PillImage src="/pill-experience.png" alt="Digital Experience" />
                         które zamieniają zwykłych użytkowników w lojalnych klientów. W Hermer łączymy bezkompromisową jakość kodu
-                        <PillImage src="/pill-code.png" alt="Quality Code" />
+                        <PillImage src="/pill-code.png" alt="Quality Code" className="ml-2" />
                         z designem, który wyznacza standardy w Twojej branży
                         <PillImage src="/pill-design.png" alt="Leading Design" />
                         .
