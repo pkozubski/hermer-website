@@ -43,16 +43,16 @@ export const SplitRevealTitle = ({
         { yPercent: 100 },
         {
           yPercent: 0,
-          duration: 0.4,
-          ease: "power.out2",
+          duration: 1,
+          ease: "elastic.out(1, 1)",
         }
       ).fromTo(
         line2Ref.current,
         { yPercent: -100 },
         {
           yPercent: 0,
-          duration: 0.4,
-          ease: "power.out2",
+          duration: 1,
+          ease: "elastic.out(1, 1)",
         },
         "<0.15" // Opóźnienie 0.15s względem początku poprzedniej animacji
       );

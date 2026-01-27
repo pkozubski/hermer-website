@@ -3,6 +3,7 @@ import { Inter, Instrument_Serif } from "next/font/google";
 import { Suspense } from "react";
 import "./globals.css";
 import VisualEditingWrapper from "@/components/VisualEditingWrapper";
+import StyledComponentsRegistry from "@/lib/registry";
 
 const inter = Inter({ subsets: ["latin"] });
 const instrumentSerif = Instrument_Serif({
@@ -30,10 +31,12 @@ export default function RootLayout({
       </head>
       {/* Added instrumentSerif.variable to the body class list */}
       <body className={`${inter.className} ${instrumentSerif.variable}`}>
-        {children}
-        <Suspense fallback={null}>
-          <VisualEditingWrapper />
-        </Suspense>
+        <StyledComponentsRegistry>
+          {children}
+          <Suspense fallback={null}>
+            <VisualEditingWrapper />
+          </Suspense>
+        </StyledComponentsRegistry>
       </body>
     </html>
   );

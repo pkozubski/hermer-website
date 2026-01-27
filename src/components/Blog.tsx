@@ -4,106 +4,8 @@ import { ArrowRight } from "lucide-react";
 import { SplitRevealTitle } from "./ui/SplitRevealTitle";
 import { LineReveal } from "./ui/LineReveal";
 import { client } from "@/sanity/lib/client";
-import { urlFor } from "@/sanity/lib/image";
+import { BlogCard, Post } from "./cards/BlogCard";
 import Link from "next/link";
-
-interface Post {
-  _id: string;
-  title: string;
-  slug: { current: string };
-  category: string;
-  mainImage: any;
-  year: string;
-}
-
-const BlogCard = ({ post, index = 0 }: { post: Post; index?: number }) => {
-  return (
-    <motion.div
-      className="group relative w-[300px] md:w-[400px] shrink-0 cursor-pointer"
-      whileHover="hover"
-      initial={{ opacity: 0, scale: 0.9, filter: "blur(10px)" }}
-      whileInView={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-      viewport={{ once: true, amount: 0.3 }}
-      transition={{
-        duration: 0.7,
-        ease: [0.16, 1, 0.3, 1],
-        delay: index * 0.1,
-      }}
-    >
-      <Link href={`/blog/${post.slug.current}`}>
-        <div className="relative aspect-3/4 overflow-hidden bg-slate-200 rounded-3xl">
-          <motion.img
-            src={post.mainImage ? urlFor(post.mainImage).width(800).url() : ""}
-            alt={post.title}
-            className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
-          />
-          <div className="absolute inset-x-0 bottom-0 h-1/2 bg-linear-to-t from-black/60 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
-
-          {/* Floating Category Badge */}
-          <div className="absolute top-6 left-6 z-10">
-            <span className="px-3 py-1.5 bg-white/90 backdrop-blur-md text-xs font-bold uppercase tracking-widest text-slate-900 rounded-full shadow-sm group-hover:bg-white transition-all duration-300">
-              {post.category}
-            </span>
-          </div>
-        </div>
-
-        <div className="mt-6 pr-4">
-          <div className="flex items-baseline justify-between mb-2">
-            <span className="text-xs font-mono text-slate-400">
-              0{index + 1} — {post.year}
-            </span>
-          </div>
-
-          {/* Title & Arrow - like Projects */}
-          <div className="flex items-center justify-start gap-1">
-            {/* Animated Arrow - Slides in from left */}
-            <motion.div
-              initial="rest"
-              variants={{
-                rest: { width: 0, opacity: 0, x: -10, marginRight: 0 },
-                hover: {
-                  width: "auto",
-                  opacity: 1,
-                  x: 0,
-                  marginRight: 4,
-                  transition: {
-                    type: "spring",
-                    stiffness: 300,
-                    damping: 20,
-                    mass: 0.5,
-                  },
-                },
-              }}
-              className="overflow-hidden flex items-center justify-center text-slate-900"
-            >
-              <ArrowRight size={24} strokeWidth={2.5} />
-            </motion.div>
-
-            <h3 className="text-2xl font-display font-bold text-slate-900 leading-tight group-hover:text-[#916AFF] transition-colors duration-300 flex flex-wrap">
-              {post.title.split(" ").map((word, i) => (
-                <span key={i} className="overflow-hidden mr-[0.3em]">
-                  <motion.span
-                    className="inline-block"
-                    initial={{ y: "100%" }}
-                    whileInView={{ y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{
-                      duration: 0.5,
-                      ease: [0.16, 1, 0.3, 1],
-                      delay: i * 0.08,
-                    }}
-                  >
-                    {word}
-                  </motion.span>
-                </span>
-              ))}
-            </h3>
-          </div>
-        </div>
-      </Link>
-    </motion.div>
-  );
-};
 
 export const Blog: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -132,7 +34,7 @@ export const Blog: React.FC = () => {
   useEffect(() => {
     if (containerRef.current) {
       setWidth(
-        containerRef.current.scrollWidth - containerRef.current.offsetWidth
+        containerRef.current.scrollWidth - containerRef.current.offsetWidth,
       );
     }
   }, [posts]); // Recalculate when posts are loaded

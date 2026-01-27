@@ -181,7 +181,7 @@ const EcommerceCard = () => {
 
   return (
     <motion.a
-      href="/oferta/sklepy"
+      href="/oferta/sklepy-internetowe"
       className="group relative h-[500px] rounded-[40px] overflow-hidden bg-[#F5F5F5] hover:shadow-2xl hover:shadow-slate-200 transition-all duration-700 flex flex-col justify-between"
     >
       {/* 1. TOP: Text Content */}

@@ -1,0 +1,72 @@
+"use client";
+
+import React from "react";
+import { motion } from "framer-motion";
+
+export const AboutVision = () => {
+  return (
+    <section className="py-24 md:py-32 bg-white container mx-auto px-4 sm:px-8 lg:px-16 overflow-hidden">
+      <div className="grid lg:grid-cols-12 gap-16 lg:gap-24 items-center">
+        {/* Image Side */}
+        <motion.div
+          initial={{ opacity: 0, x: -50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="lg:col-span-5 relative rounded-[3rem] overflow-hidden aspect-[4/5] bg-slate-100 shadow-2xl group"
+        >
+          {/* Placeholder for real image */}
+          <div className="absolute inset-0 bg-gradient-to-br from-slate-200 to-slate-300 transition-transform duration-700 group-hover:scale-105" />
+
+          {/* Floating badge */}
+          <div className="absolute bottom-12 right-12 bg-white/90 backdrop-blur-md p-8 rounded-[2rem] shadow-xl flex flex-col items-center z-10 border border-white/50">
+            <span className="text-6xl font-medium text-[#916AFF] mb-2 font-display tracking-tighter">
+              100%
+            </span>
+            <span className="text-xs uppercase font-bold text-slate-500 text-center leading-tight tracking-widest">
+              Zaangażowania
+              <br />w Twój projekt
+            </span>
+          </div>
+        </motion.div>
+
+        {/* Content Side */}
+        <div className="lg:col-span-7 relative">
+          {/* Background decorative text */}
+          <span className="absolute -top-20 -left-20 text-[12rem] font-display font-bold text-slate-50 z-0 pointer-events-none select-none opacity-60 hidden xl:block">
+            PASJA
+          </span>
+
+          <div className="relative z-10">
+            <h2 className="text-5xl md:text-7xl lg:text-9xl font-medium font-display text-slate-900 tracking-tighter leading-[0.9] mb-12">
+              Pasja, która <br />
+              <span className="text-[#916AFF]">napędza</span> działanie
+            </h2>
+            <div className="space-y-8 text-xl md:text-2xl text-slate-600 leading-relaxed font-light max-w-2xl">
+              <p>
+                Tworzenie stron internetowych to dla nas coś więcej niż praca —
+                to pasja. Nie interesuje nas przeciętność, sztampowe szablony
+                czy rozwiązania "na chwilę".
+              </p>
+              <p>
+                Każdy projekt strony, sklepu wykonujemy we ścisłej współpracy
+                (grafika, efektywność IT, pozycjonowanie) ze{" "}
+                <span className="font-medium text-slate-900">
+                  zwrotem z inwestycji
+                </span>
+                .
+              </p>
+            </div>
+
+            <div className="mt-16 border-l-2 border-[#916AFF] pl-8 py-2">
+              <p className="font-medium text-slate-900 text-lg md:text-2xl italic leading-relaxed">
+                "To nie liczby nas definiują — to nasza dbałość o każdy detal i
+                nieustanna chęć tworzenia stron, które działają i zachwycają."
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};

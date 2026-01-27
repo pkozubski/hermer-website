@@ -1,6 +1,7 @@
 import React, { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Link from "next/link";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -8,11 +9,13 @@ interface FluidButtonProps {
   mode?: "inline";
   label?: string;
   className?: string;
+  href?: string;
 }
 
 const FluidButton: React.FC<FluidButtonProps> = ({
   label = "Dowiedz się więcej",
   className = "",
+  href,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const mainBlobRef = useRef<HTMLDivElement>(null);
@@ -77,7 +80,7 @@ const FluidButton: React.FC<FluidButtonProps> = ({
             duration: 1.5,
             ease: "elastic.out(2,.8)",
           },
-          0
+          0,
         )
 
         // 2. Rozszerzanie (Expansion)
@@ -89,7 +92,7 @@ const FluidButton: React.FC<FluidButtonProps> = ({
             duration: 1,
             ease: "back.inOut(2)",
           },
-          "expand"
+          "expand",
         )
         .to(
           trailBlobRef.current,
@@ -97,7 +100,7 @@ const FluidButton: React.FC<FluidButtonProps> = ({
             scale: 0,
             duration: 0.3,
           },
-          0.15
+          0.15,
         )
 
         // 3. Plus (Blue Circle) powiększa się i przesuwa
@@ -110,7 +113,7 @@ const FluidButton: React.FC<FluidButtonProps> = ({
             right: "8px",
             xPercent: 0, // Reset translateX
           },
-          "expand"
+          "expand",
         )
         // Blue Trail
         .to(
@@ -120,7 +123,7 @@ const FluidButton: React.FC<FluidButtonProps> = ({
             duration: 1,
             scale: 1,
           },
-          "expand"
+          "expand",
         )
         .to(
           blueTrailRef.current,
@@ -130,7 +133,7 @@ const FluidButton: React.FC<FluidButtonProps> = ({
             right: "8px",
             xPercent: 0,
           },
-          0.4
+          0.4,
         )
 
         // 4. Tekst
@@ -143,7 +146,7 @@ const FluidButton: React.FC<FluidButtonProps> = ({
             duration: 0.5,
             ease: "power2.out",
           },
-          "expand+=.5"
+          "expand+=.5",
         )
 
         // Visual Polish (Blur background)
@@ -168,6 +171,36 @@ const FluidButton: React.FC<FluidButtonProps> = ({
     return () => ctx.revert();
   }, [label]); // Re-calculate if label changes
 
+  const Content = (
+    <div className="flex items-center w-full h-full">
+      {/* Text */}
+      <span
+        ref={textRef}
+        className="whitespace-nowrap text-[17px] font-medium tracking-tight text-[#f5f5f7] opacity-0 translate-x-[15px] w-0 mx-2 block"
+      >
+        {label}
+      </span>
+
+      {/* Blue Trail */}
+      <div
+        ref={blueTrailRef}
+        className="w-10 h-10 bg-[#8b5cf6] rounded-full absolute -z-10"
+        style={{ right: "50%" }}
+      />
+
+      {/* Blue Circle (Icon) */}
+      <div
+        ref={blueCircleRef}
+        className="w-10 h-10 bg-[#8b5cf6] rounded-full flex items-center justify-center shrink-0 shadow-[0_4px_12px_rgba(139,92,246,0.3)] absolute"
+        style={{ right: "50%" }}
+      >
+        <svg viewBox="0 0 24 24" className="w-[22px] h-[22px] fill-white">
+          <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z" />
+        </svg>
+      </div>
+    </div>
+  );
+
   return (
     // Sticky Wrapper
     <div
@@ -188,33 +221,13 @@ const FluidButton: React.FC<FluidButtonProps> = ({
           className="bg-[#262626] translate-y-[180px] w-[64px] h-[56px] p-2  rounded-[500px] absolute bottom-0 z-20 overflow-hidden flex items-center justify-center pointer-events-auto cursor-pointer border border-transparent"
         >
           {/* Content Wrapper */}
-          <div className="flex items-center w-full h-full">
-            {/* Text */}
-            <span
-              ref={textRef}
-              className="whitespace-nowrap text-[17px] font-medium tracking-tight text-[#f5f5f7] opacity-0 translate-x-[15px] w-0 mx-2 block"
-            >
-              {label}
-            </span>
-
-            {/* Blue Trail */}
-            <div
-              ref={blueTrailRef}
-              className="w-10 h-10 bg-[#8b5cf6] rounded-full absolute -z-10"
-              style={{ right: "50%" }}
-            />
-
-            {/* Blue Circle (Icon) */}
-            <div
-              ref={blueCircleRef}
-              className="w-10 h-10 bg-[#8b5cf6] rounded-full flex items-center justify-center shrink-0 shadow-[0_4px_12px_rgba(139,92,246,0.3)] absolute"
-              style={{ right: "50%" }}
-            >
-              <svg viewBox="0 0 24 24" className="w-[22px] h-[22px] fill-white">
-                <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z" />
-              </svg>
-            </div>
-          </div>
+          {href ? (
+            <Link href={href} className="w-full h-full block">
+              {Content}
+            </Link>
+          ) : (
+            Content
+          )}
         </div>
       </div>
     </div>
