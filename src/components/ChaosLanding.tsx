@@ -17,7 +17,7 @@ const ToggleSwitch = ({
   sliderRef,
 }: {
   checked: boolean;
-  sliderRef: React.RefObject<HTMLDivElement>;
+  sliderRef: React.RefObject<HTMLDivElement | null>;
 }) => {
   return (
     <div className="bg-[#292929] flex h-[48px] items-center p-1 relative rounded-[50px] w-fit border border-[rgba(255,255,255,0.1)] pointer-events-none shadow-lg">
@@ -566,10 +566,7 @@ export const ChaosLanding = ({ className }: { className?: string }) => {
 
           <g clipPath={`url(#${clipId})`}>
             <foreignObject x="0" y="0" width="133" height="276">
-              <div
-                className="w-full h-full bg-[#050505] flex flex-col relative"
-                xmlns="http://www.w3.org/1999/xhtml"
-              >
+              <div className="w-full h-full bg-[#050505] flex flex-col relative">
                 <div className="h-[17%] w-full bg-[#1a1a1a] border-b border-white/10 relative z-0">
                   <div className="absolute inset-0 bg-linear-to-b from-black/80 to-transparent" />
                 </div>
