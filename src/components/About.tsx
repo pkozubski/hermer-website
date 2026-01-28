@@ -14,6 +14,7 @@ import AnimatedArc from "./AnimatedArc";
 import { LineReveal } from "./ui/LineReveal";
 import { MaskedReveal } from "./ui/MaskedReveal";
 import FluidButton from "./ui/FluidButton";
+import { ChaosLanding } from "./ChaosLanding";
 
 // --- Components ---
 
@@ -115,31 +116,7 @@ export const About: React.FC = () => {
         {/* Bento Grid Layout - Adjusted for Dark Mode & Removed Image Card */}
         <div className="grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-6 auto-rows-[minmax(180px,auto)] mx-auto">
           {/* 1. Main Story Card - Spans 8 cols */}
-          <BentoCard className="md:col-span-6 lg:col-span-8 p-10 flex flex-col justify-between min-h-[400px] bg-linear-to-br from-neutral-800/80 to-neutral-900/80">
-            <div>
-              <Code2
-                className="text-[#916AFF] mb-8"
-                size={48}
-                strokeWidth={1.5}
-              />
-              <h3 className="text-3xl font-display font-medium mb-6 leading-relaxed text-white">
-                <MaskedReveal text="Zamieniamy chaos w " />
-                <span className="text-transparent bg-clip-text bg-linear-to-r from-[#52D8EA] to-[#916AFF] font-bold inline-block">
-                  <MaskedReveal text="cyfrowy porządek." />
-                </span>
-              </h3>
-            </div>
-            <LineReveal
-              lines={[
-                "Hermer powstał z buntu przeciwko przeciętności.",
-                "Widzieliśmy zbyt wiele pięknych stron, które nie",
-                "sprzedawały, i zbyt wiele systemów, których nikt",
-                "nie umiał obsługiwać. Połączyliśmy inżynierską",
-                "precyzję z artystyczną duszą.",
-              ]}
-              className="text-neutral-400 text-lg leading-relaxed max-w-2xl"
-            />
-          </BentoCard>
+          <ChaosLanding className="md:col-span-6 lg:col-span-8" />
 
           {/* 2. Stat Card: Experience - Spans 4 cols with True Pop-out Image */}
           <BentoCard

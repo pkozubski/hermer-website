@@ -2,10 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 import { SplitRevealTitle } from "./ui/SplitRevealTitle";
 import { LineReveal } from "./ui/LineReveal";
 import { OfferCard, OfferItem } from "./cards/offer/OfferCard";
-import { ServiceCard as WebsiteServiceCard } from "./cards/WebsiteServiceCard";
-import { ECommerceServiceCard } from "./cards/ECommerceServiceCard";
-import { SeoServiceCard } from "./cards/SeoServiceCard";
-import { MarketingServiceCard } from "./cards/MarketingServiceCard";
+import { WebDesignCard } from "./cards/bento/WebDesignCard";
+import { EcommerceCard } from "./cards/bento/EcommerceCard";
+import { SeoCard } from "./cards/bento/SeoCard";
+import { MarketingCard } from "./cards/bento/MarketingCard";
+import { DashedCardWrapper } from "./cards/bento/DashedCardWrapper";
 
 const OFFER_ITEMS: OfferItem[] = [];
 
@@ -32,7 +33,7 @@ export const Offer: React.FC = () => {
       const maxVerticalScroll = Math.max(sectionHeight - viewportHeight, 1);
       const progress = Math.min(
         Math.max(scrollDistance / maxVerticalScroll, 0),
-        1
+        1,
       );
 
       const trackWidth = trackRef.current.scrollWidth;
@@ -101,31 +102,47 @@ export const Offer: React.FC = () => {
           className={`flex ${
             isMobile
               ? "flex-col px-4 pb-20 w-full"
-              : "items-center h-full px-[6vw] lg:px-[10vw] gap-[6vw] w-max will-change-transform"
+              : "items-center h-full px-[6vw] lg:px-[10vw] gap-[2vw] w-max will-change-transform"
           }`}
           style={!isMobile ? { transform: `translateX(-${transformX}px)` } : {}}
         >
           {/* Spacer for Desktop */}
           {!isMobile && <div className="w-[90vw] lg:w-[35vw] shrink-0"></div>}
 
-          {/* Premium Website Service Card */}
-          <div className={`shrink-0 ${isMobile ? "mb-8" : ""}`}>
-            <WebsiteServiceCard />
+          {/* Web Design Card - Double Width */}
+          <div
+            className={`shrink-0 ${isMobile ? "mb-8 w-full" : "w-[85vw] lg:w-[900px]"}`}
+          >
+            <DashedCardWrapper>
+              <WebDesignCard />
+            </DashedCardWrapper>
           </div>
 
-          {/* Premium Ecommerce Service Card */}
-          <div className={`shrink-0 ${isMobile ? "mb-8" : ""}`}>
-            <ECommerceServiceCard />
+          {/* Ecommerce Card - Single Width */}
+          <div
+            className={`shrink-0 ${isMobile ? "mb-8 w-full" : "w-[85vw] lg:w-[450px]"}`}
+          >
+            <DashedCardWrapper delay={0.1}>
+              <EcommerceCard />
+            </DashedCardWrapper>
           </div>
 
-          {/* Premium SEO Service Card */}
-          <div className={`shrink-0 ${isMobile ? "mb-8" : ""}`}>
-            <SeoServiceCard />
+          {/* SEO Card - Single Width */}
+          <div
+            className={`shrink-0 ${isMobile ? "mb-8 w-full" : "w-[85vw] lg:w-[450px]"}`}
+          >
+            <DashedCardWrapper delay={0.2}>
+              <SeoCard />
+            </DashedCardWrapper>
           </div>
 
-          {/* Premium Marketing Service Card */}
-          <div className={`shrink-0 ${isMobile ? "mb-8" : ""}`}>
-            <MarketingServiceCard />
+          {/* Marketing Card - Double Width */}
+          <div
+            className={`shrink-0 ${isMobile ? "mb-8 w-full" : "w-[85vw] lg:w-[900px]"}`}
+          >
+            <DashedCardWrapper delay={0.3}>
+              <MarketingCard />
+            </DashedCardWrapper>
           </div>
 
           {OFFER_ITEMS.map((item, index) => (
