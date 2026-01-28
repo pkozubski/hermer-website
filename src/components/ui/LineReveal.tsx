@@ -1,12 +1,19 @@
 "use client";
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+
+import React, { useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+
+// Register plugin (required in Next.js/React)
+gsap.registerPlugin(ScrollTrigger);
 
 interface LineRevealProps {
   lines: string[];
   className?: string;
   classNameLine?: string;
   delay?: number;
+  once?: boolean;
 }
 
 export const LineReveal = ({
@@ -14,26 +21,63 @@ export const LineReveal = ({
   className = "",
   classNameLine = "",
   delay = 0,
+  once = false,
 }: LineRevealProps) => {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: false, amount: 0.3 });
+  const containerRef = useRef<HTMLDivElement>(null);
+  const lineRefs = useRef<(HTMLSpanElement | null)[]>([]);
+
+  useGSAP(
+    () => {
+      if (!containerRef.current) return;
+
+      // Get all line elements
+      const lineElements = lineRefs.current.filter(
+        Boolean,
+      ) as HTMLSpanElement[];
+
+      if (lineElements.length === 0) return;
+
+      // Set initial state - elements start hidden (translated down)
+      gsap.set(lineElements, { yPercent: 100 });
+
+      // Create ScrollTrigger that replays on each scroll unless once is true
+      ScrollTrigger.create({
+        trigger: containerRef.current,
+        start: "top 95%",
+        end: "bottom 5%",
+        once,
+        onEnter: () => {
+          gsap.to(lineElements, {
+            yPercent: 0,
+            duration: 0.8,
+            ease: "power3.out",
+            stagger: 0.1,
+            delay: delay,
+          });
+        },
+        onLeaveBack: once
+          ? undefined
+          : () => {
+              // Reset elements when scrolling back up past the trigger
+              gsap.set(lineElements, { yPercent: 100 });
+            },
+      });
+    },
+    { scope: containerRef, dependencies: [delay, lines, once] },
+  );
 
   return (
-    <div ref={ref} className={`flex flex-col ${className}`}>
+    <div ref={containerRef} className={`flex flex-col ${className}`}>
       {lines.map((line, i) => (
         <span key={i} className={`block overflow-hidden ${classNameLine}`}>
-          <motion.span
-            className="block"
-            initial={{ y: "100%" }}
-            animate={isInView ? { y: 0 } : { y: "100%" }}
-            transition={{
-              duration: 0.8,
-              ease: [0.16, 1, 0.3, 1],
-              delay: delay + i * 0.1,
+          <span
+            ref={(el) => {
+              lineRefs.current[i] = el;
             }}
+            className="block will-change-transform"
           >
             {line}
-          </motion.span>
+          </span>
         </span>
       ))}
     </div>

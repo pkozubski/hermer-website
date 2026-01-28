@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useId, useLayoutEffect, useRef, useState } from "react";
+import { gsap } from "gsap";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 
 // --- SVG Paths ---
@@ -12,30 +12,23 @@ const svgPaths = {
 
 // --- Components ---
 
-const ToggleSwitch = ({ checked }: { checked: boolean }) => {
+const ToggleSwitch = ({
+  checked,
+  sliderRef,
+}: {
+  checked: boolean;
+  sliderRef: React.RefObject<HTMLDivElement>;
+}) => {
   return (
     <div className="bg-[#292929] flex h-[48px] items-center p-1 relative rounded-[50px] w-fit border border-[rgba(255,255,255,0.1)] pointer-events-none shadow-lg">
       <div className="relative flex items-center h-full">
-        {/* Background pill/slider */}
-        <motion.div
-          animate={{ x: checked ? "100%" : "0%" }}
-          transition={{ type: "spring", stiffness: 500, damping: 30 }}
-          className="absolute h-full w-[50%] z-0"
-        >
-          {/* Main Pill Body */}
+        <div ref={sliderRef} className="absolute h-full w-[50%] z-0">
           <div className="w-full h-full bg-[#3d3d3d] rounded-[50px] relative overflow-hidden">
-            {/* Strong inset shadow from Figma */}
             <div className="absolute inset-0 rounded-[inherit] shadow-[inset_-12px_0px_15.3px_0px_rgba(255,255,255,0.57)]" />
-
-            {/* Blur effect simulation */}
-            <div className="absolute -left-2 -top-2 w-10 h-10 bg-[#3d3d3d] blur rounded-full opacity-50" />
+            <div className="absolute -left-2 -top-2 w-10 h-10 bg-[#3d3d3d] blur-[8px] rounded-full opacity-50" />
           </div>
-
-          {/* Border Overlay (Frame's outer border) */}
           <div className="absolute inset-0 border border-[rgba(255,255,255,0.2)] rounded-[50px] shadow-[0px_0px_4px_0px_rgba(0,0,0,0.5)] pointer-events-none" />
-        </motion.div>
-
-        {/* Text Labels */}
+        </div>
         <div
           className={`relative z-10 px-6 py-2 ${!checked ? "text-white" : "text-[#8e8e8e]"} transition-colors duration-300`}
         >
@@ -55,300 +48,557 @@ const ToggleSwitch = ({ checked }: { checked: boolean }) => {
   );
 };
 
-// Reusable parts
 const LoremTag = () => (
-  <div className="relative border border-[#8B5CF6] px-4 py-2 bg-[#1e1e1e]/20 backdrop-blur-sm">
-    <p className="font-['Inter'] text-3xl text-gray-200 whitespace-nowrap">
+  <div className="relative border border-[#8B5CF6] px-3 py-1.5 md:px-4 md:py-2 bg-[#1e1e1e]/80 backdrop-blur-sm rounded-sm">
+    <p className="font-['Inter'] text-lg md:text-2xl lg:text-3xl text-gray-200 whitespace-nowrap">
       Lorem ipsum
     </p>
-
-    {/* Corner Handles */}
     <div className="absolute -top-1 -left-1 w-1.5 h-1.5 bg-[#d9d9d9] border border-[#8B5CF6]" />
     <div className="absolute -top-1 -right-1 w-1.5 h-1.5 bg-[#d9d9d9] border border-[#8B5CF6]" />
     <div className="absolute -bottom-1 -left-1 w-1.5 h-1.5 bg-[#d9d9d9] border border-[#8B5CF6]" />
     <div className="absolute -bottom-1 -right-1 w-1.5 h-1.5 bg-[#d9d9d9] border border-[#8B5CF6]" />
-
-    {/* H1 Label */}
-    <div className="absolute -top-5 right-0 text-[#8B5CF6] text-xs font-medium">
-      H1
-    </div>
   </div>
 );
 
 const BlueButton = () => (
-  <div className="bg-[#8B5CF6] flex items-center justify-center px-[14px] py-[4px] relative rounded-[24px] shadow-lg w-[60px]">
-    <p className="font-['Inter'] font-medium text-[8px] text-white">Przycisk</p>
+  <div className="bg-[#8B5CF6] flex items-center justify-center px-[14px] py-[6px] relative rounded-[24px] shadow-lg min-w-[70px] w-full">
+    <p className="font-['Inter'] font-medium text-[9px] text-white">Przycisk</p>
     <div className="absolute inset-0 pointer-events-none rounded-[inherit] shadow-[inset_-0.1px_-0.1px_3px_0px_rgba(255,255,255,0.5)]" />
   </div>
 );
 
 const WireframeBox = ({ size = 20 }: { size?: number }) => (
   <div
-    className={`bg-white/5 border border-[#8B5CF6]/50 relative`}
+    className="bg-white/5 border border-[#8B5CF6]/50 relative rounded-sm"
     style={{ width: size, height: size }}
   >
     <div className="absolute inset-0 pointer-events-none shadow-[inset_-0.3px_-0.3px_0.3px_0px_rgba(0,0,0,0.25)]" />
   </div>
 );
 
-const ImageCard = () => (
-  <div className="w-[100px] h-[60px] bg-[#2a2a2a] rounded-md overflow-hidden relative border border-white/10">
-    <ImageWithFallback
-      src="https://images.unsplash.com/photo-1640346876473-f76a73c71539?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhYnN0cmFjdCUyMG1pbmltYWwlMjBnZW9tZXRyaWMlMjBkYXJrfGVufDF8fHx8MTc2OTUxNjk4N3ww&ixlib=rb-4.1.0&q=80&w=200"
-      className="w-full h-full object-cover opacity-80"
-      alt="Abstract"
-    />
-    <div className="absolute inset-0 bg-linear-to-t from-black/50 to-transparent" />
+const ImageCard = ({ withImage = true }: { withImage?: boolean }) => (
+  <div className="w-[110px] md:w-[130px] aspect-video bg-[#2a2a2a] rounded-lg overflow-hidden relative border border-white/10 shadow-lg">
+    {withImage ? (
+      <ImageWithFallback
+        src="https://images.unsplash.com/photo-1640346876473-f76a73c71539?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhYnN0cmFjdCUyMG1pbmltYWwlMjBnZW9tZXRyaWMlMjBkYXJrfGVufDF8fHx8MTc2OTUxNjk4N3ww&ixlib=rb-4.1.0&q=80&w=400"
+        className="w-full h-full object-cover opacity-80"
+        alt="Abstract"
+      />
+    ) : (
+      <div className="w-full h-full bg-[#2a2a2a]" />
+    )}
+    <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent" />
+    <div className="absolute bottom-2 left-2 w-8 h-1 bg-white/50 rounded-full" />
   </div>
 );
 
 const TextLines = () => (
   <div className="flex flex-col gap-1.5 w-[80px]">
-    <div className="h-2 bg-white/20 rounded-sm w-full" />
-    <div className="h-2 bg-white/10 rounded-sm w-[70%]" />
-    <div className="h-2 bg-white/10 rounded-sm w-[40%]" />
+    <div className="h-1.5 bg-white/20 rounded-sm w-full" />
+    <div className="h-1.5 bg-white/10 rounded-sm w-[80%]" />
+    <div className="h-1.5 bg-white/10 rounded-sm w-[50%]" />
   </div>
 );
 
 const MenuIcon = () => (
-  <div className="flex flex-col gap-0.5 p-1 bg-white/5 rounded border border-white/10">
-    <div className="w-3 h-0.5 bg-white/80 rounded-full" />
-    <div className="w-3 h-0.5 bg-white/80 rounded-full" />
-    <div className="w-3 h-0.5 bg-white/80 rounded-full" />
+  <div className="flex flex-col gap-[3px] p-1 bg-white/5 rounded-md border border-white/10 cursor-pointer hover:bg-white/10 transition-colors">
+    <div className="w-3.5 h-0.5 bg-white/80 rounded-full" />
+    <div className="w-3.5 h-0.5 bg-white/80 rounded-full" />
+    <div className="w-3.5 h-0.5 bg-white/80 rounded-full" />
   </div>
 );
 
-// --- Layout Data ---
+const LogoElement = () => (
+  <div className="flex items-center gap-1.5 px-2 py-1 bg-white/5 rounded-md border border-white/10 backdrop-blur-md">
+    <div className="w-3.5 h-3.5 bg-linear-to-br from-[#8B5CF6] to-[#7C3AED] rounded flex items-center justify-center shadow-sm">
+      <div className="w-1.5 h-1.5 bg-white rounded-[1px]" />
+    </div>
+    <span className="font-['Inter'] font-bold text-white text-[7px] tracking-wider uppercase">
+      Logo
+    </span>
+  </div>
+);
 
-// Coordinates are percentages relative to container [x%, y%]
-const generateRandomChaos = (id: number) => {
-  // Deterministic pseudo-random based on ID to keep SSR consistent if needed,
-  // but here we just hardcode or use simple math
-  const r = (n: number) => ((id * n * 9301 + 49297) % 233280) / 233280;
-  const x = 50 + (r(1) - 0.5) * 80; // Spread horizontally
-  const y = 50 + (r(2) - 0.5) * 80; // Spread vertically
-  const rot = (r(3) - 0.5) * 90;
-  const scale = 0.8 + r(4) * 0.4;
-  return { left: `${x}%`, top: `${y}%`, rotate: rot, scale, opacity: 0.6 };
-};
-
-// Hardcoded positions for "Order" state inside the phone
-// The phone screen area is roughly defined. We'll position relative to a container that matches the phone screen.
-// Since we are moving from "Chaos" (global container) to "Order" (phone container),
-// we'll need to calculate the "Order" positions in the global space OR use layoutId.
-// However, layoutId works best when the DOM structure changes.
-// Let's try absolute positioning in the global container for both, but for "Order" we align them with the phone image.
-
-// Phone is positioned at right side: approx left: 65%, top: 10%, width: ~25%, height: ~80%
-const PHONE_RECT = {
-  left: 71,
-  top: 7,
-  width: 22, // %
-  height: 84, // %
-};
-
-// Helper to map 0-100% inside phone to global %
-const toPhone = (px: number, py: number) => ({
-  left: `${PHONE_RECT.left + (px / 100) * PHONE_RECT.width}%`,
-  top: `${PHONE_RECT.top + (py / 100) * PHONE_RECT.height}%`,
-  rotate: 0,
-  scale: 1,
-  opacity: 1,
-});
-
-const elements = [
-  {
-    id: 1,
-    component: <LoremTag />,
-    chaos: { left: "60%", top: "20%", rotate: -15, scale: 0.9, opacity: 0.7 },
-    order: { ...toPhone(50, 40), scale: 0.5 },
-  },
-  {
-    id: 2,
-    component: <BlueButton />,
-    chaos: { left: "85%", top: "70%", rotate: 10, scale: 1.1, opacity: 0.8 },
-    order: toPhone(50, 75),
-  },
-  {
-    id: 3,
-    component: <ImageCard />,
-    chaos: { left: "75%", top: "35%", rotate: 25, scale: 1.2, opacity: 0.5 },
-    order: toPhone(50, 25),
-  },
-  {
-    id: 4,
-    component: <TextLines />,
-    chaos: { left: "65%", top: "55%", rotate: -5, scale: 0.8, opacity: 0.6 },
-    order: toPhone(50, 55),
-  },
-  {
-    id: 5,
-    component: <MenuIcon />,
-    chaos: { left: "90%", top: "15%", rotate: 45, scale: 1.5, opacity: 0.4 },
-    order: toPhone(85, 8),
-  },
-  {
-    id: 6,
-    component: <WireframeBox size={20} />,
-    chaos: { left: "55%", top: "80%", rotate: -30, scale: 1, opacity: 0.3 },
-    order: toPhone(15, 85),
-  },
-  {
-    id: 7,
-    component: <WireframeBox size={15} />,
-    chaos: { left: "80%", top: "85%", rotate: 60, scale: 0.8, opacity: 0.3 },
-    order: toPhone(85, 85),
-  },
-];
-
-export const ChaosLanding = ({ className }: { className?: string }) => {
-  const [isOrdered, setIsOrdered] = useState(false);
+const PhoneScreenAnchors = ({
+  anchorRefs,
+}: {
+  anchorRefs: React.MutableRefObject<Record<string, HTMLDivElement | null>>;
+}) => {
+  const setAnchorRef = (key: string) => (node: HTMLDivElement | null) => {
+    anchorRefs.current[key] = node;
+  };
 
   return (
-    <div
-      className={`flex items-center justify-center w-full min-h-[400px] ${className || ""}`}
-    >
-      {/* Main Card Container */}
-      <div
-        className="relative w-full h-[400px] bg-[#1e1e1e]/80 backdrop-blur-md rounded-[32px] border border-[#333] overflow-hidden shadow-2xl transition-colors duration-500 hover:border-[#444]"
-        onMouseEnter={() => setIsOrdered(true)}
-        onMouseLeave={() => setIsOrdered(false)}
-      >
-        {/* --- Background Effects --- */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {/* Left Blur */}
-          <div className="absolute -left-[10%] top-[20%] w-[50%] h-[60%] bg-[#1e1e1e] blur-[50px] mix-blend-color-dodge opacity-50" />
-          {/* Gradient Overlay similar to Figma */}
-          <div className="absolute top-[-50%] left-[-20%] w-[150%] h-[200%] bg-linear-to-br from-white/5 to-transparent pointer-events-none opacity-20" />
-        </div>
-
-        {/* --- Content Grid --- */}
-        <div className="relative z-10 flex flex-col h-full p-8 md:p-12 pointer-events-none">
-          {/* Header Section */}
-          <div className="flex flex-col items-start gap-4 max-w-[50%] pointer-events-auto">
-            <motion.h1
-              layout
-              className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-linear-to-r from-gray-400 via-white to-gray-400 drop-shadow-sm"
-            >
-              Chaos → Porządek
-            </motion.h1>
-            <motion.p
-              layout
-              className="text-gray-400 text-sm md:text-base leading-relaxed"
-            >
-              Optymalizacja cyfrowych procesów i systemów. Uporządkowanie i
-              automatyzacja.
-            </motion.p>
-          </div>
-
-          <div className="mt-auto pointer-events-auto">
-            <ToggleSwitch checked={isOrdered} />
-          </div>
-        </div>
-
-        {/* --- Phone Frame (Only visible/active on right) --- */}
-        <motion.div
-          className="absolute right-[5%] top-[5%] bottom-[5%] w-[30%] max-w-[250px] z-0 pointer-events-none"
-          initial={{ opacity: 0, x: "100%" }}
-          animate={{
-            opacity: isOrdered ? 1 : 0,
-            x: isOrdered ? "0%" : "100%",
-            filter: isOrdered ? "blur(0px)" : "blur(4px)",
-          }}
-          transition={{
-            type: "spring",
-            stiffness: 60,
-            damping: 14,
-            mass: 1,
-          }}
+    <div className="absolute inset-[3%] flex flex-col">
+      <div className="h-[14%] flex items-end justify-between px-1 pb-1">
+        <div
+          ref={setAnchorRef("logo")}
+          className="flex items-center justify-start opacity-0"
         >
-          {/* Phone Body SVG */}
-          <svg viewBox="0 0 133 276" className="w-full h-full text-[#333]">
-            <path d={svgPaths.phoneBody} fill="currentColor" />
-            <path
-              d={svgPaths.phoneScreen}
-              fill="#111"
-              className="translate-x-[4.6px] translate-y-[4px]"
-            />
-          </svg>
+          <LogoElement />
+        </div>
+        <div
+          ref={setAnchorRef("menu")}
+          className="flex items-center justify-end opacity-0"
+        >
+          <MenuIcon />
+        </div>
+      </div>
 
-          {/* Phone Screen Gradient/Reflection removed */}
-        </motion.div>
-
-        {/* --- Floating Elements --- */}
-        {elements.map((el) => {
-          const current = isOrdered ? el.order : el.chaos;
-          return (
-            <motion.div
-              key={el.id}
-              className="absolute z-20 flex items-center justify-center origin-center pointer-events-none"
-              initial={el.chaos}
-              animate={{
-                left: current.left,
-                top: current.top,
-                rotate: current.rotate,
-                scale: current.scale,
-                opacity: current.opacity,
-                x: "-50%", // Center the element on its coordinate
-                y: "-50%",
-              }}
-              transition={{
-                type: "spring",
-                stiffness: 90,
-                damping: 12,
-                mass: 1.2,
-                restDelta: 0.001,
-                delay: el.id * 0.04, // Stagger effect
-              }}
-            >
-              {el.component}
-            </motion.div>
-          );
-        })}
-
-        {/* --- Extra decorative particles --- */}
-        <Particles isOrdered={isOrdered} />
+      <div className="flex-1 px-1 py-1 flex flex-col gap-1">
+        <div
+          ref={setAnchorRef("image")}
+          className="flex items-center justify-center opacity-0"
+        >
+          <ImageCard withImage={false} />
+        </div>
+        <div
+          ref={setAnchorRef("tag")}
+          className="flex items-center justify-center opacity-0"
+        >
+          <LoremTag />
+        </div>
+        <div
+          ref={setAnchorRef("lines")}
+          className="flex items-center justify-center opacity-0"
+        >
+          <TextLines />
+        </div>
+        <div className="mt-auto flex items-center justify-between px-1 pb-1">
+          <div
+            ref={setAnchorRef("box")}
+            className="flex items-center justify-start opacity-0"
+          >
+            <WireframeBox size={20} />
+          </div>
+          <div
+            ref={setAnchorRef("button")}
+            className="flex items-center justify-end opacity-0"
+          >
+            <BlueButton />
+          </div>
+        </div>
       </div>
     </div>
   );
 };
 
+// --- Config & Layout Calculation ---
+
+// Domyślne pozycje order są fallbackiem - rzeczywiste pozycje biorą się z kotwic
+const defaultOrderPos = {
+  left: "80%",
+  top: "50%",
+  rotate: 0,
+  scale: 1,
+  opacity: 1,
+};
+
+type ElementItem = {
+  id: string;
+  component: React.ReactNode;
+  chaos: {
+    left: string;
+    top: string;
+    rotate: number;
+    scale: number;
+    opacity: number;
+  };
+  order: {
+    left: string;
+    top: string;
+    rotate: number;
+    scale: number;
+    opacity: number;
+  };
+};
+
+const elements: ElementItem[] = [
+  {
+    id: "logo",
+    component: <LogoElement />,
+    chaos: { left: "50%", top: "80%", rotate: -20, scale: 1.2, opacity: 0.6 },
+    order: { ...defaultOrderPos, scale: 1 },
+  },
+  {
+    id: "menu",
+    component: <MenuIcon />,
+    chaos: { left: "90%", top: "15%", rotate: 45, scale: 1.5, opacity: 0.4 },
+    order: { ...defaultOrderPos, scale: 1 },
+  },
+  {
+    id: "image",
+    component: <ImageCard />,
+    chaos: { left: "75%", top: "35%", rotate: 25, scale: 1.2, opacity: 0.5 },
+    order: { ...defaultOrderPos, scale: 1.0 },
+  },
+  {
+    id: "tag",
+    component: <LoremTag />,
+    chaos: { left: "60%", top: "20%", rotate: -15, scale: 0.9, opacity: 0.7 },
+    order: { ...defaultOrderPos, scale: 0.5 },
+  },
+  {
+    id: "lines",
+    component: <TextLines />,
+    chaos: { left: "65%", top: "55%", rotate: -5, scale: 0.8, opacity: 0.6 },
+    order: { ...defaultOrderPos, scale: 1.2 },
+  },
+  {
+    id: "box",
+    component: <WireframeBox size={20} />,
+    chaos: { left: "80%", top: "85%", rotate: 60, scale: 0.8, opacity: 0.3 },
+    order: { ...defaultOrderPos, scale: 1.4 },
+  },
+  {
+    id: "button",
+    component: <BlueButton />,
+    chaos: { left: "85%", top: "70%", rotate: 10, scale: 1.1, opacity: 0.8 },
+    order: { ...defaultOrderPos, scale: 1.3 },
+  },
+];
+
+type AnchorPositions = Record<string, { left: string; top: string }>;
+
 const Particles = ({ isOrdered }: { isOrdered: boolean }) => {
   const [dots, setDots] = useState<
     Array<{ id: number; size: number; x: number; y: number }>
   >([]);
+  const dotRefs = useRef<Array<HTMLDivElement | null>>([]);
 
   React.useEffect(() => {
-    // Generate random dots only on client side to avoid hydration mismatch
-    const newDots = Array.from({ length: 15 }).map((_, i) => ({
-      id: i,
-      size: Math.random() * 4 + 2,
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-    }));
-    setDots(newDots);
+    setDots(
+      Array.from({ length: 15 }).map((_, i) => ({
+        id: i,
+        size: Math.random() * 4 + 2,
+        x: Math.random() * 100,
+        y: Math.random() * 100,
+      })),
+    );
   }, []);
+
+  useLayoutEffect(() => {
+    if (dots.length === 0) {
+      return;
+    }
+
+    dots.forEach((dot) => {
+      const node = dotRefs.current[dot.id];
+      if (!node) {
+        return;
+      }
+
+      const xRange = isOrdered ? 800 : 20;
+      const yRange = isOrdered ? 400 : 20;
+
+      gsap.to(node, {
+        x: Math.random() * xRange - xRange / 2,
+        y: Math.random() * yRange - yRange / 2,
+        opacity: isOrdered ? 0 : 0.3,
+        duration: 1,
+        ease: "power1.inOut",
+      });
+    });
+  }, [dots, isOrdered]);
+
+  if (dots.length === 0) {
+    return null;
+  }
 
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden">
       {dots.map((dot) => (
-        <motion.div
+        <div
           key={dot.id}
-          className="absolute bg-[#8B5CF6] rounded-full opacity-30"
-          style={{ width: dot.size, height: dot.size }}
-          animate={{
-            x: isOrdered
-              ? [0, Math.random() * 800 - 400]
-              : [0, Math.random() * 20 - 10],
-            y: isOrdered
-              ? [0, Math.random() * 400 - 200]
-              : [0, Math.random() * 20 - 10],
-            opacity: isOrdered ? 0 : 0.3,
+          ref={(node) => {
+            dotRefs.current[dot.id] = node;
           }}
-          transition={{ duration: 1, ease: "easeInOut" }}
-          initial={{ left: `${dot.x}%`, top: `${dot.y}%` }}
+          className="absolute bg-[#8B5CF6] rounded-full opacity-30"
+          style={{
+            width: dot.size,
+            height: dot.size,
+            left: `${dot.x}%`,
+            top: `${dot.y}%`,
+          }}
         />
       ))}
+    </div>
+  );
+};
+
+export const ChaosLanding = ({ className }: { className?: string }) => {
+  const [isOrdered, setIsOrdered] = useState(false);
+  const clipId = useId();
+
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const toggleSliderRef = useRef<HTMLDivElement | null>(null);
+  const phoneRef = useRef<HTMLDivElement | null>(null);
+  const elementRefs = useRef<Record<string, HTMLDivElement | null>>({});
+  const anchorRefs = useRef<Record<string, HTMLDivElement | null>>({});
+  const [anchorPositions, setAnchorPositions] = useState<AnchorPositions>({});
+  const [phoneScale, setPhoneScale] = useState(1);
+
+  useLayoutEffect(() => {
+    if (!containerRef.current) {
+      return;
+    }
+
+    const ctx = gsap.context(() => {
+      if (toggleSliderRef.current) {
+        gsap.set(toggleSliderRef.current, {
+          x: isOrdered ? "100%" : "0%",
+        });
+      }
+
+      if (phoneRef.current) {
+        gsap.set(phoneRef.current, {
+          opacity: isOrdered ? 1 : 0,
+          x: isOrdered ? "0%" : "100%",
+          filter: isOrdered ? "blur(0px)" : "blur(4px)",
+        });
+      }
+
+      elements.forEach((el) => {
+        const node = elementRefs.current[el.id];
+        if (!node) {
+          return;
+        }
+        const current = isOrdered ? el.order : el.chaos;
+        gsap.set(node, {
+          left: current.left,
+          top: current.top,
+          rotate: current.rotate,
+          scale: current.scale,
+          opacity: current.opacity,
+          xPercent: -50,
+          yPercent: -50,
+        });
+      });
+    }, containerRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  useLayoutEffect(() => {
+    if (!containerRef.current) {
+      return;
+    }
+
+    let frame = 0;
+
+    const measureAnchors = () => {
+      if (!containerRef.current) {
+        return;
+      }
+
+      const containerRect = containerRef.current.getBoundingClientRect();
+      const nextPositions: AnchorPositions = {};
+
+      elements.forEach((el) => {
+        const node = anchorRefs.current[el.id];
+        if (!node) {
+          return;
+        }
+
+        const rect = node.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+
+        nextPositions[el.id] = {
+          left: `${((centerX - containerRect.left) / containerRect.width) * 100}%`,
+          top: `${((centerY - containerRect.top) / containerRect.height) * 100}%`,
+        };
+      });
+
+      setAnchorPositions(nextPositions);
+
+      if (phoneRef.current) {
+        const phoneRect = phoneRef.current.getBoundingClientRect();
+        const widthScale = phoneRect.width / 250;
+        const heightScale = phoneRect.height / 360;
+        const nextScale = Math.min(
+          1,
+          Math.max(0.6, Math.min(widthScale, heightScale)),
+        );
+        setPhoneScale(nextScale);
+      }
+    };
+
+    const scheduleMeasure = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(measureAnchors);
+    };
+
+    scheduleMeasure();
+
+    const resizeObserver = new ResizeObserver(scheduleMeasure);
+    resizeObserver.observe(containerRef.current);
+
+    Object.values(anchorRefs.current).forEach((node) => {
+      if (node) {
+        resizeObserver.observe(node);
+      }
+    });
+
+    window.addEventListener("resize", scheduleMeasure);
+
+    return () => {
+      cancelAnimationFrame(frame);
+      resizeObserver.disconnect();
+      window.removeEventListener("resize", scheduleMeasure);
+    };
+  }, []);
+
+  useLayoutEffect(() => {
+    if (!containerRef.current) {
+      return;
+    }
+
+    const elementEase = isOrdered ? "elastic.out(1, 1)" : "elastic.out(1, .95)";
+    const phoneEase = isOrdered
+      ? "elastic.out(0.9, 0.8)"
+      : "elastic.out(0.9, 0.75)";
+    const toggleEase = isOrdered
+      ? "elastic.out(1, 0.95)"
+      : "elastic.out(1, 0.85)";
+
+    const elementTargets = elements
+      .map((el) => elementRefs.current[el.id])
+      .filter((node): node is HTMLDivElement => Boolean(node));
+
+    gsap.killTweensOf([
+      toggleSliderRef.current,
+      phoneRef.current,
+      ...elementTargets,
+    ]);
+
+    if (toggleSliderRef.current) {
+      gsap.to(toggleSliderRef.current, {
+        x: isOrdered ? "100%" : "0%",
+        duration: 0.75,
+        ease: toggleEase,
+      });
+    }
+
+    if (phoneRef.current) {
+      gsap.to(phoneRef.current, {
+        opacity: isOrdered ? 1 : 0,
+        x: isOrdered ? "0%" : "100%",
+        filter: isOrdered ? "blur(0px)" : "blur(4px)",
+        duration: 0.85,
+        ease: phoneEase,
+      });
+    }
+
+    elements.forEach((el) => {
+      const node = elementRefs.current[el.id];
+      if (!node) {
+        return;
+      }
+      const orderTarget = {
+        ...el.order,
+        left: anchorPositions[el.id]?.left ?? el.order.left,
+        top: anchorPositions[el.id]?.top ?? el.order.top,
+        scale: el.order.scale * phoneScale,
+      };
+      const current = isOrdered ? orderTarget : el.chaos;
+      gsap.to(node, {
+        left: current.left,
+        top: current.top,
+        rotate: current.rotate,
+        scale: current.scale,
+        opacity: current.opacity,
+        xPercent: -50,
+        yPercent: -50,
+        duration: 0.9,
+        ease: elementEase,
+        delay: 0,
+      });
+    });
+  }, [anchorPositions, isOrdered, phoneScale]);
+
+  return (
+    <div
+      ref={containerRef}
+      className={`relative w-full h-full min-h-[400px] bg-[#1e1e1e] rounded-[32px] border border-[#333] overflow-hidden shadow-2xl transition-colors duration-500 hover:border-[#444] ${className || ""}`}
+      onMouseEnter={() => setIsOrdered(true)}
+      onMouseLeave={() => setIsOrdered(false)}
+    >
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -left-[10%] top-[20%] w-[50%] h-[60%] bg-[#1e1e1e] blur-[50px] mix-blend-color-dodge opacity-50" />
+        <div className="absolute top-[-50%] left-[-20%] w-[150%] h-[200%] bg-linear-to-br from-white/5 to-transparent pointer-events-none opacity-20" />
+      </div>
+
+      <div className="relative z-10 flex flex-col h-full p-8 md:p-12 pointer-events-none">
+        <div className="flex flex-col items-start gap-4 max-w-[50%] pointer-events-auto">
+          <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-linear-to-r from-gray-400 via-white to-gray-400 drop-shadow-sm">
+            Chaos → Porządek
+          </h1>
+          <p className="text-gray-400 text-sm md:text-base leading-relaxed">
+            Optymalizacja cyfrowych procesów i systemów. Uporządkowanie i
+            automatyzacja.
+          </p>
+        </div>
+        <div className="mt-auto pointer-events-auto">
+          <ToggleSwitch checked={isOrdered} sliderRef={toggleSliderRef} />
+        </div>
+      </div>
+
+      {/* Kotwice - zawsze na miejscu, tylko niewidoczne */}
+      <div className="absolute right-[5%] top-[5%] bottom-[5%] aspect-[133/276] z-0 pointer-events-none">
+        <PhoneScreenAnchors anchorRefs={anchorRefs} />
+      </div>
+
+      {/* Telefon - animowany */}
+      <div
+        ref={phoneRef}
+        className="absolute right-[5%] top-[5%] bottom-[5%] aspect-[133/276] z-0 pointer-events-none"
+      >
+        <svg
+          viewBox="0 0 133 276"
+          className="absolute inset-0 w-full h-full drop-shadow-2xl"
+        >
+          <defs>
+            <clipPath id={clipId}>
+              <path d={svgPaths.phoneScreen} transform="translate(4.6, 4)" />
+            </clipPath>
+          </defs>
+
+          <g clipPath={`url(#${clipId})`}>
+            <foreignObject x="0" y="0" width="133" height="276">
+              <div
+                className="w-full h-full bg-[#050505] flex flex-col relative"
+                xmlns="http://www.w3.org/1999/xhtml"
+              >
+                <div className="h-[17%] w-full bg-[#1a1a1a] border-b border-white/10 relative z-0">
+                  <div className="absolute inset-0 bg-linear-to-b from-black/80 to-transparent" />
+                </div>
+                <div className="flex-1 bg-linear-to-b from-[#111] to-[#050505]" />
+              </div>
+            </foreignObject>
+          </g>
+
+          <path d={svgPaths.phoneBody} fill="#333" fillRule="evenodd" />
+        </svg>
+      </div>
+
+      {elements.map((el) => (
+        <div
+          key={el.id}
+          ref={(node) => {
+            elementRefs.current[el.id] = node;
+          }}
+          className="absolute z-20 flex items-center justify-center origin-center pointer-events-none"
+          style={{
+            left: el.chaos.left,
+            top: el.chaos.top,
+          }}
+        >
+          {el.component}
+        </div>
+      ))}
+
+      <Particles isOrdered={isOrdered} />
     </div>
   );
 };

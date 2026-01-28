@@ -1,7 +1,6 @@
 "use client";
 
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useRef, useEffect, useState } from "react";
 
 export const DashedCardWrapper = ({
   children,
@@ -12,13 +11,47 @@ export const DashedCardWrapper = ({
   className?: string;
   delay?: number;
 }) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const element = ref.current;
+    if (!element) return;
+
+    // Use native IntersectionObserver for better mobile performance
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            // Add delay before showing
+            setTimeout(() => {
+              setIsVisible(true);
+            }, delay * 1000);
+            observer.unobserve(element);
+          }
+        });
+      },
+      {
+        rootMargin: "0px",
+        threshold: 0.1,
+      },
+    );
+
+    observer.observe(element);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [delay]);
+
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.6, delay, ease: "easeOut" }}
-      className={`relative p-3 ${className}`}
+    <div
+      ref={ref}
+      className={`relative p-3 transition-all duration-500 ease-out ${className}`}
+      style={{
+        opacity: isVisible ? 1 : 0,
+        transform: isVisible ? "translateY(0)" : "translateY(20px)",
+      }}
     >
       {/* Dashed border pseudo-element */}
       <div
@@ -28,6 +61,6 @@ export const DashedCardWrapper = ({
         }}
       />
       {children}
-    </motion.div>
+    </div>
   );
 };

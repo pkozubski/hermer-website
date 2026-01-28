@@ -26,9 +26,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pl">
-      <head>
-        <link rel="stylesheet" href="https://use.typekit.net/vpe5mno.css" />
-      </head>
       {/* Added instrumentSerif.variable to the body class list */}
       <body className={`${inter.className} ${instrumentSerif.variable}`}>
         <StyledComponentsRegistry>

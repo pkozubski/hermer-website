@@ -29,35 +29,40 @@ export const SplitRevealTitle = ({
 
   useGSAP(
     () => {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top 85%", // Rozpocznij, gdy element wejdzie w 85% wysokości widoku
-          end: "bottom top",
-          toggleActions: "play none none reverse", // Graj przy wejściu, cofaj przy wyjściu (jak viewport={{ once: false }})
+      // Set initial state - elements start hidden
+      gsap.set(line1Ref.current, { yPercent: 100 });
+      gsap.set(line2Ref.current, { yPercent: -100 });
+
+      // Create ScrollTrigger that replays on each scroll
+      ScrollTrigger.create({
+        trigger: containerRef.current,
+        start: "top 95%",
+        end: "bottom 5%",
+        onEnter: () => {
+          const tl = gsap.timeline();
+
+          tl.to(line1Ref.current, {
+            yPercent: 0,
+            duration: 1,
+            ease: "elastic.out(1, 1)",
+          }).to(
+            line2Ref.current,
+            {
+              yPercent: 0,
+              duration: 1,
+              ease: "elastic.out(1, 1)",
+            },
+            "<0.15", // Opóźnienie 0.15s względem początku poprzedniej animacji
+          );
+        },
+        onLeaveBack: () => {
+          // Reset elements when scrolling back up past the trigger
+          gsap.set(line1Ref.current, { yPercent: 100 });
+          gsap.set(line2Ref.current, { yPercent: -100 });
         },
       });
-
-      tl.fromTo(
-        line1Ref.current,
-        { yPercent: 100 },
-        {
-          yPercent: 0,
-          duration: 1,
-          ease: "elastic.out(1, 1)",
-        }
-      ).fromTo(
-        line2Ref.current,
-        { yPercent: -100 },
-        {
-          yPercent: 0,
-          duration: 1,
-          ease: "elastic.out(1, 1)",
-        },
-        "<0.15" // Opóźnienie 0.15s względem początku poprzedniej animacji
-      );
     },
-    { scope: containerRef }
+    { scope: containerRef },
   );
 
   return (

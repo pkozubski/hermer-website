@@ -12,6 +12,11 @@ import { Phone } from "lucide-react";
 import FluidButton from "./ui/FluidButton";
 
 const OFFER_ITEMS: OfferItem[] = [];
+const OFFER_SUBTITLE_LINES = [
+  "Oferta, która zachwyca formą",
+  "i dowozi wynik. Budujemy",
+  "widoczność i sprzedaż.",
+];
 
 export const Offer: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -90,12 +95,9 @@ export const Offer: React.FC = () => {
             className="text-white! text-5xl sm:text-6xl lg:text-8xl tracking-tighter mb-4 lg:mb-8"
           />
           <LineReveal
-            lines={[
-              "Oferta, która zachwyca formą",
-              "i dowozi wynik. Budujemy",
-              "widoczność i sprzedaż.",
-            ]}
+            lines={OFFER_SUBTITLE_LINES}
             className="text-neutral-400 text-base lg:text-lg max-w-sm leading-relaxed"
+            once
           />
         </div>
 

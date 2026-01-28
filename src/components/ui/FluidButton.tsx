@@ -152,10 +152,19 @@ const FluidButton: React.FC<FluidButtonProps> = ({
         )
 
         // Visual Polish (Blur background)
+        // Note: GSAP cannot animate backdropFilter directly, so we use onComplete to set it
         .to(mainBlobRef.current, {
           backgroundColor: "#262626CC", // neutral-800 with 0.8 opacity
-          backdropFilter: "blur(16px)",
-          WebkitBackdropFilter: "blur(16px)",
+          duration: 0.3,
+          onComplete: () => {
+            if (mainBlobRef.current) {
+              mainBlobRef.current.style.backdropFilter = "blur(16px)";
+              // Use type assertion for webkit prefix
+              (
+                mainBlobRef.current.style as unknown as Record<string, string>
+              ).webkitBackdropFilter = "blur(16px)";
+            }
+          },
         });
 
       // --- SCROLL TRIGGER ---

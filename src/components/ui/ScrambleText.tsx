@@ -21,13 +21,22 @@ export const ScrambleText = ({
   trailLength = 4,
 }: ScrambleTextProps) => {
   const ref = useRef<HTMLSpanElement>(null);
-  const isInView = useInView(ref, { once: true, amount: 0.1 });
+  const isInView = useInView(ref, { once: false, amount: 0.1 });
   const [displayText, setDisplayText] = useState("");
-  const [hasAnimated, setHasAnimated] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  // Reset animation when element leaves viewport
+  useEffect(() => {
+    if (!isInView) {
+      setIsAnimating(false);
+      setDisplayText("");
+    }
+  }, [isInView]);
 
   useEffect(() => {
-    if (!isInView || hasAnimated) return;
+    if (!isInView || isAnimating) return;
 
+    setIsAnimating(true);
     let revealedCount = 0;
 
     const timeout = setTimeout(() => {
@@ -62,7 +71,6 @@ export const ScrambleText = ({
         if (revealedCount >= text.length + trailLength) {
           clearInterval(interval);
           setDisplayText(text);
-          setHasAnimated(true);
         }
       }, speed);
 
@@ -70,7 +78,7 @@ export const ScrambleText = ({
     }, delay);
 
     return () => clearTimeout(timeout);
-  }, [isInView, text, delay, speed, trailLength, hasAnimated]);
+  }, [isInView, text, delay, speed, trailLength, isAnimating]);
 
   return (
     <span ref={ref} className={className}>

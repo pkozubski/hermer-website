@@ -8,30 +8,16 @@ export const Header: React.FC<{ allowVisibility?: boolean }> = ({
   allowVisibility = true,
 }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isVisible, setIsVisible] = useState(true);
   const [isScrolled, setIsScrolled] = useState(false); // Add state for background styling
   const [isMounted, setIsMounted] = useState(false); // State to track mounting for transition
-  const lastScrollY = useRef(0);
 
   useEffect(() => {
     setIsMounted(true);
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
 
-      // Show header if at the very top or scrolling up
-      // Hide header if scrolling down and passed a threshold (e.g., 50px)
-      if (currentScrollY < 50) {
-        setIsVisible(true);
-      } else if (currentScrollY > lastScrollY.current) {
-        setIsVisible(false); // Scrolling down
-      } else {
-        setIsVisible(true); // Scrolling up
-      }
-
       // Update scrolled state for background transparency
       setIsScrolled(currentScrollY > 20);
-
-      lastScrollY.current = currentScrollY;
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -54,15 +40,22 @@ export const Header: React.FC<{ allowVisibility?: boolean }> = ({
     <header
       className={`fixed top-0 left-0 right-0 w-full py-4 sm:py-6 px-4 sm:px-8 lg:px-16 flex items-center justify-center z-50 ${
         isMounted ? "transition-transform duration-300" : ""
-      } ${
-        isVisible && allowVisibility ? "translate-y-0" : "-translate-y-full"
-      } text-white`}
+      } ${allowVisibility ? "translate-y-0" : "-translate-y-full"} text-white`}
     >
       {/* Backdrop blur wrapper for better readability when scrolling over content */}
       <div
-        className={`absolute inset-0 bg-neutral-900/80 backdrop-blur-md shadow-sm transition-opacity duration-300 ${
+        className={`absolute top-0 left-0 w-full h-[180px] pointer-events-none select-none transition-opacity duration-300 ${
           isScrolled ? "opacity-100" : "opacity-0"
         }`}
+        style={{
+          background:
+            "linear-gradient(to top, transparent 0%, rgba(23, 23, 23, 0.8) 100%)",
+          maskImage: "linear-gradient(to bottom, black 30%, transparent 100%)",
+          WebkitMaskImage:
+            "linear-gradient(to bottom, black 30%, transparent 100%)",
+          backdropFilter: "blur(12px)",
+          WebkitBackdropFilter: "blur(12px)",
+        }}
       ></div>
 
       <div className="w-full max-w-screen-2xl flex items-center justify-between relative z-10">

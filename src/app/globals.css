@@ -233,3 +233,53 @@ body {
   background-attachment: fixed;
   min-height: 100vh;
 }
+
+/* Mobile Performance Optimizations */
+@media (max-width: 1023px) {
+  /* Reduce blur effects on mobile for better performance */
+  .backdrop-blur-sm,
+  .backdrop-blur-md,
+  .backdrop-blur-lg,
+  .backdrop-blur-xl,
+  .backdrop-blur-2xl,
+  .backdrop-blur-3xl {
+    backdrop-filter: blur(4px) !important;
+    -webkit-backdrop-filter: blur(4px) !important;
+  }
+
+  /* Reduce heavy blur on large decorative elements */
+  [class*="blur-[100px]"],
+  [class*="blur-[120px]"],
+  [class*="blur-[130px]"],
+  [class*="blur-[140px]"] {
+    filter: blur(50px) !important;
+  }
+
+  /* Disable will-change on mobile to reduce memory usage */
+  .will-change-transform {
+    will-change: auto !important;
+  }
+}
+
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* iOS-specific performance fixes */
+@supports (-webkit-touch-callout: none) {
+  /* Reduce blur further on iOS Safari */
+  .backdrop-blur-md,
+  .backdrop-blur-lg,
+  .backdrop-blur-xl {
+    backdrop-filter: blur(2px) !important;
+    -webkit-backdrop-filter: blur(2px) !important;
+  }
+}

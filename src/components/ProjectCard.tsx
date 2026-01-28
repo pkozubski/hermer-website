@@ -39,7 +39,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
             rotate: index % 2 === 0 ? -3 : 3,
           }}
           whileInView={{ scale: 1, opacity: 1, rotate: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={{ once: false, amount: 0.2 }}
           transition={{
             duration: 0.8,
             ease: [0.16, 1, 0.3, 1],
@@ -92,7 +92,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
                     className="inline-block"
                     initial={{ y: "-100%" }}
                     whileInView={{ y: 0 }}
-                    viewport={{ once: true }}
+                    viewport={{ once: false }}
                     transition={{
                       duration: 0.5,
                       ease: [0.16, 1, 0.3, 1],

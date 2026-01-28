@@ -1,12 +1,11 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
 import { Layers, Palette } from "lucide-react";
 
 export const WebDesignCard = () => {
   return (
-    <motion.a
+    <a
       href="/oferta/strony-www"
       className="group relative h-[500px] rounded-[40px] overflow-hidden bg-neutral-900 hover:shadow-2xl hover:shadow-black/50 transition-all duration-700 block cursor-pointer border border-white/5"
     >
@@ -136,6 +135,6 @@ export const WebDesignCard = () => {
           </div>
         </div>
       </div>
-    </motion.a>
+    </a>
   );
 };

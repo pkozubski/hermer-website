@@ -22,7 +22,7 @@ export const MainContent: React.FC = () => {
   }, []);
 
   return (
-    <div className="relative min-h-screen bg-neutral-900 font-sans">
+    <div className="relative min-h-screen bg-neutral-900 font-sans overflow-x-clip">
       {/* Global Dark Background Layer for Top Sections */}
       <div className="fixed inset-0 w-full h-full bg-neutral-900 z-0 pointer-events-none" />
 
@@ -52,7 +52,7 @@ export const MainContent: React.FC = () => {
         <Offer />
 
         {/* About/Projects/Testimonials Wrapper with Blobs */}
-        <div className="relative">
+        <div className="relative overflow-clip">
           {/* Blobs Restored from Git History */}
           {/* Title Area (Top Right) - Purple */}
           <div className="absolute top-[10%] right-[-10%] w-[600px] h-[600px] bg-[#916AFF]/15 rounded-full blur-[130px] mix-blend-screen pointer-events-none" />

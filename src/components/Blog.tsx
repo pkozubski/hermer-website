@@ -11,20 +11,32 @@ export const Blog: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(0);
   const [posts, setPosts] = useState<Post[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   // Fetch posts from Sanity
   useEffect(() => {
     const fetchPosts = async () => {
-      const query = `*[_type == "post"] | order(publishedAt desc) {
-        _id,
-        title,
-        slug,
-        category,
-        mainImage,
-        year
-      }`;
-      const data = await client.fetch(query);
-      setPosts(data);
+      try {
+        setIsLoading(true);
+        setError(null);
+        const query = `*[_type == "post"] | order(publishedAt desc) {
+          _id,
+          title,
+          slug,
+          category,
+          mainImage,
+          year
+        }`;
+        const data = await client.fetch(query);
+        setPosts(data || []);
+      } catch (err) {
+        console.error("Failed to fetch blog posts:", err);
+        setError("Nie udało się załadować postów");
+        setPosts([]); // Set empty array to prevent further errors
+      } finally {
+        setIsLoading(false);
+      }
     };
 
     fetchPosts();
@@ -73,24 +85,42 @@ export const Blog: React.FC = () => {
 
       {/* DRAGGABLE LIST */}
       <div className="pl-4 md:pl-8 overflow-visible" ref={containerRef}>
-        <motion.div
-          className="flex gap-4 md:gap-8 cursor-grab active:cursor-grabbing w-max pr-8 md:pr-16"
-          drag="x"
-          dragConstraints={{ right: 0, left: -width }}
-          whileTap={{ cursor: "grabbing" }}
-        >
-          {posts.map((post, index) => (
-            <BlogCard key={post._id} post={post} index={index} />
-          ))}
-
-          {/* "More" Card at the end */}
-          <div className="group relative w-[200px] md:w-[300px] shrink-0 aspect-3/4 bg-[#916AFF] flex flex-col items-center justify-center text-white cursor-pointer hover:bg-[#7a57d6] transition-colors rounded-3xl">
-            <span className="text-6xl mb-4 font-display font-bold">+</span>
-            <span className="font-bold uppercase tracking-widest text-sm">
-              Pokaż Więcej
-            </span>
+        {isLoading ? (
+          // Loading State
+          <div className="flex gap-4 md:gap-8 pr-8 md:pr-16">
+            {[1, 2, 3].map((i) => (
+              <div
+                key={i}
+                className="w-[280px] md:w-[380px] shrink-0 aspect-3/4 bg-neutral-800/50 rounded-3xl animate-pulse"
+              />
+            ))}
           </div>
-        </motion.div>
+        ) : error ? (
+          // Error State
+          <div className="flex items-center justify-center py-16 text-neutral-400">
+            <p>{error}</p>
+          </div>
+        ) : (
+          // Posts List
+          <motion.div
+            className="flex gap-4 md:gap-8 cursor-grab active:cursor-grabbing w-max pr-8 md:pr-16"
+            drag="x"
+            dragConstraints={{ right: 0, left: -width }}
+            whileTap={{ cursor: "grabbing" }}
+          >
+            {posts.map((post, index) => (
+              <BlogCard key={post._id} post={post} index={index} />
+            ))}
+
+            {/* "More" Card at the end */}
+            <div className="group relative w-[200px] md:w-[300px] shrink-0 aspect-3/4 bg-[#916AFF] flex flex-col items-center justify-center text-white cursor-pointer hover:bg-[#7a57d6] transition-colors rounded-3xl">
+              <span className="text-6xl mb-4 font-display font-bold">+</span>
+              <span className="font-bold uppercase tracking-widest text-sm">
+                Pokaż Więcej
+              </span>
+            </div>
+          </motion.div>
+        )}
       </div>
     </section>
   );
