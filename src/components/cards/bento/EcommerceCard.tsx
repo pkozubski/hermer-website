@@ -30,30 +30,30 @@ export const EcommerceCard = () => {
   return (
     <motion.a
       href="/oferta/sklepy-internetowe"
-      className="group relative h-[500px] rounded-[40px] overflow-hidden bg-[#F5F5F5] hover:shadow-2xl hover:shadow-slate-200 transition-all duration-700 flex flex-col justify-between"
+      className="group relative h-[500px] rounded-[40px] overflow-hidden bg-neutral-900 hover:shadow-2xl hover:shadow-black/50 transition-all duration-700 flex flex-col justify-between border border-white/5"
     >
       {/* 1. TOP: Text Content */}
       <div className="relative z-20 p-8 md:p-10 flex flex-col items-start w-full">
-        <div className="absolute top-8 right-8 md:top-10 md:right-10 w-10 h-10 rounded-full border border-slate-200 text-slate-400 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 bg-white">
+        <div className="absolute top-8 right-8 md:top-10 md:right-10 w-10 h-10 rounded-full border border-white/10 text-neutral-400 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 bg-neutral-800">
           <ArrowUpRight size={20} />
         </div>
 
         <div className="space-y-2 mb-4">
-          <h3 className="text-3xl font-bold tracking-tight text-slate-900 leading-tight">
+          <h3 className="text-3xl font-bold tracking-tight text-white leading-tight">
             E-Commerce
           </h3>
-          <p className="text-slate-400 font-bold tracking-widest uppercase text-[10px]">
+          <p className="text-neutral-500 font-bold tracking-widest uppercase text-[10px]">
             Sklepy Online
           </p>
         </div>
 
-        <p className="text-slate-500 text-base font-medium leading-relaxed max-w-[90%] opacity-80">
+        <p className="text-neutral-400 text-base font-medium leading-relaxed max-w-[90%] opacity-80">
           Skalowalne platformy sprzedażowe pod maksymalną wartość koszyka.
         </p>
       </div>
 
       {/* 2. BOTTOM: Visual Container - Checkout Flow */}
-      <div className="relative w-full flex-1 overflow-hidden rounded-b-[40px] flex items-center justify-center p-6 pb-8">
+      <div className="relative w-full flex-1 overflow-hidden rounded-b-[40px] flex items-center justify-center p-6 pb-8 bg-neutral-900">
         <div className="w-full max-w-[280px] relative">
           {/* Checkout Flow Steps */}
           <div className="flex items-center justify-between gap-2">
@@ -78,11 +78,11 @@ export const EcommerceCard = () => {
                         background:
                           isActive || isCompleted
                             ? "linear-gradient(135deg, #575757 0%, #1a1a1a 50%, #2d2d2d 100%)"
-                            : "#e2e8f0",
+                            : "#262626",
                         border:
                           isActive || isCompleted
                             ? "1px solid rgba(255,255,255,0.15)"
-                            : "1px solid #cbd5e1",
+                            : "1px solid rgba(255,255,255,0.05)",
                         boxShadow: isActive
                           ? "0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1)"
                           : "none",
@@ -97,14 +97,16 @@ export const EcommerceCard = () => {
                       ) : (
                         <Icon
                           size={20}
-                          className={isActive ? "text-white" : "text-slate-400"}
+                          className={
+                            isActive ? "text-white" : "text-neutral-500"
+                          }
                           strokeWidth={2}
                         />
                       )}
                     </div>
                     <span
                       className={`text-[10px] font-bold tracking-wide transition-all duration-300 ${
-                        isActive ? "text-slate-900" : "text-slate-400"
+                        isActive ? "text-white" : "text-neutral-500"
                       }`}
                     >
                       {step.label}
@@ -118,7 +120,7 @@ export const EcommerceCard = () => {
                         index < activeStep ? "opacity-100" : "opacity-30"
                       }`}
                     >
-                      <ChevronRight size={16} className="text-slate-300" />
+                      <ChevronRight size={16} className="text-neutral-600" />
                     </div>
                   )}
                 </React.Fragment>
@@ -127,9 +129,9 @@ export const EcommerceCard = () => {
           </div>
 
           {/* Progress Bar */}
-          <div className="mt-6 h-1.5 bg-slate-200 rounded-full overflow-hidden">
+          <div className="mt-6 h-1.5 bg-neutral-800 rounded-full overflow-hidden">
             <div
-              className="h-full bg-slate-900 rounded-full transition-all duration-500 ease-out"
+              className="h-full bg-white rounded-full transition-all duration-500 ease-out"
               style={{ width: `${((activeStep + 1) / 3) * 100}%` }}
             />
           </div>

@@ -10,12 +10,14 @@ interface FluidButtonProps {
   label?: string;
   className?: string;
   href?: string;
+  icon?: React.ReactNode;
 }
 
 const FluidButton: React.FC<FluidButtonProps> = ({
   label = "Dowiedz się więcej",
   className = "",
   href,
+  icon,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const mainBlobRef = useRef<HTMLDivElement>(null);
@@ -194,9 +196,13 @@ const FluidButton: React.FC<FluidButtonProps> = ({
         className="w-10 h-10 bg-[#8b5cf6] rounded-full flex items-center justify-center shrink-0 shadow-[0_4px_12px_rgba(139,92,246,0.3)] absolute"
         style={{ right: "50%" }}
       >
-        <svg viewBox="0 0 24 24" className="w-[22px] h-[22px] fill-white">
-          <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z" />
-        </svg>
+        {icon ? (
+          icon
+        ) : (
+          <svg viewBox="0 0 24 24" className="w-[22px] h-[22px] fill-white">
+            <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z" />
+          </svg>
+        )}
       </div>
     </div>
   );

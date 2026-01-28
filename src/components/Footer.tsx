@@ -14,9 +14,8 @@ import {
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="bg-neutral-950 text-neutral-400 pt-24 pb-32 relative overflow-hidden">
+    <footer className="bg-neutral-900 text-neutral-400 pt-24 pb-32 relative">
       {/* Decorative Background Elements */}
-      <div className="absolute inset-0 bg-[url('/images/noise.png')] opacity-[0.03] mix-blend-overlay pointer-events-none" />
       <div className="absolute -top-40 -right-40 w-96 h-96 bg-purple-500/10 blur-[120px] rounded-full pointer-events-none" />
       <div className="absolute top-40 -left-40 w-96 h-96 bg-blue-500/10 blur-[120px] rounded-full pointer-events-none" />
 

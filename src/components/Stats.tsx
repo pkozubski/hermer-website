@@ -31,10 +31,10 @@ const CardWrapper = ({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.5, ease: "easeOut" }}
-      className={`relative group overflow-hidden rounded-3xl bg-white border border-slate-100 shadow-xl shadow-slate-200/50 ${colSpan} ${className}`}
+      className={`relative group overflow-hidden rounded-3xl bg-neutral-900/50 backdrop-blur-md border border-white/10 shadow-xl shadow-black/20 ${colSpan} ${className}`}
     >
       {hoverEffect && (
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-50/50 to-blue-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
       )}
       <div className="relative h-full w-full z-10">{children}</div>
     </motion.div>
@@ -62,14 +62,14 @@ const SalesCard = () => {
       {/* Content */}
       <div className="relative z-10 flex flex-col items-start">
         <div className="flex items-baseline gap-2">
-          <h2 className="text-8xl md:text-9xl font-bold leading-none text-slate-900 tracking-tighter">
+          <h2 className="text-8xl md:text-9xl font-bold leading-none text-white tracking-tighter">
             14
           </h2>
-          <span className="text-2xl md:text-3xl font-medium text-slate-500">
+          <span className="text-2xl md:text-3xl font-medium text-neutral-400">
             lat
           </span>
         </div>
-        <p className="text-xl md:text-2xl mt-4 font-medium leading-tight text-slate-700 max-w-sm">
+        <p className="text-xl md:text-2xl mt-4 font-medium leading-tight text-neutral-300 max-w-sm">
           Rozwijamy sprzedaż naszych klientów.
         </p>
       </div>
@@ -138,10 +138,10 @@ const ProjectsCard = () => {
     <div className="p-8 h-full flex flex-col relative overflow-hidden">
       <div className="relative z-10">
         <div className="flex items-baseline gap-1">
-          <h3 className="text-5xl font-bold text-slate-900">700</h3>
-          <span className="text-3xl font-bold text-purple-600">+</span>
+          <h3 className="text-5xl font-bold text-white">700</h3>
+          <span className="text-3xl font-bold text-[#916AFF]">+</span>
         </div>
-        <p className="text-slate-600 font-medium mt-2">
+        <p className="text-neutral-400 font-medium mt-2">
           Zrealizowanych projektów
         </p>
       </div>
@@ -174,7 +174,7 @@ const ProjectsCard = () => {
           </motion.div>
         ))}
       </div>
-      <button className="mt-auto relative z-10 flex items-center gap-2 text-sm font-semibold text-purple-600 group-hover:text-purple-700 transition-colors">
+      <button className="mt-auto relative z-10 flex items-center gap-2 text-sm font-semibold text-[#916AFF] group-hover:text-white transition-colors">
         Zobacz realizacje <ArrowUpRight size={16} />
       </button>
     </div>
@@ -322,33 +322,33 @@ const DesignCard = () => {
 // --- Card 4: Team & Reviews (Refined Double Stat Card) ---
 const TeamStatsCard = () => {
   return (
-    <div className="h-full flex flex-col md:flex-row relative divide-y md:divide-y-0 md:divide-x divide-slate-100">
+    <div className="h-full flex flex-col md:flex-row relative divide-y md:divide-y-0 md:divide-x divide-white/10">
       {/* Stat 1: Team Experience */}
       <div className="flex-1 p-8 flex flex-col justify-between relative overflow-hidden group">
         <div className="absolute top-0 right-0 w-32 h-32 bg-blue-100 rounded-full blur-[60px] opacity-40 translate-x-10 -translate-y-10 group-hover:opacity-60 transition-opacity duration-500"></div>
 
         <div className="relative z-10">
           <div className="flex items-center gap-3 mb-4">
-            <div className="p-2 bg-blue-50 rounded-lg text-blue-600">
+            <div className="p-2 bg-blue-500/10 rounded-lg text-blue-400">
               <Users size={20} />
             </div>
-            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+            <span className="text-xs font-bold text-neutral-500 uppercase tracking-wider">
               Eksperci
             </span>
           </div>
 
           <div className="flex items-baseline gap-2 mb-2">
             <motion.h3
-              className="text-6xl font-bold text-slate-900 tracking-tight"
+              className="text-6xl font-bold text-white tracking-tight"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
               9
             </motion.h3>
-            <span className="text-xl font-medium text-slate-500">lat</span>
+            <span className="text-xl font-medium text-neutral-500">lat</span>
           </div>
-          <p className="text-slate-600 text-sm font-medium leading-relaxed max-w-[240px]">
+          <p className="text-neutral-400 text-sm font-medium leading-relaxed max-w-[240px]">
             Średnie doświadczenie specjalisty w naszym zespole.
           </p>
         </div>
@@ -363,7 +363,7 @@ const TeamStatsCard = () => {
           ].map((user, i) => (
             <motion.div
               key={i}
-              className={`w-10 h-10 rounded-full border-2 border-white flex items-center justify-center text-xs font-bold text-slate-600 ${user.bg}`}
+              className={`w-10 h-10 rounded-full border-2 border-neutral-800 flex items-center justify-center text-xs font-bold text-slate-600 ${user.bg}`}
               initial={{ x: -20, opacity: 0 }}
               whileInView={{ x: 0, opacity: 1 }}
               transition={{ delay: i * 0.1 }}
@@ -372,51 +372,51 @@ const TeamStatsCard = () => {
               {user.text}
             </motion.div>
           ))}
-          <div className="w-10 h-10 rounded-full border-2 border-white bg-slate-100 flex items-center justify-center text-xs font-bold text-slate-400">
+          <div className="w-10 h-10 rounded-full border-2 border-neutral-800 bg-neutral-700 flex items-center justify-center text-xs font-bold text-neutral-400">
             +12
           </div>
         </div>
       </div>
 
       {/* Stat 2: Client Reviews */}
-      <div className="flex-1 p-8 flex flex-col justify-between relative overflow-hidden group bg-slate-50/50">
+      <div className="flex-1 p-8 flex flex-col justify-between relative overflow-hidden group bg-white/5">
         <div className="absolute bottom-0 left-0 w-40 h-40 bg-purple-100 rounded-full blur-[60px] opacity-40 -translate-x-10 translate-y-10 group-hover:opacity-60 transition-opacity duration-500"></div>
 
         <div className="relative z-10">
           <div className="flex items-center gap-3 mb-4">
-            <div className="p-2 bg-purple-50 rounded-lg text-purple-600">
+            <div className="p-2 bg-purple-500/10 rounded-lg text-purple-400">
               <MessageSquareHeart size={20} />
             </div>
-            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+            <span className="text-xs font-bold text-neutral-500 uppercase tracking-wider">
               Reputacja
             </span>
           </div>
 
           <div className="flex items-baseline gap-2 mb-2">
             <motion.h3
-              className="text-6xl font-bold text-slate-900 tracking-tight"
+              className="text-6xl font-bold text-white tracking-tight"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
             >
               140
             </motion.h3>
-            <span className="text-3xl font-bold text-purple-600">+</span>
+            <span className="text-3xl font-bold text-[#916AFF]">+</span>
           </div>
-          <p className="text-slate-600 text-sm font-medium leading-relaxed">
+          <p className="text-neutral-400 text-sm font-medium leading-relaxed">
             Firm zaufało nam i wystawiło pozytywną opinię.
           </p>
         </div>
 
         {/* Rating Badge */}
-        <div className="relative z-10 flex items-center gap-4 mt-6 bg-white p-3 rounded-xl shadow-sm border border-slate-100 max-w-fit">
+        <div className="relative z-10 flex items-center gap-4 mt-6 bg-neutral-800 p-3 rounded-xl shadow-sm border border-white/10 max-w-fit">
           <div className="flex flex-col">
-            <span className="text-xs text-slate-400 font-semibold uppercase">
+            <span className="text-xs text-neutral-400 font-semibold uppercase">
               Średnia ocen
             </span>
-            <span className="text-lg font-bold text-slate-900">4.9/5.0</span>
+            <span className="text-lg font-bold text-white">4.9/5.0</span>
           </div>
-          <div className="h-8 w-[1px] bg-slate-100"></div>
+          <div className="h-8 w-[1px] bg-white/10"></div>
           <div className="flex gap-0.5">
             {[...Array(5)].map((_, i) => (
               <motion.div
@@ -439,7 +439,7 @@ const TeamStatsCard = () => {
 
 export const Stats: React.FC = () => {
   return (
-    <div className="bg-white py-20 px-4 sm:px-6 lg:px-8 font-sans">
+    <div className="bg-transparent py-20 px-4 sm:px-6 lg:px-8 font-sans">
       {/* Bento Grid */}
       <div className="max-w-screen-2xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[minmax(180px,auto)]">
         {/* Card 1: 14 Lat (Big) */}
@@ -465,7 +465,7 @@ export const Stats: React.FC = () => {
         {/* CTA / Footer Strip */}
         <motion.div
           // colSpan="md:col-span-3" // Framer motion doesn't accept colSpan prop directly unless styled
-          className="md:col-span-3 rounded-3xl bg-gradient-to-r from-slate-900 to-slate-800 p-8 flex flex-col md:flex-row items-center justify-between text-white shadow-xl"
+          className="md:col-span-3 rounded-3xl bg-neutral-800/80 backdrop-blur-md border border-white/10 p-8 flex flex-col md:flex-row items-center justify-between text-white shadow-xl"
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}

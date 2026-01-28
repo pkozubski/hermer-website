@@ -15,14 +15,14 @@ export async function boost() {
 export const DevelopmentCard: React.FC = () => {
   return (
     <CardFrame title="code.tsx" type="window">
-      <div className="p-4 font-mono text-[10px] leading-relaxed text-slate-500 relative bg-slate-50/50 h-full">
+      <div className="p-4 font-mono text-[10px] leading-relaxed text-neutral-400 relative bg-neutral-900/50 h-full">
         {/* Glow behind cursor */}
         <div className="absolute top-[60%] right-[30%] w-20 h-20 bg-[#916AFF]/10 blur-xl rounded-full pointer-events-none"></div>
 
         <div className="whitespace-pre overflow-hidden relative z-10">
           {CODE_SNIPPET.split("\n").map((line, i) => (
             <div key={i} className="flex">
-              <span className="w-6 text-slate-300 select-none text-right mr-3 shrink-0">
+              <span className="w-6 text-neutral-600 select-none text-right mr-3 shrink-0">
                 {i + 1}
               </span>
               <span
@@ -32,10 +32,10 @@ export const DevelopmentCard: React.FC = () => {
                   line.includes("return")
                     ? "text-[#916AFF] font-bold"
                     : line.includes("const") || line.includes("function")
-                      ? "text-slate-800"
+                      ? "text-neutral-200"
                       : line.includes('"')
-                        ? "text-emerald-600"
-                        : "text-slate-600"
+                        ? "text-emerald-400"
+                        : "text-neutral-400"
                 }`}
               >
                 {line}

@@ -21,7 +21,7 @@ export const Contact: React.FC = () => {
     message: "",
   });
   const [status, setStatus] = useState<"idle" | "submitting" | "success">(
-    "idle"
+    "idle",
   );
   const [activeField, setActiveField] = useState<string | null>(null);
 
@@ -39,7 +39,7 @@ export const Contact: React.FC = () => {
   return (
     <section
       id="contact"
-      className="py-24 lg:py-32 bg-white relative overflow-hidden"
+      className="py-24 lg:py-32 bg-transparent relative overflow-hidden"
     >
       {/* Background Squiggle Animation */}
       <ContactSquiggle />
@@ -53,7 +53,7 @@ export const Contact: React.FC = () => {
               <SplitRevealTitle
                 line1="Zacznijmy"
                 line2="Projekt"
-                className="text-slate-900! text-7xl lg:text-9xl mb-8 tracking-tighter"
+                className="text-white text-7xl lg:text-9xl mb-8 tracking-tighter"
               />
               <LineReveal
                 lines={[
@@ -61,7 +61,7 @@ export const Contact: React.FC = () => {
                   "Napisz do nas, a stworzymy coś, co",
                   "zostanie zapamiętane.",
                 ]}
-                className="text-slate-500 text-lg max-w-sm leading-relaxed mt-8 font-medium"
+                className="text-neutral-400 text-lg max-w-sm leading-relaxed mt-8 font-medium"
               />
             </div>
 
@@ -96,12 +96,12 @@ export const Contact: React.FC = () => {
                     ease: [0.25, 0.1, 0.25, 1],
                   }}
                 >
-                  <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">
+                  <h4 className="text-xs font-bold text-neutral-500 uppercase tracking-widest mb-2">
                     {item.label}
                   </h4>
                   <a
                     href={item.href}
-                    className="text-2xl md:text-3xl font-bold text-slate-900 group-hover:text-[#916AFF] transition-colors inline-flex items-center gap-4"
+                    className="text-2xl md:text-3xl font-bold text-white group-hover:text-[#916AFF] transition-colors inline-flex items-center gap-4"
                   >
                     {item.label === "Email" ? (
                       <ScrambleText text={item.value} />
@@ -122,7 +122,7 @@ export const Contact: React.FC = () => {
 
           {/* --- RIGHT: SWISS GRID FORM --- */}
           <motion.div
-            className="w-full lg:w-7/12 pt-8 bg-white/70 backdrop-blur-md rounded-3xl p-8 lg:p-12"
+            className="w-full lg:w-7/12 pt-8 bg-white/5 backdrop-blur-md rounded-3xl p-8 lg:p-12 border border-white/10"
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: false, margin: "-100px" }}
@@ -135,18 +135,18 @@ export const Contact: React.FC = () => {
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5 }}
               >
-                <div className="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mb-6">
+                <div className="w-20 h-20 bg-emerald-500/10 text-emerald-500 rounded-full flex items-center justify-center mb-6">
                   <CheckCircle size={40} />
                 </div>
-                <h3 className="text-4xl font-bold text-slate-900 mb-4 tracking-tight">
+                <h3 className="text-4xl font-bold text-white mb-4 tracking-tight">
                   Wiadomość wysłana.
                 </h3>
-                <p className="text-slate-500 text-xl mb-8 max-w-md">
+                <p className="text-neutral-400 text-xl mb-8 max-w-md">
                   Dziękujemy za kontakt. Odpowiemy w ciągu 24 godzin.
                 </p>
                 <button
                   onClick={() => setStatus("idle")}
-                  className="text-slate-900 font-bold border-b-2 border-slate-900 hover:text-[#916AFF] hover:border-[#916AFF] transition-colors pb-1"
+                  className="text-white font-bold border-b-2 border-white hover:text-[#916AFF] hover:border-[#916AFF] transition-colors pb-1"
                 >
                   Wyślij kolejną wiadomość
                 </button>
@@ -168,9 +168,7 @@ export const Contact: React.FC = () => {
                   <label
                     htmlFor="name"
                     className={`block text-xs font-bold uppercase tracking-widest mb-4 transition-colors duration-300 ${
-                      activeField === "name"
-                        ? "text-slate-900"
-                        : "text-slate-400"
+                      activeField === "name" ? "text-white" : "text-neutral-500"
                     }`}
                   >
                     01. Jak się nazywasz?
@@ -186,7 +184,7 @@ export const Contact: React.FC = () => {
                     onFocus={() => setActiveField("name")}
                     onBlur={() => setActiveField(null)}
                     placeholder="Imię i Nazwisko"
-                    className="w-full bg-transparent border-b border-slate-200 py-6 text-2xl md:text-4xl font-bold text-slate-900 placeholder-slate-300 focus:outline-none focus:border-slate-900 transition-all duration-500 rounded-none"
+                    className="w-full bg-transparent border-b border-white/20 py-6 text-2xl md:text-4xl font-bold text-white placeholder-white/20 focus:outline-none focus:border-white transition-all duration-500 rounded-none"
                   />
                 </motion.div>
 
@@ -206,8 +204,8 @@ export const Contact: React.FC = () => {
                     htmlFor="email"
                     className={`block text-xs font-bold uppercase tracking-widest mb-4 transition-colors duration-300 ${
                       activeField === "email"
-                        ? "text-slate-900"
-                        : "text-slate-400"
+                        ? "text-white"
+                        : "text-neutral-500"
                     }`}
                   >
                     02. Twój Email
@@ -223,7 +221,7 @@ export const Contact: React.FC = () => {
                     onFocus={() => setActiveField("email")}
                     onBlur={() => setActiveField(null)}
                     placeholder="adres@email.com"
-                    className="w-full bg-transparent border-b border-slate-200 py-6 text-2xl md:text-4xl font-bold text-slate-900 placeholder-slate-300 focus:outline-none focus:border-slate-900 transition-all duration-500 rounded-none"
+                    className="w-full bg-transparent border-b border-white/20 py-6 text-2xl md:text-4xl font-bold text-white placeholder-white/20 focus:outline-none focus:border-white transition-all duration-500 rounded-none"
                   />
                 </motion.div>
 
@@ -243,8 +241,8 @@ export const Contact: React.FC = () => {
                     htmlFor="message"
                     className={`block text-xs font-bold uppercase tracking-widest mb-4 transition-colors duration-300 ${
                       activeField === "message"
-                        ? "text-slate-900"
-                        : "text-slate-400"
+                        ? "text-white"
+                        : "text-neutral-500"
                     }`}
                   >
                     03. O projekcie
@@ -260,7 +258,7 @@ export const Contact: React.FC = () => {
                     onFocus={() => setActiveField("message")}
                     onBlur={() => setActiveField(null)}
                     placeholder="Opowiedz nam o swoim pomyśle..."
-                    className="w-full bg-transparent border-b border-slate-200 py-6 text-2xl md:text-4xl font-bold text-slate-900 placeholder-slate-300 focus:outline-none focus:border-slate-900 transition-all duration-500 resize-none rounded-none"
+                    className="w-full bg-transparent border-b border-white/20 py-6 text-2xl md:text-4xl font-bold text-white placeholder-white/20 focus:outline-none focus:border-white transition-all duration-500 resize-none rounded-none"
                   />
                 </motion.div>
 
@@ -279,7 +277,7 @@ export const Contact: React.FC = () => {
                   <button
                     type="submit"
                     disabled={status === "submitting"}
-                    className={`w-full py-8 md:py-10 bg-slate-900 text-white rounded-full text-xl md:text-3xl font-display font-bold hover:bg-[#916AFF] transition-all duration-500 flex items-center justify-center gap-4 group ${
+                    className={`w-full py-8 md:py-10 bg-white text-neutral-900 rounded-full text-xl md:text-3xl font-display font-bold hover:bg-[#916AFF] hover:text-white transition-all duration-500 flex items-center justify-center gap-4 group ${
                       status === "submitting"
                         ? "opacity-70 cursor-not-allowed"
                         : "hover:shadow-2xl hover:scale-[1.02]"

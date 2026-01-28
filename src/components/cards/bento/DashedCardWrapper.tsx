@@ -24,7 +24,7 @@ export const DashedCardWrapper = ({
       <div
         className="absolute inset-0 rounded-[48px] pointer-events-none"
         style={{
-          border: "2px dashed rgba(215, 219, 224, 0.95)",
+          border: "2px dashed rgba(255, 255, 255, 0.1)",
         }}
       />
       {children}

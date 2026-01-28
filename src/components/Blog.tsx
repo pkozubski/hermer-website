@@ -42,10 +42,10 @@ export const Blog: React.FC = () => {
   return (
     <section
       id="blog"
-      className="py-24 md:py-32 bg-slate-50 overflow-hidden relative"
+      className="py-24 md:py-32 bg-transparent overflow-hidden relative"
     >
       {/* Background Elements */}
-      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[40vw] h-[40vw] bg-slate-200 rounded-full blur-[100px] opacity-40 pointer-events-none" />
+      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[40vw] h-[40vw] bg-purple-900/10 rounded-full blur-[100px] pointer-events-none mix-blend-screen" />
 
       <div className="container mx-auto px-4 md:px-8 relative z-10 mb-16">
         {/* HEADER - Split Style */}
@@ -53,7 +53,7 @@ export const Blog: React.FC = () => {
           <SplitRevealTitle
             line1="Strefa"
             line2="Wiedzy"
-            className="text-slate-900! text-5xl md:text-8xl"
+            className="text-white text-5xl md:text-8xl"
           />
           <div className="flex flex-col gap-6 md:text-right max-w-sm">
             <LineReveal
@@ -61,7 +61,7 @@ export const Blog: React.FC = () => {
                 "Przesuń, aby odkryć więcej. Dzielimy się tym, co",
                 "napędza cyfrowy świat.",
               ]}
-              className="text-slate-500 text-sm md:text-base leading-relaxed"
+              className="text-neutral-400 text-sm md:text-base leading-relaxed"
             />
             <button className="hidden md:flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-[#916AFF] hover:text-[#7a57d6] transition-colors justify-end">
               Zobacz wszystkie

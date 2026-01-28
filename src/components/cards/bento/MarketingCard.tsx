@@ -8,16 +8,16 @@ export const MarketingCard = () => {
   return (
     <motion.a
       href="/oferta/marketing"
-      className="group relative h-[500px] rounded-[40px] overflow-hidden bg-[#FAFAFA] hover:shadow-2xl hover:shadow-slate-200 transition-all duration-700 block cursor-pointer"
+      className="group relative h-[500px] rounded-[40px] overflow-hidden bg-neutral-900 hover:shadow-2xl hover:shadow-black/50 transition-all duration-700 block cursor-pointer border border-white/5"
     >
       {/* --- VISUAL BACKDROP --- */}
       <div className="absolute inset-0 w-full h-full overflow-hidden">
         {/* Background Subtle Grid */}
         <div
-          className="absolute inset-0 z-0 opacity-[0.03]"
+          className="absolute inset-0 z-0 opacity-[0.05]"
           style={{
             backgroundImage:
-              "linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)",
+              "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)",
             backgroundSize: "20px 20px",
           }}
         />
@@ -37,17 +37,17 @@ export const MarketingCard = () => {
               <TrendingUp size={16} className="text-white" />
             </div>
             <div>
-              <span className="text-sm font-bold text-slate-900">
+              <span className="text-sm font-bold text-white">
                 Wyniki kampanii
               </span>
-              <span className="text-[10px] text-slate-400 ml-2">
+              <span className="text-[10px] text-neutral-400 ml-2">
                 Ostatnie 30 dni
               </span>
             </div>
           </div>
 
           {/* Chart Container */}
-          <div className="relative w-full h-[calc(100%-44px)] bg-white rounded-2xl shadow-2xl border border-slate-100 p-6 overflow-hidden">
+          <div className="relative w-full h-[calc(100%-44px)] bg-neutral-800/80 backdrop-blur-sm rounded-2xl shadow-2xl border border-white/10 p-6 overflow-hidden">
             {/* SVG Chart */}
             <div className="relative h-full w-full">
               {/* Chart Line & Area SVG - stretched */}
@@ -88,7 +88,7 @@ export const MarketingCard = () => {
                     y1={37.5 * i + 20}
                     x2="400"
                     y2={37.5 * i + 20}
-                    stroke="#e2e8f0"
+                    stroke="rgba(255,255,255,0.1)"
                     strokeWidth="1"
                     strokeDasharray="4 4"
                   />
@@ -136,7 +136,7 @@ export const MarketingCard = () => {
                       top: `${point.y}%`,
                     }}
                   >
-                    <div className="w-full h-full rounded-full bg-white border-2 border-[#916AFF] flex items-center justify-center shadow-sm">
+                    <div className="w-full h-full rounded-full bg-neutral-900 border-2 border-[#916AFF] flex items-center justify-center shadow-sm">
                       <div className="w-2 h-2 rounded-full bg-[#916AFF]" />
                     </div>
                   </div>
@@ -144,7 +144,7 @@ export const MarketingCard = () => {
               </div>
 
               {/* Y-Axis Labels */}
-              <div className="absolute left-0 top-0 bottom-0 flex flex-col justify-between text-[9px] text-slate-400 font-medium py-2">
+              <div className="absolute left-0 top-0 bottom-0 flex flex-col justify-between text-[9px] text-neutral-500 font-medium py-2">
                 <span>10K</span>
                 <span>7.5K</span>
                 <span>5K</span>
@@ -175,22 +175,22 @@ export const MarketingCard = () => {
       </div>
 
       {/* --- CONTENT OVERLAY --- */}
-      <div className="absolute inset-0 bg-linear-to-l from-white via-white/80 to-transparent opacity-90" />
+      <div className="absolute inset-0 bg-linear-to-l from-neutral-900 via-neutral-900/80 to-transparent opacity-90" />
 
       {/* Text Content - RIGHT SIDE */}
       <div className="absolute right-0 top-0 bottom-0 w-[50%] p-8 md:p-12 flex flex-col justify-start items-end z-20">
         <div className="relative z-10 text-right">
           <div className="pb-6 mb-6">
-            <h3 className="text-3xl md:text-5xl font-bold tracking-tight text-slate-900 mb-2">
+            <h3 className="text-3xl md:text-5xl font-bold tracking-tight text-white mb-2">
               Marketing
             </h3>
-            <p className="text-slate-500 font-bold tracking-widest uppercase text-xs">
+            <p className="text-neutral-500 font-bold tracking-widest uppercase text-xs">
               Facebook & Google Ads
             </p>
           </div>
 
           <div>
-            <p className="text-slate-500 text-lg font-medium leading-relaxed opacity-60 group-hover:opacity-100 transition-opacity duration-500">
+            <p className="text-neutral-400 text-lg font-medium leading-relaxed opacity-60 group-hover:opacity-100 transition-opacity duration-500">
               Precyzyjne kampanie reklamowe z wysokim zwrotem z inwestycji.
             </p>
           </div>

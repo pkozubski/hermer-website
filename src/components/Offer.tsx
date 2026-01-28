@@ -8,6 +8,9 @@ import { SeoCard } from "./cards/bento/SeoCard";
 import { MarketingCard } from "./cards/bento/MarketingCard";
 import { DashedCardWrapper } from "./cards/bento/DashedCardWrapper";
 
+import { Phone } from "lucide-react";
+import FluidButton from "./ui/FluidButton";
+
 const OFFER_ITEMS: OfferItem[] = [];
 
 export const Offer: React.FC = () => {
@@ -84,7 +87,7 @@ export const Offer: React.FC = () => {
           <SplitRevealTitle
             line1="Nasza"
             line2="Oferta"
-            className="text-slate-900! text-5xl sm:text-6xl lg:text-8xl tracking-tighter mb-4 lg:mb-8"
+            className="text-white! text-5xl sm:text-6xl lg:text-8xl tracking-tighter mb-4 lg:mb-8"
           />
           <LineReveal
             lines={[
@@ -92,7 +95,7 @@ export const Offer: React.FC = () => {
               "i dowozi wynik. Budujemy",
               "widoczność i sprzedaż.",
             ]}
-            className="text-slate-500 text-base lg:text-lg max-w-sm leading-relaxed"
+            className="text-neutral-400 text-base lg:text-lg max-w-sm leading-relaxed"
           />
         </div>
 
@@ -157,6 +160,13 @@ export const Offer: React.FC = () => {
           {/* Spacer for Desktop */}
           {!isMobile && <div className="w-[12vw] shrink-0"></div>}
         </div>
+
+        {/* Sticky Fluid Button - inside sticky container for proper behavior */}
+        <FluidButton
+          label="Zadzwoń teraz"
+          icon={<Phone size={20} className="text-white" strokeWidth={2} />}
+          href="tel:+48123456789"
+        />
       </div>
     </section>
   );

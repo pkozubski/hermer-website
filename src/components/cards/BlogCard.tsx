@@ -45,7 +45,7 @@ export const BlogCard = ({ post, index = 0 }: BlogCardProps) => {
 
           {/* Floating Category Badge */}
           <div className="absolute top-6 left-6 z-10">
-            <span className="px-3 py-1.5 bg-white/90 backdrop-blur-md text-xs font-bold uppercase tracking-widest text-slate-900 rounded-full shadow-sm group-hover:bg-white transition-all duration-300">
+            <span className="px-3 py-1.5 bg-neutral-900/80 backdrop-blur-md text-xs font-bold uppercase tracking-widest text-white rounded-full shadow-sm border border-white/10 group-hover:bg-neutral-900 transition-all duration-300">
               {post.category}
             </span>
           </div>
@@ -53,7 +53,7 @@ export const BlogCard = ({ post, index = 0 }: BlogCardProps) => {
 
         <div className="mt-6 pr-4">
           <div className="flex items-baseline justify-between mb-2">
-            <span className="text-xs font-mono text-slate-400">
+            <span className="text-xs font-mono text-neutral-400">
               0{index + 1} — {post.year}
             </span>
           </div>
@@ -78,12 +78,12 @@ export const BlogCard = ({ post, index = 0 }: BlogCardProps) => {
                   },
                 },
               }}
-              className="overflow-hidden flex items-center justify-center text-slate-900"
+              className="overflow-hidden flex items-center justify-center text-white"
             >
               <ArrowRight size={24} strokeWidth={2.5} />
             </motion.div>
 
-            <h3 className="text-2xl font-display font-bold text-slate-900 leading-tight group-hover:text-[#916AFF] transition-colors duration-300 flex flex-wrap">
+            <h3 className="text-2xl font-display font-bold text-white leading-tight group-hover:text-[#916AFF] transition-colors duration-300 flex flex-wrap">
               {post.title.split(" ").map((word, i) => (
                 <span key={i} className="overflow-hidden mr-[0.3em]">
                   <motion.span

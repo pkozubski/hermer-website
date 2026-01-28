@@ -36,25 +36,21 @@ export const Faq: React.FC = () => {
   const [activeId, setActiveId] = useState<number>(1);
 
   return (
-    <section className="py-24 lg:py-32 bg-white relative overflow-hidden">
-      {/* Background Noise - Consistent texturing */}
-      <div className="absolute inset-0 z-0 opacity-[0.4] mix-blend-overlay pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')]"></div>
-
+    <section className="py-24 lg:py-32 bg-transparent relative overflow-hidden">
       <div className="container mx-auto px-4 sm:px-8 lg:px-16 relative z-10">
-        {/* --- HEADER --- */}
         <div className="mb-20 lg:mb-32 flex flex-col md:flex-row justify-between items-end gap-8">
           <LineReveal
             lines={[
               "Jasne zasady to fundament dobrej współpracy.",
               "Oto konkrety, o które pytacie najczęściej.",
             ]}
-            className="text-slate-500 text-lg lg:text-xl max-w-lg font-medium leading-relaxed order-2 md:order-1 text-left"
+            className="text-neutral-400 text-lg lg:text-xl max-w-lg font-medium leading-relaxed order-2 md:order-1 text-left"
           />
           <div className="order-1 md:order-2 text-right w-full md:w-auto">
             <SplitRevealTitle
               line1="Warto"
               line2="Wiedzieć"
-              className="text-slate-900! text-5xl sm:text-7xl lg:text-9xl tracking-tighter"
+              className="text-white text-5xl sm:text-7xl lg:text-9xl tracking-tighter"
             />
           </div>
         </div>
@@ -74,16 +70,16 @@ export const Faq: React.FC = () => {
                   ease: [0.25, 0.1, 0.25, 1],
                 }}
                 onClick={() => setActiveId(item.id)}
-                className={`group relative flex items-center py-6 md:py-8 border-b border-gray-200 transition-colors duration-300 ${
+                className={`group relative flex items-center py-6 md:py-8 border-b border-white/10 transition-colors duration-300 ${
                   activeId === item.id
-                    ? "border-slate-900"
-                    : "hover:border-slate-400"
+                    ? "border-white"
+                    : "hover:border-white/40"
                 }`}
               >
                 {/* Number */}
                 <span
                   className={`text-xs md:text-sm font-bold font-mono uppercase tracking-widest mr-6 md:mr-8 transition-colors duration-300 ${
-                    activeId === item.id ? "text-[#916AFF]" : "text-slate-400"
+                    activeId === item.id ? "text-[#916AFF]" : "text-neutral-500"
                   }`}
                 >
                   {`0${item.id}`}
@@ -93,8 +89,8 @@ export const Faq: React.FC = () => {
                 <span
                   className={`flex-1 pr-12 text-xl md:text-3xl font-display font-bold text-left tracking-tight transition-colors duration-300 ${
                     activeId === item.id
-                      ? "text-slate-900"
-                      : "text-slate-400 group-hover:text-slate-600"
+                      ? "text-white"
+                      : "text-neutral-500 group-hover:text-white"
                   }`}
                 >
                   {item.question}
@@ -105,7 +101,7 @@ export const Faq: React.FC = () => {
                   className={`absolute right-0 transition-all duration-300 ${
                     activeId === item.id
                       ? "opacity-100 translate-x-0 text-[#916AFF]"
-                      : "opacity-0 -translate-x-4 text-slate-400"
+                      : "opacity-0 -translate-x-4 text-neutral-500"
                   }`}
                 >
                   <ArrowRight size={24} />
@@ -137,14 +133,14 @@ export const Faq: React.FC = () => {
                       exit={{ opacity: 0, y: -10, filter: "blur(5px)" }}
                       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                     >
-                      <h3 className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-6">
+                      <h3 className="text-sm font-bold text-neutral-500 uppercase tracking-widest mb-6">
                         Odpowiedź
                       </h3>
-                      <p className="text-2xl md:text-4xl lg:text-5xl font-medium text-slate-900 leading-[1.2] tracking-tight">
+                      <p className="text-2xl md:text-4xl lg:text-5xl font-medium text-white leading-[1.2] tracking-tight">
                         {item.answer}
                       </p>
                     </motion.div>
-                  )
+                  ),
               )}
             </AnimatePresence>
           </motion.div>
