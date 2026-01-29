@@ -56,7 +56,7 @@ export const SeoCard = () => {
       </div>
 
       {/* 2. BOTTOM: Visual Container - Search Animation */}
-      <div className="relative w-full flex-1 overflow-hidden rounded-b-[40px] bg-neutral-800/20 flex items-center justify-center p-6 pb-8">
+      <div className="relative w-full flex-1 overflow-hidden rounded-b-[40px] flex items-center justify-center p-6 pb-8">
         <div className="w-full max-w-[280px] relative">
           {/* Search Bar */}
           <div className="bg-neutral-800 rounded-full shadow-lg border border-white/10 px-4 py-3 flex items-center gap-3 mb-4">

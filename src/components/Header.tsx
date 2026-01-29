@@ -2,7 +2,9 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { ChevronDown, Menu, X } from "lucide-react";
+import { ChevronDown } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { OfferDropdown } from "./header/OfferDropdown";
 
 export const Header: React.FC<{ allowVisibility?: boolean }> = ({
   allowVisibility = true,
@@ -10,6 +12,7 @@ export const Header: React.FC<{ allowVisibility?: boolean }> = ({
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false); // Add state for background styling
   const [isMounted, setIsMounted] = useState(false); // State to track mounting for transition
+  const [hoveredNav, setHoveredNav] = useState<string | null>(null);
 
   useEffect(() => {
     setIsMounted(true);
@@ -119,18 +122,56 @@ export const Header: React.FC<{ allowVisibility?: boolean }> = ({
 
         {/* Desktop Navigation */}
         <nav className="hidden lg:flex items-center gap-10">
-          {navLinks.map((link) => (
-            <Link
-              key={link.name}
-              href={link.href}
-              className={`text-sm font-medium hover:text-[#916AFF] transition-colors flex items-center gap-1 ${
-                isScrolled ? "text-white" : "text-white/80 hover:text-white"
-              }`}
-            >
-              {link.name}
-              {link.hasDropdown && <ChevronDown size={14} className="mt-0.5" />}
-            </Link>
-          ))}
+          {navLinks.map((link) => {
+            if (link.name === "Oferta") {
+              return (
+                <div
+                  key={link.name}
+                  className="relative group h-full flex items-center"
+                  onMouseEnter={() => setHoveredNav(link.name)}
+                  onMouseLeave={() => setHoveredNav(null)}
+                >
+                  <Link
+                    href={link.href}
+                    className={`text-sm font-medium hover:text-[#916AFF] transition-colors flex items-center gap-1 py-4 ${
+                      isScrolled
+                        ? "text-white"
+                        : "text-white/80 hover:text-white"
+                    }`}
+                  >
+                    {link.name}
+                    <ChevronDown
+                      size={14}
+                      className="mt-0.5 group-hover:rotate-180 transition-transform duration-300"
+                    />
+                  </Link>
+
+                  <AnimatePresence>
+                    {hoveredNav === link.name && (
+                      <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2">
+                        <OfferDropdown />
+                      </div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              );
+            }
+
+            return (
+              <Link
+                key={link.name}
+                href={link.href}
+                className={`text-sm font-medium hover:text-[#916AFF] transition-colors flex items-center gap-1 ${
+                  isScrolled ? "text-white" : "text-white/80 hover:text-white"
+                }`}
+              >
+                {link.name}
+                {link.hasDropdown && (
+                  <ChevronDown size={14} className="mt-0.5" />
+                )}
+              </Link>
+            );
+          })}
         </nav>
 
         {/* Desktop CTA */}
@@ -147,37 +188,149 @@ export const Header: React.FC<{ allowVisibility?: boolean }> = ({
           </Link>
         </div>
 
-        {/* Mobile Menu Toggle */}
-        <button
-          className="lg:hidden text-current"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        >
-          {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
-        </button>
-
-        {/* Mobile Menu Overlay */}
-        {isMobileMenuOpen && (
-          <div className="absolute top-full left-0 w-full bg-white shadow-2xl py-8 px-6 flex flex-col gap-6 lg:hidden border-t border-slate-100 z-50">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                className="text-lg font-medium text-slate-800 hover:text-primary flex items-center justify-between"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                {link.name}
-                {link.hasDropdown && <ChevronDown size={16} />}
-              </Link>
-            ))}
-            <Link
-              href="/#contact"
-              className="px-8 py-4 bg-primary text-white rounded-full text-center font-medium mt-4 shadow-lg shadow-primary/20"
-              onClick={() => setIsMobileMenuOpen(false)}
+        {/* Mobile Menu Toggle & Overlay */}
+        <div className="lg:hidden">
+          <button
+            className="relative z-50 p-2 text-current focus:outline-none"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            <motion.div
+              initial={false}
+              animate={isMobileMenuOpen ? "open" : "closed"}
+              className="w-6 h-6 flex flex-col justify-center items-center gap-[5px]"
             >
-              Kontakt
-            </Link>
-          </div>
-        )}
+              <motion.span
+                variants={{
+                  closed: { rotate: 0, y: 0 },
+                  open: { rotate: 45, y: 7 },
+                }}
+                className="w-full h-[2px] bg-current block origin-center transition-colors duration-300"
+              />
+              <motion.span
+                variants={{
+                  closed: { opacity: 1 },
+                  open: { opacity: 0 },
+                }}
+                className="w-full h-[2px] bg-current block transition-colors duration-300"
+              />
+              <motion.span
+                variants={{
+                  closed: { rotate: 0, y: 0 },
+                  open: { rotate: -45, y: -7 },
+                }}
+                className="w-full h-[2px] bg-current block origin-center transition-colors duration-300"
+              />
+            </motion.div>
+          </button>
+
+          <AnimatePresence>
+            {isMobileMenuOpen && (
+              <motion.div
+                initial={{
+                  clipPath: "circle(0% at calc(100% - 2rem) 2rem)",
+                  backgroundColor: "rgba(255, 255, 255, 0)",
+                }}
+                animate={{
+                  clipPath: "circle(150% at calc(100% - 2rem) 2rem)",
+                  backgroundColor: "rgba(255, 255, 255, 1)",
+                  transition: {
+                    type: "spring",
+                    stiffness: 40,
+                    damping: 15,
+                    duration: 0.5,
+                  },
+                }}
+                exit={{
+                  clipPath: "circle(0% at calc(100% - 2rem) 2rem)",
+                  backgroundColor: "rgba(255, 255, 255, 0)",
+                  transition: {
+                    type: "spring",
+                    stiffness: 40,
+                    damping: 15,
+                    duration: 0.5,
+                    delay: 0.2, // Wait for items to fade out
+                  },
+                }}
+                className="fixed inset-0 w-full h-screen z-40 flex flex-col items-center justify-center bg-white/95 backdrop-blur-xl"
+              >
+                {/* Decorative Background Elements */}
+                <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                  <div className="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] bg-purple-200/20 rounded-full blur-[100px]" />
+                  <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-blue-200/20 rounded-full blur-[100px]" />
+                </div>
+
+                <nav className="flex flex-col gap-8 text-center relative z-10 w-full px-6">
+                  {navLinks.map((link, index) => (
+                    <motion.div
+                      key={link.name}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{
+                        opacity: 1,
+                        y: 0,
+                        transition: {
+                          delay: 0.1 + index * 0.1,
+                          duration: 0.4,
+                          ease: "easeOut",
+                        },
+                      }}
+                      exit={{
+                        opacity: 0,
+                        y: 10,
+                        transition: {
+                          delay: index * 0.05,
+                          duration: 0.2,
+                        },
+                      }}
+                    >
+                      <Link
+                        href={link.href}
+                        className="text-4xl font-display font-medium text-slate-800 hover:text-[#916AFF] transition-all duration-300 flex items-center justify-center gap-2 group"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        <span className="relative overflow-hidden">
+                          <span className="block group-hover:-translate-y-full transition-transform duration-300">
+                            {link.name}
+                          </span>
+                          <span className="absolute top-full left-0 w-full block group-hover:-translate-y-full transition-transform duration-300 text-[#916AFF]">
+                            {link.name}
+                          </span>
+                        </span>
+                        {link.hasDropdown && (
+                          <ChevronDown
+                            size={24}
+                            className="text-slate-400 group-hover:text-[#916AFF] transition-colors"
+                          />
+                        )}
+                      </Link>
+                    </motion.div>
+                  ))}
+
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{
+                      opacity: 1,
+                      scale: 1,
+                      transition: {
+                        delay: 0.1 + navLinks.length * 0.1,
+                        duration: 0.4,
+                      },
+                    }}
+                    exit={{ opacity: 0 }}
+                    className="mt-8"
+                  >
+                    <Link
+                      href="/#contact"
+                      className="inline-block px-10 py-5 bg-[#916AFF] text-white rounded-full text-lg font-semibold shadow-xl shadow-purple-600/20 hover:scale-105 active:scale-95 transition-all duration-300"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      Rozpocznij Projekt
+                    </Link>
+                  </motion.div>
+                </nav>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       </div>
     </header>
   );

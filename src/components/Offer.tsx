@@ -13,9 +13,13 @@ import FluidButton from "./ui/FluidButton";
 
 const OFFER_ITEMS: OfferItem[] = [];
 const OFFER_SUBTITLE_LINES = [
-  "Oferta, która zachwyca formą",
-  "i dowozi wynik. Budujemy",
-  "widoczność i sprzedaż.",
+  "Czasem wystarczy krótka rozmowa, żeby myśl",
+  "„potrzebuję strony” przekuć w konkretny cel.",
+  "Jak ma wyglądać profesjonalna strona internetowa?",
+  "Do kogo ma trafiać i jaki ma dawać efekt?",
+  "Chętnie uzgodnimy z Tobą wszystkie szczegóły.",
+  "Sprawdź zakres naszej oferty i powiedz nam,",
+  "czego oczekujesz.",
 ];
 
 export const Offer: React.FC = () => {
@@ -86,17 +90,17 @@ export const Offer: React.FC = () => {
       <div className="relative lg:sticky lg:top-0 h-auto lg:h-screen lg:overflow-hidden flex flex-col pt-24 lg:pt-0">
         {/* Title Section - Sticky/Fixed logic varies */}
         <div
-          className="relative lg:absolute lg:top-16 lg:left-16 z-20 max-w-lg px-6 lg:px-0 mb-12 lg:mb-0 pointer-events-none transition-opacity duration-100"
+          className="relative lg:absolute lg:top-16 lg:left-16 z-20 max-w-4xl px-6 lg:px-0 mb-12 lg:mb-0 pointer-events-none transition-opacity duration-100"
           style={{ opacity: isMobile ? 1 : titleOpacity }}
         >
           <SplitRevealTitle
-            line1="Nasza"
-            line2="Oferta"
+            line1="Powiedz, czego"
+            line2="potrzebujesz"
             className="text-white! text-5xl sm:text-6xl lg:text-8xl tracking-tighter mb-4 lg:mb-8"
           />
           <LineReveal
             lines={OFFER_SUBTITLE_LINES}
-            className="text-neutral-400 text-base lg:text-lg max-w-sm leading-relaxed"
+            className="text-neutral-400 text-base lg:text-lg max-w-md leading-relaxed"
             once
           />
         </div>
@@ -125,7 +129,7 @@ export const Offer: React.FC = () => {
 
           {/* Ecommerce Card - Single Width */}
           <div
-            className={`shrink-0 ${isMobile ? "mb-8 w-full" : "w-[85vw] lg:w-[450px]"}`}
+            className={`shrink-0 ${isMobile ? "mb-8 w-full" : "w-[85vw] lg:w-[600px]"}`}
           >
             <DashedCardWrapper delay={0.1}>
               <EcommerceCard />

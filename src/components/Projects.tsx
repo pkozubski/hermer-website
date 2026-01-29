@@ -22,9 +22,11 @@ export function Projects() {
           />
           <LineReveal
             lines={[
-              "Wybór naszych najbardziej pasjonujących",
-              "projektów zrealizowanych dla klientów",
-              "na przestrzeni lat.",
+              "Zobacz wybrane realizacje, które",
+              "najlepiej pokazują, jak przez lata",
+              "zamienialiśmy potrzeby klientów ",
+              "w dopracowane strony i sklepy —",
+              "od pierwszego pomysłu po gotowy efekt.",
             ]}
             className="text-neutral-400 max-w-xs md:max-w-sm text-xs md:text-sm uppercase tracking-wide leading-relaxed"
           />

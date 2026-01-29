@@ -12,42 +12,6 @@ const svgPaths = {
 
 // --- Components ---
 
-const ToggleSwitch = ({
-  checked,
-  sliderRef,
-}: {
-  checked: boolean;
-  sliderRef: React.RefObject<HTMLDivElement | null>;
-}) => {
-  return (
-    <div className="bg-[#292929] flex h-[48px] items-center p-1 relative rounded-[50px] w-fit border border-[rgba(255,255,255,0.1)] pointer-events-none shadow-lg">
-      <div className="relative flex items-center h-full">
-        <div ref={sliderRef} className="absolute h-full w-[50%] z-0">
-          <div className="w-full h-full bg-[#3d3d3d] rounded-[50px] relative overflow-hidden">
-            <div className="absolute inset-0 rounded-[inherit] shadow-[inset_-12px_0px_15.3px_0px_rgba(255,255,255,0.57)]" />
-            <div className="absolute -left-2 -top-2 w-10 h-10 bg-[#3d3d3d] blur-[8px] rounded-full opacity-50" />
-          </div>
-          <div className="absolute inset-0 border border-[rgba(255,255,255,0.2)] rounded-[50px] shadow-[0px_0px_4px_0px_rgba(0,0,0,0.5)] pointer-events-none" />
-        </div>
-        <div
-          className={`relative z-10 px-6 py-2 ${!checked ? "text-white" : "text-[#8e8e8e]"} transition-colors duration-300`}
-        >
-          <p className="text-sm uppercase font-['Inter'] leading-normal font-medium tracking-wide">
-            Przed
-          </p>
-        </div>
-        <div
-          className={`relative z-10 px-8 py-2 ${checked ? "text-white" : "text-[#8e8e8e]"} transition-colors duration-300`}
-        >
-          <p className="text-sm uppercase font-['Inter'] leading-normal font-medium tracking-wide">
-            Po
-          </p>
-        </div>
-      </div>
-    </div>
-  );
-};
-
 const LoremTag = () => (
   <div className="relative border border-[#8B5CF6] px-3 py-1.5 md:px-4 md:py-2 bg-[#1e1e1e]/80 backdrop-blur-sm rounded-sm">
     <p className="font-['Inter'] text-lg md:text-2xl lg:text-3xl text-gray-200 whitespace-nowrap">
@@ -331,7 +295,7 @@ export const ChaosLanding = ({ className }: { className?: string }) => {
   const clipId = useId();
 
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const toggleSliderRef = useRef<HTMLDivElement | null>(null);
+
   const phoneRef = useRef<HTMLDivElement | null>(null);
   const elementRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const anchorRefs = useRef<Record<string, HTMLDivElement | null>>({});
@@ -344,12 +308,6 @@ export const ChaosLanding = ({ className }: { className?: string }) => {
     }
 
     const ctx = gsap.context(() => {
-      if (toggleSliderRef.current) {
-        gsap.set(toggleSliderRef.current, {
-          x: isOrdered ? "100%" : "0%",
-        });
-      }
-
       if (phoneRef.current) {
         gsap.set(phoneRef.current, {
           opacity: isOrdered ? 1 : 0,
@@ -458,27 +416,12 @@ export const ChaosLanding = ({ className }: { className?: string }) => {
     const phoneEase = isOrdered
       ? "elastic.out(0.9, 0.8)"
       : "elastic.out(0.9, 0.75)";
-    const toggleEase = isOrdered
-      ? "elastic.out(1, 0.95)"
-      : "elastic.out(1, 0.85)";
 
     const elementTargets = elements
       .map((el) => elementRefs.current[el.id])
       .filter((node): node is HTMLDivElement => Boolean(node));
 
-    gsap.killTweensOf([
-      toggleSliderRef.current,
-      phoneRef.current,
-      ...elementTargets,
-    ]);
-
-    if (toggleSliderRef.current) {
-      gsap.to(toggleSliderRef.current, {
-        x: isOrdered ? "100%" : "0%",
-        duration: 0.75,
-        ease: toggleEase,
-      });
-    }
+    gsap.killTweensOf([phoneRef.current, ...elementTargets]);
 
     if (phoneRef.current) {
       gsap.to(phoneRef.current, {
@@ -530,29 +473,28 @@ export const ChaosLanding = ({ className }: { className?: string }) => {
       </div>
 
       <div className="relative z-10 flex flex-col h-full p-8 md:p-12 pointer-events-none">
-        <div className="flex flex-col items-start gap-4 max-w-[50%] pointer-events-auto">
-          <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-linear-to-r from-gray-400 via-white to-gray-400 drop-shadow-sm">
+        <div className="flex flex-col items-start gap-4 max-w-full md:max-w-[50%] pointer-events-auto">
+          <h1 className="text-5xl md:text-7xl font-bold text-transparent bg-clip-text bg-linear-to-br from-white to-white/50 tracking-tighter drop-shadow-sm">
             Chaos → Porządek
           </h1>
           <p className="text-gray-400 text-sm md:text-base leading-relaxed">
-            Optymalizacja cyfrowych procesów i systemów. Uporządkowanie i
-            automatyzacja.
+            Hermer powstał z buntu przeciwko przeciętności. Widzieliśmy zbyt
+            wiele pięknych stron, które nie sprzedawały, i systemy, których nikt
+            nie umiał obsługiwać. Połączyliśmy inżynierską precyzję z
+            artystyczną duszą.
           </p>
-        </div>
-        <div className="mt-auto pointer-events-auto">
-          <ToggleSwitch checked={isOrdered} sliderRef={toggleSliderRef} />
         </div>
       </div>
 
       {/* Kotwice - zawsze na miejscu, tylko niewidoczne */}
-      <div className="absolute right-[5%] top-[5%] bottom-[5%] aspect-[133/276] z-0 pointer-events-none">
+      <div className="absolute right-[-10%] md:right-[5%] top-[10%] bottom-[10%] md:top-[5%] md:bottom-[5%] w-auto aspect-[133/276] z-0 pointer-events-none">
         <PhoneScreenAnchors anchorRefs={anchorRefs} />
       </div>
 
       {/* Telefon - animowany */}
       <div
         ref={phoneRef}
-        className="absolute right-[5%] top-[5%] bottom-[5%] aspect-[133/276] z-0 pointer-events-none"
+        className="absolute right-[-10%] md:right-[5%] top-[10%] bottom-[10%] md:top-[5%] md:bottom-[5%] w-auto aspect-[133/276] z-0 pointer-events-none"
       >
         <svg
           viewBox="0 0 133 276"

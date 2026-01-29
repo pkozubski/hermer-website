@@ -70,8 +70,8 @@ export const Blog: React.FC = () => {
           <div className="flex flex-col gap-6 md:text-right max-w-sm">
             <LineReveal
               lines={[
-                "Przesuń, aby odkryć więcej. Dzielimy się tym, co",
-                "napędza cyfrowy świat.",
+                "Dzielimy się tym, co napędza cyfrowy świat.",
+                "Przesuń, aby odkryć więcej wpisów. ",
               ]}
               className="text-neutral-400 text-sm md:text-base leading-relaxed"
             />

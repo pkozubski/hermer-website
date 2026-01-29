@@ -23,7 +23,7 @@ export default function ContactSquiggle() {
   return (
     <div
       ref={containerRef}
-      className="absolute inset-0 left-1/2 -translate-x-1/2 w-screen z-0 pointer-events-none overflow-visible"
+      className="absolute inset-0 left-1/2 -translate-x-1/2 w-screen -z-10 pointer-events-none overflow-visible"
     >
       <svg
         className="absolute w-full h-full opacity-60"

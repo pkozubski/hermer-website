@@ -22,7 +22,7 @@ export const MarketingCard = () => {
         />
 
         {/* Chart Visualization */}
-        <div className="absolute -bottom-12 -left-12 right-[40%] top-[20%] p-8 z-10">
+        <div className="absolute bottom-4 left-0 right-0 mx-auto w-[85%] md:w-auto md:inset-auto md:-bottom-12 md:-left-12 md:right-[40%] md:top-[20%] z-10 flex flex-col justify-end md:block pointer-events-none">
           {/* Header Label */}
           <div className="mb-3 flex items-center justify-center gap-3">
             <div
@@ -177,21 +177,24 @@ export const MarketingCard = () => {
       <div className="absolute inset-0 bg-linear-to-l from-neutral-900 via-neutral-900/80 to-transparent opacity-90" />
 
       {/* Text Content - RIGHT SIDE */}
-      <div className="absolute right-0 top-0 bottom-0 w-[50%] p-8 md:p-12 flex flex-col justify-start items-end z-20">
-        <div className="relative z-10 text-right">
-          <div className="pb-6 mb-6">
-            <h3 className="text-3xl md:text-5xl font-bold tracking-tight text-white mb-2">
-              Marketing
-            </h3>
-            <p className="text-neutral-500 font-bold tracking-widest uppercase text-xs">
-              Facebook & Google Ads
-            </p>
-          </div>
+      <div className="absolute right-0 top-0 bottom-0 w-full md:w-[50%] p-8 md:p-12 flex flex-col justify-start items-end z-20 pointer-events-none">
+        <div className="pointer-events-auto">
+          <div className="relative z-10 text-right">
+            <div className="pb-6 mb-6">
+              <h3 className="text-3xl md:text-5xl font-bold tracking-tight text-white mb-2">
+                Marketing internetowy
+              </h3>
+            </div>
 
-          <div>
-            <p className="text-neutral-400 text-lg font-medium leading-relaxed opacity-60 group-hover:opacity-100 transition-opacity duration-500">
-              Precyzyjne kampanie reklamowe z wysokim zwrotem z inwestycji.
-            </p>
+            <div>
+              <p className="text-neutral-400 text-sm md:text-base font-medium leading-relaxed opacity-80 group-hover:opacity-100 transition-opacity duration-500 max-w-lg ml-auto">
+                Zaczynamy od rozmowy i analizy, żeby dobrze zrozumieć Twoją
+                branżę i cele biznesowe. Na tej podstawie proponujemy konkretne
+                rozwiązania i przedstawiamy plan działania, a Ty masz jasność,
+                co robimy, dlaczego oraz w jaki sposób zwiększymy liczbę zapytań
+                i klientów.
+              </p>
+            </div>
           </div>
         </div>
       </div>

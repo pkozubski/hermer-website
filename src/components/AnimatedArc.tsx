@@ -21,7 +21,7 @@ export default function AnimatedArc({ scrollYProgress }: AnimatedArcProps) {
   const opacity = useTransform(smoothProgress, [0, 0.01], [0, 1]);
 
   return (
-    <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden translate-y-32">
+    <div className="absolute inset-0 -z-10 pointer-events-none overflow-hidden translate-y-32">
       <svg
         className="absolute w-[108%] h-full"
         viewBox="0 0 1001 696"

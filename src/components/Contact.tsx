@@ -39,13 +39,13 @@ export const Contact: React.FC = () => {
   return (
     <section
       id="contact"
-      className="py-24 lg:py-32 bg-transparent relative overflow-hidden"
+      className="py-16 lg:py-24 bg-transparent relative overflow-hidden isolate"
     >
       {/* Background Squiggle Animation */}
       <ContactSquiggle />
 
       <div className="container mx-auto px-4 sm:px-8 lg:px-16 relative z-10">
-        <div className="flex flex-col lg:flex-row gap-16 lg:gap-32 items-start">
+        <div className="flex flex-col lg:flex-row gap-12 lg:gap-24 items-start">
           {/* --- LEFT: VISUAL & INFO --- */}
           <div className="w-full lg:w-5/12 pt-4">
             {/* Title */}
@@ -53,15 +53,16 @@ export const Contact: React.FC = () => {
               <SplitRevealTitle
                 line1="Zacznijmy"
                 line2="Projekt"
-                className="text-white text-7xl lg:text-9xl mb-8 tracking-tighter"
+                className="text-white text-6xl lg:text-8xl mb-6 tracking-tighter"
               />
               <LineReveal
                 lines={[
-                  "Masz wizję? My mamy technologię.",
-                  "Napisz do nas, a stworzymy coś, co",
-                  "zostanie zapamiętane.",
+                  "Chcesz rozwinąć swoją obecność w internecie?",
+                  "Skontaktuj się z nami i porozmawiajmy",
+                  "o Twoim projekcie strony internetowej",
+                  "lub strategii marketingowej.",
                 ]}
-                className="text-neutral-400 text-lg max-w-sm leading-relaxed mt-8 font-medium"
+                className="text-neutral-400 text-lg max-w-md leading-relaxed mt-8 font-medium"
               />
             </div>
 
@@ -101,7 +102,7 @@ export const Contact: React.FC = () => {
                   </h4>
                   <a
                     href={item.href}
-                    className="text-2xl md:text-3xl font-bold text-white group-hover:text-[#916AFF] transition-colors inline-flex items-center gap-4"
+                    className="text-xl md:text-2xl font-bold text-white group-hover:text-[#916AFF] transition-colors inline-flex items-center gap-4"
                   >
                     {item.label === "Email" ? (
                       <ScrambleText text={item.value} />
@@ -122,7 +123,7 @@ export const Contact: React.FC = () => {
 
           {/* --- RIGHT: SWISS GRID FORM --- */}
           <motion.div
-            className="w-full lg:w-7/12 pt-8 bg-white/5 backdrop-blur-md rounded-3xl p-8 lg:p-12 border border-white/10"
+            className="w-full lg:w-7/12 pt-8 bg-white/5 backdrop-blur-md rounded-3xl p-6 lg:p-10 border border-white/10"
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: false, margin: "-100px" }}
@@ -152,7 +153,7 @@ export const Contact: React.FC = () => {
                 </button>
               </motion.div>
             ) : (
-              <form onSubmit={handleSubmit} className="flex flex-col gap-16">
+              <form onSubmit={handleSubmit} className="flex flex-col gap-10">
                 {/* Name Field */}
                 <motion.div
                   className="relative group"
@@ -167,7 +168,7 @@ export const Contact: React.FC = () => {
                 >
                   <label
                     htmlFor="name"
-                    className={`block text-xs font-bold uppercase tracking-widest mb-4 transition-colors duration-300 ${
+                    className={`block text-xs font-bold uppercase tracking-widest mb-2 transition-colors duration-300 ${
                       activeField === "name" ? "text-white" : "text-neutral-500"
                     }`}
                   >
@@ -184,7 +185,7 @@ export const Contact: React.FC = () => {
                     onFocus={() => setActiveField("name")}
                     onBlur={() => setActiveField(null)}
                     placeholder="Imię i Nazwisko"
-                    className="w-full bg-transparent border-b border-white/20 py-6 text-2xl md:text-4xl font-bold text-white placeholder-white/20 focus:outline-none focus:border-white transition-all duration-500 rounded-none"
+                    className="w-full bg-transparent border-b border-white/20 py-4 text-xl md:text-2xl font-bold text-white placeholder-white/20 focus:outline-none focus:border-white transition-all duration-500 rounded-none"
                   />
                 </motion.div>
 
@@ -202,7 +203,7 @@ export const Contact: React.FC = () => {
                 >
                   <label
                     htmlFor="email"
-                    className={`block text-xs font-bold uppercase tracking-widest mb-4 transition-colors duration-300 ${
+                    className={`block text-xs font-bold uppercase tracking-widest mb-2 transition-colors duration-300 ${
                       activeField === "email"
                         ? "text-white"
                         : "text-neutral-500"
@@ -221,7 +222,7 @@ export const Contact: React.FC = () => {
                     onFocus={() => setActiveField("email")}
                     onBlur={() => setActiveField(null)}
                     placeholder="adres@email.com"
-                    className="w-full bg-transparent border-b border-white/20 py-6 text-2xl md:text-4xl font-bold text-white placeholder-white/20 focus:outline-none focus:border-white transition-all duration-500 rounded-none"
+                    className="w-full bg-transparent border-b border-white/20 py-4 text-xl md:text-2xl font-bold text-white placeholder-white/20 focus:outline-none focus:border-white transition-all duration-500 rounded-none"
                   />
                 </motion.div>
 
@@ -239,7 +240,7 @@ export const Contact: React.FC = () => {
                 >
                   <label
                     htmlFor="message"
-                    className={`block text-xs font-bold uppercase tracking-widest mb-4 transition-colors duration-300 ${
+                    className={`block text-xs font-bold uppercase tracking-widest mb-2 transition-colors duration-300 ${
                       activeField === "message"
                         ? "text-white"
                         : "text-neutral-500"
@@ -258,7 +259,7 @@ export const Contact: React.FC = () => {
                     onFocus={() => setActiveField("message")}
                     onBlur={() => setActiveField(null)}
                     placeholder="Opowiedz nam o swoim pomyśle..."
-                    className="w-full bg-transparent border-b border-white/20 py-6 text-2xl md:text-4xl font-bold text-white placeholder-white/20 focus:outline-none focus:border-white transition-all duration-500 resize-none rounded-none"
+                    className="w-full bg-transparent border-b border-white/20 py-4 text-xl md:text-2xl font-bold text-white placeholder-white/20 focus:outline-none focus:border-white transition-all duration-500 resize-none rounded-none"
                   />
                 </motion.div>
 
@@ -277,7 +278,7 @@ export const Contact: React.FC = () => {
                   <button
                     type="submit"
                     disabled={status === "submitting"}
-                    className={`w-full py-8 md:py-10 bg-white text-neutral-900 rounded-full text-xl md:text-3xl font-display font-bold hover:bg-[#916AFF] hover:text-white transition-all duration-500 flex items-center justify-center gap-4 group ${
+                    className={`w-full py-5 md:py-6 bg-white text-neutral-900 rounded-full text-lg md:text-xl font-display font-bold hover:bg-[#916AFF] hover:text-white transition-all duration-500 flex items-center justify-center gap-4 group ${
                       status === "submitting"
                         ? "opacity-70 cursor-not-allowed"
                         : "hover:shadow-2xl hover:scale-[1.02]"
@@ -290,7 +291,7 @@ export const Contact: React.FC = () => {
                         Wyślij Wiadomość
                         <ArrowRight
                           className="group-hover:translate-x-2 transition-transform duration-300"
-                          size={32}
+                          size={24}
                         />
                       </>
                     )}

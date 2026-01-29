@@ -4,6 +4,7 @@ import React, { useState, useCallback } from "react";
 import { Header } from "./Header";
 import { Hero } from "./Hero";
 import { Offer } from "./Offer";
+import { WhoWeHelp } from "./WhoWeHelp";
 import { Projects } from "./Projects";
 import { About } from "./About";
 import { Stats } from "./Stats";
@@ -50,6 +51,7 @@ export const MainContent: React.FC = () => {
 
       <div className="relative z-10 bg-transparent">
         <Offer />
+        <WhoWeHelp />
 
         {/* About/Projects/Testimonials Wrapper with Blobs */}
         <div className="relative overflow-clip">

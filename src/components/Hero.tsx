@@ -20,8 +20,9 @@ import { MarketingCard } from "./cards/MarketingCard";
 import { CmsCard } from "./cards/CmsCard";
 import { EcommerceCard } from "./cards/EcommerceCard";
 import { SocialCard } from "./cards/SocialCard";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { CardWheel } from "./CardWheel";
+import HeroSquiggle from "./HeroSquiggle";
 
 // Data for the cards to be rendered - Monochrome Themes
 const CARDS_DATA = [
@@ -127,6 +128,14 @@ const CountUp: React.FC<{
   );
 };
 
+const HERO_TEXTS = [
+  "Strona www i marketing, które pracują na Twoją markę",
+  "Zamieniamy chaos w cyfrowy porządek",
+  "Buduj z nami lepszą widoczność firmy w Internecie",
+];
+
+const LONGEST_TEXT = "Strona www i marketing, które pracują na Twoją markę";
+
 const MaskedRevealText = ({
   text,
   delay = 0,
@@ -136,20 +145,27 @@ const MaskedRevealText = ({
 }) => {
   return (
     <span className="inline-block">
-      {text.split("").map((char, i) => (
-        <motion.span
-          key={i}
-          className="inline-block"
-          initial={{ y: "110%" }}
-          animate={{ y: 0 }}
-          transition={{
-            duration: 0.8,
-            ease: [0.16, 1, 0.3, 1],
-            delay: delay + i * 0.03,
-          }}
+      {text.split(" ").map((word, wordIndex) => (
+        <span
+          key={wordIndex}
+          className="inline-block whitespace-nowrap mr-[0.25em] overflow-hidden align-bottom pb-1"
         >
-          {char === " " ? "\u00A0" : char}
-        </motion.span>
+          {word.split("").map((char, charIndex) => (
+            <motion.span
+              key={charIndex}
+              className="inline-block"
+              initial={{ y: "110%" }}
+              animate={{ y: 0 }}
+              transition={{
+                duration: 0.8,
+                ease: [0.16, 1, 0.3, 1],
+                delay: delay + wordIndex * 0.1 + charIndex * 0.02,
+              }}
+            >
+              {char}
+            </motion.span>
+          ))}
+        </span>
       ))}
     </span>
   );
@@ -180,6 +196,21 @@ export const Hero: React.FC<{ onAnimationComplete?: () => void }> = ({
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
+  const [textIndex, setTextIndex] = useState(0);
+
+  useEffect(() => {
+    // Start cycling after the initial animation completes (approx 3s)
+    const startDelay = setTimeout(() => {
+      const interval = setInterval(() => {
+        setTextIndex((prev) => (prev + 1) % HERO_TEXTS.length);
+      }, 5000); // Change every 5 seconds
+
+      return () => clearInterval(interval);
+    }, 3000);
+
+    return () => clearTimeout(startDelay);
+  }, []);
+
   /* Removed scroll effects for classic landing behavior */
 
   const column1 = [CARDS_DATA[0], CARDS_DATA[2], CARDS_DATA[4], CARDS_DATA[6]];
@@ -190,6 +221,9 @@ export const Hero: React.FC<{ onAnimationComplete?: () => void }> = ({
       ref={containerRef}
       className="w-full px-4 sm:px-8 lg:px-8 overflow-hidden bg-transparent isolate flex items-center relative h-auto min-h-screen py-20 lg:py-0 z-0 text-center lg:text-left"
     >
+      {/* Animated Squiggles */}
+      <HeroSquiggle />
+
       {/* Aesthetic Grid Background - Dark Mode */}
 
       <div className="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-0 items-center relative w-full z-0 perspective-[2000px]">
@@ -210,22 +244,42 @@ export const Hero: React.FC<{ onAnimationComplete?: () => void }> = ({
 
         {/* Center Column: Text Content */}
         <div className="col-span-1 lg:col-span-6 flex flex-col items-center text-center z-20 relative pb-0 px-4 pt-12 lg:pt-32">
-          <h1 className="text-4xl sm:text-6xl lg:text-5xl xl:text-7xl 2xl:text-[7rem] leading-[1.05] text-white mb-6 sm:mb-8 tracking-tight pb-4">
-            <div className="block overflow-hidden pb-1 px-1 font-display font-medium tracking-tighter">
-              <MaskedRevealText text="Profesjonalne" delay={0.1} />
+          {/* Text Container with Invisible Spacer to prevent layout shift */}
+          <div className="relative mb-6 sm:mb-8 pb-4">
+            {/* Invisible Spacer */}
+            <h1
+              className="invisible text-4xl sm:text-6xl lg:text-5xl xl:text-7xl 2xl:text-[5.5rem] leading-[1.05] tracking-tight font-display font-medium pointer-events-none select-none"
+              aria-hidden="true"
+            >
+              {LONGEST_TEXT}
+            </h1>
+
+            {/* A second spacer for the potentially taller 3-line text if needed, or just relying on the longest text string. 
+                Actually, let's just ensure we reserve space for 3 lines roughly. 
+                The text "Strona www i marketing..." is long enough to force 3 lines on most breakpoints where it matters.
+            */}
+
+            {/* Active Text */}
+            <div className="absolute top-0 left-0 w-full h-full flex items-center lg:items-start justify-center lg:justify-start">
+              <AnimatePresence mode="wait">
+                <motion.h1
+                  key={textIndex}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5 }}
+                  className="text-4xl sm:text-6xl lg:text-5xl xl:text-7xl 2xl:text-[5.5rem] leading-[1.05] text-white tracking-tight font-display font-medium"
+                >
+                  <MaskedRevealText text={HERO_TEXTS[textIndex]} delay={0.1} />
+                </motion.h1>
+              </AnimatePresence>
             </div>
-            <div className="block overflow-hidden pb-1 px-1 font-display font-medium tracking-tighter">
-              <MaskedRevealText text="strony" delay={0.3} />
-            </div>
-            <div className="block overflow-hidden pb-1 px-1 font-display font-medium tracking-tighter">
-              <MaskedRevealText text="internetowe" delay={0.5} />
-            </div>
-          </h1>
+          </div>
 
           <p className="text-neutral-400 text-base sm:text-lg lg:text-xl max-w-lg mb-8 lg:mb-10 font-light leading-relaxed animate-[text-reveal_0.8s_cubic-bezier(0.16,1,0.3,1)_0.8s_backwards] tracking-wide">
-            Zajmiemy się Twoim projektem kompleksowo.{" "}
+            Zajmiemy się Twoją stroną kompleksowo —{" "}
             <br className="hidden sm:block" />
-            Od projektu zaprojektowania Twojej strony po wdrożenie
+            od przygotowania koncepcji po wdrożenie gotowego projektu.
           </p>
 
           <button className="group relative px-6 py-3 sm:px-10 sm:py-5 bg-[#916AFF] text-white rounded-full font-bold text-sm sm:text-lg transition-all duration-300 hover:shadow-[0_0_30px_rgba(145,106,255,0.5)] hover:scale-105 active:scale-95 flex items-center gap-3 overflow-hidden animate-[text-reveal_0.8s_cubic-bezier(0.16,1,0.3,1)_1s_backwards]">

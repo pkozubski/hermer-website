@@ -75,7 +75,7 @@ export const SplitRevealTitle = ({
          Dodajemy minimalny padding (py), aby fonty nie były przycięte przez overflow-hidden 
       */}
       <span
-        className={`block overflow-hidden pt-[0.15em] pb-[0.05em] ${classNameLine1}`}
+        className={`block overflow-hidden pt-[0.2em] pb-[0.2em] ${classNameLine1}`}
       >
         <span ref={line1Ref} className="block will-change-transform">
           {line1}
@@ -87,7 +87,7 @@ export const SplitRevealTitle = ({
          Dodajemy margin-top i padding, aby zachować odstępy i bezpieczeństwo znaków
       */}
       <span
-        className={`block overflow-hidden pt-[0.05em] pb-[0.15em] mt-[0.1em] ${classNameLine2}`}
+        className={`block overflow-hidden pt-[0.1em] pb-[0.3em] mt-[-0.1em] ${classNameLine2}`}
       >
         <span ref={line2Ref} className="block will-change-transform">
           {line2}

@@ -39,15 +39,16 @@ export const EcommerceCard = () => {
 
         <div className="space-y-2 mb-4">
           <h3 className="text-3xl font-bold tracking-tight text-white leading-tight">
-            E-Commerce
+            Tworzenie sklepów www
           </h3>
-          <p className="text-neutral-500 font-bold tracking-widest uppercase text-[10px]">
-            Sklepy Online
-          </p>
         </div>
 
-        <p className="text-neutral-400 text-base font-medium leading-relaxed max-w-[90%] opacity-80">
-          Skalowalne platformy sprzedażowe pod maksymalną wartość koszyka.
+        <p className="text-neutral-400 text-sm md:text-base font-medium leading-relaxed max-w-[90%] opacity-80">
+          Budujemy sklepy www, w których klient szybko znajduje produkt, rozumie
+          ofertę i wygodnie finalizuje zakup. Uzgadniamy z Tobą priorytety
+          sprzedażowe i asortyment, a następnie dopracowujemy nawigację,
+          prezentację produktów i ścieżkę zakupu tak, żeby wszystko działało
+          intuicyjnie.
         </p>
       </div>
 
