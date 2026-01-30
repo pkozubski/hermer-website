@@ -463,7 +463,7 @@ export const ChaosLanding = ({ className }: { className?: string }) => {
   return (
     <div
       ref={containerRef}
-      className={`relative w-full h-full min-h-[400px] bg-white/5 backdrop-blur-xl rounded-[32px] border border-white/5 overflow-hidden shadow-2xl transition-colors duration-500 hover:border-white/10 ${className || ""}`}
+      className={`relative w-full h-full min-h-[400px] bg-[#1e1e1e] rounded-[32px] border border-[#333] overflow-hidden shadow-2xl transition-colors duration-500 hover:border-[#444] ${className || ""}`}
       onMouseEnter={() => setIsOrdered(true)}
       onMouseLeave={() => setIsOrdered(false)}
     >
@@ -473,8 +473,8 @@ export const ChaosLanding = ({ className }: { className?: string }) => {
       </div>
 
       <div className="relative z-10 flex flex-col h-full p-8 md:p-12 pointer-events-none">
-        <div className="flex flex-col items-start gap-4 max-w-full md:max-w-[50%] pointer-events-auto">
-          <h1 className="text-5xl md:text-7xl font-bold text-transparent bg-clip-text bg-linear-to-br from-white to-white/50 tracking-tighter drop-shadow-sm">
+        <div className="flex flex-col items-start gap-4 max-w-[50%] pointer-events-auto">
+          <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-linear-to-r from-gray-400 via-white to-gray-400 drop-shadow-sm">
             Chaos → Porządek
           </h1>
           <p className="text-gray-400 text-sm md:text-base leading-relaxed">
@@ -487,14 +487,14 @@ export const ChaosLanding = ({ className }: { className?: string }) => {
       </div>
 
       {/* Kotwice - zawsze na miejscu, tylko niewidoczne */}
-      <div className="absolute right-[-10%] md:right-[5%] top-[10%] bottom-[10%] md:top-[5%] md:bottom-[5%] w-auto aspect-[133/276] z-0 pointer-events-none">
+      <div className="absolute right-[5%] top-[5%] bottom-[5%] aspect-[133/276] z-0 pointer-events-none">
         <PhoneScreenAnchors anchorRefs={anchorRefs} />
       </div>
 
       {/* Telefon - animowany */}
       <div
         ref={phoneRef}
-        className="absolute right-[-10%] md:right-[5%] top-[10%] bottom-[10%] md:top-[5%] md:bottom-[5%] w-auto aspect-[133/276] z-0 pointer-events-none"
+        className="absolute right-[5%] top-[5%] bottom-[5%] aspect-[133/276] z-0 pointer-events-none"
       >
         <svg
           viewBox="0 0 133 276"

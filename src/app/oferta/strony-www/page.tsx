@@ -10,6 +10,7 @@ import { WhyHermerSection } from "@/components/oferta/WhyHermerSection";
 import { TechStackSection } from "@/components/oferta/TechStackSection";
 import { PricingSection } from "@/components/oferta/PricingSection";
 import { Faq } from "@/components/Faq";
+import { OfferProjects } from "@/components/oferta/OfferProjects";
 import { SimpleContactSection } from "@/components/oferta/SimpleContactSection";
 
 export default function WebDesignPage() {
@@ -38,7 +39,8 @@ export default function WebDesignPage() {
         <WebsiteFeaturesBento />
         <WhyHermerSection />
         <TechStackSection />
-        <PricingSection />
+        {/* <PricingSection /> */}
+        <OfferProjects category="website" />
         <Faq />
         <SimpleContactSection />
       </main>

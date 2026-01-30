@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { ClipboardList, Palette, Plug2, TrendingUp } from "lucide-react";
+import { ClipboardList, Palette, Code2, Zap, TrendingUp } from "lucide-react";
 import { SplitRevealTitle } from "../ui/SplitRevealTitle";
 import { LineReveal } from "../ui/LineReveal";
 
@@ -9,27 +9,28 @@ export const EcommerceProcessSection: React.FC = () => {
     const steps = [
         {
             icon: ClipboardList,
-            title: "1. Audyt i Asortyment",
-            description:
-                "Analizujemy Twoje produkty, grupy docelowe i konkurencję. Planujemy strukturę kategorii i filtry produktowe.",
+            title: "1. Analiza potrzeb biznesowych i produktów",
+            description: "",
         },
         {
             icon: Palette,
-            title: "2. UX/UI Sprzedażowy",
-            description:
-                "Projektujemy ścieżkę zakupową tak, by była intuicyjna. Minimalizujemy liczbę kliknięć potrzebnych do zakupu (Check-out).",
+            title: "2. Projekt UX i architektura sklepu",
+            description: "",
         },
         {
-            icon: Plug2,
-            title: "3. Integracje",
-            description:
-                "Podłączamy bramki płatności (BLIK, PayU), systemy kurierskie (InPost, DPD) oraz magazynowo-księgowe.",
+            icon: Code2,
+            title: "3. Wdrożenie techniczne i integracje",
+            description: "",
+        },
+        {
+            icon: Zap,
+            title: "4. Testy, optymalizacja i uruchomienie",
+            description: "",
         },
         {
             icon: TrendingUp,
-            title: "4. Start i Analityka",
-            description:
-                "Uruchamiamy sklep, konfigurujemy Google Analytics 4 (e-commerce tracking) i szkolimy Twój zespół.",
+            title: "5. Wsparcie, rozwój i kampanie marketingowe",
+            description: "",
         },
     ];
 
@@ -38,32 +39,23 @@ export const EcommerceProcessSection: React.FC = () => {
             <div className="container mx-auto px-4 md:px-8">
                 {/* Split Header */}
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-20 gap-8">
-                    <SplitRevealTitle
-                        line1="Etapy"
-                        line2="Wdrożenia"
-                        className="text-white! text-5xl md:text-8xl"
-                    />
-                    <LineReveal
-                        lines={[
-                            "Budowa sklepu to proces biznesowy, nie tylko",
-                            "technologiczny. Skupiamy się na maksymalizacji Twoich zysków.",
-                        ]}
-                        className="text-neutral-400 text-sm md:text-base leading-relaxed max-w-md text-left md:text-right"
-                    />
+                    <div>
+                        <h2 className="text-white text-4xl md:text-6xl font-display font-medium tracking-tight mb-4">
+                            Proces współpracy <br />
+                            <span className="text-white">przy sklepie internetowym</span>
+                        </h2>
+                    </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8">
                     {steps.map((step, index) => (
-                        <div key={index} className="group">
+                        <div key={index} className="group flex flex-col items-start">
                             <div className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white mb-6 group-hover:bg-[#916AFF] group-hover:text-white group-hover:border-[#916AFF] transition-all duration-300">
                                 <step.icon className="w-5 h-5" strokeWidth={2} />
                             </div>
-                            <h3 className="text-xl font-bold mb-3 text-white">
+                            <h3 className="text-lg font-bold mb-3 text-white leading-snug">
                                 {step.title}
                             </h3>
-                            <p className="text-neutral-400 text-sm leading-relaxed">
-                                {step.description}
-                            </p>
                         </div>
                     ))}
                 </div>

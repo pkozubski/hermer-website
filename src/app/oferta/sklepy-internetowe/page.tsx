@@ -3,11 +3,13 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { EcommerceOfferHero } from "@/components/oferta/EcommerceOfferHero";
+import { WhatIsEcommerceSection } from "@/components/oferta/WhatIsEcommerceSection";
 import { EcommerceProcessSection } from "@/components/oferta/EcommerceProcessSection";
-import { EcommerceFeaturesSection } from "@/components/oferta/EcommerceFeaturesSection";
+import { EcommerceFeaturesBento } from "@/components/oferta/EcommerceFeaturesBento";
 import { EcommerceTechStackSection } from "@/components/oferta/EcommerceTechStackSection";
 import { EcommercePricingSection } from "@/components/oferta/EcommercePricingSection";
-import { EcommerceFaq } from "@/components/oferta/EcommerceFaq";
+import { Faq } from "@/components/Faq";
+import { OfferProjects } from "@/components/oferta/OfferProjects";
 import { EcommerceContactSection } from "@/components/oferta/EcommerceContactSection";
 
 export default function EcommerceOfferPage() {
@@ -32,11 +34,13 @@ export default function EcommerceOfferPage() {
             <Header allowVisibility={true} />
             <main className="relative z-10">
                 <EcommerceOfferHero />
+                <WhatIsEcommerceSection />
                 <EcommerceProcessSection />
-                <EcommerceFeaturesSection />
+                <EcommerceFeaturesBento />
                 <EcommerceTechStackSection />
-                <EcommercePricingSection />
-                <EcommerceFaq />
+                {/* <EcommercePricingSection /> */}
+                <OfferProjects category="ecommerce" />
+                <Faq />
                 <EcommerceContactSection />
             </main>
             <Footer />
