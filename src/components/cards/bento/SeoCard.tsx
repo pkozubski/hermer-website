@@ -3,7 +3,7 @@
 import React from "react";
 import { ArrowUpRight, Search } from "lucide-react";
 
-export const SeoCard = () => {
+export const SeoCard = ({ className = "" }: { className?: string }) => {
   const [typedText, setTypedText] = React.useState("");
   const [showResults, setShowResults] = React.useState(false);
   const [cycle, setCycle] = React.useState(0);
@@ -33,7 +33,7 @@ export const SeoCard = () => {
   return (
     <a
       href="/oferta/pozycjonowanie"
-      className="group relative h-[500px] rounded-[40px] overflow-hidden bg-neutral-900 hover:shadow-2xl hover:shadow-black/50 transition-all duration-700 flex flex-col justify-between border border-white/5"
+      className={`group relative h-full w-full rounded-[40px] overflow-hidden bg-neutral-900 hover:shadow-2xl hover:shadow-black/50 transition-all duration-700 flex flex-col justify-between border border-white/5 ${className}`}
     >
       {/* 1. TOP: Text Content */}
       <div className="relative z-20 p-8 md:p-10 flex flex-col items-start w-full">

@@ -463,7 +463,7 @@ export const ChaosLanding = ({ className }: { className?: string }) => {
   return (
     <div
       ref={containerRef}
-      className={`relative w-full h-full min-h-[400px] bg-[#1e1e1e] rounded-[32px] border border-[#333] overflow-hidden shadow-2xl transition-colors duration-500 hover:border-[#444] ${className || ""}`}
+      className={`relative w-full h-full min-h-[400px] bg-white/5 backdrop-blur-xl rounded-[32px] border border-white/5 overflow-hidden shadow-2xl transition-colors duration-500 hover:border-white/10 ${className || ""}`}
       onMouseEnter={() => setIsOrdered(true)}
       onMouseLeave={() => setIsOrdered(false)}
     >

@@ -10,7 +10,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 
-export const EcommerceCard = () => {
+export const EcommerceCard = ({ className = "" }: { className?: string }) => {
   const [activeStep, setActiveStep] = React.useState(0);
 
   React.useEffect(() => {
@@ -29,7 +29,7 @@ export const EcommerceCard = () => {
   return (
     <a
       href="/oferta/sklepy-internetowe"
-      className="group relative h-[500px] rounded-[40px] overflow-hidden bg-neutral-900 hover:shadow-2xl hover:shadow-black/50 transition-all duration-700 flex flex-col justify-between border border-white/5"
+      className={`group relative h-full w-full rounded-[40px] overflow-hidden bg-neutral-900 hover:shadow-2xl hover:shadow-black/50 transition-all duration-700 flex flex-col justify-between border border-white/5 ${className}`}
     >
       {/* 1. TOP: Text Content */}
       <div className="relative z-20 p-8 md:p-10 flex flex-col items-start w-full">

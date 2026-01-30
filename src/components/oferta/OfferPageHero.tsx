@@ -7,9 +7,9 @@ import { motion } from "framer-motion";
 
 export const OfferPageHero = () => {
   return (
-    <section className="relative min-h-[90vh] w-full flex flex-col items-center justify-center overflow-hidden bg-white py-20 isolate">
-      {/* Background Grid - Added via Antigravity */}
-      <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,#f1f5f9_1px,transparent_1px),linear-gradient(to_bottom,#f1f5f9_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
+    <section className="relative min-h-[90vh] w-full flex flex-col items-center justify-center overflow-hidden bg-transparent py-20 isolate">
+      {/* Background Grid - Adjusted for Dark Mode */}
+      <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:40px_40px] opacity-[0.03] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
       {/* Central Content */}
       <div className="container mx-auto px-4 relative z-10 flex flex-col items-center">
         <motion.div
@@ -18,7 +18,7 @@ export const OfferPageHero = () => {
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="text-center max-w-5xl mx-auto"
         >
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-display font-medium tracking-tighter text-slate-900 leading-[1.05] mb-6 sm:mb-8">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-display font-medium tracking-tighter text-white leading-[1.05] mb-6 sm:mb-8">
             Zbudujemy Ci stronę,
             <br />
             a potem sprawimy,
@@ -26,7 +26,7 @@ export const OfferPageHero = () => {
             że ludzie na nią trafią.
           </h1>
 
-          <p className="text-slate-600 text-base sm:text-lg lg:text-xl max-w-2xl mx-auto mb-8 lg:mb-10 font-light leading-relaxed tracking-wide">
+          <p className="text-neutral-400 text-base sm:text-lg lg:text-xl max-w-2xl mx-auto mb-8 lg:mb-10 font-light leading-relaxed tracking-wide">
             Strony, sklepy, SEO i marketing jako spójny
             <br className="hidden sm:block" />
             system — design, UX i wynik.
@@ -41,7 +41,7 @@ export const OfferPageHero = () => {
             </Link>
             <Link
               href="#realizacje"
-              className="px-6 py-3 sm:px-10 sm:py-5 bg-white border border-slate-200 text-slate-600 rounded-full font-bold text-sm sm:text-lg hover:bg-slate-50 hover:border-slate-300 transition-all duration-300 hover:scale-105 active:scale-95"
+              className="px-6 py-3 sm:px-10 sm:py-5 bg-white/5 border border-white/10 text-white rounded-full font-bold text-sm sm:text-lg hover:bg-white/10 hover:border-white/20 transition-all duration-300 hover:scale-105 active:scale-95 backdrop-blur-sm"
             >
               Zobacz realizacje
             </Link>
@@ -162,15 +162,15 @@ const FloatingCard = ({
     >
       {/* Back Card (Stacked Effect) - fioletowa karta za główną */}
       <div
-        className="absolute -inset-1 bg-gradient-to-br from-[#E8E2FF] to-[#D4CCFF] rounded-3xl transform rotate-[8deg] translate-x-3 translate-y-3 border-2 border-[#C9BFFF]/60"
-        style={{ boxShadow: "0 8px 32px rgba(145, 106, 255, 0.15)" }}
+        className="absolute -inset-1 bg-gradient-to-br from-[#1e1e1e] to-[#2a2a2a] rounded-3xl transform rotate-[8deg] translate-x-3 translate-y-3 border-2 border-[#916AFF]/20"
+        style={{ boxShadow: "0 8px 32px rgba(0, 0, 0, 0.3)" }}
       />
 
-      {/* Main Card - biała karta */}
+      {/* Main Card - ciemna karta */}
       <div
-        className={`relative bg-white rounded-3xl border-2 border-slate-200/80 flex flex-col items-center z-10 ${isPhone ? "pt-2 pb-6 px-6" : "p-6"}`}
+        className={`relative bg-[#171717] rounded-3xl border-2 border-white/10 flex flex-col items-center z-10 ${isPhone ? "pt-2 pb-6 px-6" : "p-6"}`}
         style={{
-          boxShadow: "0 4px 24px rgba(0, 0, 0, 0.06)",
+          boxShadow: "0 4px 24px rgba(0, 0, 0, 0.2)",
           width: "200px",
         }}
       >
@@ -201,7 +201,7 @@ const FloatingCard = ({
         </div>
 
         {/* Title */}
-        <span className="text-center font-bold text-slate-900 text-base leading-snug mt-2">
+        <span className="text-center font-bold text-white text-base leading-snug mt-2">
           {title}
         </span>
       </div>
@@ -212,10 +212,10 @@ const FloatingCard = ({
 const MobileCard = ({ img, title }: { img: string; title: string }) => (
   <div className="relative">
     {/* Back Card (Stacked Effect) */}
-    <div className="absolute inset-0 bg-[#E8E2FF] rounded-3xl transform rotate-3 translate-y-1 translate-x-1 border border-purple-200" />
+    <div className="absolute inset-0 bg-[#1e1e1e] rounded-3xl transform rotate-3 translate-y-1 translate-x-1 border border-white/10" />
 
     {/* Main Card */}
-    <div className="relative bg-white p-5 rounded-3xl shadow-lg border border-slate-200 flex flex-col items-center gap-3 z-10">
+    <div className="relative bg-[#171717] p-5 rounded-3xl shadow-lg border border-white/10 flex flex-col items-center gap-3 z-10">
       <div className="relative w-full aspect-square flex items-center justify-center">
         <div className="absolute inset-0 bg-purple-500/5 filter blur-2xl rounded-full scale-75" />
         <Image
@@ -225,7 +225,7 @@ const MobileCard = ({ img, title }: { img: string; title: string }) => (
           className="object-contain drop-shadow-md"
         />
       </div>
-      <span className="text-center font-bold text-slate-800 text-sm leading-tight">
+      <span className="text-center font-bold text-white text-sm leading-tight">
         {title}
       </span>
     </div>

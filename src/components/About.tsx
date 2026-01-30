@@ -40,7 +40,7 @@ const BentoCard = ({
   return (
     <div
       onMouseMove={handleMouseMove}
-      className={`group relative overflow-hidden bg-neutral-800/50 backdrop-blur-sm border border-white/5 rounded-3xl shadow-sm hover:shadow-2xl hover:border-white/10 transition-[border-color,box-shadow] duration-300 ${className}`}
+      className={`group relative overflow-hidden bg-white/5 backdrop-blur-xl border border-white/5 rounded-3xl shadow-sm hover:shadow-2xl hover:border-white/10 transition-[border-color,box-shadow] duration-300 ${className}`}
     >
       {/* Hover Spotlight Effect */}
       {hoverEffect && (
@@ -73,7 +73,7 @@ export const About: React.FC = () => {
     <section
       ref={containerRef}
       id="about"
-      className="bg-transparent py-32 relative text-white isolate"
+      className="bg-[#171717] py-32 relative text-white isolate"
       style={{ position: "relative" }}
     >
       {/* Background Ambience moved to MainContent wrapper */}
@@ -125,7 +125,7 @@ export const About: React.FC = () => {
           <ChaosLanding className="md:col-span-6 lg:col-span-8" />
 
           {/* 2. Stat Card: Experience - Spans 4 cols */}
-          <div className="md:col-span-6 lg:col-span-4 relative group/image-card min-h-[400px] w-full h-full bg-[#1e1e1e] rounded-[32px] border border-[#333] overflow-hidden shadow-2xl transition-all duration-500 hover:border-[#444] group">
+          <div className="md:col-span-6 lg:col-span-4 relative group/image-card min-h-[400px] w-full h-full bg-white/5 backdrop-blur-xl rounded-[32px] border border-white/5 overflow-hidden shadow-2xl transition-all duration-500 hover:border-white/10 group">
             {/* Background Effects */}
             <div className="absolute inset-0 bg-linear-to-b from-white/5 to-transparent opacity-20 pointer-events-none" />
             <div
@@ -175,7 +175,7 @@ export const About: React.FC = () => {
           </div>
 
           {/* 3. Feature Card: Security (was Satisfaction) */}
-          <BentoCard className="md:col-span-3 lg:col-span-4 relative bg-[#1e1e1e] border border-[#333] overflow-hidden group/shield md:col-start-1 rounded-[32px]">
+          <BentoCard className="md:col-span-3 lg:col-span-4 relative border border-[#333] overflow-hidden group/shield md:col-start-1 rounded-[32px]">
             {/* Background Mesh Gradient */}
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,_var(--tw-gradient-stops))] from-white/5 via-transparent to-transparent opacity-50" />
             <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-[#916AFF]/10 blur-[80px] rounded-full pointer-events-none group-hover/shield:bg-[#916AFF]/20 transition-all duration-700" />
@@ -210,7 +210,7 @@ export const About: React.FC = () => {
 
           {/* 4. Feature Card: Experts (was Team) */}
           <BentoCard
-            className="md:col-span-3 lg:col-span-4 p-0 bg-[#1e1e1e] border border-[#333] overflow-hidden group/team md:col-start-1 rounded-[32px]"
+            className="md:col-span-3 lg:col-span-4 p-0 border border-[#333] overflow-hidden group/team md:col-start-1 rounded-[32px]"
             hoverEffect={false}
           >
             {/* Background Mesh Gradient */}
@@ -262,7 +262,7 @@ export const About: React.FC = () => {
           </BentoCard>
 
           {/* 5. Stat Card: 700+ Projects (was CTA) */}
-          <BentoCard className="md:col-span-6 lg:col-span-4 bg-[#1e1e1e] border border-[#333] overflow-hidden group/projects rounded-[32px]">
+          <BentoCard className="md:col-span-6 lg:col-span-4 border border-[#333] overflow-hidden group/projects rounded-[32px]">
             <div className="absolute inset-0 bg-linear-to-br from-white/5 via-transparent to-transparent opacity-50" />
             <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-[#8B5CF6] rounded-full blur-[100px] opacity-20 group-hover:opacity-30 transition-opacity duration-500" />
 

@@ -122,8 +122,8 @@ export const Offer: React.FC = () => {
           <div
             className={`shrink-0 ${isMobile ? "mb-8 w-full" : "w-[85vw] lg:w-[900px]"}`}
           >
-            <DashedCardWrapper>
-              <WebDesignCard />
+            <DashedCardWrapper forceVisible={isMobile}>
+              <WebDesignCard className="h-[500px] md:h-[600px]" />
             </DashedCardWrapper>
           </div>
 
@@ -131,8 +131,8 @@ export const Offer: React.FC = () => {
           <div
             className={`shrink-0 ${isMobile ? "mb-8 w-full" : "w-[85vw] lg:w-[600px]"}`}
           >
-            <DashedCardWrapper delay={0.1}>
-              <EcommerceCard />
+            <DashedCardWrapper delay={0.1} forceVisible={isMobile}>
+              <EcommerceCard className="h-[500px] md:h-[600px]" />
             </DashedCardWrapper>
           </div>
 
@@ -140,8 +140,8 @@ export const Offer: React.FC = () => {
           <div
             className={`shrink-0 ${isMobile ? "mb-8 w-full" : "w-[85vw] lg:w-[450px]"}`}
           >
-            <DashedCardWrapper delay={0.2}>
-              <SeoCard />
+            <DashedCardWrapper delay={0.2} forceVisible={isMobile}>
+              <SeoCard className="h-[500px] md:h-[600px]" />
             </DashedCardWrapper>
           </div>
 
@@ -149,8 +149,8 @@ export const Offer: React.FC = () => {
           <div
             className={`shrink-0 ${isMobile ? "mb-8 w-full" : "w-[85vw] lg:w-[900px]"}`}
           >
-            <DashedCardWrapper delay={0.3}>
-              <MarketingCard />
+            <DashedCardWrapper delay={0.3} forceVisible={isMobile}>
+              <MarketingCard className="h-[500px] md:h-[600px]" />
             </DashedCardWrapper>
           </div>
 

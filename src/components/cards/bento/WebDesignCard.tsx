@@ -3,11 +3,11 @@
 import React from "react";
 import { LayoutTemplate } from "lucide-react";
 
-export const WebDesignCard = () => {
+export const WebDesignCard = ({ className = "" }: { className?: string }) => {
   return (
     <a
       href="/oferta/strony-www"
-      className="group relative h-[500px] rounded-[40px] overflow-hidden bg-neutral-900 hover:shadow-2xl hover:shadow-black/50 transition-all duration-700 block cursor-pointer border border-white/5"
+      className={`group relative w-full rounded-[40px] overflow-hidden bg-neutral-900 hover:shadow-2xl hover:shadow-black/50 transition-all duration-700 block cursor-pointer border border-white/5 ${className}`}
     >
       {/* --- VISUAL BACKDROP --- */}
       <div className="absolute inset-0 w-full h-full overflow-hidden">
@@ -22,7 +22,7 @@ export const WebDesignCard = () => {
         />
 
         {/* Browser Window Composition */}
-        <div className="absolute -bottom-[15%] -right-[10%] w-[110%] scale-70 origin-bottom-right md:scale-100 md:origin-center md:-bottom-10 md:-right-16 md:w-[60%] bg-neutral-800/80 backdrop-blur-sm rounded-xl shadow-2xl border border-white/10 block z-10 transition-transform duration-700 group-hover:-translate-y-2 md:group-hover:-translate-x-2 md:group-hover:-translate-y-2">
+        <div className="absolute -bottom-[15%] -right-[10%] w-[110%] scale-70 origin-bottom-right md:scale-100 md:origin-center md:-bottom-12 md:-right-20 md:w-[55%] bg-neutral-800/80 backdrop-blur-sm rounded-xl shadow-2xl border border-white/10 block z-10 transition-transform duration-700 group-hover:-translate-y-2 md:group-hover:-translate-x-2 md:group-hover:-translate-y-2">
           {/* Browser Chrome */}
           <div className="h-10 border-b border-white/5 flex items-center px-4 gap-2 bg-neutral-800 rounded-tl-xl">
             <div className="w-2.5 h-2.5 rounded-full bg-white/20" />
@@ -100,7 +100,7 @@ export const WebDesignCard = () => {
                 viewBox="0 0 21 23"
                 fill="none"
               >
-                <g filter="url(#web_design_cursor_filter)">
+                <g filter="url(#web_design_cursor_filter_hero)">
                   <path
                     d="M5.82927 17.9094L2.698 1.95028L17.0751 9.82757L9.99315 11.8821L5.82927 17.9094Z"
                     fill="black"
@@ -112,7 +112,7 @@ export const WebDesignCard = () => {
                 </g>
                 <defs>
                   <filter
-                    id="web_design_cursor_filter"
+                    id="web_design_cursor_filter_hero"
                     x="0"
                     y="0"
                     width="20.3719"
@@ -157,7 +157,7 @@ export const WebDesignCard = () => {
       <div className="absolute inset-0 bg-linear-to-r from-neutral-900 via-neutral-900/90 to-transparent opacity-100" />
 
       {/* Text Content */}
-      <div className="absolute left-0 top-0 bottom-0 w-full md:w-[48%] p-8 md:p-12 flex flex-col justify-start md:justify-end z-20 pointer-events-none">
+      <div className="absolute left-0 top-0 bottom-0 w-full md:w-full md:max-w-[520px] p-8 md:p-12 flex flex-col justify-start md:justify-end z-20 pointer-events-none">
         <div className="relative z-10 mt-0 md:mt-auto pointer-events-auto">
           <div className="pb-4 mb-4 border-b border-white/10">
             <h3 className="text-3xl md:text-4xl font-bold tracking-tight text-white mb-2">

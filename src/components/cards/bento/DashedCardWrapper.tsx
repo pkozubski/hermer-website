@@ -6,15 +6,22 @@ export const DashedCardWrapper = ({
   children,
   className = "",
   delay = 0,
+  forceVisible = false,
 }: {
   children: React.ReactNode;
   className?: string;
   delay?: number;
+  forceVisible?: boolean;
 }) => {
   const ref = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(forceVisible);
 
   useEffect(() => {
+    if (forceVisible) {
+      setIsVisible(true);
+      return;
+    }
+
     const element = ref.current;
     if (!element) return;
 
@@ -42,7 +49,7 @@ export const DashedCardWrapper = ({
     return () => {
       observer.disconnect();
     };
-  }, [delay]);
+  }, [delay, forceVisible]);
 
   return (
     <div

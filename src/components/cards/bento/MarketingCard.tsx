@@ -3,11 +3,11 @@
 import React from "react";
 import { TrendingUp, BarChart3 } from "lucide-react";
 
-export const MarketingCard = () => {
+export const MarketingCard = ({ className = "" }: { className?: string }) => {
   return (
     <a
       href="/oferta/marketing"
-      className="group relative h-[500px] rounded-[40px] overflow-hidden bg-neutral-900 hover:shadow-2xl hover:shadow-black/50 transition-all duration-700 block cursor-pointer border border-white/5"
+      className={`group relative w-full rounded-[40px] overflow-hidden bg-neutral-900 hover:shadow-2xl hover:shadow-black/50 transition-all duration-700 block cursor-pointer border border-white/5 ${className}`}
     >
       {/* --- VISUAL BACKDROP --- */}
       <div className="absolute inset-0 w-full h-full overflow-hidden">
@@ -22,7 +22,7 @@ export const MarketingCard = () => {
         />
 
         {/* Chart Visualization */}
-        <div className="absolute bottom-4 left-0 right-0 mx-auto w-[85%] md:w-auto md:inset-auto md:-bottom-12 md:-left-12 md:right-[40%] md:top-[20%] z-10 flex flex-col justify-end md:block pointer-events-none">
+        <div className="absolute bottom-4 left-0 right-0 mx-auto w-[85%] md:w-auto md:inset-auto md:-bottom-12 md:-left-[100px] md:right-[40%] md:top-[20%] z-10 flex flex-col justify-end md:block pointer-events-none">
           {/* Header Label */}
           <div className="mb-3 flex items-center justify-center gap-3">
             <div
@@ -58,7 +58,7 @@ export const MarketingCard = () => {
                 {/* Gradient Definition */}
                 <defs>
                   <linearGradient
-                    id="chartGradient"
+                    id="chartGradient_hero"
                     x1="0%"
                     y1="0%"
                     x2="0%"
@@ -68,7 +68,7 @@ export const MarketingCard = () => {
                     <stop offset="100%" stopColor="#916AFF" stopOpacity="0" />
                   </linearGradient>
                   <linearGradient
-                    id="lineGradient"
+                    id="lineGradient_hero"
                     x1="0%"
                     y1="0%"
                     x2="100%"
@@ -96,7 +96,7 @@ export const MarketingCard = () => {
                 {/* Area Fill */}
                 <path
                   d="M 0 130 Q 50 120 80 110 T 140 90 T 200 70 T 260 40 T 320 25 T 400 10 L 400 150 L 0 150 Z"
-                  fill="url(#chartGradient)"
+                  fill="url(#chartGradient_hero)"
                   className="transition-all duration-1000"
                 />
 
@@ -104,7 +104,7 @@ export const MarketingCard = () => {
                 <path
                   d="M 0 130 Q 50 120 80 110 T 140 90 T 200 70 T 260 40 T 320 25 T 400 10"
                   fill="none"
-                  stroke="url(#lineGradient)"
+                  stroke="url(#lineGradient_hero)"
                   strokeWidth="3"
                   strokeLinecap="round"
                   className="transition-all duration-1000"
@@ -177,7 +177,7 @@ export const MarketingCard = () => {
       <div className="absolute inset-0 bg-linear-to-l from-neutral-900 via-neutral-900/80 to-transparent opacity-90" />
 
       {/* Text Content - RIGHT SIDE */}
-      <div className="absolute right-0 top-0 bottom-0 w-full md:w-[50%] p-8 md:p-12 flex flex-col justify-start items-end z-20 pointer-events-none">
+      <div className="absolute right-0 top-0 bottom-0 w-full md:w-full md:max-w-[500px] p-8 md:p-12 flex flex-col justify-start items-end z-20 pointer-events-none">
         <div className="pointer-events-auto">
           <div className="relative z-10 text-right">
             <div className="pb-6 mb-6">

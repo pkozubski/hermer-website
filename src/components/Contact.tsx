@@ -39,7 +39,7 @@ export const Contact: React.FC = () => {
   return (
     <section
       id="contact"
-      className="py-16 lg:py-24 bg-transparent relative overflow-hidden isolate"
+      className="py-16 lg:py-24 bg-[#171717] relative overflow-hidden isolate"
     >
       {/* Background Squiggle Animation */}
       <ContactSquiggle />
