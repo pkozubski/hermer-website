@@ -32,23 +32,29 @@ export const MarketingOfferHero: React.FC = () => {
     // Create particles for data flow visualization
     const particlesGeometry = new THREE.BufferGeometry();
     const particleCount = 200;
-    
+
     const posArray = new Float32Array(particleCount * 3);
-    
-    for(let i = 0; i < particleCount * 3; i++) {
-        posArray[i] = (Math.random() - 0.5) * 15; // Spread
+
+    for (let i = 0; i < particleCount * 3; i++) {
+      posArray[i] = (Math.random() - 0.5) * 15; // Spread
     }
-    
-    particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-    
+
+    particlesGeometry.setAttribute(
+      "position",
+      new THREE.BufferAttribute(posArray, 3),
+    );
+
     const particlesMaterial = new THREE.PointsMaterial({
-        size: 0.05,
-        color: 0x916AFF,
-        transparent: true,
-        opacity: 0.8,
+      size: 0.05,
+      color: 0x916aff,
+      transparent: true,
+      opacity: 0.8,
     });
-    
-    const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+
+    const particlesMesh = new THREE.Points(
+      particlesGeometry,
+      particlesMaterial,
+    );
     scene.add(particlesMesh);
 
     const handleResize = () => {
@@ -149,9 +155,10 @@ export const MarketingOfferHero: React.FC = () => {
         </h1>
 
         <p className="text-neutral-400 text-base sm:text-lg lg:text-xl max-w-2xl mx-auto mb-10 font-light leading-relaxed tracking-wide">
-          Marketing internetowy to zestaw działań online mających na celu pozyskiwanie klientów, 
-          zwiększanie widoczności marki i generowanie sprzedaży. Łączy SEO, content marketing, 
-          kampanie płatne i social media.
+          Marketing internetowy to zestaw działań online mających na celu
+          pozyskiwanie klientów, zwiększanie widoczności marki i generowanie
+          sprzedaży. Łączy SEO, content marketing, kampanie płatne i social
+          media.
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -212,52 +219,75 @@ export const MarketingOfferHero: React.FC = () => {
 
               {/* Main Dashboard Area */}
               <div className="relative w-full h-full flex flex-col p-6 overflow-hidden bg-neutral-900/50">
-                 {/* THREE.JS CANVAS (Background Layer) */}
-                 <div
-                   id="canvas-container"
-                   ref={canvasContainerRef}
-                   className="absolute inset-0 z-0 opacity-40 mix-blend-screen pointer-events-none"
-                 ></div>
+                {/* THREE.JS CANVAS (Background Layer) */}
+                <div
+                  id="canvas-container"
+                  ref={canvasContainerRef}
+                  className="absolute inset-0 z-0 opacity-40 mix-blend-screen pointer-events-none"
+                ></div>
 
-                 {/* Dashboard Grid */}
-                 <div className="relative z-10 grid grid-cols-3 gap-6 h-full">
-                    {/* Main Chart */}
-                    <div className="col-span-2 bg-white/5 border border-white/10 rounded-xl p-6 flex flex-col relative overflow-hidden">
-                        <div className="flex justify-between items-center mb-6">
-                            <div>
-                                <div className="text-xs text-neutral-500 uppercase tracking-widest mb-1">Total Revenue</div>
-                                <div className="text-3xl font-bold text-white">$124,500</div>
-                            </div>
-                            <div className="px-3 py-1 bg-green-500/10 text-green-400 text-xs rounded-full">+12.5%</div>
+                {/* Dashboard Grid */}
+                <div className="relative z-10 grid grid-cols-3 gap-6 h-full">
+                  {/* Main Chart */}
+                  <div className="col-span-2 bg-white/5 border border-white/10 rounded-xl p-6 flex flex-col relative overflow-hidden">
+                    <div className="flex justify-between items-center mb-6">
+                      <div>
+                        <div className="text-xs text-neutral-500 uppercase tracking-widest mb-1">
+                          Total Revenue
                         </div>
-                        {/* Chart Bars */}
-                        <div className="flex-1 flex items-end justify-between gap-2 opacity-80">
-                            {[40, 60, 45, 70, 50, 80, 65, 90, 75, 95, 85, 100].map((h, i) => (
-                                <div key={i} className="w-full bg-[#916AFF]" style={{ height: `${h}%`, opacity: 0.5 + (i/24) }}></div>
-                            ))}
+                        <div className="text-3xl font-bold text-white">
+                          $124,500
                         </div>
+                      </div>
+                      <div className="px-3 py-1 bg-green-500/10 text-green-400 text-xs rounded-full">
+                        +12.5%
+                      </div>
                     </div>
+                    {/* Chart Bars */}
+                    <div className="flex-1 flex items-end justify-between gap-2 opacity-80">
+                      {[40, 60, 45, 70, 50, 80, 65, 90, 75, 95, 85, 100].map(
+                        (h, i) => (
+                          <div
+                            key={i}
+                            className="w-full bg-[#916AFF]"
+                            style={{ height: `${h}%`, opacity: 0.5 + i / 24 }}
+                          ></div>
+                        ),
+                      )}
+                    </div>
+                  </div>
 
-                    {/* Side Stats */}
-                    <div className="flex flex-col gap-6">
-                         <div className="flex-1 bg-white/5 border border-white/10 rounded-xl p-5 flex flex-col justify-center relative overflow-hidden">
-                             <div className="text-xs text-neutral-500 uppercase tracking-widest mb-2">Conversion Rate</div>
-                             <div className="text-4xl font-bold text-white mb-2">3.8%</div>
-                             <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden">
-                                 <div className="w-[70%] h-full bg-blue-400"></div>
-                             </div>
-                         </div>
-                         <div className="flex-1 bg-white/5 border border-white/10 rounded-xl p-5 flex flex-col justify-center relative overflow-hidden">
-                             <div className="text-xs text-neutral-500 uppercase tracking-widest mb-2">New Users</div>
-                             <div className="text-4xl font-bold text-white">12,402</div>
-                             <div className="flex -space-x-2 mt-4">
-                                 {[1,2,3,4].map(i => (
-                                     <div key={i} className="w-8 h-8 rounded-full bg-neutral-700 border border-neutral-800"></div>
-                                 ))}
-                             </div>
-                         </div>
+                  {/* Side Stats */}
+                  <div className="flex flex-col gap-6">
+                    <div className="flex-1 bg-white/5 border border-white/10 rounded-xl p-5 flex flex-col justify-center relative overflow-hidden">
+                      <div className="text-xs text-neutral-500 uppercase tracking-widest mb-2">
+                        Conversion Rate
+                      </div>
+                      <div className="text-4xl font-bold text-white mb-2">
+                        3.8%
+                      </div>
+                      <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden">
+                        <div className="w-[70%] h-full bg-blue-400"></div>
+                      </div>
                     </div>
-                 </div>
+                    <div className="flex-1 bg-white/5 border border-white/10 rounded-xl p-5 flex flex-col justify-center relative overflow-hidden">
+                      <div className="text-xs text-neutral-500 uppercase tracking-widest mb-2">
+                        New Users
+                      </div>
+                      <div className="text-4xl font-bold text-white">
+                        12,402
+                      </div>
+                      <div className="flex -space-x-2 mt-4">
+                        {[1, 2, 3, 4].map((i) => (
+                          <div
+                            key={i}
+                            className="w-8 h-8 rounded-full bg-neutral-700 border border-neutral-800"
+                          ></div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

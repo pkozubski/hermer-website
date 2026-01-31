@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { Header } from "./Header";
 import { Hero } from "./Hero";
 import { Offer } from "./Offer";
@@ -15,6 +16,7 @@ import { Contact } from "./Contact";
 import { Footer } from "./Footer";
 
 export const MainContent: React.FC = () => {
+  const { scrollY } = useScroll();
   const [isHeaderAllowed, setIsHeaderAllowed] = useState(false);
 
   const handleHeroAnimationComplete = useCallback(() => {
@@ -27,22 +29,37 @@ export const MainContent: React.FC = () => {
       <div className="fixed inset-0 w-full h-full bg-neutral-900 z-0 pointer-events-none" />
 
       {/* Global Gradients / Blobs */}
-      <div className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-hidden">
+      <motion.div className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-hidden">
         {/* Right Purple Blob - Hero Area */}
-        <div className="absolute top-[-10vh] right-[-10vw] w-[80vw] h-[80vw] md:w-[800px] md:h-[800px] bg-[#916AFF]/20 rounded-full blur-[100px] mix-blend-screen opacity-80 animate-pulse-slow" />
+        <motion.div
+          style={{ y: useTransform(scrollY, [0, 1000], [0, 300]) }}
+          className="absolute top-[-10vh] right-[-10vw] w-[80vw] h-[80vw] md:w-[800px] md:h-[800px] bg-[#916AFF]/20 rounded-full blur-[100px] mix-blend-screen opacity-80 animate-pulse-slow"
+        />
 
         {/* Left Blue Blob - Transition Area */}
-        <div className="absolute top-[80vh] left-[-20vw] w-[90vw] h-[90vw] md:w-[1000px] md:h-[1000px] bg-[#52D8EA]/10 rounded-full blur-[120px] mix-blend-screen opacity-60" />
+        <motion.div
+          style={{ y: useTransform(scrollY, [0, 1000], [0, -200]) }}
+          className="absolute top-[80vh] left-[-20vw] w-[90vw] h-[90vw] md:w-[1000px] md:h-[1000px] bg-[#52D8EA]/10 rounded-full blur-[120px] mix-blend-screen opacity-60"
+        />
 
         {/* Additional Connecting Blob */}
-        <div className="absolute top-[160vh] right-[-10vw] w-[60vw] h-[60vw] md:w-[800px] md:h-[800px] bg-[#916AFF]/15 rounded-full blur-[100px] mix-blend-screen opacity-50" />
+        <motion.div
+          style={{ y: useTransform(scrollY, [0, 1000], [0, 150]) }}
+          className="absolute top-[160vh] right-[-10vw] w-[60vw] h-[60vw] md:w-[800px] md:h-[800px] bg-[#916AFF]/15 rounded-full blur-[100px] mix-blend-screen opacity-50"
+        />
 
         {/* About Section Specific Gradients */}
-        <div className="absolute top-[250vh] left-[-10%] w-[600px] h-[600px] bg-[#916AFF]/10 rounded-full blur-[130px] mix-blend-screen pointer-events-none" />
+        <motion.div
+          style={{ y: useTransform(scrollY, [0, 2000], [0, -100]) }}
+          className="absolute top-[250vh] left-[-10%] w-[600px] h-[600px] bg-[#916AFF]/10 rounded-full blur-[130px] mix-blend-screen pointer-events-none"
+        />
 
         {/* Bottom Area Gradients */}
-        <div className="absolute bottom-0 right-[-10%] w-[800px] h-[800px] bg-[#52D8EA]/5 rounded-full blur-[120px] mix-blend-screen" />
-      </div>
+        <motion.div
+          style={{ y: useTransform(scrollY, [0, 3000], [0, 200]) }}
+          className="absolute bottom-0 right-[-10%] w-[800px] h-[800px] bg-[#52D8EA]/5 rounded-full blur-[120px] mix-blend-screen"
+        />
+      </motion.div>
 
       <Header allowVisibility={isHeaderAllowed} />
       <Hero onAnimationComplete={handleHeroAnimationComplete} />
@@ -52,19 +69,31 @@ export const MainContent: React.FC = () => {
         <WhoWeHelp />
 
         {/* About/Projects/Testimonials Wrapper with Blobs */}
-        <div className="relative overflow-clip">
+        <div className="relative overflow-x-clip">
           {/* Blobs Restored from Git History */}
           {/* Title Area (Top Right) - Purple */}
-          <div className="absolute top-[10%] right-[-10%] w-[600px] h-[600px] bg-[#916AFF]/15 rounded-full blur-[130px] mix-blend-screen pointer-events-none" />
+          <motion.div
+            style={{ y: useTransform(scrollY, [0, 5000], [0, 400]) }}
+            className="absolute top-[10%] right-[-10%] w-[600px] h-[600px] bg-[#916AFF]/15 rounded-full blur-[130px] mix-blend-screen pointer-events-none"
+          />
 
           {/* Middle area - Blueish */}
-          <div className="absolute top-[50%] right-[-5%] w-[500px] h-[500px] bg-[#52D8EA]/10 rounded-full blur-[120px] mix-blend-screen pointer-events-none" />
+          <motion.div
+            style={{ y: useTransform(scrollY, [0, 5000], [0, -300]) }}
+            className="absolute top-[50%] right-[-5%] w-[500px] h-[500px] bg-[#52D8EA]/10 rounded-full blur-[120px] mix-blend-screen pointer-events-none"
+          />
 
           {/* Bottom Left - Purple */}
-          <div className="absolute bottom-[-5%] left-[-5%] w-[500px] h-[500px] bg-[#916AFF]/10 rounded-full blur-[120px] mix-blend-screen pointer-events-none" />
+          <motion.div
+            style={{ y: useTransform(scrollY, [0, 5000], [0, 200]) }}
+            className="absolute bottom-[-5%] left-[-5%] w-[500px] h-[500px] bg-[#916AFF]/10 rounded-full blur-[120px] mix-blend-screen pointer-events-none"
+          />
 
           {/* Bottom Right - White */}
-          <div className="absolute bottom-[-10%] right-[-10%] w-[600px] h-[600px] bg-white/5 rounded-full blur-[140px] mix-blend-overlay pointer-events-none" />
+          <motion.div
+            style={{ y: useTransform(scrollY, [0, 5000], [0, -150]) }}
+            className="absolute bottom-[-10%] right-[-10%] w-[600px] h-[600px] bg-white/5 rounded-full blur-[140px] mix-blend-overlay pointer-events-none"
+          />
 
           <About />
           <Projects />

@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import {
   motion,
   useScroll,
+  useTransform,
   useMotionTemplate,
   useMotionValue,
 } from "framer-motion";
@@ -78,8 +79,15 @@ export const About: React.FC = () => {
     >
       {/* Background Ambience moved to MainContent wrapper */}
 
-      {/* Scroll-Driven Decorative Arc (SVG) */}
-      <AnimatedArc scrollYProgress={scrollYProgress} />
+      {/* Background Ambience moved to MainContent wrapper */}
+
+      {/* Scroll-Driven Decorative Arc (SVG) with Parallax */}
+      <motion.div
+        className="absolute w-full h-full inset-0 pointer-events-none"
+        style={{ y: useTransform(scrollYProgress, [0, 1], [0, 150]) }}
+      >
+        <AnimatedArc scrollYProgress={scrollYProgress} />
+      </motion.div>
 
       <div className="container mx-auto px-4 md:px-8 relative z-10">
         {/* Section Header - Lusion Style */}

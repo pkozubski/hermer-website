@@ -15,7 +15,12 @@ import { CmsCard } from "./cards/CmsCard";
 import { SeoCard } from "./cards/SeoCard";
 import { ResponsivenessCard } from "./cards/ResponsivenessCard";
 import { CardWheelHorizontal } from "./CardWheelHorizontal";
-import { motion, AnimatePresence } from "framer-motion";
+import {
+  motion,
+  AnimatePresence,
+  useScroll,
+  useTransform,
+} from "framer-motion";
 import { CardWheel } from "./CardWheel";
 import HeroSquiggle from "./HeroSquiggle";
 import { WebDevCard } from "./cards/WebDevCard";
@@ -260,6 +265,10 @@ export const Hero: React.FC<{ onAnimationComplete?: () => void }> = ({
     return () => clearTimeout(startDelay);
   }, []);
 
+  const { scrollY } = useScroll();
+  const leftColumnY = useTransform(scrollY, [0, 1000], [0, -100]);
+  const rightColumnY = useTransform(scrollY, [0, 1000], [0, 100]);
+
   /* Removed scroll effects for classic landing behavior */
 
   const column1 = [CARDS_DATA[0], CARDS_DATA[2], CARDS_DATA[4], CARDS_DATA[6]];
@@ -277,19 +286,20 @@ export const Hero: React.FC<{ onAnimationComplete?: () => void }> = ({
 
       <div className="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-0 items-center relative w-full z-0 perspective-[2000px]">
         {/* Left Column */}
-        <div
+        <motion.div
           className="hidden lg:block col-span-3 w-[320px] xl:w-full lg:-mr-20 xl:mr-0 justify-self-end h-[650px] relative overflow-hidden select-none opacity-0 animate-[fade-in_1s_ease-out_1.5s_forwards]"
           style={{
             maskImage:
               "linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)",
             transform: "perspective(1500px) rotateY(12deg) translateZ(-20px)",
             transformStyle: "preserve-3d",
+            y: leftColumnY,
           }}
         >
           <div className="absolute inset-x-0 w-full h-full">
             <CardWheel cards={column1} direction="up" />
           </div>
-        </div>
+        </motion.div>
 
         {/* Center Column: Text Content */}
         <div className="col-span-1 lg:col-span-6 flex flex-col items-center text-center z-20 relative pb-0 px-4 pt-12 lg:pt-32">
@@ -411,19 +421,20 @@ export const Hero: React.FC<{ onAnimationComplete?: () => void }> = ({
         </div>
 
         {/* Right Column */}
-        <div
+        <motion.div
           className="hidden lg:block col-span-3 w-[320px] xl:w-full lg:-ml-20 xl:ml-0 justify-self-start h-[650px] relative overflow-hidden select-none opacity-0 animate-[fade-in_1s_ease-out_1.5s_forwards]"
           style={{
             maskImage:
               "linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)",
             transform: "perspective(1500px) rotateY(-12deg) translateZ(-20px)",
             transformStyle: "preserve-3d",
+            y: rightColumnY,
           }}
         >
           <div className="absolute inset-x-0 w-full h-full">
             <CardWheel cards={column2} direction="down" />
           </div>
-        </div>
+        </motion.div>
       </div>
     </motion.section>
   );

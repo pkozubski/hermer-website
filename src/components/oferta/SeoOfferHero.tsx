@@ -31,30 +31,36 @@ export const SeoOfferHero: React.FC = () => {
 
     // Create a "Network/Link" visualization
     const geometry = new THREE.IcosahedronGeometry(1, 1);
-    const material = new THREE.MeshBasicMaterial({ 
-        color: 0x916AFF, 
-        wireframe: true,
-        transparent: true,
-        opacity: 0.3
+    const material = new THREE.MeshBasicMaterial({
+      color: 0x916aff,
+      wireframe: true,
+      transparent: true,
+      opacity: 0.3,
     });
     const sphere = new THREE.Mesh(geometry, material);
     scene.add(sphere);
-    
+
     // Add some floating connecting lines/nodes
     const particlesGeometry = new THREE.BufferGeometry();
     const particleCount = 100;
     const posArray = new Float32Array(particleCount * 3);
-    for(let i = 0; i < particleCount * 3; i++) {
-        posArray[i] = (Math.random() - 0.5) * 10;
+    for (let i = 0; i < particleCount * 3; i++) {
+      posArray[i] = (Math.random() - 0.5) * 10;
     }
-    particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+    particlesGeometry.setAttribute(
+      "position",
+      new THREE.BufferAttribute(posArray, 3),
+    );
     const particlesMaterial = new THREE.PointsMaterial({
-        size: 0.03,
-        color: 0xffffff,
-        transparent: true,
-        opacity: 0.5,
+      size: 0.03,
+      color: 0xffffff,
+      transparent: true,
+      opacity: 0.5,
     });
-    const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+    const particlesMesh = new THREE.Points(
+      particlesGeometry,
+      particlesMaterial,
+    );
     scene.add(particlesMesh);
 
     const handleResize = () => {
@@ -71,12 +77,12 @@ export const SeoOfferHero: React.FC = () => {
     let animationId: number;
     const animate = () => {
       animationId = requestAnimationFrame(animate);
-      
+
       sphere.rotation.x += 0.002;
       sphere.rotation.y += 0.002;
-      
+
       particlesMesh.rotation.y -= 0.001;
-      
+
       renderer.render(scene, camera);
     };
 
@@ -161,8 +167,9 @@ export const SeoOfferHero: React.FC = () => {
         </h1>
 
         <p className="text-neutral-400 text-base sm:text-lg lg:text-xl max-w-2xl mx-auto mb-10 font-light leading-relaxed tracking-wide">
-          SEO to proces optymalizacji, który sprawia, że Twoja strona jest widoczna 
-          dla klientów dokładnie wtedy, gdy szukają Twoich usług. Bądź pierwszy w Google.
+          SEO to proces optymalizacji, który sprawia, że Twoja strona jest
+          widoczna dla klientów dokładnie wtedy, gdy szukają Twoich usług. Bądź
+          pierwszy w Google.
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -208,7 +215,7 @@ export const SeoOfferHero: React.FC = () => {
             <div className="w-full h-full bg-[#0A0A0A] rounded-t-[15px] overflow-hidden relative flex flex-col">
               {/* Browser Chrome */}
               <div className="h-10 border-b border-white/10 bg-[#0A0A0A]/90 backdrop-blur-md flex items-center px-4 gap-2 z-30 relative shrink-0">
-                 <div className="flex gap-2 group/dots cursor-pointer">
+                <div className="flex gap-2 group/dots cursor-pointer">
                   <div className="w-3 h-3 rounded-full bg-[#FF5F57] opacity-80"></div>
                   <div className="w-3 h-3 rounded-full bg-[#FEBC2E] opacity-80"></div>
                   <div className="w-3 h-3 rounded-full bg-[#28C840] opacity-80"></div>
@@ -223,43 +230,63 @@ export const SeoOfferHero: React.FC = () => {
 
               {/* Main Dashboard Area */}
               <div className="relative w-full h-full flex flex-col p-6 overflow-hidden bg-neutral-900/50">
-                 {/* THREE.JS CANVAS (Background Layer) */}
-                 <div
-                   id="canvas-container"
-                   ref={canvasContainerRef}
-                   className="absolute inset-0 z-0 opacity-40 mix-blend-screen pointer-events-none"
-                 ></div>
+                {/* THREE.JS CANVAS (Background Layer) */}
+                <div
+                  id="canvas-container"
+                  ref={canvasContainerRef}
+                  className="absolute inset-0 z-0 opacity-40 mix-blend-screen pointer-events-none"
+                ></div>
 
-                 {/* SEO Interface Mockup */}
-                 <div className="relative z-10 w-full h-full flex flex-col gap-6">
-                     {/* Search Result 1 (Hero) */}
-                     <div className="bg-white/5 border border-white/10 rounded-xl p-6 w-full max-w-3xl mx-auto backdrop-blur-sm animate-fade-in-up">
-                         <div className="flex items-center gap-2 mb-2">
-                             <div className="w-6 h-6 rounded-full bg-[#916AFF] flex items-center justify-center text-xs font-bold text-white">H</div>
-                             <div className="text-xs text-neutral-400">hermer.agency › oferta › pozycjonowanie</div>
-                         </div>
-                         <div className="text-xl text-[#916AFF] mb-2 font-medium">Skuteczne Pozycjonowanie Stron - Agencja SEO</div>
-                         <div className="text-sm text-neutral-400 leading-relaxed">
-                             Zwiększ widoczność swojej firmy w Google. Profesjonalny audyt SEO, optymalizacja techniczna i skuteczny link building. Sprawdź naszą ofertę!
-                         </div>
-                     </div>
+                {/* SEO Interface Mockup */}
+                <div className="relative z-10 w-full h-full flex flex-col gap-6">
+                  {/* Search Result 1 (Hero) */}
+                  <div className="bg-white/5 border border-white/10 rounded-xl p-6 w-full max-w-3xl mx-auto backdrop-blur-sm animate-fade-in-up">
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="w-6 h-6 rounded-full bg-[#916AFF] flex items-center justify-center text-xs font-bold text-white">
+                        H
+                      </div>
+                      <div className="text-xs text-neutral-400">
+                        hermer.agency › oferta › pozycjonowanie
+                      </div>
+                    </div>
+                    <div className="text-xl text-[#916AFF] mb-2 font-medium">
+                      Skuteczne Pozycjonowanie Stron - Agencja SEO
+                    </div>
+                    <div className="text-sm text-neutral-400 leading-relaxed">
+                      Zwiększ widoczność swojej firmy w Google. Profesjonalny
+                      audyt SEO, optymalizacja techniczna i skuteczny link
+                      building. Sprawdź naszą ofertę!
+                    </div>
+                  </div>
 
-                     {/* Stats Row */}
-                     <div className="grid grid-cols-3 gap-4 max-w-3xl mx-auto w-full">
-                         <div className="bg-white/5 border border-white/10 rounded-lg p-4 flex flex-col items-center justify-center">
-                             <div className="text-2xl font-bold text-white mb-1">#1</div>
-                             <div className="text-[10px] text-neutral-500 uppercase tracking-wider">Position</div>
-                         </div>
-                         <div className="bg-white/5 border border-white/10 rounded-lg p-4 flex flex-col items-center justify-center">
-                             <div className="text-2xl font-bold text-white mb-1">15.4k</div>
-                             <div className="text-[10px] text-neutral-500 uppercase tracking-wider">Impressions</div>
-                         </div>
-                          <div className="bg-white/5 border border-white/10 rounded-lg p-4 flex flex-col items-center justify-center">
-                             <div className="text-2xl font-bold text-green-400 mb-1">+125%</div>
-                             <div className="text-[10px] text-neutral-500 uppercase tracking-wider">CTR Growth</div>
-                         </div>
-                     </div>
-                 </div>
+                  {/* Stats Row */}
+                  <div className="grid grid-cols-3 gap-4 max-w-3xl mx-auto w-full">
+                    <div className="bg-white/5 border border-white/10 rounded-lg p-4 flex flex-col items-center justify-center">
+                      <div className="text-2xl font-bold text-white mb-1">
+                        #1
+                      </div>
+                      <div className="text-[10px] text-neutral-500 uppercase tracking-wider">
+                        Position
+                      </div>
+                    </div>
+                    <div className="bg-white/5 border border-white/10 rounded-lg p-4 flex flex-col items-center justify-center">
+                      <div className="text-2xl font-bold text-white mb-1">
+                        15.4k
+                      </div>
+                      <div className="text-[10px] text-neutral-500 uppercase tracking-wider">
+                        Impressions
+                      </div>
+                    </div>
+                    <div className="bg-white/5 border border-white/10 rounded-lg p-4 flex flex-col items-center justify-center">
+                      <div className="text-2xl font-bold text-green-400 mb-1">
+                        +125%
+                      </div>
+                      <div className="text-[10px] text-neutral-500 uppercase tracking-wider">
+                        CTR Growth
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

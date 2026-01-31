@@ -54,11 +54,8 @@ export const Blog: React.FC = () => {
   return (
     <section
       id="blog"
-      className="py-24 md:py-32 bg-transparent overflow-hidden relative"
+      className="py-24 md:py-32 bg-transparent overflow-x-clip relative"
     >
-      {/* Background Elements */}
-      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[40vw] h-[40vw] bg-purple-900/10 rounded-full blur-[100px] pointer-events-none mix-blend-screen" />
-
       <div className="container mx-auto px-4 md:px-8 relative z-10 mb-16">
         {/* HEADER - Split Style */}
         <div className="w-full flex flex-col md:flex-row justify-between items-start md:items-end gap-8">
