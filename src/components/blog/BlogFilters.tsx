@@ -25,8 +25,8 @@ export const BlogFilters: React.FC<BlogFiltersProps> = ({
             onClick={() => onCategoryChange(cat)}
             className={`px-8 py-3 rounded-full text-sm font-bold transition-colors duration-300 ${
               activeCategory === cat
-                ? "bg-[#916AFF] text-white shadow-lg shadow-purple-200"
-                : "bg-white text-slate-700 border border-slate-200 hover:border-[#916AFF] hover:text-[#916AFF]"
+                ? "bg-[#916AFF] text-white shadow-lg shadow-purple-900/20"
+                : "bg-white/5 text-slate-400 border border-white/10 hover:border-[#916AFF] hover:text-[#916AFF]"
             }`}
           >
             {cat}

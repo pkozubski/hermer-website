@@ -21,7 +21,7 @@ export const BlogFeaturedPost: React.FC<BlogFeaturedPostProps> = ({ post }) => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="relative group cursor-pointer overflow-hidden rounded-2xl bg-white border border-slate-200 h-[500px] md:h-[650px] flex flex-col justify-end p-8 md:p-16 shadow-lg hover:shadow-xl transition-shadow duration-500"
+          className="relative group cursor-pointer overflow-hidden rounded-2xl bg-white/5 border border-white/10 h-[500px] md:h-[650px] flex flex-col justify-end p-8 md:p-16 shadow-lg hover:shadow-xl hover:shadow-white/5 transition-all duration-500"
         >
           {post.mainImage && (
             <motion.img

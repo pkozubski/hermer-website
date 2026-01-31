@@ -69,13 +69,13 @@ const teamMembers: TeamMember[] = [
 
 export const AboutTeam = () => {
   return (
-    <section className="py-32 bg-[#FAFAFA]">
+    <section className="py-32 bg-transparent">
       <div className="container mx-auto px-4 sm:px-8 lg:px-16">
         <div className="text-center mb-24 max-w-4xl mx-auto">
-          <h2 className="text-6xl md:text-9xl font-medium font-display tracking-tighter text-slate-900 mb-6">
+          <h2 className="text-6xl md:text-9xl font-medium font-display tracking-tighter text-white mb-6">
             Nasz Zespół
           </h2>
-          <p className="text-slate-500 text-xl font-light">
+          <p className="text-slate-400 text-xl font-light">
             Poznaj ekspertów, którzy wspierają Twój sukces.
           </p>
         </div>
@@ -88,31 +88,31 @@ export const AboutTeam = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="group bg-white rounded-[2.5rem] p-8 md:p-12 shadow-sm hover:shadow-2xl hover:shadow-slate-200/60 transition-all duration-500 border border-slate-100 flex flex-col items-start"
+              className="group bg-white/5 rounded-[2.5rem] p-8 md:p-12 shadow-sm hover:shadow-2xl hover:shadow-white/5 transition-all duration-500 border border-white/5 flex flex-col items-start"
             >
               <div className="w-full flex items-start justify-between mb-8">
-                <div className="w-24 h-24 rounded-full bg-slate-100 overflow-hidden relative border-4 border-slate-50 shadow-inner group-hover:scale-110 transition-transform duration-500 ease-out">
+                <div className="w-24 h-24 rounded-full bg-white/10 overflow-hidden relative border-4 border-white/5 shadow-inner group-hover:scale-110 transition-transform duration-500 ease-out">
                   {/* Placeholder until real images are set */}
-                  <div className="absolute inset-0 bg-slate-200" />
+                  <div className="absolute inset-0 bg-white/5" />
                 </div>
                 <div className="text-right">
-                  <span className="block text-5xl font-medium font-display text-slate-200 group-hover:text-slate-900 transition-colors duration-500">
+                  <span className="block text-5xl font-medium font-display text-neutral-800 group-hover:text-white transition-colors duration-500">
                     {member.yearsNum}
                   </span>
-                  <span className="text-[10px] uppercase font-bold text-slate-400 tracking-widest opacity-60">
+                  <span className="text-[10px] uppercase font-bold text-slate-500 tracking-widest opacity-60">
                     {member.yearsText}
                   </span>
                 </div>
               </div>
 
-              <h3 className="text-3xl font-medium text-slate-900 mb-2 tracking-tight group-hover:text-[#916AFF] transition-colors duration-300">
+              <h3 className="text-3xl font-medium text-white mb-2 tracking-tight group-hover:text-[#916AFF] transition-colors duration-300">
                 {member.name}
               </h3>
-              <p className="text-xs font-bold text-[#916AFF] mb-8 uppercase tracking-widest bg-[#f4f1ff] px-3 py-1.5 rounded-full">
+              <p className="text-xs font-bold text-[#916AFF] mb-8 uppercase tracking-widest bg-[#916AFF]/20 px-3 py-1.5 rounded-full">
                 {member.role}
               </p>
 
-              <p className="text-slate-600 text-base font-light leading-relaxed border-t border-slate-100 pt-6 mt-auto">
+              <p className="text-slate-400 text-base font-light leading-relaxed border-t border-white/10 pt-6 mt-auto">
                 {member.description}
               </p>
             </motion.div>

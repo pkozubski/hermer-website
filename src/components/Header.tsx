@@ -33,10 +33,10 @@ export const Header: React.FC<{ allowVisibility?: boolean }> = ({
   const navLinks = [
     { name: "Home", href: "/" },
     { name: "Oferta", href: "/oferta", hasDropdown: true },
-    { name: "Realizacje", href: "/#projects" },
-    { name: "Opinie", href: "/#testimonials" },
-    { name: "O firmie", href: "/#about" },
-    { name: "Blog", href: "/#blog" },
+    { name: "Realizacje", href: "/realizacje" },
+    { name: "Opinie", href: "/opinie" },
+    { name: "O firmie", href: "/o-nas" },
+    { name: "Blog", href: "/blog" },
   ];
 
   return (

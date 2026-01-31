@@ -47,7 +47,7 @@ export const BlogContent: React.FC<BlogContentProps> = ({ posts }) => {
   const featuredPost = posts[0];
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-transparent">
       <main className="pb-20">
         <BlogHero />
 

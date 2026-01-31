@@ -14,14 +14,14 @@ export const BlogHero: React.FC = () => {
           <SplitRevealTitle
             line1="Nasze"
             line2="Wpisy."
-            className="text-slate-900! text-7xl md:text-8xl mb-8 leading-[0.9] tracking-tighter"
+            className="text-white! text-7xl md:text-8xl mb-8 leading-[0.9] tracking-tighter"
           />
           <LineReveal
             lines={[
               "Dzielimy się wiedzą o designie, technologii i",
               "strategiach, które napędzają nowoczesny biznes.",
             ]}
-            className="text-slate-500 text-xl max-w-lg font-medium leading-relaxed"
+            className="text-slate-400 text-xl max-w-lg font-medium leading-relaxed"
           />
         </div>
 
@@ -30,24 +30,24 @@ export const BlogHero: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="border-l border-slate-300 pl-6"
+            className="border-l border-white/20 pl-6"
           >
-            <span className="block text-3xl font-black text-slate-900">
+            <span className="block text-3xl font-black text-white">
               120+
             </span>
-            <span className="text-slate-500 font-medium">Artykułów</span>
+            <span className="text-slate-400 font-medium">Artykułów</span>
           </motion.div>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
-            className="border-l border-slate-300 pl-6"
+            className="border-l border-white/20 pl-6"
           >
-            <span className="block text-3xl font-black text-slate-900">
+            <span className="block text-3xl font-black text-white">
               5 min
             </span>
-            <span className="text-slate-500 font-medium">
+            <span className="text-slate-400 font-medium">
               Średni czas czytania
             </span>
           </motion.div>

@@ -4,6 +4,8 @@ import { Suspense } from "react";
 import "./globals.css";
 import VisualEditingWrapper from "@/components/VisualEditingWrapper";
 import StyledComponentsRegistry from "@/lib/registry";
+import { SmoothScroll } from "@/components/SmoothScroll";
+import { CustomScrollbar } from "@/components/CustomScrollbar";
 
 const inter = Inter({ subsets: ["latin"] });
 const instrumentSerif = Instrument_Serif({
@@ -29,10 +31,13 @@ export default function RootLayout({
       {/* Added instrumentSerif.variable to the body class list */}
       <body className={`${inter.className} ${instrumentSerif.variable}`}>
         <StyledComponentsRegistry>
-          {children}
-          <Suspense fallback={null}>
-            <VisualEditingWrapper />
-          </Suspense>
+          <SmoothScroll>
+            <CustomScrollbar />
+            {children}
+            <Suspense fallback={null}>
+              <VisualEditingWrapper />
+            </Suspense>
+          </SmoothScroll>
         </StyledComponentsRegistry>
       </body>
     </html>

@@ -50,39 +50,39 @@ const ptComponents = {
   },
   block: {
     h1: ({ children }: any) => (
-      <h1 className="text-4xl md:text-5xl font-display font-bold my-8 text-neutral-900 leading-tight">
+      <h1 className="text-4xl md:text-5xl font-display font-bold my-8 text-white leading-tight">
         {children}
       </h1>
     ),
     h2: ({ children }: any) => (
-      <h2 className="text-3xl md:text-4xl font-display font-bold mt-12 mb-6 text-neutral-900 leading-tight">
+      <h2 className="text-3xl md:text-4xl font-display font-bold mt-12 mb-6 text-white leading-tight">
         {children}
       </h2>
     ),
     h3: ({ children }: any) => (
-      <h3 className="text-2xl md:text-3xl font-display font-bold mt-8 mb-4 text-neutral-900 leading-tight">
+      <h3 className="text-2xl md:text-3xl font-display font-bold mt-8 mb-4 text-white leading-tight">
         {children}
       </h3>
     ),
     blockquote: ({ children }: any) => (
-      <blockquote className="border-l-4 border-[#916AFF] pl-4 italic my-8 text-xl text-neutral-600 bg-neutral-50 py-4 pr-4 rounded-r-lg">
+      <blockquote className="border-l-4 border-[#916AFF] pl-4 italic my-8 text-xl text-slate-300 bg-white/5 py-4 pr-4 rounded-r-lg">
         {children}
       </blockquote>
     ),
     normal: ({ children }: any) => (
-      <p className="mb-6 text-lg text-neutral-700 leading-relaxed font-light">
+      <p className="mb-6 text-lg text-slate-300 leading-relaxed font-light">
         {children}
       </p>
     ),
   },
   list: {
     bullet: ({ children }: any) => (
-      <ul className="list-disc pl-5 mb-8 text-lg text-neutral-700 space-y-2">
+      <ul className="list-disc pl-5 mb-8 text-lg text-slate-300 space-y-2">
         {children}
       </ul>
     ),
     number: ({ children }: any) => (
-      <ol className="list-decimal pl-5 mb-8 text-lg text-neutral-700 space-y-2">
+      <ol className="list-decimal pl-5 mb-8 text-lg text-slate-300 space-y-2">
         {children}
       </ol>
     ),
@@ -102,14 +102,23 @@ export default async function BlogPostPage({
   }
 
   return (
-    <>
-      <Header />
-      <main className="bg-white min-h-screen pt-32 pb-24">
+    <div className="relative min-h-screen bg-neutral-900 font-sans text-white overflow-x-clip selection:bg-[#916AFF] selection:text-white">
+      {/* Global Dark Background Layer */}
+      <div className="fixed inset-0 w-full h-full bg-neutral-900 z-0 pointer-events-none" />
+
+      {/* Global Gradients / Blobs */}
+      <div className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-hidden">
+        <div className="absolute top-[-10vh] right-[-10vw] w-[80vw] h-[80vw] md:w-[800px] md:h-[800px] bg-[#916AFF]/20 rounded-full blur-[100px] mix-blend-screen opacity-80 animate-pulse-slow" />
+        <div className="absolute top-[80vh] left-[-20vw] w-[90vw] h-[90vw] md:w-[1000px] md:h-[1000px] bg-[#52D8EA]/10 rounded-full blur-[120px] mix-blend-screen opacity-60" />
+      </div>
+
+      <Header allowVisibility={true} />
+      <main className="relative z-10 pt-32 pb-24">
         {/* Article Header */}
         <div className="container mx-auto px-4 md:px-8 max-w-4xl">
           <Link
-            href="/#blog"
-            className="inline-flex items-center gap-2 text-neutral-500 hover:text-[#916AFF] transition-colors mb-8 group"
+            href="/blog"
+            className="inline-flex items-center gap-2 text-slate-400 hover:text-[#916AFF] transition-colors mb-8 group"
           >
             <ArrowLeft
               size={20}
@@ -122,10 +131,10 @@ export default async function BlogPostPage({
 
           <div className="space-y-6 mb-12">
             <div className="flex items-center gap-4">
-              <span className="px-3 py-1 bg-[#916AFF]/10 text-[#916AFF] text-xs font-bold uppercase tracking-widest rounded-full">
+              <span className="px-3 py-1 bg-[#916AFF]/20 text-[#916AFF] text-xs font-bold uppercase tracking-widest rounded-full">
                 {post.category}
               </span>
-              <span className="text-neutral-400 text-sm font-mono">
+              <span className="text-slate-500 text-sm font-mono">
                 {new Date(post.publishedAt).toLocaleDateString("pl-PL", {
                   year: "numeric",
                   month: "long",
@@ -134,7 +143,7 @@ export default async function BlogPostPage({
               </span>
             </div>
 
-            <h1 className="text-4xl md:text-6xl font-display font-bold text-neutral-900 leading-[1.1]">
+            <h1 className="text-4xl md:text-6xl font-display font-bold text-white leading-[1.1]">
               {post.title}
             </h1>
           </div>
@@ -143,7 +152,7 @@ export default async function BlogPostPage({
         {/* Hero Image */}
         {post.mainImage && (
           <div className="container mx-auto px-4 md:px-8 max-w-5xl mb-16">
-            <div className="aspect-video relative rounded-3xl overflow-hidden shadow-2xl">
+            <div className="aspect-video relative rounded-3xl overflow-hidden shadow-2xl shadow-purple-900/20 border border-white/10">
               <img
                 src={urlFor(post.mainImage).width(1200).height(675).url()}
                 alt={post.title}
@@ -155,12 +164,12 @@ export default async function BlogPostPage({
 
         {/* Article Content */}
         <article className="container mx-auto px-4 md:px-8 max-w-3xl">
-          <div className="prose prose-lg prose-neutral md:prose-xl max-w-none">
+          <div className="prose prose-lg prose-invert md:prose-xl max-w-none">
             <PortableText value={post.body} components={ptComponents} />
           </div>
         </article>
       </main>
       <Footer />
-    </>
+    </div>
   );
 }

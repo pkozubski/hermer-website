@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import React from "react";
-import { LayoutTemplate } from "lucide-react";
+import React from 'react';
+import { LayoutTemplate } from 'lucide-react';
 
-export const WebDesignCard = ({ className = "" }: { className?: string }) => {
+export const WebDesignCard = ({ className = '' }: { className?: string }) => {
   return (
     <a
       href="/oferta/strony-www"
@@ -16,13 +16,13 @@ export const WebDesignCard = ({ className = "" }: { className?: string }) => {
           className="absolute inset-0 z-0 opacity-[0.05]"
           style={{
             backgroundImage:
-              "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)",
-            backgroundSize: "20px 20px",
+              'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)',
+            backgroundSize: '20px 20px',
           }}
         />
 
         {/* Browser Window Composition (New Design) */}
-        <div className="absolute -right-[40%] -bottom-[20%] w-[180%] scale-[0.35] origin-bottom-right sm:scale-[0.5] sm:-right-[20%] @lg:scale-[0.7] @lg:-bottom-[20%] @lg:-right-[65%] z-10 pointer-events-none select-none transition-transform duration-700 group-hover:-translate-y-4 group-hover:-translate-x-2">
+        <div className="absolute -right-[40%] -bottom-[20%] w-[180%] scale-[0.5] origin-bottom-right sm:scale-[0.5] sm:-right-[20%] @lg:scale-[0.7] @lg:-bottom-[20%] @lg:-right-[65%] z-10 pointer-events-none select-none transition-transform duration-700 group-hover:-translate-y-4 group-hover:-translate-x-2">
           <div className="relative w-[1225px] h-[678px]">
             {/* Group 2 - Background */}
             <div className="absolute left-[54px] top-0">
@@ -175,18 +175,19 @@ export const WebDesignCard = ({ className = "" }: { className?: string }) => {
             {/* Floating Pen Tool Frame */}
             <div
               className="absolute flex items-center justify-center left-0 size-[107.778px] top-[63px]"
-              style={{ transform: "rotate(-15deg)" }}
+              style={{ transform: 'rotate(-15deg)' }}
             >
               <div className="relative size-[88px]">
-                <div 
+                <div
                   className="absolute left-0 top-0 size-[88px] rounded-[24px]"
                   style={{
-                    background: "linear-gradient(135deg, #575757 0%, #1a1a1a 50%, #2d2d2d 100%)",
-                    border: "1px solid rgba(255,255,255,0.15)",
-                    boxShadow: "0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1), inset 0 -1px 0 rgba(0,0,0,0.3)",
+                    background:
+                      'linear-gradient(135deg, #575757 0%, #1a1a1a 50%, #2d2d2d 100%)',
+                    border: '1px solid rgba(255,255,255,0.15)',
+                    boxShadow:
+                      '0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1), inset 0 -1px 0 rgba(0,0,0,0.3)',
                   }}
-                >
-                </div>
+                ></div>
                 {/* Pen Tool Icon */}
                 <div className="absolute h-[53px] left-[18px] top-[17px] w-[52px]">
                   <svg

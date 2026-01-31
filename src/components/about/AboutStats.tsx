@@ -35,7 +35,7 @@ const StatItem = ({
 
 export const AboutStats = () => {
   return (
-    <section className="bg-[#0B0F19] py-32 text-white relative overflow-hidden">
+    <section className="bg-transparent py-32 text-white relative overflow-hidden">
       {/* Subtle Background Glows */}
       <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-[#916AFF] rounded-full blur-[150px] opacity-[0.07] pointer-events-none" />
       <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-[#38bdf8] rounded-full blur-[150px] opacity-[0.05] pointer-events-none" />

@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import React from "react";
-import { TrendingUp, BarChart3 } from "lucide-react";
+import React from 'react';
+import { TrendingUp, BarChart3 } from 'lucide-react';
 
-export const MarketingCard = ({ className = "" }: { className?: string }) => {
+export const MarketingCard = ({ className = '' }: { className?: string }) => {
   return (
     <a
       href="/oferta/marketing"
@@ -16,21 +16,21 @@ export const MarketingCard = ({ className = "" }: { className?: string }) => {
           className="absolute inset-0 z-0 opacity-[0.05]"
           style={{
             backgroundImage:
-              "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)",
-            backgroundSize: "20px 20px",
+              'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)',
+            backgroundSize: '20px 20px',
           }}
         />
 
         {/* Chart Visualization */}
-        <div className="absolute bottom-4 left-0 right-0 mx-auto w-[85%] md:w-auto md:inset-auto md:-bottom-12 md:-left-[100px] md:right-[40%] md:top-[20%] z-10 flex flex-col justify-end md:block pointer-events-none">
+        <div className="absolute bottom-4 left-0 right-0 mx-auto w-[80%] md:w-auto md:inset-auto md:-bottom-12 md:-left-[100px] md:right-[50%] md:top-[20%] z-10 flex flex-col justify-end md:block pointer-events-none">
           {/* Header Label */}
           <div className="mb-3 flex items-center justify-center gap-3">
             <div
               className="w-8 h-8 rounded-lg flex items-center justify-center shadow-lg"
               style={{
                 background:
-                  "linear-gradient(135deg, #575757 0%, #1a1a1a 50%, #2d2d2d 100%)",
-                border: "1px solid rgba(255,255,255,0.15)",
+                  'linear-gradient(135deg, #575757 0%, #1a1a1a 50%, #2d2d2d 100%)',
+                border: '1px solid rgba(255,255,255,0.15)',
               }}
             >
               <TrendingUp size={16} className="text-white" />
@@ -46,7 +46,11 @@ export const MarketingCard = ({ className = "" }: { className?: string }) => {
           </div>
 
           {/* Chart Container */}
-          <div className="relative w-full h-[calc(100%-44px)] bg-neutral-800/80 backdrop-blur-sm rounded-2xl shadow-2xl border border-white/10 p-6 overflow-hidden">
+          <div className="relative w-full h-[calc(100%-44px)] bg-[#262626] rounded-[30px] p-6">
+            <div
+              aria-hidden="true"
+              className="absolute border-[5px] border-[rgba(255,255,255,0.03)] border-solid inset-[-5px] pointer-events-none rounded-[35px] shadow-[0px_0px_48px_10px_rgba(0,0,0,0.2),0px_4px_16px_8px_rgba(0,0,0,0.1)]"
+            />
             {/* SVG Chart */}
             <div className="relative h-full w-full">
               {/* Chart Line & Area SVG - stretched */}
@@ -111,7 +115,7 @@ export const MarketingCard = ({ className = "" }: { className?: string }) => {
                   style={{
                     strokeDasharray: 600,
                     strokeDashoffset: 0,
-                    animation: "drawLine 2s ease-out forwards",
+                    animation: 'drawLine 2s ease-out forwards',
                   }}
                 />
               </svg>
@@ -158,10 +162,10 @@ export const MarketingCard = ({ className = "" }: { className?: string }) => {
             className="absolute bottom-24 right-4 w-12 h-12 rounded-xl flex items-center justify-center z-20 rotate-6 transition-transform duration-500 group-hover:rotate-0 group-hover:scale-105 shadow-2xl"
             style={{
               background:
-                "linear-gradient(135deg, #575757 0%, #1a1a1a 50%, #2d2d2d 100%)",
-              border: "1px solid rgba(255,255,255,0.15)",
+                'linear-gradient(135deg, #575757 0%, #1a1a1a 50%, #2d2d2d 100%)',
+              border: '1px solid rgba(255,255,255,0.15)',
               boxShadow:
-                "0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1), inset 0 -1px 0 rgba(0,0,0,0.3)",
+                '0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1), inset 0 -1px 0 rgba(0,0,0,0.3)',
             }}
           >
             <BarChart3
