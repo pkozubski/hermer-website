@@ -6,12 +6,10 @@ import { Footer } from "@/components/Footer";
 import { ProjectCard } from "@/components/ProjectCard";
 import { PROJECTS } from "@/data/projects";
 import { SplitRevealTitle } from "@/components/ui/SplitRevealTitle";
-import { SmoothScroll } from "@/components/SmoothScroll";
 
 export default function RealizacjePage() {
   return (
     <div className="min-h-screen bg-neutral-900 text-white overflow-x-clip">
-      <SmoothScroll />
       {/* Background Decor */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute top-[-10%] right-[-5%] w-[1000px] h-[1000px] bg-[#916AFF]/10 rounded-full blur-[150px] mix-blend-screen animate-pulse-slow" />

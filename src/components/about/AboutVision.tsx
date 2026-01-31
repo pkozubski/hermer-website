@@ -2,6 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
+import { SplitRevealTitle } from "@/components/ui/SplitRevealTitle";
 
 export const AboutVision = () => {
   return (
@@ -13,17 +14,17 @@ export const AboutVision = () => {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="lg:col-span-5 relative rounded-[3rem] overflow-hidden aspect-[4/5] bg-white/5 shadow-2xl group"
+          className="lg:col-span-5 relative rounded-[2rem] overflow-hidden aspect-4/5 bg-white/5 border border-white/5 group"
         >
           {/* Placeholder for real image */}
-          <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-white/5 transition-transform duration-700 group-hover:scale-105" />
+          <div className="absolute inset-0 bg-linear-to-br from-white/10 to-white/5 transition-transform duration-700 group-hover:scale-105" />
 
           {/* Floating badge */}
-          <div className="absolute bottom-12 right-12 bg-neutral-900/90 backdrop-blur-md p-8 rounded-[2rem] shadow-xl flex flex-col items-center z-10 border border-white/10">
-            <span className="text-6xl font-medium text-[#916AFF] mb-2 font-display tracking-tighter">
+          <div className="absolute bottom-6 right-6 bg-neutral-900/90 backdrop-blur-md p-6 rounded-2xl shadow-xl flex flex-col items-center z-10 border border-white/10">
+            <span className="text-4xl font-medium text-[#916AFF] mb-1 font-display tracking-tighter">
               100%
             </span>
-            <span className="text-xs uppercase font-bold text-slate-400 text-center leading-tight tracking-widest">
+            <span className="text-[10px] uppercase font-bold text-slate-400 text-center leading-tight tracking-widest">
               Zaangażowania
               <br />w Twój projekt
             </span>
@@ -38,10 +39,11 @@ export const AboutVision = () => {
           </span>
 
           <div className="relative z-10">
-            <h2 className="text-5xl md:text-7xl lg:text-9xl font-medium font-display text-white tracking-tighter leading-[0.9] mb-12">
-              Pasja, która <br />
-              <span className="text-[#916AFF]">napędza</span> działanie
-            </h2>
+            <SplitRevealTitle
+              line1="Pasja, która"
+              line2="Napędza działanie"
+              className="text-5xl md:text-7xl lg:text-8xl font-medium tracking-tighter text-white mb-12"
+            />
             <div className="space-y-8 text-xl md:text-2xl text-slate-400 leading-relaxed font-light max-w-2xl">
               <p>
                 Tworzenie stron internetowych to dla nas coś więcej niż praca —

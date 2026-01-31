@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { LiquidCard } from "./cards/LiquidCard";
+
 import { LucideIcon } from "lucide-react";
 
 interface CardData {
@@ -17,7 +17,7 @@ interface CardWheelProps {
   direction?: "up" | "down";
 }
 
-const ITEM_HEIGHT = 400; // Estimated height of LiquidCard + margin
+const ITEM_HEIGHT = 320; // Estimated height of LiquidCard + margin
 
 export const CardWheel: React.FC<CardWheelProps> = ({
   cards,
@@ -101,15 +101,10 @@ export const CardWheel: React.FC<CardWheelProps> = ({
             }}
           >
             {/* 
-              We need to remove the margin from LiquidCard effectively, 
-              or account for it. 
-              LiquidCard has 'mb-8' (32px).
-              Our ITEM_HEIGHT is 400.
-              If content < 368, it fits.
+              Render content directly. 
+              The content should include the card wrapper if needed.
             */}
-            <div className="w-full">
-              <LiquidCard {...card} />
-            </div>
+            <div className="w-full flex justify-center">{card.content}</div>
           </div>
         ))}
       </div>

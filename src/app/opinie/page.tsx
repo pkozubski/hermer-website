@@ -4,7 +4,7 @@ import React from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { SplitRevealTitle } from "@/components/ui/SplitRevealTitle";
-import { SmoothScroll } from "@/components/SmoothScroll";
+
 import { Star, Quote } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -117,7 +117,6 @@ const GlassCard = ({
 export default function OpiniePage() {
   return (
     <div className="min-h-screen bg-neutral-900 text-white overflow-x-clip">
-      <SmoothScroll />
       {/* Background Decor */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute top-[-10%] right-[-5%] w-[1000px] h-[1000px] bg-[#916AFF]/10 rounded-full blur-[150px] mix-blend-screen animate-pulse-slow" />

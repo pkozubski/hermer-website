@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { LayoutTemplate } from 'lucide-react';
+import React from "react";
+import { LayoutTemplate } from "lucide-react";
 
-export const WebDesignCard = ({ className = '' }: { className?: string }) => {
+export const WebDesignCard = ({ className = "" }: { className?: string }) => {
   return (
     <a
       href="/oferta/strony-www"
@@ -16,8 +16,8 @@ export const WebDesignCard = ({ className = '' }: { className?: string }) => {
           className="absolute inset-0 z-0 opacity-[0.05]"
           style={{
             backgroundImage:
-              'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)',
-            backgroundSize: '20px 20px',
+              "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)",
+            backgroundSize: "20px 20px",
           }}
         />
 
@@ -175,17 +175,17 @@ export const WebDesignCard = ({ className = '' }: { className?: string }) => {
             {/* Floating Pen Tool Frame */}
             <div
               className="absolute flex items-center justify-center left-0 size-[107.778px] top-[63px]"
-              style={{ transform: 'rotate(-15deg)' }}
+              style={{ transform: "rotate(-15deg)" }}
             >
               <div className="relative size-[88px]">
                 <div
                   className="absolute left-0 top-0 size-[88px] rounded-[24px]"
                   style={{
                     background:
-                      'linear-gradient(135deg, #575757 0%, #1a1a1a 50%, #2d2d2d 100%)',
-                    border: '1px solid rgba(255,255,255,0.15)',
+                      "linear-gradient(135deg, #575757 0%, #1a1a1a 50%, #2d2d2d 100%)",
+                    border: "1px solid rgba(255,255,255,0.15)",
                     boxShadow:
-                      '0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1), inset 0 -1px 0 rgba(0,0,0,0.3)',
+                      "0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1), inset 0 -1px 0 rgba(0,0,0,0.3)",
                   }}
                 ></div>
                 {/* Pen Tool Icon */}
@@ -200,9 +200,9 @@ export const WebDesignCard = ({ className = '' }: { className?: string }) => {
                     <path
                       d="M4 4L33 11L36 26L26 36L11 33L4 4ZM4 4L19.172 19.172M24 38L38 24L44 30L30 44L24 38ZM26 22C26 24.2091 24.2091 26 22 26C19.7909 26 18 24.2091 18 22C18 19.7909 19.7909 18 22 18C24.2091 18 26 19.7909 26 22Z"
                       stroke="#fff"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     />
                   </svg>
                 </div>

@@ -4,9 +4,9 @@ import React from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
-const GrowthFunnel = () => {
+const GrowthFunnel = ({ className }: { className?: string }) => {
   return (
-    <Container>
+    <Container className={className}>
       <BlackBox>
         <Header>
           <Title>Efektywność (ROAS)</Title>
@@ -18,10 +18,10 @@ const GrowthFunnel = () => {
           <BarRow>
             <BarLabel>Wydatki</BarLabel>
             <BarTrack>
-              <BarFill 
-                $color="#64748b" 
-                initial={{ width: 0 }} 
-                animate={{ width: "35%" }} 
+              <BarFill
+                $color="#64748b"
+                initial={{ width: 0 }}
+                animate={{ width: "35%" }}
                 transition={{ duration: 1, delay: 0.2 }}
               />
             </BarTrack>
@@ -30,51 +30,50 @@ const GrowthFunnel = () => {
 
           {/* Connector */}
           <Connector>
-            <motion.div 
-               style={{width: 2, background: '#334155', height: '100%'}}
-               initial={{ height: 0 }}
-               animate={{ height: 20 }}
+            <motion.div
+              style={{ width: 2, background: "#334155", height: "100%" }}
+              initial={{ height: 0 }}
+              animate={{ height: 20 }}
             />
-             <MultiplierBadge
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ delay: 1.2, type: "spring" }}
-             >
-                x4.2
-             </MultiplierBadge>
+            <MultiplierBadge
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ delay: 1.2, type: "spring" }}
+            >
+              x4.2
+            </MultiplierBadge>
           </Connector>
 
           {/* Bar 2: Revenue */}
           <BarRow>
-            <BarLabel style={{color: '#fff'}}>Przychód</BarLabel>
+            <BarLabel style={{ color: "#fff" }}>Przychód</BarLabel>
             <BarTrack>
-              <BarFill 
-                $color="#10b981" 
+              <BarFill
+                $color="#10b981"
                 $glow
-                initial={{ width: 0 }} 
-                animate={{ width: "85%" }} 
+                initial={{ width: 0 }}
+                animate={{ width: "85%" }}
                 transition={{ duration: 1.2, delay: 0.5 }}
               />
             </BarTrack>
-            <BarValue style={{color: '#10b981'}}>50.4k</BarValue>
+            <BarValue style={{ color: "#10b981" }}>50.4k</BarValue>
           </BarRow>
         </ChartContainer>
 
         <BottomStats>
-           <Stat>
-              <StatLabel>Conv. Rate</StatLabel>
-              <StatNum>2.8%</StatNum>
-           </Stat>
-           <Stat>
-              <StatLabel>CPC</StatLabel>
-              <StatNum>1.20 zł</StatNum>
-           </Stat>
-           <Stat>
-              <StatLabel>ROI</StatLabel>
-              <StatNum style={{color: '#10b981'}}>320%</StatNum>
-           </Stat>
+          <Stat>
+            <StatLabel>Conv. Rate</StatLabel>
+            <StatNum>2.8%</StatNum>
+          </Stat>
+          <Stat>
+            <StatLabel>CPC</StatLabel>
+            <StatNum>1.20 zł</StatNum>
+          </Stat>
+          <Stat>
+            <StatLabel>ROI</StatLabel>
+            <StatNum style={{ color: "#10b981" }}>320%</StatNum>
+          </Stat>
         </BottomStats>
-
       </BlackBox>
     </Container>
   );
@@ -96,7 +95,7 @@ const BlackBox = styled.div`
   border: 1px solid #1e293b;
   border-radius: 20px;
   padding: 24px;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
   display: flex;
   flex-direction: column;
   position: relative;
@@ -162,9 +161,9 @@ const BarTrack = styled.div`
 
 const BarFill = styled(motion.div)<{ $color: string; $glow?: boolean }>`
   height: 100%;
-  background: ${p => p.$color};
+  background: ${(p) => p.$color};
   border-radius: 4px;
-  box-shadow: ${p => p.$glow ? `0 0 15px ${p.$color}80` : 'none'};
+  box-shadow: ${(p) => (p.$glow ? `0 0 15px ${p.$color}80` : "none")};
 `;
 
 const BarValue = styled.div`

@@ -13,7 +13,6 @@ import { Testimonials } from "./Testimonials";
 import { Faq } from "./Faq";
 import { Contact } from "./Contact";
 import { Footer } from "./Footer";
-import { SmoothScroll } from "./SmoothScroll";
 
 export const MainContent: React.FC = () => {
   const [isHeaderAllowed, setIsHeaderAllowed] = useState(false);
@@ -45,7 +44,6 @@ export const MainContent: React.FC = () => {
         <div className="absolute bottom-0 right-[-10%] w-[800px] h-[800px] bg-[#52D8EA]/5 rounded-full blur-[120px] mix-blend-screen" />
       </div>
 
-      <SmoothScroll />
       <Header allowVisibility={isHeaderAllowed} />
       <Hero onAnimationComplete={handleHeroAnimationComplete} />
 

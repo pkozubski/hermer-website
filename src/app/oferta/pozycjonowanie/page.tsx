@@ -1,7 +1,7 @@
 import React from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { SmoothScroll } from "@/components/SmoothScroll";
+
 import { SeoOfferHero } from "@/components/oferta/SeoOfferHero";
 import { SeoProcessSection } from "@/components/oferta/SeoProcessSection";
 import { SeoFeaturesBento } from "@/components/oferta/SeoFeaturesBento";
@@ -28,7 +28,6 @@ export default function SeoPage() {
         <div className="absolute top-[160vh] right-[-10vw] w-[60vw] h-[60vw] md:w-[800px] md:h-[800px] bg-[#916AFF]/15 rounded-full blur-[100px] mix-blend-screen opacity-50" />
       </div>
 
-      <SmoothScroll />
       <Header allowVisibility={true} />
       <main className="relative z-10">
         <SeoOfferHero />

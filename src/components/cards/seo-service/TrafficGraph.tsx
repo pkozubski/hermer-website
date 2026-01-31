@@ -4,9 +4,9 @@ import React from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
-const TrafficGraph = () => {
+const TrafficGraph = ({ className }: { className?: string }) => {
   return (
-    <Container>
+    <Container className={className}>
       <ChartWrapper>
         <GridLines>
           {[1, 2, 3, 4].map((i) => (

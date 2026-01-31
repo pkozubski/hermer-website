@@ -1,7 +1,6 @@
 import React from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { SmoothScroll } from "@/components/SmoothScroll";
 
 import { WebsiteOfferHero } from "@/components/oferta/WebsiteOfferHero";
 import { ProcessSection } from "@/components/oferta/ProcessSection";
@@ -31,7 +30,6 @@ export default function WebDesignPage() {
         <div className="absolute top-[160vh] right-[-10vw] w-[60vw] h-[60vw] md:w-[800px] md:h-[800px] bg-[#916AFF]/15 rounded-full blur-[100px] mix-blend-screen opacity-50" />
       </div>
 
-      <SmoothScroll />
       <Header allowVisibility={true} />
       <main className="relative z-10">
         <WebsiteOfferHero />

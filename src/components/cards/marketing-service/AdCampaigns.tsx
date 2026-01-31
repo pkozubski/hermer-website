@@ -4,9 +4,9 @@ import React from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
-const AdCampaigns = () => {
+const AdCampaigns = ({ className }: { className?: string }) => {
   return (
-    <Container>
+    <Container className={className}>
       {/* Background Gradients */}
       <GradientBlob
         $color="#ec4899"

@@ -5,20 +5,38 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 
 const tasks = [
-  { id: 1, title: "Post na LinkedIn", tag: "B2B", color: "#0a66c2", status: "Publikacja" },
-  { id: 2, title: "Reels: Backstage", tag: "Video", color: "#e1306c", status: "W trakcie" },
-  { id: 3, title: "Newsletter majowy", tag: "Email", color: "#f59e0b", status: "Korekta" },
+  {
+    id: 1,
+    title: "Post na LinkedIn",
+    tag: "B2B",
+    color: "#0a66c2",
+    status: "Publikacja",
+  },
+  {
+    id: 2,
+    title: "Reels: Backstage",
+    tag: "Video",
+    color: "#e1306c",
+    status: "W trakcie",
+  },
+  {
+    id: 3,
+    title: "Newsletter majowy",
+    tag: "Email",
+    color: "#f59e0b",
+    status: "Korekta",
+  },
 ];
 
-const ContentCalendar = () => {
+const ContentCalendar = ({ className }: { className?: string }) => {
   return (
-    <Container>
+    <Container className={className}>
       <Board>
         <BoardHeader>
           <HeaderTitle>Plan Treści</HeaderTitle>
           <HeaderDate>Maj 2024</HeaderDate>
         </BoardHeader>
-        
+
         <Column>
           {tasks.map((task, i) => (
             <TaskCard
@@ -29,7 +47,9 @@ const ContentCalendar = () => {
               whileHover={{ scale: 1.02, x: 5 }}
             >
               <TaskHeader>
-                <Tag style={{ color: task.color, background: `${task.color}15` }}>
+                <Tag
+                  style={{ color: task.color, background: `${task.color}15` }}
+                >
                   {task.tag}
                 </Tag>
                 <MoreBtn>•••</MoreBtn>
@@ -37,15 +57,15 @@ const ContentCalendar = () => {
               <TaskTitle>{task.title}</TaskTitle>
               <TaskFooter>
                 <Avatars>
-                   <Avatar $bg="#cbd5e1">MK</Avatar>
+                  <Avatar $bg="#cbd5e1">MK</Avatar>
                 </Avatars>
                 <StatusBadge $done={task.status === "Publikacja"}>
-                   {task.status}
+                  {task.status}
                 </StatusBadge>
               </TaskFooter>
             </TaskCard>
           ))}
-          
+
           <GhostCard />
         </Column>
       </Board>
@@ -68,9 +88,9 @@ const Board = styled.div`
   background: #ffffff;
   border-radius: 16px;
   padding: 20px;
-  box-shadow: 
-    0 10px 30px -5px rgba(0,0,0,0.05),
-    0 0 0 1px rgba(0,0,0,0.05);
+  box-shadow:
+    0 10px 30px -5px rgba(0, 0, 0, 0.05),
+    0 0 0 1px rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -108,7 +128,7 @@ const TaskCard = styled(motion.div)`
   border: 1px solid #e2e8f0;
   border-radius: 10px;
   padding: 12px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -155,7 +175,7 @@ const Avatars = styled.div`
 const Avatar = styled.div<{ $bg: string }>`
   width: 20px;
   height: 20px;
-  background: ${p => p.$bg};
+  background: ${(p) => p.$bg};
   border-radius: 50%;
   font-size: 8px;
   display: flex;
@@ -167,12 +187,12 @@ const Avatar = styled.div<{ $bg: string }>`
 
 const StatusBadge = styled.div<{ $done?: boolean }>`
   font-size: 9px;
-  color: ${p => p.$done ? '#10b981' : '#94a3b8'};
+  color: ${(p) => (p.$done ? "#10b981" : "#94a3b8")};
   font-weight: 600;
   display: flex;
   align-items: center;
   gap: 4px;
-  
+
   &::before {
     content: "";
     display: block;
@@ -192,7 +212,7 @@ const GhostCard = styled.div`
   justify-content: center;
   color: #cbd5e1;
   font-size: 18px;
-  
+
   &::after {
     content: "+";
   }

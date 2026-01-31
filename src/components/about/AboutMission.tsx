@@ -21,27 +21,23 @@ export const AboutMission = () => {
 
           <div className="grid lg:grid-cols-12 gap-16 w-full">
             {/* Highlight Block */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              className="lg:col-span-7 bg-white/5 rounded-[3rem] p-10 md:p-16 relative overflow-hidden group hover:shadow-2xl hover:shadow-white/5 transition-all duration-500 border border-white/5"
-            >
+            <div className="lg:col-span-7 bg-white/5 rounded-[3rem] p-10 md:p-16 relative overflow-hidden group border border-white/5 hover:border-white/10 transition-colors duration-500">
               {/* Decorative Circle */}
-              <div className="absolute top-0 right-0 w-64 h-64 bg-[#efeaff] rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+              <div className="absolute top-0 right-0 w-64 h-64 bg-[#efeaff] rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2 opacity-0 group-hover:opacity-20 transition-opacity duration-700" />
 
               <div className="relative z-10">
                 <p className="text-3xl md:text-5xl font-light text-white leading-[1.15]">
                   Od <span className="font-medium text-[#916AFF]">14 lat</span>{" "}
                   pomagamy przedsiębiorcom zwiększać zyski dzięki skutecznym
                   stronom internetowym, które{" "}
-                  <span className="underline decoration-[#916AFF]/30 underline-offset-8">
+                  <span className="relative inline-block">
                     sprzedają
+                    <span className="absolute bottom-1 left-0 w-full h-[6px] bg-[#916AFF]/30 -z-10"></span>
                   </span>
                   .
                 </p>
               </div>
-            </motion.div>
+            </div>
 
             {/* Points */}
             <div className="lg:col-span-5 flex flex-col justify-center gap-12 pl-4">

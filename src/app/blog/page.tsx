@@ -1,7 +1,7 @@
 import React from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { SmoothScroll } from "@/components/SmoothScroll";
+
 import { client } from "@/sanity/lib/client";
 import { Post } from "@/components/cards/BlogCard";
 import { BlogContent } from "@/components/blog/BlogContent";
@@ -36,7 +36,6 @@ export default async function BlogPage() {
         <div className="absolute top-[80vh] left-[-20vw] w-[90vw] h-[90vw] md:w-[1000px] md:h-[1000px] bg-[#52D8EA]/10 rounded-full blur-[120px] mix-blend-screen opacity-60" />
       </div>
 
-      <SmoothScroll />
       <Header allowVisibility={true} />
 
       <div className="relative z-10">

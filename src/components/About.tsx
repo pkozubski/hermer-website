@@ -73,7 +73,7 @@ export const About: React.FC = () => {
     <section
       ref={containerRef}
       id="about"
-      className="bg-[#171717] py-32 relative text-white isolate"
+      className=" py-32 relative text-white isolate"
       style={{ position: "relative" }}
     >
       {/* Background Ambience moved to MainContent wrapper */}

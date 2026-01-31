@@ -11,19 +11,20 @@ import {
   MessageSquare,
   Star,
 } from "lucide-react";
-import { LiquidCard } from "./cards/LiquidCard";
-import { DevelopmentCard } from "./cards/DevelopmentCard";
-import { DesignCard } from "./cards/DesignCard";
-import { ResponsivenessCard } from "./cards/ResponsivenessCard";
-import { SeoCard } from "./cards/SeoCard";
-import { MarketingCard } from "./cards/MarketingCard";
 import { CmsCard } from "./cards/CmsCard";
-import { EcommerceCard } from "./cards/EcommerceCard";
-import { SocialCard } from "./cards/SocialCard";
+import { SeoCard } from "./cards/SeoCard";
+import { ResponsivenessCard } from "./cards/ResponsivenessCard";
+import { CardWheelHorizontal } from "./CardWheelHorizontal";
 import { motion, AnimatePresence } from "framer-motion";
 import { CardWheel } from "./CardWheel";
 import HeroSquiggle from "./HeroSquiggle";
+import { WebDevCard } from "./cards/WebDevCard";
+import { EcommerceCard } from "./cards/EcommerceCard";
+import { SocialMediaCard } from "./cards/SocialMediaCard";
+import { MarketingCard } from "./cards/MarketingCard";
+import { UiUxCard } from "./cards/UiUxCard";
 
+// Data for the cards to be rendered - Monochrome Themes
 // Data for the cards to be rendered - Monochrome Themes
 const CARDS_DATA = [
   {
@@ -31,56 +32,104 @@ const CARDS_DATA = [
     theme: "blue",
     icon: Code2,
     title: "Development",
-    content: <DevelopmentCard />,
+    content: (
+      <div className="w-full flex justify-center h-[260px] overflow-visible relative z-10">
+        <div className="scale-[0.55] origin-top transform-gpu">
+          <WebDevCard />
+        </div>
+      </div>
+    ),
   },
   {
     id: "design",
     theme: "purple",
     icon: Palette,
     title: "UI/UX Design",
-    content: <DesignCard />,
+    content: (
+      <div className="w-full flex justify-center h-[260px] overflow-visible relative z-10">
+        <div className="scale-[0.55] origin-top transform-gpu">
+          <UiUxCard />
+        </div>
+      </div>
+    ),
   },
   {
     id: "mobile",
     theme: "blue",
     icon: Smartphone,
     title: "Responsywność",
-    content: <ResponsivenessCard />,
+    content: (
+      <div className="w-full flex justify-center h-[260px] overflow-visible relative z-10">
+        <div className="scale-[0.55] origin-top transform-gpu">
+          <ResponsivenessCard />
+        </div>
+      </div>
+    ),
   },
   {
     id: "seo",
     theme: "green",
     icon: Search,
     title: "SEO & Pozycjonowanie",
-    content: <SeoCard />,
+    content: (
+      <div className="w-full flex justify-center h-[260px] overflow-visible relative z-10">
+        <div className="scale-[0.55] origin-top transform-gpu">
+          <SeoCard />
+        </div>
+      </div>
+    ),
   },
   {
     id: "marketing",
     theme: "orange",
     icon: BarChart3,
     title: "Marketing",
-    content: <MarketingCard />,
+    content: (
+      <div className="w-full flex justify-center h-[260px] overflow-visible relative z-10">
+        <div className="scale-[0.55] origin-top transform-gpu">
+          <MarketingCard />
+        </div>
+      </div>
+    ),
   },
   {
-    id: "cms", // Changed id from "security" to "cms"
-    theme: "purple", // Changed theme from "green" to "purple"
-    icon: Layout, // Changed icon from ShieldCheck to Layout
-    title: "System CMS", // Changed title from "Bezpieczeństwo" to "System CMS"
-    content: <CmsCard />, // Changed content from <SecurityCard /> to <CmsCard />
+    id: "cms",
+    theme: "purple",
+    icon: Layout,
+    title: "System CMS",
+    content: (
+      <div className="w-full flex justify-center h-[260px] overflow-visible relative z-10">
+        <div className="scale-[0.55] origin-top transform-gpu">
+          <CmsCard />
+        </div>
+      </div>
+    ),
   },
   {
     id: "ecommerce",
     theme: "pink",
     icon: ShoppingCart,
     title: "E-commerce",
-    content: <EcommerceCard />,
+    content: (
+      <div className="w-full flex justify-center h-[260px] overflow-visible relative z-10">
+        <div className="scale-[0.55] origin-top transform-gpu">
+          <EcommerceCard />
+        </div>
+      </div>
+    ),
   },
   {
     id: "social",
     theme: "orange",
     icon: MessageSquare,
     title: "Social Media",
-    content: <SocialCard />,
+    content: (
+      <div className="w-full flex justify-center h-[260px] overflow-visible relative z-10">
+        <div className="scale-[0.55] origin-top transform-gpu">
+          <SocialMediaCard />
+        </div>
+      </div>
+    ),
   },
 ];
 
@@ -299,10 +348,7 @@ export const Hero: React.FC<{ onAnimationComplete?: () => void }> = ({
                   +
                 </span>
               </span>
-              <span
-                className="font-serif italic text-neutral-500 text-[10px] sm:text-base lg:text-xl relative z-10"
-                style={{ fontFamily: "var(--font-instrument)" }}
-              >
+              <span className="text-neutral-500 text-[8px] sm:text-xs lg:text-base relative z-10">
                 zrealizowanych projektów
               </span>
             </div>
@@ -324,10 +370,7 @@ export const Hero: React.FC<{ onAnimationComplete?: () => void }> = ({
                   />
                 ))}
               </div>
-              <span
-                className="font-serif italic text-neutral-500 text-[10px] sm:text-base lg:text-xl"
-                style={{ fontFamily: "var(--font-instrument)" }}
-              >
+              <span className="text-neutral-500 text-[8px] sm:text-xs lg:text-base">
                 zadowolonych klientów
               </span>
             </div>
@@ -348,18 +391,14 @@ export const Hero: React.FC<{ onAnimationComplete?: () => void }> = ({
                   Expert
                 </div>
               </div>
-              <span
-                className="font-serif italic text-neutral-500 text-[10px] sm:text-base lg:text-xl"
-                style={{ fontFamily: "var(--font-instrument)" }}
-              >
+              <span className="text-neutral-500 text-[8px] sm:text-xs lg:text-base">
                 ekspertów w zespole
               </span>
             </div>
           </div>
 
-          {/* Mobile Only Cards Marquee */}
           <div
-            className="lg:hidden w-[calc(100%+2rem)] sm:w-[calc(100%+4rem)] -mx-4 sm:-mx-8 mt-8 lg:mt-12 overflow-hidden relative animate-[text-reveal_0.8s_cubic-bezier(0.16,1,0.3,1)_1.6s_backwards]"
+            className="lg:hidden w-[calc(100%+2rem)] sm:w-[calc(100%+4rem)] -mx-4 sm:-mx-8 mt-8 lg:mt-12 overflow-hidden relative animate-[text-reveal_0.8s_cubic-bezier(0.16,1,0.3,1)_1.6s_backwards] h-[400px]"
             style={{
               maskImage:
                 "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
@@ -367,24 +406,7 @@ export const Hero: React.FC<{ onAnimationComplete?: () => void }> = ({
                 "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
             }}
           >
-            <div className="flex w-max animate-scroll-left hover:[animation-play-state:paused]">
-              {CARDS_DATA.map((card) => (
-                <div
-                  key={`m-${card.id}`}
-                  className="w-[85vw] sm:w-[350px] shrink-0"
-                >
-                  <LiquidCard {...card} />
-                </div>
-              ))}
-              {CARDS_DATA.map((card) => (
-                <div
-                  key={`m-dup-${card.id}`}
-                  className="w-[85vw] sm:w-[350px] shrink-0"
-                >
-                  <LiquidCard {...card} />
-                </div>
-              ))}
-            </div>
+            <CardWheelHorizontal cards={CARDS_DATA} direction="left" />
           </div>
         </div>
 

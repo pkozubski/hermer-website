@@ -1,55 +1,47 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
-import { ArrowDown } from "lucide-react";
+import { ChevronRight } from "lucide-react";
+import Link from "next/link";
+import { SplitRevealTitle } from "@/components/ui/SplitRevealTitle";
+import { LineReveal } from "@/components/ui/LineReveal";
 
 export const AboutHero = () => {
   return (
-    <section className="relative min-h-[85vh] w-full flex flex-col justify-center bg-transparent overflow-hidden pt-32 pb-20 md:pt-48 md:pb-32 isolate">
-      {/* Premium Background Grid */}
-      <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
-
+    <section className="relative min-h-[80vh] w-full flex flex-col justify-center bg-transparent overflow-hidden pt-32 pb-20 md:pt-48 md:pb-32 isolate">
       <div className="container mx-auto px-4 sm:px-8 lg:px-16 relative z-10">
         <div className="max-w-5xl">
           {/* Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 bg-white/5 rounded-full text-xs font-bold uppercase tracking-widest text-[#916AFF] mb-8 border border-white/10"
-          >
-            <span className="w-2 h-2 rounded-full bg-[#916AFF] animate-pulse"></span>
-            O nas
-          </motion.div>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-neutral-300 text-xs font-bold uppercase tracking-widest mb-8 animate-fade-in-up">
+            <span className="w-2 h-2 rounded-full bg-[#916AFF]"></span>O nas
+          </div>
 
           {/* Title */}
-          <h1 className="text-6xl md:text-8xl lg:text-[7rem] font-display font-medium tracking-tighter text-white leading-[0.9] mb-12">
-            Tworzymy <br />
-            <span className="text-[#916AFF]">profesjonalne</span> <br />
-            strony oraz sklepy
-          </h1>
+          <SplitRevealTitle
+            line1="Tworzymy"
+            line2="Profesjonalne strony"
+            className="text-6xl md:text-8xl lg:text-[7rem] font-medium tracking-tighter text-white leading-[0.9] mb-12"
+          />
 
           {/* Subtext and icon */}
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end border-t border-white/10 pt-8 gap-8">
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
+            <LineReveal
+              lines={[
+                "Tworzymy strony, które pracują na Twój zysk.",
+                "Od 14 lat łączymy design ze skuteczną sprzedażą.",
+              ]}
               className="text-lg md:text-2xl max-w-2xl text-slate-400 font-light leading-relaxed"
-            >
-              Tworzymy strony, które pracują na Twój zysk. Od 14 lat łączymy
-              design ze skuteczną sprzedażą.
-            </motion.p>
+            />
 
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: 0.5 }}
-              className="w-16 h-16 rounded-full border border-white/10 flex items-center justify-center text-white bg-white/5 shadow-sm"
+            <Link
+              href="/kontakt"
+              className="group relative px-6 py-3 bg-[#916AFF] text-white rounded-full font-bold text-sm transition-all duration-300 hover:shadow-[0_0_30px_rgba(145,106,255,0.5)] hover:scale-105 active:scale-95 flex items-center gap-3 overflow-hidden"
             >
-              <ArrowDown size={24} className="animate-bounce" />
-            </motion.div>
+              <span className="relative z-10">Skontaktuj się</span>
+              <div className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center group-hover:bg-white group-hover:text-[#916AFF] transition-all duration-300">
+                <ChevronRight size={14} />
+              </div>
+            </Link>
           </div>
         </div>
       </div>
