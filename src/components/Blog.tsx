@@ -20,7 +20,7 @@ export const Blog: React.FC = () => {
       try {
         setIsLoading(true);
         setError(null);
-        const query = `*[_type == "post"] | order(publishedAt desc) {
+        const query = `*[_type == "post" && defined(slug.current)] | order(publishedAt desc) {
           _id,
           title,
           slug,

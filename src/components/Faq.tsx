@@ -32,8 +32,18 @@ const FAQ_ITEMS = [
   },
 ];
 
-export const Faq: React.FC = () => {
-  const [activeId, setActiveId] = useState<number>(1);
+interface FaqItem {
+  id: number | string;
+  question: string;
+  answer: string;
+}
+
+interface FaqProps {
+  items?: FaqItem[];
+}
+
+export const Faq: React.FC<FaqProps> = ({ items = FAQ_ITEMS }) => {
+  const [activeId, setActiveId] = useState<number | string>(items[0]?.id || 1);
 
   return (
     <section className="py-24 lg:py-32 bg-transparent relative overflow-hidden">
@@ -58,7 +68,7 @@ export const Faq: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 items-start">
           {/* --- LEFT: QUESTION LIST --- */}
           <div className="lg:col-span-5 flex flex-col">
-            {FAQ_ITEMS.map((item, index) => (
+            {items.map((item, index) => (
               <motion.button
                 key={item.id}
                 initial={{ opacity: 0, x: -30 }}
@@ -123,7 +133,7 @@ export const Faq: React.FC = () => {
             }}
           >
             <AnimatePresence mode="wait">
-              {FAQ_ITEMS.map(
+              {items.map(
                 (item) =>
                   activeId === item.id && (
                     <motion.div

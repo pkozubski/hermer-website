@@ -8,6 +8,7 @@ import { WebDesignCard } from "../cards/bento/WebDesignCard";
 import { EcommerceCard } from "../cards/bento/EcommerceCard";
 import { SeoCard } from "../cards/bento/SeoCard";
 import { MarketingCard } from "../cards/bento/MarketingCard";
+import { ReelCtaButton } from "../ui/ReelCtaButton";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -235,27 +236,11 @@ export const OfferHeroFlow = () => {
               wynik.
             </p>
             <div ref={buttonsRef} className="flex gap-4 will-change-transform">
-              <Link
+              <ReelCtaButton
+                text="Darmowa wycena"
                 href="/kontakt"
-                className="group relative px-6 py-3 sm:px-10 sm:py-5 bg-[#916AFF] text-white rounded-full font-bold text-sm sm:text-lg transition-all duration-300 hover:shadow-[0_0_30px_rgba(145,106,255,0.5)] hover:scale-105 active:scale-95 flex items-center gap-3 overflow-hidden"
-              >
-                <span className="relative z-10">Darmowa wycena</span>
-                <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center group-hover:bg-white group-hover:text-[#916AFF] transition-all duration-300">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="18"
-                    height="18"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="m9 18 6-6-6-6" />
-                  </svg>
-                </div>
-              </Link>
+                size="large"
+              />
             </div>
           </div>
 

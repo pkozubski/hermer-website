@@ -24,7 +24,7 @@ export const AboutVision = () => {
             <span className="text-4xl font-medium text-[#916AFF] mb-1 font-display tracking-tighter">
               100%
             </span>
-            <span className="text-[10px] uppercase font-bold text-slate-400 text-center leading-tight tracking-widest">
+            <span className="text-[10px] uppercase font-bold text-neutral-400 text-center leading-tight tracking-widest">
               Zaangażowania
               <br />w Twój projekt
             </span>
@@ -42,9 +42,9 @@ export const AboutVision = () => {
             <SplitRevealTitle
               line1="Pasja, która"
               line2="Napędza działanie"
-              className="text-5xl md:text-7xl lg:text-8xl font-medium tracking-tighter text-white mb-12"
+              className="text-5xl md:text-8xl font-medium tracking-tighter text-white mb-12"
             />
-            <div className="space-y-8 text-xl md:text-2xl text-slate-400 leading-relaxed font-light max-w-2xl">
+            <div className="space-y-8 text-xl md:text-2xl text-neutral-400 leading-relaxed font-light max-w-2xl">
               <p>
                 Tworzenie stron internetowych to dla nas coś więcej niż praca —
                 to pasja. Nie interesuje nas przeciętność, sztampowe szablony

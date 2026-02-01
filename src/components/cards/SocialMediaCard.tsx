@@ -6,13 +6,13 @@ import {
   Send,
   Bookmark,
 } from "lucide-react";
-import svgPaths from "../../imports/svg-jsem1yknox";
 
 // --- Internal Mock UI Components ---
 
 function DynamicIsland() {
   return (
-    <div className="absolute top-[11px] left-1/2 -translate-x-1/2 h-[25px] w-[80px] bg-black rounded-full z-50 flex items-center justify-between px-2"></div>
+    // Zmieniono 'hover:' na 'group-hover:' aby reagowało na najechanie na całą kartę
+    <div className="absolute top-[11px] left-1/2 -translate-x-1/2 h-[25px] w-[80px] group-hover:w-[100px] group-hover:scale-[1.02] bg-black rounded-full z-50 flex items-center justify-between px-2 transition-all duration-500 ease-[cubic-bezier(0.175,0.885,0.32,1.275)] cursor-default"></div>
   );
 }
 
@@ -21,20 +21,22 @@ function SocialPost() {
     <div className="flex flex-col gap-3 p-4">
       {/* Post Header */}
       <div className="flex items-center gap-2">
-        <div className="size-8 rounded-full bg-linear-to-tr from-pink-500 to-orange-400" />
+        {/* Zmieniono na gradient w odcieniach szarości */}
+        <div className="size-8 rounded-full bg-gradient-to-tr from-neutral-600 to-neutral-400" />
         <div className="flex flex-col gap-1">
-          <div className="h-2 w-24 bg-linear-to-r from-white/30 to-transparent rounded-full" />
-          <div className="h-1.5 w-16 bg-linear-to-r from-white/10 to-transparent rounded-full" />
+          <div className="h-2 w-24 bg-gradient-to-r from-white/30 to-transparent rounded-full" />
+          <div className="h-1.5 w-16 bg-gradient-to-r from-white/10 to-transparent rounded-full" />
         </div>
         <div className="ml-auto text-white/40">...</div>
       </div>
 
       {/* Post Content (Image) */}
-      <div className="aspect-4/5 w-full rounded-xl bg-neutral-800 relative overflow-hidden">
-        <div className="absolute inset-0 bg-linear-to-tr from-indigo-500/20 via-purple-500/20 to-pink-500/20" />
-        {/* Abstract Shapes */}
-        <div className="absolute top-1/4 left-1/4 size-24 rounded-full bg-blue-500/30 blur-2xl" />
-        <div className="absolute bottom-1/4 right-1/4 size-32 rounded-full bg-purple-500/30 blur-2xl" />
+      <div className="aspect-[4/5] w-full rounded-xl bg-neutral-800 relative overflow-hidden">
+        {/* Zmieniono na monochromatyczną nakładkę */}
+        <div className="absolute inset-0 bg-gradient-to-tr from-white/10 via-white/5 to-transparent" />
+        {/* Abstract Shapes - Desaturated */}
+        <div className="absolute top-1/4 left-1/4 size-24 rounded-full bg-white/5 blur-2xl" />
+        <div className="absolute bottom-1/4 right-1/4 size-32 rounded-full bg-white/10 blur-2xl" />
       </div>
 
       {/* Action Buttons */}
@@ -49,9 +51,9 @@ function SocialPost() {
 
       {/* Likes & Caption placeholders */}
       <div className="space-y-2 mt-1">
-        <div className="h-2 w-32 bg-linear-to-r from-white/30 to-transparent rounded-full" />
-        <div className="h-2 w-full bg-linear-to-r from-white/20 to-transparent rounded-full" />
-        <div className="h-2 w-2/3 bg-linear-to-r from-white/20 to-transparent rounded-full" />
+        <div className="h-2 w-32 bg-gradient-to-r from-white/30 to-transparent rounded-full" />
+        <div className="h-2 w-full bg-gradient-to-r from-white/20 to-transparent rounded-full" />
+        <div className="h-2 w-2/3 bg-gradient-to-r from-white/20 to-transparent rounded-full" />
       </div>
     </div>
   );
@@ -60,18 +62,18 @@ function SocialPost() {
 function AbstractPhoneFrame() {
   return (
     <div className="absolute h-[630px] left-1/2 -translate-x-1/2 top-[40px] w-[320px]">
-      {/* Abstract Border/Shadow Frame (Copied from WebDevCard) */}
+      {/* Abstract Border/Shadow Frame */}
       <div className="absolute contents left-0 top-0">
-        <div className="absolute bg-[#262626] h-full w-full left-0 rounded-[40px] top-0">
+        <div className="absolute bg-[#262626] h-full w-full left-0 rounded-[56px] top-0">
           <div
             aria-hidden="true"
-            className="absolute border-5 border-[rgba(255,255,255,0.03)] border-solid inset-[-5px] pointer-events-none rounded-[48px] shadow-[0px_0px_48px_10px_rgba(0,0,0,0.2),0px_4px_16px_8px_rgba(0,0,0,0.1)]"
+            className="absolute border-[8px] border-[rgba(255,255,255,0.03)] border-solid inset-[-8px] pointer-events-none rounded-[64px] shadow-[0px_0px_48px_10px_rgba(0,0,0,0.2),0px_4px_16px_8px_rgba(0,0,0,0.1)]"
           />
         </div>
       </div>
 
       {/* Internal Content Container */}
-      <div className="absolute inset-0 bg-[#262626] overflow-hidden rounded-[40px]">
+      <div className="absolute inset-0 bg-[#262626] overflow-hidden rounded-[56px]">
         <DynamicIsland />
         {/* Content */}
         <div className="pt-8 pb-8 overflow-hidden h-full relative">
@@ -80,7 +82,8 @@ function AbstractPhoneFrame() {
           {/* Partial Next Post */}
           <div className="flex flex-col gap-3 p-4 opacity-50">
             <div className="flex items-center gap-2">
-              <div className="size-8 rounded-full bg-linear-to-tr from-blue-500 to-cyan-400" />
+              {/* Zmieniono na gradient w odcieniach szarości */}
+              <div className="size-8 rounded-full bg-gradient-to-tr from-neutral-700 to-neutral-500" />
               <div className="flex flex-col gap-1">
                 <div className="h-2 w-24 bg-white/20 rounded-full" />
                 <div className="h-1.5 w-16 bg-white/10 rounded-full" />
@@ -132,14 +135,15 @@ function FloatingIcon() {
 
 export function SocialMediaCard() {
   return (
-    <div className="bg-[rgba(26,26,26,0.4)] backdrop-blur-[7px] content-stretch flex flex-col gap-[10px] items-center justify-end overflow-clip px-[51px] py-[41px] relative rounded-[50px] w-[620px] h-[520px] shadow-2xl shrink-0">
+    // Dodano klasę 'group' tutaj, aby umożliwić 'group-hover' w elementach podrzędnych
+    <div className="group bg-[rgba(26,26,26,0.4)] backdrop-blur-[7px] flex flex-col gap-[10px] items-center justify-end overflow-hidden px-[51px] py-[41px] relative rounded-[64px] w-[620px] h-[520px] shadow-2xl shrink-0 border border-white/5 transition-colors duration-500">
       {/* iPhone Mockup */}
       <PhoneContainer />
 
       {/* Progressive Blur and Gradient Overlay */}
       <div className="absolute h-[340px] left-0 bottom-0 w-full pointer-events-none z-0">
         <div
-          className="absolute inset-0 backdrop-blur-xs"
+          className="absolute inset-0 backdrop-blur-sm"
           style={{
             maskImage: "linear-gradient(to bottom, transparent 0%, black 30%)",
             WebkitMaskImage:
@@ -147,7 +151,7 @@ export function SocialMediaCard() {
           }}
         />
         <div
-          className="absolute inset-0 backdrop-blur-sm"
+          className="absolute inset-0 backdrop-blur-md"
           style={{
             maskImage: "linear-gradient(to bottom, transparent 30%, black 60%)",
             WebkitMaskImage:
@@ -155,7 +159,7 @@ export function SocialMediaCard() {
           }}
         />
         <div
-          className="absolute inset-0 backdrop-blur-md"
+          className="absolute inset-0 backdrop-blur-xl"
           style={{
             maskImage:
               "linear-gradient(to bottom, transparent 60%, black 100%)",
@@ -163,7 +167,7 @@ export function SocialMediaCard() {
               "linear-gradient(to bottom, transparent 60%, black 100%)",
           }}
         />
-        <div className="absolute inset-0 bg-linear-to-b from-transparent via-[rgba(26,26,26,0.8)] to-[#1a1a1a]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[rgba(26,26,26,0.8)] to-[#1a1a1a]" />
       </div>
 
       {/* Bottom Content Group (Right Aligned) */}
@@ -171,7 +175,7 @@ export function SocialMediaCard() {
         <div className="-rotate-2 flex-none origin-bottom-right -mr-2">
           <FloatingIcon />
         </div>
-        <p className="font-['Inter:Medium',sans-serif] font-medium leading-[normal] not-italic text-[32px] text-white">
+        <p className="font-sans font-medium leading-[normal] not-italic text-[32px] text-white">
           Social Media
         </p>
       </div>

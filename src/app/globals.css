@@ -1,5 +1,5 @@
-@import "tailwindcss";
-@import "tw-animate-css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -231,9 +231,7 @@
 
 html,
 body {
-  background: linear-gradient(to bottom, #ffffff 0%, #ffffff 50%, #f1f5f9 100%);
-  background-repeat: no-repeat;
-  background-attachment: fixed;
+  background: #171717;
   min-height: 100vh;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE and Edge */
@@ -257,10 +255,10 @@ html::-webkit-scrollbar {
   }
 
   /* Reduce heavy blur on large decorative elements */
-  [class*="blur-[100px]"],
-  [class*="blur-[120px]"],
-  [class*="blur-[130px]"],
-  [class*="blur-[140px]"] {
+  [class*='blur-[100px]'],
+  [class*='blur-[120px]'],
+  [class*='blur-[130px]'],
+  [class*='blur-[140px]'] {
     filter: blur(50px) !important;
   }
 
@@ -409,5 +407,11 @@ html::-webkit-scrollbar {
   }
   body {
     @apply bg-background text-foreground;
+  }
+
+  @media (max-width: 756px) {
+    .container {
+      max-width: 100%;
+    }
   }
 }

@@ -323,7 +323,7 @@ const SeoCard = () => {
 
   return (
     <motion.a
-      href="/oferta/pozycjonowanie"
+      href="/oferta/marketing"
       className="group relative h-[500px] rounded-[40px] overflow-hidden bg-[#1e1e1e] hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-700 flex flex-col justify-between border border-white/5"
     >
       {/* 1. TOP: Text Content */}

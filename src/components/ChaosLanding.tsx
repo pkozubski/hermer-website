@@ -1,13 +1,13 @@
-import React, { useId, useLayoutEffect, useRef, useState } from "react";
-import { gsap } from "gsap";
-import { ImageWithFallback } from "./figma/ImageWithFallback";
+import React, { useId, useLayoutEffect, useRef, useState } from 'react';
+import { gsap } from 'gsap';
+import { ImageWithFallback } from './figma/ImageWithFallback';
 
 // --- SVG Paths ---
 const svgPaths = {
   phoneBody:
-    "M19.8015 0H113.199C123.77 0 132.34 8.57069 132.34 19.1431V60.4563C132.724 60.5922 133 60.959 133 61.3901V88.7846C133 89.2157 132.724 89.5825 132.34 89.7184V256.782C132.34 267.355 123.77 275.925 113.199 275.925H19.8015C9.22998 275.925 0.66005 267.355 0.66005 256.782V94.0091C0.275507 93.8732 0 93.5064 0 93.0753V77.2327C0 76.8016 0.275507 76.4348 0.66005 76.2989V70.2452C0.275507 70.1093 0 69.7425 0 69.3114V53.4688C0 53.0377 0.275507 52.6709 0.66005 52.535V44.501C0.275507 44.3651 0 43.9983 0 43.5672V35.3158C0 34.8847 0.275507 34.5179 0.66005 34.382V19.1431C0.66005 8.57069 9.22998 0 19.8015 0ZM19.8015 3.96065C11.4172 3.96065 4.62035 10.7581 4.62035 19.1431V256.782C4.62035 265.167 11.4172 271.965 19.8015 271.965H113.199C121.583 271.965 128.38 265.167 128.38 256.782V19.1431C128.38 10.7581 121.583 3.96065 113.199 3.96065H103.27C102.133 4.36089 101.318 5.44477 101.318 6.71897C101.318 10.7553 98.0458 14.0273 94.0099 14.0273H38.66C34.6241 14.0273 31.3524 10.7553 31.3524 6.71897C31.3524 5.44477 30.5372 4.36089 29.3999 3.96065H19.8015Z",
+    'M19.8015 0H113.199C123.77 0 132.34 8.57069 132.34 19.1431V60.4563C132.724 60.5922 133 60.959 133 61.3901V88.7846C133 89.2157 132.724 89.5825 132.34 89.7184V256.782C132.34 267.355 123.77 275.925 113.199 275.925H19.8015C9.22998 275.925 0.66005 267.355 0.66005 256.782V94.0091C0.275507 93.8732 0 93.5064 0 93.0753V77.2327C0 76.8016 0.275507 76.4348 0.66005 76.2989V70.2452C0.275507 70.1093 0 69.7425 0 69.3114V53.4688C0 53.0377 0.275507 52.6709 0.66005 52.535V44.501C0.275507 44.3651 0 43.9983 0 43.5672V35.3158C0 34.8847 0.275507 34.5179 0.66005 34.382V19.1431C0.66005 8.57069 9.22998 0 19.8015 0ZM19.8015 3.96065C11.4172 3.96065 4.62035 10.7581 4.62035 19.1431V256.782C4.62035 265.167 11.4172 271.965 19.8015 271.965H113.199C121.583 271.965 128.38 265.167 128.38 256.782V19.1431C128.38 10.7581 121.583 3.96065 113.199 3.96065H103.27C102.133 4.36089 101.318 5.44477 101.318 6.71897C101.318 10.7553 98.0458 14.0273 94.0099 14.0273H38.66C34.6241 14.0273 31.3524 10.7553 31.3524 6.71897C31.3524 5.44477 30.5372 4.36089 29.3999 3.96065H19.8015Z',
   phoneScreen:
-    "M15.1811 0C6.79681 0 0 6.79746 0 15.1825V252.822C0 261.207 6.79681 268.004 15.1811 268.004H108.578C116.962 268.004 123.759 261.207 123.759 252.822V15.1825C123.759 6.79746 116.962 0 108.578 0H98.6498C97.5125 0.400239 96.6973 1.48412 96.6973 2.75832C96.6973 6.79464 93.4255 10.0667 89.3896 10.0667H34.0397C30.0038 10.0667 26.732 6.79464 26.732 2.75832C26.732 1.48412 25.9168 0.400239 24.7795 0H15.1811Z",
+    'M15.1811 0C6.79681 0 0 6.79746 0 15.1825V252.822C0 261.207 6.79681 268.004 15.1811 268.004H108.578C116.962 268.004 123.759 261.207 123.759 252.822V15.1825C123.759 6.79746 116.962 0 108.578 0H98.6498C97.5125 0.400239 96.6973 1.48412 96.6973 2.75832C96.6973 6.79464 93.4255 10.0667 89.3896 10.0667H34.0397C30.0038 10.0667 26.732 6.79464 26.732 2.75832C26.732 1.48412 25.9168 0.400239 24.7795 0H15.1811Z',
 };
 
 // --- Components ---
@@ -96,13 +96,13 @@ const PhoneScreenAnchors = ({
     <div className="absolute inset-[3%] flex flex-col">
       <div className="h-[14%] flex items-end justify-between px-1 pb-1">
         <div
-          ref={setAnchorRef("logo")}
+          ref={setAnchorRef('logo')}
           className="flex items-center justify-start opacity-0"
         >
           <LogoElement />
         </div>
         <div
-          ref={setAnchorRef("menu")}
+          ref={setAnchorRef('menu')}
           className="flex items-center justify-end opacity-0"
         >
           <MenuIcon />
@@ -111,32 +111,32 @@ const PhoneScreenAnchors = ({
 
       <div className="flex-1 px-1 py-1 flex flex-col gap-1">
         <div
-          ref={setAnchorRef("image")}
+          ref={setAnchorRef('image')}
           className="flex items-center justify-center opacity-0"
         >
           <ImageCard withImage={false} />
         </div>
         <div
-          ref={setAnchorRef("tag")}
+          ref={setAnchorRef('tag')}
           className="flex items-center justify-center opacity-0"
         >
           <LoremTag />
         </div>
         <div
-          ref={setAnchorRef("lines")}
+          ref={setAnchorRef('lines')}
           className="flex items-center justify-center opacity-0"
         >
           <TextLines />
         </div>
         <div className="mt-auto flex items-center justify-between px-1 pb-1">
           <div
-            ref={setAnchorRef("box")}
+            ref={setAnchorRef('box')}
             className="flex items-center justify-start opacity-0"
           >
             <WireframeBox size={20} />
           </div>
           <div
-            ref={setAnchorRef("button")}
+            ref={setAnchorRef('button')}
             className="flex items-center justify-end opacity-0"
           >
             <BlueButton />
@@ -151,8 +151,8 @@ const PhoneScreenAnchors = ({
 
 // Domyślne pozycje order są fallbackiem - rzeczywiste pozycje biorą się z kotwic
 const defaultOrderPos = {
-  left: "80%",
-  top: "50%",
+  left: '80%',
+  top: '50%',
   rotate: 0,
   scale: 1,
   opacity: 1,
@@ -179,45 +179,45 @@ type ElementItem = {
 
 const elements: ElementItem[] = [
   {
-    id: "logo",
+    id: 'logo',
     component: <LogoElement />,
-    chaos: { left: "50%", top: "80%", rotate: -20, scale: 1.2, opacity: 0.6 },
+    chaos: { left: '50%', top: '80%', rotate: -20, scale: 1.2, opacity: 0.6 },
     order: { ...defaultOrderPos, scale: 1 },
   },
   {
-    id: "menu",
+    id: 'menu',
     component: <MenuIcon />,
-    chaos: { left: "90%", top: "15%", rotate: 45, scale: 1.5, opacity: 0.4 },
+    chaos: { left: '90%', top: '15%', rotate: 45, scale: 1.5, opacity: 0.4 },
     order: { ...defaultOrderPos, scale: 1 },
   },
   {
-    id: "image",
+    id: 'image',
     component: <ImageCard />,
-    chaos: { left: "75%", top: "35%", rotate: 25, scale: 1.2, opacity: 0.5 },
+    chaos: { left: '75%', top: '35%', rotate: 25, scale: 1.2, opacity: 0.5 },
     order: { ...defaultOrderPos, scale: 1.0 },
   },
   {
-    id: "tag",
+    id: 'tag',
     component: <LoremTag />,
-    chaos: { left: "60%", top: "20%", rotate: -15, scale: 0.9, opacity: 0.7 },
+    chaos: { left: '60%', top: '20%', rotate: -15, scale: 0.9, opacity: 0.7 },
     order: { ...defaultOrderPos, scale: 0.5 },
   },
   {
-    id: "lines",
+    id: 'lines',
     component: <TextLines />,
-    chaos: { left: "65%", top: "55%", rotate: -5, scale: 0.8, opacity: 0.6 },
+    chaos: { left: '65%', top: '55%', rotate: -5, scale: 0.8, opacity: 0.6 },
     order: { ...defaultOrderPos, scale: 1.2 },
   },
   {
-    id: "box",
+    id: 'box',
     component: <WireframeBox size={20} />,
-    chaos: { left: "80%", top: "85%", rotate: 60, scale: 0.8, opacity: 0.3 },
+    chaos: { left: '80%', top: '85%', rotate: 60, scale: 0.8, opacity: 0.3 },
     order: { ...defaultOrderPos, scale: 1.4 },
   },
   {
-    id: "button",
+    id: 'button',
     component: <BlueButton />,
-    chaos: { left: "85%", top: "70%", rotate: 10, scale: 1.1, opacity: 0.8 },
+    chaos: { left: '85%', top: '70%', rotate: 10, scale: 1.1, opacity: 0.8 },
     order: { ...defaultOrderPos, scale: 1.3 },
   },
 ];
@@ -260,7 +260,7 @@ const Particles = ({ isOrdered }: { isOrdered: boolean }) => {
         y: Math.random() * yRange - yRange / 2,
         opacity: isOrdered ? 0 : 0.3,
         duration: 1,
-        ease: "power1.inOut",
+        ease: 'power1.inOut',
       });
     });
   }, [dots, isOrdered]);
@@ -311,8 +311,8 @@ export const ChaosLanding = ({ className }: { className?: string }) => {
       if (phoneRef.current) {
         gsap.set(phoneRef.current, {
           opacity: isOrdered ? 1 : 0,
-          x: isOrdered ? "0%" : "100%",
-          filter: isOrdered ? "blur(0px)" : "blur(4px)",
+          x: isOrdered ? '0%' : '100%',
+          filter: isOrdered ? 'blur(0px)' : 'blur(4px)',
         });
       }
 
@@ -398,12 +398,12 @@ export const ChaosLanding = ({ className }: { className?: string }) => {
       }
     });
 
-    window.addEventListener("resize", scheduleMeasure);
+    window.addEventListener('resize', scheduleMeasure);
 
     return () => {
       cancelAnimationFrame(frame);
       resizeObserver.disconnect();
-      window.removeEventListener("resize", scheduleMeasure);
+      window.removeEventListener('resize', scheduleMeasure);
     };
   }, []);
 
@@ -412,10 +412,10 @@ export const ChaosLanding = ({ className }: { className?: string }) => {
       return;
     }
 
-    const elementEase = isOrdered ? "elastic.out(1, 1)" : "elastic.out(1, .95)";
+    const elementEase = isOrdered ? 'elastic.out(1, 1)' : 'elastic.out(1, .95)';
     const phoneEase = isOrdered
-      ? "elastic.out(0.9, 0.8)"
-      : "elastic.out(0.9, 0.75)";
+      ? 'elastic.out(0.9, 0.8)'
+      : 'elastic.out(0.9, 0.75)';
 
     const elementTargets = elements
       .map((el) => elementRefs.current[el.id])
@@ -426,8 +426,8 @@ export const ChaosLanding = ({ className }: { className?: string }) => {
     if (phoneRef.current) {
       gsap.to(phoneRef.current, {
         opacity: isOrdered ? 1 : 0,
-        x: isOrdered ? "0%" : "100%",
-        filter: isOrdered ? "blur(0px)" : "blur(4px)",
+        x: isOrdered ? '0%' : '100%',
+        filter: isOrdered ? 'blur(0px)' : 'blur(4px)',
         duration: 0.85,
         ease: phoneEase,
       });
@@ -463,7 +463,7 @@ export const ChaosLanding = ({ className }: { className?: string }) => {
   return (
     <div
       ref={containerRef}
-      className={`relative w-full h-full min-h-[400px] bg-[#1e1e1e] rounded-[32px] border border-[#333] overflow-hidden shadow-2xl transition-colors duration-500 hover:border-[#444] ${className || ""}`}
+      className={`relative w-full h-full min-h-[400px] bg-[#1e1e1e] rounded-[32px] border border-[#333] overflow-hidden shadow-2xl transition-colors duration-500 hover:border-[#444] ${className || ''}`}
       onMouseEnter={() => setIsOrdered(true)}
       onMouseLeave={() => setIsOrdered(false)}
     >

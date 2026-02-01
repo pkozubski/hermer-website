@@ -28,6 +28,7 @@ import { EcommerceCard } from "./cards/EcommerceCard";
 import { SocialMediaCard } from "./cards/SocialMediaCard";
 import { MarketingCard } from "./cards/MarketingCard";
 import { UiUxCard } from "./cards/UiUxCard";
+import { ReelCtaButton } from "./ui/ReelCtaButton";
 
 // Data for the cards to be rendered - Monochrome Themes
 // Data for the cards to be rendered - Monochrome Themes
@@ -341,12 +342,14 @@ export const Hero: React.FC<{ onAnimationComplete?: () => void }> = ({
             od przygotowania koncepcji po wdrożenie gotowego projektu.
           </p>
 
-          <button className="group relative px-6 py-3 sm:px-10 sm:py-5 bg-[#916AFF] text-white rounded-full font-bold text-sm sm:text-lg transition-all duration-300 hover:shadow-[0_0_30px_rgba(145,106,255,0.5)] hover:scale-105 active:scale-95 flex items-center gap-3 overflow-hidden animate-[text-reveal_0.8s_cubic-bezier(0.16,1,0.3,1)_1s_backwards]">
-            <span className="relative z-10">Rozpocznij projekt</span>
-            <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center group-hover:bg-white group-hover:text-[#916AFF] transition-all duration-300">
-              <ChevronRight size={18} />
-            </div>
-          </button>
+          <div className="animate-[text-reveal_0.8s_cubic-bezier(0.16,1,0.3,1)_1s_backwards]">
+            <ReelCtaButton
+              text="Rozpocznij projekt"
+              href="/kontakt"
+              className=""
+              size="large"
+            />
+          </div>
 
           <div className="w-full max-w-xs h-px bg-white/10 mt-10 lg:mt-16 mb-8 lg:mb-10 animate-[text-reveal_0.8s_cubic-bezier(0.16,1,0.3,1)_1.2s_backwards]"></div>
 

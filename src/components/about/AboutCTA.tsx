@@ -14,7 +14,7 @@ export const AboutCTA = () => {
         <div className="relative z-10 max-w-5xl mx-auto flex flex-col items-center">
           <h2 className="text-5xl md:text-7xl lg:text-9xl font-medium font-display text-white tracking-tighter mb-8 leading-[0.9]">
             Gotowy na{" "}
-            <span className="text-[#38bdf8] group-hover:text-white transition-colors duration-500">
+            <span className="text-[#916AFF] group-hover:text-white transition-colors duration-500">
               sukces?
             </span>
           </h2>

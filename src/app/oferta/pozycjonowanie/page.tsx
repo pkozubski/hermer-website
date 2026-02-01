@@ -10,7 +10,17 @@ import { SeoTargetSection } from "@/components/oferta/SeoTargetSection";
 import { SimpleContactSection } from "@/components/oferta/SimpleContactSection";
 import { Faq } from "@/components/Faq";
 
-export default function SeoPage() {
+import { client } from "@/sanity/lib/client";
+import { PAGE_FAQS_QUERY } from "@/sanity/lib/queries";
+
+export default async function SeoPage() {
+  const data = await client.fetch(PAGE_FAQS_QUERY, { slug: "pozycjonowanie" });
+  const faqItems = data?.faqs?.map((item: any, index: number) => ({
+    id: index + 1,
+    question: item.question,
+    answer: item.answer,
+  }));
+
   return (
     <div className="relative min-h-screen bg-neutral-900 text-white overflow-x-clip">
       {/* Global Dark Background Layer */}
@@ -35,7 +45,7 @@ export default function SeoPage() {
         <SeoTargetSection />
         <SeoBenefitsSection />
         <SeoProcessSection />
-        <Faq />
+        <Faq items={faqItems} />
         <SimpleContactSection />
       </main>
       <Footer />

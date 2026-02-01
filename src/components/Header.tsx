@@ -4,7 +4,8 @@ import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { OfferDropdown } from "./header/OfferDropdown";
+import { OfferDropdown, OFFER_ITEMS } from "./header/OfferDropdown";
+import { ReelCtaButton } from "./ui/ReelCtaButton";
 
 export const Header: React.FC<{ allowVisibility?: boolean }> = ({
   allowVisibility = true,
@@ -13,6 +14,9 @@ export const Header: React.FC<{ allowVisibility?: boolean }> = ({
   const [isScrolled, setIsScrolled] = useState(false); // Add state for background styling
   const [isMounted, setIsMounted] = useState(false); // State to track mounting for transition
   const [hoveredNav, setHoveredNav] = useState<string | null>(null);
+  const [expandedMobileNav, setExpandedMobileNav] = useState<string | null>(
+    null,
+  );
 
   useEffect(() => {
     setIsMounted(true);
@@ -35,7 +39,7 @@ export const Header: React.FC<{ allowVisibility?: boolean }> = ({
     { name: "Oferta", href: "/oferta", hasDropdown: true },
     { name: "Realizacje", href: "/realizacje" },
     { name: "Opinie", href: "/opinie" },
-    { name: "O firmie", href: "/o-nas" },
+    { name: "O firmie", href: "/o-firmie" },
     { name: "Blog", href: "/blog" },
   ];
 
@@ -176,22 +180,20 @@ export const Header: React.FC<{ allowVisibility?: boolean }> = ({
 
         {/* Desktop CTA */}
         <div className="hidden lg:block">
-          <Link
-            href="/#contact"
-            className={`px-8 py-3 border rounded-full text-sm font-semibold transition-all duration-300 ${
-              isScrolled
-                ? "border-white/20 text-white hover:border-[#916AFF] hover:bg-[#916AFF]/10"
-                : "border-white/20 text-white bg-white/10 hover:bg-white/20"
-            }`}
-          >
-            Kontakt
-          </Link>
+          <ReelCtaButton
+            text="Kontakt"
+            href="/kontakt"
+            baseColor="#ffffff"
+            textColor="#000000"
+            hoverColor="#916AFF"
+            hoverTextColor="#ffffff"
+            size="small"
+          />
         </div>
 
-        {/* Mobile Menu Toggle & Overlay */}
         <div className="lg:hidden">
           <button
-            className="relative z-50 p-2 text-current focus:outline-none"
+            className="relative z-50 p-2 text-white focus:outline-none"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             <motion.div
@@ -204,21 +206,21 @@ export const Header: React.FC<{ allowVisibility?: boolean }> = ({
                   closed: { rotate: 0, y: 0 },
                   open: { rotate: 45, y: 7 },
                 }}
-                className="w-full h-[2px] bg-current block origin-center transition-colors duration-300"
+                className="w-full h-[2px] bg-white block origin-center transition-all duration-300 ease-out"
               />
               <motion.span
                 variants={{
-                  closed: { opacity: 1 },
-                  open: { opacity: 0 },
+                  closed: { opacity: 1, x: 0 },
+                  open: { opacity: 0, x: 10 },
                 }}
-                className="w-full h-[2px] bg-current block transition-colors duration-300"
+                className="w-full h-[2px] bg-white block transition-all duration-300 ease-out"
               />
               <motion.span
                 variants={{
                   closed: { rotate: 0, y: 0 },
                   open: { rotate: -45, y: -7 },
                 }}
-                className="w-full h-[2px] bg-current block origin-center transition-colors duration-300"
+                className="w-full h-[2px] bg-white block origin-center transition-all duration-300 ease-out"
               />
             </motion.div>
           </button>
@@ -226,107 +228,148 @@ export const Header: React.FC<{ allowVisibility?: boolean }> = ({
           <AnimatePresence>
             {isMobileMenuOpen && (
               <motion.div
-                initial={{
-                  clipPath: "circle(0% at calc(100% - 2rem) 2rem)",
-                  backgroundColor: "rgba(255, 255, 255, 0)",
-                }}
-                animate={{
-                  clipPath: "circle(150% at calc(100% - 2rem) 2rem)",
-                  backgroundColor: "rgba(255, 255, 255, 1)",
-                  transition: {
-                    type: "spring",
-                    stiffness: 40,
-                    damping: 15,
-                    duration: 0.5,
-                  },
-                }}
-                exit={{
-                  clipPath: "circle(0% at calc(100% - 2rem) 2rem)",
-                  backgroundColor: "rgba(255, 255, 255, 0)",
-                  transition: {
-                    type: "spring",
-                    stiffness: 40,
-                    damping: 15,
-                    duration: 0.5,
-                    delay: 0.2, // Wait for items to fade out
-                  },
-                }}
-                className="fixed inset-0 w-full h-screen z-40 flex flex-col items-center justify-center bg-white/95 backdrop-blur-xl"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="fixed inset-0 w-full h-screen z-40 bg-[#171717]"
               >
-                {/* Decorative Background Elements */}
-                <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                  <div className="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] bg-purple-200/20 rounded-full blur-[100px]" />
-                  <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-blue-200/20 rounded-full blur-[100px]" />
-                </div>
+                <div className="w-full h-full overflow-y-auto px-6 py-24 relative z-10 flex flex-col">
+                  <nav className="flex flex-col gap-6 text-center w-full max-w-lg mx-auto">
+                    {navLinks.map((link, index) => (
+                      <motion.div
+                        key={link.name}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{
+                          opacity: 1,
+                          y: 0,
+                          transition: {
+                            delay: 0.1 + index * 0.1,
+                            duration: 0.5,
+                            ease: [0.22, 1, 0.36, 1],
+                          },
+                        }}
+                        exit={{
+                          opacity: 0,
+                          y: 10,
+                          transition: {
+                            delay: index * 0.05,
+                            duration: 0.3,
+                          },
+                        }}
+                      >
+                        {link.hasDropdown ? (
+                          <div className="flex flex-col items-center">
+                            <button
+                              onClick={() =>
+                                setExpandedMobileNav(
+                                  expandedMobileNav === link.name
+                                    ? null
+                                    : link.name,
+                                )
+                              }
+                              className="text-3xl font-display font-medium text-white hover:text-[#916AFF] transition-all duration-300 flex items-center justify-center gap-3 w-full"
+                            >
+                              {link.name}
+                              <ChevronDown
+                                size={24}
+                                className={`text-white transition-transform duration-300 ${
+                                  expandedMobileNav === link.name
+                                    ? "rotate-180 text-[#916AFF]"
+                                    : ""
+                                }`}
+                              />
+                            </button>
+                            <AnimatePresence>
+                              {expandedMobileNav === link.name && (
+                                <motion.div
+                                  initial={{ height: 0, opacity: 0 }}
+                                  animate={{
+                                    height: "auto",
+                                    opacity: 1,
+                                    transition: {
+                                      height: {
+                                        duration: 0.4,
+                                        ease: [0.04, 0.62, 0.23, 0.98],
+                                      },
+                                      opacity: { duration: 0.25, delay: 0.1 },
+                                    },
+                                  }}
+                                  exit={{
+                                    height: 0,
+                                    opacity: 0,
+                                    transition: {
+                                      height: {
+                                        duration: 0.3,
+                                        ease: [0.04, 0.62, 0.23, 0.98],
+                                      },
+                                      opacity: { duration: 0.2 },
+                                    },
+                                  }}
+                                  className="overflow-hidden w-full"
+                                >
+                                  <div className="flex flex-col gap-4 py-6 px-4">
+                                    {OFFER_ITEMS.map((item) => (
+                                      <Link
+                                        key={item.title}
+                                        href={item.href}
+                                        onClick={() =>
+                                          setIsMobileMenuOpen(false)
+                                        }
+                                        className="flex items-center gap-4 bg-white/5 p-3 rounded-xl backdrop-blur-sm border border-white/5 active:scale-95 transition-transform"
+                                      >
+                                        <div
+                                          className={`w-10 h-10 rounded-lg flex items-center justify-center shrink-0 ${item.bgColor}`}
+                                        >
+                                          <item.icon
+                                            size={20}
+                                            className={item.color}
+                                          />
+                                        </div>
+                                        <span className="text-white text-lg font-medium">
+                                          {item.title}
+                                        </span>
+                                      </Link>
+                                    ))}
+                                  </div>
+                                </motion.div>
+                              )}
+                            </AnimatePresence>
+                          </div>
+                        ) : (
+                          <Link
+                            href={link.href}
+                            className="text-3xl font-display font-medium text-white hover:text-[#916AFF] transition-all duration-300 block"
+                            onClick={() => setIsMobileMenuOpen(false)}
+                          >
+                            {link.name}
+                          </Link>
+                        )}
+                      </motion.div>
+                    ))}
 
-                <nav className="flex flex-col gap-8 text-center relative z-10 w-full px-6">
-                  {navLinks.map((link, index) => (
                     <motion.div
-                      key={link.name}
-                      initial={{ opacity: 0, y: 20 }}
+                      initial={{ opacity: 0, scale: 0.8 }}
                       animate={{
                         opacity: 1,
-                        y: 0,
+                        scale: 1,
                         transition: {
-                          delay: 0.1 + index * 0.1,
+                          delay: 0.1 + navLinks.length * 0.1,
                           duration: 0.4,
-                          ease: "easeOut",
                         },
                       }}
-                      exit={{
-                        opacity: 0,
-                        y: 10,
-                        transition: {
-                          delay: index * 0.05,
-                          duration: 0.2,
-                        },
-                      }}
+                      className="mt-8"
                     >
                       <Link
-                        href={link.href}
-                        className="text-4xl font-display font-medium text-slate-800 hover:text-[#916AFF] transition-all duration-300 flex items-center justify-center gap-2 group"
+                        href="/kontakt"
+                        className="inline-block px-10 py-5 bg-[#916AFF] text-white rounded-full text-lg font-semibold shadow-xl shadow-purple-600/20 hover:scale-105 active:scale-95 transition-all duration-300"
                         onClick={() => setIsMobileMenuOpen(false)}
                       >
-                        <span className="relative overflow-hidden">
-                          <span className="block group-hover:-translate-y-full transition-transform duration-300">
-                            {link.name}
-                          </span>
-                          <span className="absolute top-full left-0 w-full block group-hover:-translate-y-full transition-transform duration-300 text-[#916AFF]">
-                            {link.name}
-                          </span>
-                        </span>
-                        {link.hasDropdown && (
-                          <ChevronDown
-                            size={24}
-                            className="text-slate-400 group-hover:text-[#916AFF] transition-colors"
-                          />
-                        )}
+                        Rozpocznij Projekt
                       </Link>
                     </motion.div>
-                  ))}
-
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{
-                      opacity: 1,
-                      scale: 1,
-                      transition: {
-                        delay: 0.1 + navLinks.length * 0.1,
-                        duration: 0.4,
-                      },
-                    }}
-                    exit={{ opacity: 0 }}
-                    className="mt-8"
-                  >
-                    <Link
-                      href="/#contact"
-                      className="inline-block px-10 py-5 bg-[#916AFF] text-white rounded-full text-lg font-semibold shadow-xl shadow-purple-600/20 hover:scale-105 active:scale-95 transition-all duration-300"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      Rozpocznij Projekt
-                    </Link>
-                  </motion.div>
-                </nav>
+                  </nav>
+                </div>
               </motion.div>
             )}
           </AnimatePresence>

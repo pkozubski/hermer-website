@@ -15,7 +15,7 @@ export const AboutMission = () => {
             <SplitRevealTitle
               line1="Nasza"
               line2="Misja"
-              className="text-6xl md:text-8xl font-display font-medium tracking-tighter text-white"
+              className="text-5xl md:text-8xl font-display font-medium tracking-tighter text-white"
             />
           </div>
 
@@ -48,20 +48,20 @@ export const AboutMission = () => {
                   </div>
                   Wiedza to priorytet
                 </div>
-                <p className="text-slate-400 leading-relaxed text-xl font-light border-l-2 border-white/10 pl-6 group-hover:border-[#916AFF] transition-colors duration-300">
+                <p className="text-neutral-400 leading-relaxed text-xl font-light border-l-2 border-white/10 pl-6 group-hover:border-[#916AFF] transition-colors duration-300">
                   Tworzymy rozwiązania na lata. Wierzymy, że dobra strona to
                   inwestycja, a nie koszt.
                 </p>
               </div>
 
               <div className="group cursor-default">
-                <div className="flex items-center gap-4 text-sky-500 font-bold uppercase tracking-widest text-xs mb-4 group-hover:translate-x-2 transition-transform duration-300">
-                  <div className="w-10 h-10 rounded-full bg-sky-500/20 flex items-center justify-center">
+                <div className="flex items-center gap-4 text-[#916AFF] font-bold uppercase tracking-widest text-xs mb-4 group-hover:translate-x-2 transition-transform duration-300">
+                  <div className="w-10 h-10 rounded-full bg-[#916AFF]/20 flex items-center justify-center">
                     <TrendingUp size={18} />
                   </div>
                   Realne cele na wyniki
                 </div>
-                <p className="text-slate-400 leading-relaxed text-xl font-light border-l-2 border-white/10 pl-6 group-hover:border-sky-500 transition-colors duration-300">
+                <p className="text-neutral-400 leading-relaxed text-xl font-light border-l-2 border-white/10 pl-6 group-hover:border-[#916AFF] transition-colors duration-300">
                   Nie „robimy stron”. Budujemy skuteczne narzędzia marketingowe,
                   które generują zyski.
                 </p>

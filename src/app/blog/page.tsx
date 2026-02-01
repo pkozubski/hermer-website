@@ -10,7 +10,7 @@ import { BlogContent } from "@/components/blog/BlogContent";
 export const revalidate = 60;
 
 async function getPosts() {
-  const query = `*[_type == "post"] | order(publishedAt desc) {
+  const query = `*[_type == "post" && defined(slug.current)] | order(publishedAt desc) {
     _id,
     title,
     slug,

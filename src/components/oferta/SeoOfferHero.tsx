@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ChevronRight, Search } from "lucide-react";
 import gsap from "gsap";
 import * as THREE from "three";
+import { ReelCtaButton } from "../ui/ReelCtaButton";
 
 export const SeoOfferHero: React.FC = () => {
   const canvasContainerRef = useRef<HTMLDivElement>(null);
@@ -173,15 +174,11 @@ export const SeoOfferHero: React.FC = () => {
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Link
-            href="#contact"
-            className="group relative px-6 py-3 sm:px-10 sm:py-5 bg-[#916AFF] text-white rounded-full font-bold text-sm sm:text-lg transition-all duration-300 hover:shadow-[0_0_30px_rgba(145,106,255,0.5)] hover:scale-105 active:scale-95 flex items-center gap-3 overflow-hidden"
-          >
-            <span className="relative z-10">Darmowy audyt SEO</span>
-            <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center group-hover:bg-white group-hover:text-[#916AFF] transition-all duration-300">
-              <ChevronRight size={18} />
-            </div>
-          </Link>
+          <ReelCtaButton
+            text="Darmowy audyt SEO"
+            href="/kontakt"
+            size="large"
+          />
           <Link
             href="#process"
             className="px-8 py-4 sm:py-5 bg-transparent border border-white/20 text-white rounded-full font-semibold text-base transition-all duration-300 hover:border-white hover:bg-white/5 flex items-center gap-3"

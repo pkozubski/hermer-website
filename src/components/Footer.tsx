@@ -11,10 +11,11 @@ import {
   ArrowUpRight,
   ArrowRight,
 } from "lucide-react";
+import { ReelCtaButton } from "./ui/ReelCtaButton";
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="bg-neutral-900 text-neutral-400 pt-24 pb-32 relative">
+    <footer className="text-neutral-400 pt-24 pb-32 relative">
       {/* Decorative Background Elements */}
       <div className="absolute -top-40 -right-40 w-96 h-96 bg-purple-500/10 blur-[120px] rounded-full pointer-events-none" />
       <div className="absolute top-40 -left-40 w-96 h-96 bg-blue-500/10 blur-[120px] rounded-full pointer-events-none" />
@@ -83,15 +84,15 @@ export const Footer: React.FC = () => {
                 </div>
               </h2>
               <div className="flex flex-col sm:flex-row gap-8 items-start sm:items-center">
-                <a
-                  href="#contact"
-                  className="group/btn relative inline-flex items-center gap-4 bg-white text-neutral-950 px-10 py-6 rounded-full text-xl font-bold hover:bg-[#916AFF] hover:text-white transition-all duration-300"
-                >
-                  <span>Rozpocznij wycenę</span>
-                  <div className="w-8 h-8 flex items-center justify-center transition-transform duration-300 group-hover/btn:rotate-45">
-                    <ArrowUpRight size={24} />
-                  </div>
-                </a>
+                <ReelCtaButton
+                  text="Rozpocznij wycenę"
+                  href="/kontakt"
+                  baseColor="#ffffff"
+                  textColor="#000000"
+                  hoverColor="#916AFF"
+                  hoverTextColor="#ffffff"
+                  size="large"
+                />
               </div>
             </div>
 
@@ -110,7 +111,7 @@ export const Footer: React.FC = () => {
           {/* Brand Column (Span 4) */}
           <div className="lg:col-span-4 space-y-8 pr-12">
             <a
-              href="#"
+              href="/"
               className="block text-white text-3xl font-bold tracking-tighter"
             >
               Hermer<span className="text-[#916AFF]">.</span>
@@ -145,18 +146,18 @@ export const Footer: React.FC = () => {
             <h4 className="text-white font-bold mb-6 text-lg">Menu</h4>
             <ul className="space-y-4">
               {[
-                "Strona główna",
-                "Realizacje",
-                "Opinie",
-                "O firmie",
-                "Blog",
+                { label: "Strona główna", href: "/" },
+                { label: "Realizacje", href: "/realizacje" },
+                { label: "Opinie", href: "/opinie" },
+                { label: "O firmie", href: "/o-firmie" },
+                { label: "Blog", href: "/blog" },
               ].map((item) => (
-                <li key={item}>
+                <li key={item.label}>
                   <a
-                    href="#"
+                    href={item.href}
                     className="text-neutral-500 hover:text-white transition-colors text-sm font-medium flex items-center gap-2 group w-fit"
                   >
-                    {item}
+                    {item.label}
                   </a>
                 </li>
               ))}
@@ -168,18 +169,16 @@ export const Footer: React.FC = () => {
             <h4 className="text-white font-bold mb-6 text-lg">Oferta</h4>
             <ul className="space-y-4">
               {[
-                "Strony www",
-                "Sklepy online",
-                "Marketing",
-                "Wordpress Shield",
-                "Audyt SEO",
+                { label: "Strony www", href: "/oferta/strony-www" },
+                { label: "Sklepy online", href: "/oferta/sklepy-internetowe" },
+                { label: "Marketing", href: "/oferta/marketing" },
               ].map((item) => (
-                <li key={item}>
+                <li key={item.label}>
                   <a
-                    href="#"
+                    href={item.href}
                     className="text-neutral-500 hover:text-white transition-colors text-sm font-medium flex items-center gap-2 group w-fit"
                   >
-                    {item}
+                    {item.label}
                   </a>
                 </li>
               ))}

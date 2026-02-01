@@ -51,7 +51,7 @@ export const BlogCTA: React.FC = () => {
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
             <Link
-              href="/#contact"
+              href="/kontakt"
               className="group relative bg-[#916AFF] text-white px-10 py-5 rounded-full font-bold text-lg hover:shadow-[0_0_40px_rgba(145,106,255,0.6)] hover:bg-[#7e4fe3] transition-all duration-300 w-full sm:w-auto overflow-hidden ring-1 ring-white/10"
             >
               <span className="relative z-10 flex items-center justify-center gap-3">

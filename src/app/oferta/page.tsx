@@ -9,7 +9,17 @@ import { ProcessSection } from "@/components/oferta/ProcessSection";
 import { Faq } from "@/components/Faq";
 import { Contact } from "@/components/Contact";
 
-export default function OfferPage() {
+import { client } from "@/sanity/lib/client";
+import { PAGE_FAQS_QUERY } from "@/sanity/lib/queries";
+
+export default async function OfferPage() {
+  const data = await client.fetch(PAGE_FAQS_QUERY, { slug: "oferta" });
+  const faqItems = data?.faqs?.map((item: any, index: number) => ({
+    id: index + 1,
+    question: item.question,
+    answer: item.answer,
+  }));
+
   return (
     <div className="relative min-h-screen bg-neutral-900 text-white overflow-x-clip">
       {/* Global Dark Background Layer */}
@@ -33,7 +43,7 @@ export default function OfferPage() {
         <PillStatementSection />
         {/* <TrustSection /> */}
         {/* <ProcessSection /> */}
-        <Faq />
+        <Faq items={faqItems} />
         <Contact />
       </main>
       <Footer />

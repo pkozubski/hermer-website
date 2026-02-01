@@ -116,13 +116,13 @@ export const AboutTeam = () => {
   return (
     <section className="py-32 bg-transparent overflow-hidden">
       <div className="container mx-auto px-4 sm:px-8 lg:px-16 mb-16">
-        <div className="text-center max-w-4xl mx-auto">
+        <div className="text-left w-full">
           <SplitRevealTitle
             line1="Nasz"
             line2="Zespół"
-            className="text-6xl md:text-9xl font-medium font-display tracking-tighter text-white mb-6 justify-center"
+            className="text-5xl md:text-8xl font-medium font-display tracking-tighter text-white mb-6"
           />
-          <p className="text-slate-400 text-xl font-light">
+          <p className="text-neutral-400 text-xl font-light">
             Poznaj ekspertów, którzy wspierają Twój sukces.
           </p>
         </div>
@@ -193,7 +193,7 @@ export const AboutTeam = () => {
                       <span className="block text-lg font-bold text-white leading-none mb-0.5">
                         {member.yearsNum}
                       </span>
-                      <span className="text-[8px] uppercase font-bold text-slate-300 tracking-wider leading-none">
+                      <span className="text-[8px] uppercase font-bold text-neutral-300 tracking-wider leading-none">
                         {member.yearsText}
                       </span>
                     </div>
@@ -205,7 +205,7 @@ export const AboutTeam = () => {
                       <p className="text-[#916AFF] font-bold uppercase tracking-widest text-[9px] mb-3 bg-[#916AFF]/10 w-fit px-2 py-1 rounded-full border border-[#916AFF]/20">
                         {member.role}
                       </p>
-                      <p className="text-slate-300 text-xs font-light leading-relaxed line-clamp-3 group-hover:text-white transition-colors duration-300">
+                      <p className="text-neutral-300 text-xs font-light leading-relaxed line-clamp-3 group-hover:text-white transition-colors duration-300">
                         {member.description}
                       </p>
                     </div>

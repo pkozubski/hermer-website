@@ -15,7 +15,11 @@ import { Faq } from "./Faq";
 import { Contact } from "./Contact";
 import { Footer } from "./Footer";
 
-export const MainContent: React.FC = () => {
+interface MainContentProps {
+  faqItems?: any[];
+}
+
+export const MainContent: React.FC<MainContentProps> = ({ faqItems }) => {
   const { scrollY } = useScroll();
   const [isHeaderAllowed, setIsHeaderAllowed] = useState(false);
 
@@ -102,7 +106,7 @@ export const MainContent: React.FC = () => {
 
         <Blog />
         <Contact />
-        <Faq />
+        <Faq items={faqItems} />
         <Footer />
       </div>
     </div>

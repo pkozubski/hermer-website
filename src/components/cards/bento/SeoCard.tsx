@@ -32,7 +32,7 @@ export const SeoCard = ({ className = "" }: { className?: string }) => {
 
   return (
     <a
-      href="/oferta/pozycjonowanie"
+      href="/oferta/marketing"
       className={`group relative h-full w-full rounded-[40px] overflow-hidden bg-neutral-900 hover:shadow-2xl hover:shadow-black/50 transition-all duration-700 flex flex-col justify-between border border-white/5 ${className}`}
     >
       {/* 1. TOP: Text Content */}

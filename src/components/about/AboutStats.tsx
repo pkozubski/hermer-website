@@ -8,8 +8,8 @@ export const AboutStats = () => {
     <section className="bg-transparent py-24 border-t border-white/5 relative z-10">
       <div className="container mx-auto px-4 sm:px-8 lg:px-16 relative z-10">
         <div className="text-left mb-12 flex items-center gap-4">
-          <div className="w-12 h-px bg-slate-700"></div>
-          <span className="text-xs font-bold uppercase tracking-[0.2em] text-slate-400">
+          <div className="w-12 h-px bg-neutral-700"></div>
+          <span className="text-xs font-bold uppercase tracking-[0.2em] text-neutral-400">
             Dlaczego warto nam zaufać?
           </span>
         </div>

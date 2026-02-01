@@ -15,7 +15,7 @@ interface BlogGridCardProps {
 export const BlogGridCard: React.FC<BlogGridCardProps> = ({ post, index }) => {
   return (
     <Link
-      href={`/blog/${post.slug.current}`}
+      href={post.slug?.current ? `/blog/${post.slug.current}` : "#"}
       className="group flex flex-col h-full"
     >
       <div className="relative aspect-4/3 rounded-2xl overflow-hidden mb-6 border border-white/10 bg-white/5 shadow-sm">

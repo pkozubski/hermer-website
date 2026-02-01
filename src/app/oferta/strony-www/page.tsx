@@ -12,7 +12,17 @@ import { Faq } from "@/components/Faq";
 import { OfferProjects } from "@/components/oferta/OfferProjects";
 import { SimpleContactSection } from "@/components/oferta/SimpleContactSection";
 
-export default function WebDesignPage() {
+import { client } from "@/sanity/lib/client";
+import { PAGE_FAQS_QUERY } from "@/sanity/lib/queries";
+
+export default async function WebDesignPage() {
+  const data = await client.fetch(PAGE_FAQS_QUERY, { slug: "strony-www" });
+  const faqItems = data?.faqs?.map((item: any, index: number) => ({
+    id: index + 1,
+    question: item.question,
+    answer: item.answer,
+  }));
+
   return (
     <div className="relative min-h-screen bg-neutral-900 text-white overflow-x-clip">
       {/* Global Dark Background Layer */}
@@ -39,7 +49,7 @@ export default function WebDesignPage() {
         <TechStackSection />
         {/* <PricingSection /> */}
         <OfferProjects category="website" />
-        <Faq />
+        <Faq items={faqItems} />
         <SimpleContactSection />
       </main>
       <Footer />
