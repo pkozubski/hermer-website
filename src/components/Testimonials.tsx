@@ -157,28 +157,28 @@ export const Testimonials = () => {
   // Mapujemy wartości tak, by po osiągnięciu środka animacja kontynuowała ruch w górę, a nie wracała.
   const y1 = useSpring(
     useTransform(scrollYProgress, [0, 0.45, 1], [200, 0, -150]),
-    appleSpring
+    appleSpring,
   );
   const y2 = useSpring(
     useTransform(scrollYProgress, [0, 0.45, 1], [400, 0, -300]),
-    appleSpring
+    appleSpring,
   );
   const y3 = useSpring(
     useTransform(scrollYProgress, [0, 0.45, 1], [300, 0, -200]),
-    appleSpring
+    appleSpring,
   );
 
   // Kontener z efektem "puchnięcia" (scale up)
   // Zmieniamy zakres, aby skala nie malała przy opuszczaniu sekcji (zostaje na 1).
   const containerScale = useSpring(
     useTransform(scrollYProgress, [0, 0.4, 0.6], [0.85, 1.02, 1]),
-    appleSpring
+    appleSpring,
   );
 
   const separatorHeight = useTransform(
     scrollYProgress,
     [0, 0.3],
-    ["0%", "100%"]
+    ["0%", "100%"],
   );
 
   return (
@@ -280,7 +280,7 @@ export const Testimonials = () => {
       </div>
 
       {/* Sticky Fluid Button */}
-      <FluidButton label="Zobacz więcej opinii" />
+      <FluidButton label="Zobacz więcej opinii" href="/opinie" />
     </section>
   );
 };

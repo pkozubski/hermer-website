@@ -12,6 +12,10 @@ import { LineReveal } from "./ui/LineReveal";
 import AnimatedArc from "./AnimatedArc";
 import FluidButton from "./ui/FluidButton";
 import { ChaosLanding } from "./ChaosLanding";
+import jacekImg from "@/assets/team/jacek.png";
+import damianImg from "@/assets/team/damian.png";
+import oliwiaImg from "@/assets/team/oliwia.png";
+import annaImg from "@/assets/team/anna.png";
 
 // --- Components ---
 
@@ -218,44 +222,34 @@ export const About: React.FC = () => {
 
           {/* 4. Feature Card: Experts (was Team) */}
           <BentoCard
-            className="md:col-span-3 lg:col-span-4 p-0 border border-[#333] overflow-hidden group/team md:col-start-1 rounded-[32px]"
+            className="md:col-span-3 lg:col-span-4 p-0 border border-[#333] overflow-hidden group/team md:col-start-1 rounded-[32px] bg-[#232323]"
             hoverEffect={false}
           >
             {/* Background Mesh Gradient */}
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_0%_100%,_var(--tw-gradient-stops))] from-[#916AFF]/10 via-transparent to-transparent opacity-50" />
 
             <div className="relative p-8 flex flex-col h-full justify-between z-10">
-              {/* Avatar Stack - Keep as it fits "Experts" */}
-              <div className="flex -space-x-4 hover:-space-x-2 transition-all duration-500 ease-out py-2 pl-2">
-                {[
-                  { label: "Dev", grad: "from-blue-500 to-cyan-400" },
-                  { label: "Des", grad: "from-purple-500 to-pink-400" },
-                  { label: "Art", grad: "from-amber-500 to-orange-400" },
-                  { label: "Mkt", grad: "from-emerald-500 to-green-400" },
-                ].map((item, i) => (
-                  <div
-                    key={i}
-                    className="relative w-12 h-12 rounded-full border-2 border-[#1e1e1e] shadow-lg flex items-center justify-center transition-transform duration-300 group-hover/team:scale-110 group-hover/team:translate-y-[-4px]"
-                    style={{ zIndex: 10 - i, transitionDelay: `${i * 50}ms` }}
-                  >
+              {/* Expert Pill Container */}
+              <div className="relative mt-8 w-[130%] translate-x-[20%] sm:translate-x-[15%] h-[80px] sm:h-[100px] md:h-[120px] bg-[#262626] rounded-full border-[5px] border-white/5 flex items-center shadow-[0px_0px_48px_10px_rgba(0,0,0,0.2),0px_4px_16px_8px_rgba(0,0,0,0.1)]">
+                <div className="flex -space-x-4 sm:-space-x-6 w-full justify-start pl-4 md:pl-6">
+                  {[jacekImg, damianImg, oliwiaImg, annaImg].map((img, i) => (
                     <div
-                      className={`absolute inset-0 rounded-full bg-linear-to-br ${item.grad} opacity-20`}
-                    />
-                    <div
-                      className={`absolute inset-0 rounded-full bg-linear-to-br ${item.grad} opacity-80 mix-blend-overlay`}
-                    />
-                    {/* Shine */}
-                    <div className="absolute top-0 left-0 w-full h-[50%] bg-linear-to-b from-white/20 to-transparent rounded-t-full pointer-events-none" />
-
-                    <span className="relative text-[10px] font-bold text-white tracking-tight drop-shadow-md">
-                      {item.label}
-                    </span>
-                  </div>
-                ))}
+                      key={i}
+                      className="relative w-14 h-14 sm:w-20 sm:h-20 rounded-full border-4 border-[#262626] overflow-hidden shrink-0 transition-transform duration-300 hover:scale-110 hover:z-10"
+                      style={{ zIndex: 4 - i }}
+                    >
+                      <img
+                        src={img.src}
+                        alt="Team Member"
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  ))}
+                </div>
               </div>
 
               {/* Typography */}
-              <div className="mt-6">
+              <div className="mt-8">
                 <h4 className="text-xl font-bold text-white mb-2 flex items-center gap-2 group-hover/team:text-[#916AFF] transition-colors duration-300">
                   Wsparcie ekspertów
                 </h4>
@@ -297,7 +291,7 @@ export const About: React.FC = () => {
       </div>
 
       {/* Sticky Fluid Button - outside container for proper sticky behavior */}
-      <FluidButton label="Poznaj nas bliżej" />
+      <FluidButton label="Poznaj nas bliżej" href="/o-firmie" />
     </section>
   );
 };
