@@ -72,37 +72,41 @@ export const MainContent: React.FC<MainContentProps> = ({ faqItems }) => {
         <Offer />
         <WhoWeHelp />
 
-        {/* About/Projects/Testimonials Wrapper with Blobs */}
-        <div className="relative overflow-x-clip">
-          {/* Blobs Restored from Git History */}
-          {/* Title Area (Top Right) - Purple */}
-          <motion.div
-            style={{ y: useTransform(scrollY, [0, 5000], [0, 400]) }}
-            className="absolute top-[10%] right-[-10%] w-[600px] h-[600px] bg-[#916AFF]/15 rounded-full blur-[130px] mix-blend-screen pointer-events-none"
-          />
+        {/* Unified Dark Section (Projects + About) */}
+        <section className="relative bg-neutral-900 overflow-clip">
+          {/* Shared Background Decor */}
+          <div className="absolute inset-0 pointer-events-none z-0">
+            {/* Title Area (Top Right) - Purple */}
+            <motion.div
+              style={{ y: useTransform(scrollY, [0, 5000], [0, 400]) }}
+              className="absolute top-[10%] right-[-10%] w-[600px] h-[600px] bg-[#916AFF]/15 rounded-full blur-[130px] mix-blend-screen pointer-events-none"
+            />
 
-          {/* Middle area - Blueish */}
-          <motion.div
-            style={{ y: useTransform(scrollY, [0, 5000], [0, -300]) }}
-            className="absolute top-[50%] right-[-5%] w-[500px] h-[500px] bg-[#52D8EA]/10 rounded-full blur-[120px] mix-blend-screen pointer-events-none"
-          />
+            {/* Middle area - Blueish */}
+            <motion.div
+              style={{ y: useTransform(scrollY, [0, 5000], [0, -300]) }}
+              className="absolute top-[50%] right-[-5%] w-[500px] h-[500px] bg-[#52D8EA]/10 rounded-full blur-[120px] mix-blend-screen pointer-events-none"
+            />
 
-          {/* Bottom Left - Purple */}
-          <motion.div
-            style={{ y: useTransform(scrollY, [0, 5000], [0, 200]) }}
-            className="absolute bottom-[-5%] left-[-5%] w-[500px] h-[500px] bg-[#916AFF]/10 rounded-full blur-[120px] mix-blend-screen pointer-events-none"
-          />
+            {/* Bottom Left - Purple */}
+            <motion.div
+              style={{ y: useTransform(scrollY, [0, 5000], [0, 200]) }}
+              className="absolute bottom-[-5%] left-[-5%] w-[500px] h-[500px] bg-[#916AFF]/10 rounded-full blur-[120px] mix-blend-screen pointer-events-none"
+            />
 
-          {/* Bottom Right - White */}
-          <motion.div
-            style={{ y: useTransform(scrollY, [0, 5000], [0, -150]) }}
-            className="absolute bottom-[-10%] right-[-10%] w-[600px] h-[600px] bg-white/5 rounded-full blur-[140px] mix-blend-overlay pointer-events-none"
-          />
+            {/* Bottom Right - White */}
+            <motion.div
+              style={{ y: useTransform(scrollY, [0, 5000], [0, -150]) }}
+              className="absolute bottom-[-10%] right-[-10%] w-[600px] h-[600px] bg-white/5 rounded-full blur-[140px] mix-blend-overlay pointer-events-none"
+            />
+          </div>
 
-          <About />
-          <Projects />
-          <Testimonials />
-        </div>
+          <div className="relative z-10">
+            <About />
+            <Projects />
+            <Testimonials />
+          </div>
+        </section>
 
         <Blog />
         <Contact />

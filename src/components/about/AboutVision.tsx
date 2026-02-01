@@ -3,10 +3,11 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { SplitRevealTitle } from "@/components/ui/SplitRevealTitle";
+import targetImg from "@/assets/target.png";
 
 export const AboutVision = () => {
   return (
-    <section className="py-24 md:py-32 bg-transparent container mx-auto px-4 sm:px-8 lg:px-16 overflow-hidden">
+    <section className="py-24 md:py-32 bg-transparent container mx-auto px-4 sm:px-8 lg:px-16">
       <div className="grid lg:grid-cols-12 gap-16 lg:gap-24 items-center">
         {/* Image Side */}
         <motion.div
@@ -14,10 +15,14 @@ export const AboutVision = () => {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="lg:col-span-5 relative rounded-[2rem] overflow-hidden aspect-4/5 bg-white/5 border border-white/5 group"
+          className="lg:col-span-5 relative rounded-[2rem] aspect-4/5 group"
         >
           {/* Placeholder for real image */}
-          <div className="absolute inset-0 bg-linear-to-br from-white/10 to-white/5 transition-transform duration-700 group-hover:scale-105" />
+          <img
+            src={targetImg.src}
+            alt="Target"
+            className="absolute inset-0 w-full h-full object-contain transition-transform duration-700"
+          />
 
           {/* Floating badge */}
           <div className="absolute bottom-6 right-6 bg-neutral-900/90 backdrop-blur-md p-6 rounded-2xl shadow-xl flex flex-col items-center z-10 border border-white/10">

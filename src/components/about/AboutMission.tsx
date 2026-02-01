@@ -12,11 +12,9 @@ export const AboutMission = () => {
       <div className="container mx-auto px-4 sm:px-8 lg:px-16">
         <div className="flex flex-col items-start gap-24">
           <div className="w-full max-w-5xl">
-            <SplitRevealTitle
-              line1="Nasza"
-              line2="Misja"
-              className="text-5xl md:text-8xl font-display font-medium tracking-tighter text-white"
-            />
+            <h2 className="text-5xl md:text-8xl font-display font-medium tracking-tighter text-white">
+              Nasza misja
+            </h2>
           </div>
 
           <div className="grid lg:grid-cols-12 gap-16 w-full">

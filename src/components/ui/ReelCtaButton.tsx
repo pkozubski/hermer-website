@@ -111,7 +111,7 @@ export function ReelCtaButton({
 
         {/* 2. TEXT */}
         <motion.span
-          className={`relative z-10 font-medium uppercase ${textSizeClass} leading-none whitespace-nowrap`}
+          className={`relative z-10 font-medium  ${textSizeClass} leading-none whitespace-nowrap`}
           variants={{
             initial: {
               x: 0,

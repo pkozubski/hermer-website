@@ -1,5 +1,5 @@
-@import 'tailwindcss';
-@import 'tw-animate-css';
+@import "tailwindcss";
+@import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -255,10 +255,10 @@ html::-webkit-scrollbar {
   }
 
   /* Reduce heavy blur on large decorative elements */
-  [class*='blur-[100px]'],
-  [class*='blur-[120px]'],
-  [class*='blur-[130px]'],
-  [class*='blur-[140px]'] {
+  [class*="blur-[100px]"],
+  [class*="blur-[120px]"],
+  [class*="blur-[130px]"],
+  [class*="blur-[140px]"] {
     filter: blur(50px) !important;
   }
 

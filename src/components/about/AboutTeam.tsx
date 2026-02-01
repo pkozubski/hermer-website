@@ -117,11 +117,9 @@ export const AboutTeam = () => {
     <section className="py-32 bg-transparent overflow-hidden">
       <div className="container mx-auto px-4 sm:px-8 lg:px-16 mb-16">
         <div className="text-left w-full">
-          <SplitRevealTitle
-            line1="Nasz"
-            line2="Zespół"
-            className="text-5xl md:text-8xl font-medium font-display tracking-tighter text-white mb-6"
-          />
+          <h2 className="text-5xl md:text-8xl font-medium font-display tracking-tighter text-white mb-6">
+            Nasz zespół
+          </h2>
           <p className="text-neutral-400 text-xl font-light">
             Poznaj ekspertów, którzy wspierają Twój sukces.
           </p>
@@ -142,7 +140,7 @@ export const AboutTeam = () => {
                 key={index}
                 className="pl-4 md:basis-1/2 lg:basis-1/3 xl:basis-1/4"
               >
-                <div className="group relative w-full aspect-[3/4] bg-[#1a1a1a] rounded-[30px] overflow-hidden shadow-2xl border border-white/5 transition-transform duration-300 hover:scale-[1.02]">
+                <div className="group relative w-full aspect-[3/4] bg-[#1a1a1a] rounded-[30px] overflow-hidden border border-white/5">
                   {/* Image Background */}
                   <div className="absolute inset-0 z-0">
                     <Image

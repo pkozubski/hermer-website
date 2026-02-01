@@ -45,8 +45,15 @@ const BentoCard = ({
   return (
     <div
       onMouseMove={handleMouseMove}
-      className={`group relative overflow-hidden bg-white/5 backdrop-blur-xl border border-white/5 rounded-3xl shadow-sm hover:shadow-2xl hover:border-white/10 transition-[border-color,box-shadow] duration-300 ${className}`}
+      className={`group relative z-0 overflow-hidden border border-white/5 rounded-3xl shadow-sm hover:shadow-2xl hover:border-white/10 transition-[border-color,box-shadow] duration-300 ${className}`}
     >
+      <div
+        className="absolute inset-0 bg-white/5 -z-10"
+        style={{
+          backdropFilter: "blur(24px)",
+          WebkitBackdropFilter: "blur(24px)",
+        }}
+      />
       {/* Hover Spotlight Effect */}
       {hoverEffect && (
         <motion.div
@@ -78,7 +85,7 @@ export const About: React.FC = () => {
     <section
       ref={containerRef}
       id="about"
-      className=" py-32 relative text-white isolate"
+      className=" py-32 relative text-white"
       style={{ position: "relative" }}
     >
       {/* Background Ambience moved to MainContent wrapper */}
@@ -137,7 +144,14 @@ export const About: React.FC = () => {
           <ChaosLanding className="md:col-span-6 lg:col-span-8" />
 
           {/* 2. Stat Card: Experience - Spans 4 cols */}
-          <div className="md:col-span-6 lg:col-span-4 relative group/image-card min-h-[400px] w-full h-full bg-white/5 backdrop-blur-xl rounded-[32px] border border-white/5 overflow-hidden shadow-2xl transition-all duration-500 hover:border-white/10 group">
+          <div className="md:col-span-6 lg:col-span-4 relative z-0 group/image-card min-h-[400px] w-full h-full rounded-[32px] border border-white/5 overflow-hidden shadow-2xl transition-all duration-500 hover:border-white/10 group">
+            <div
+              className="absolute inset-0 bg-white/5 -z-10"
+              style={{
+                backdropFilter: "blur(24px)",
+                WebkitBackdropFilter: "blur(24px)",
+              }}
+            />
             {/* Background Effects */}
             <div className="absolute inset-0 bg-linear-to-b from-white/5 to-transparent opacity-20 pointer-events-none" />
             <div

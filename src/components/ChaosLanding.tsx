@@ -302,7 +302,7 @@ export const ChaosLanding = ({ className = "" }: { className?: string }) => {
   return (
     <div
       ref={containerRef}
-      className={`relative w-full h-[600px] md:h-full bg-white/5 rounded-[40px] border border-[#333] overflow-hidden shadow-2xl group cursor-default flex items-center justify-center ${className}`}
+      className={`relative w-full h-[600px] md:h-full bg-white/5 backdrop-blur-xl rounded-[40px] border border-[#333] overflow-hidden shadow-2xl group cursor-default flex items-center justify-center ${className}`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >

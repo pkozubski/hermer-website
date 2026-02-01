@@ -400,9 +400,7 @@ export const Hero: React.FC<{ onAnimationComplete?: () => void }> = ({
                 <div className="w-6 h-6 rounded-full bg-neutral-800 border-2 border-neutral-900"></div>
                 <div className="w-6 h-6 rounded-full bg-neutral-700 border-2 border-neutral-900"></div>
                 <div className="w-6 h-6 rounded-full bg-neutral-600 border-2 border-neutral-900"></div>
-                <div className="w-6 h-6 rounded-full bg-[#1A1A1A] border-2 border-neutral-900 text-white text-[8px] flex items-center justify-center font-bold">
-                  Expert
-                </div>
+                <div className="w-6 h-6 rounded-full bg-[#1A1A1A] border-2 border-neutral-900"></div>
               </div>
               <span className="text-neutral-500 text-[8px] sm:text-xs lg:text-base">
                 ekspertów w zespole

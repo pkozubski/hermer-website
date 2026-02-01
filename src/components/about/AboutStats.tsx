@@ -5,21 +5,14 @@ import { motion } from "framer-motion";
 
 export const AboutStats = () => {
   return (
-    <section className="bg-transparent py-24 border-t border-white/5 relative z-10">
+    <section className="bg-transparent py-24 relative z-10">
       <div className="container mx-auto px-4 sm:px-8 lg:px-16 relative z-10">
-        <div className="text-left mb-12 flex items-center gap-4">
-          <div className="w-12 h-px bg-neutral-700"></div>
-          <span className="text-xs font-bold uppercase tracking-[0.2em] text-neutral-400">
-            Dlaczego warto nam zaufać?
-          </span>
-        </div>
-
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12"
+          transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          className="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 pt-10 border-t border-white/10"
         >
           {[
             { value: "14 lat", label: "Rozwijamy sprzedaż naszych klientów" },
