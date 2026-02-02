@@ -1,69 +1,92 @@
 import React from "react";
 import { Zap } from "lucide-react";
+import { GlassBentoCard } from "../GlassBentoCard";
+import { DeepDarkWindow } from "../visuals/DeepDarkWindow";
 
 export const SpeedCard = ({ className = "" }: { className?: string }) => {
   return (
-    <div
-      className={`group relative w-full h-full min-h-[400px] rounded-[40px] overflow-hidden bg-neutral-900 hover:shadow-2xl hover:shadow-orange-500/20 transition-all duration-700 block border border-white/5 ${className}`}
+    <GlassBentoCard
+      title="Bezkompromisowa szybkość"
+      description="Optymalizujemy każdy kilobajt. Nasze strony osiągają wyniki 90+ w Google PageSpeed Insights, co przekłada się na lepsze SEO i niższy współczynnik odrzuceń."
+      icon={Zap}
+      className={className}
     >
-      {/* --- VISUAL BACKDROP --- */}
-      <div className="absolute inset-0 w-full h-full overflow-hidden">
-        {/* Background Subtle Grid */}
-        <div
-          className="absolute inset-0 z-0 opacity-[0.05]"
-          style={{
-            backgroundImage:
-              "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)",
-            backgroundSize: "20px 20px",
-          }}
-        />
+      <div className="absolute inset-0 w-full h-full overflow-hidden flex items-center justify-center pt-8">
+        {/* Deep Dark Window Performance Dashboard */}
+        <DeepDarkWindow className="left-30 w-[85%] h-[320px] shadow-2xl transition-transform duration-500 group-hover:-translate-y-2">
+          <div className="w-full h-full bg-neutral-900/50 flex flex-col p-6 items-center justify-between">
+            {/* PSI Score Circle */}
+            <div className="relative w-32 h-32 flex items-center justify-center">
+              {/* Background Ring */}
+              <svg className="w-full h-full transform -rotate-90 overflow-visible">
+                <circle
+                  cx="64"
+                  cy="64"
+                  r="56"
+                  stroke="currentColor"
+                  strokeWidth="8"
+                  fill="transparent"
+                  className="text-neutral-800"
+                />
+                {/* Progress Ring (Green) */}
+                <circle
+                  cx="64"
+                  cy="64"
+                  r="56"
+                  stroke="#22c55e"
+                  strokeWidth="8"
+                  fill="transparent"
+                  strokeDasharray="351.86"
+                  strokeDashoffset="10"
+                  strokeLinecap="round"
+                  className="text-green-500 drop-shadow-[0_0_10px_rgba(34,197,94,0.5)]"
+                />
+              </svg>
+              <div className="absolute inset-0 flex flex-col items-center justify-center">
+                <span className="text-4xl font-bold text-white">99</span>
+              </div>
+            </div>
 
-        {/* Abstract Speed Visual */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-orange-500/10 rounded-full blur-3xl group-hover:bg-orange-500/20 transition-colors duration-700" />
-        
-        {/* Speedometer / Score UI */}
-        <div className="absolute top-10 right-10 md:top-12 md:right-12 z-10">
-             <div className="relative w-32 h-32 md:w-40 md:h-40 flex items-center justify-center bg-neutral-800/80 backdrop-blur-md rounded-full border border-white/10 shadow-xl group-hover:scale-110 transition-transform duration-500">
-                <div className="absolute inset-2 rounded-full border-[3px] border-neutral-700" />
-                <div className="absolute inset-2 rounded-full border-[3px] border-green-500 border-t-transparent border-l-transparent -rotate-45" />
-                <div className="flex flex-col items-center">
-                    <span className="text-4xl md:text-5xl font-black text-white">99</span>
-                    <span className="text-[10px] md:text-xs uppercase tracking-widest text-neutral-400">Score</span>
-                </div>
-             </div>
-        </div>
+            {/* Metrics Grid */}
+            <div className="w-full grid grid-cols-3 gap-2 mt-4">
+              {/* LCP */}
+              <div className="flex flex-col items-center gap-1">
+                <div className="w-8 h-1 bg-green-500 rounded-full shadow-[0_0_8px_rgba(34,197,94,0.5)]"></div>
+                <span className="text-[10px] text-neutral-400 font-medium tracking-wide">
+                  LCP
+                </span>
+                <span className="text-xs text-white font-bold">0.8s</span>
+              </div>
+              {/* INP */}
+              <div className="flex flex-col items-center gap-1">
+                <div className="w-8 h-1 bg-green-500 rounded-full shadow-[0_0_8px_rgba(34,197,94,0.5)]"></div>
+                <span className="text-[10px] text-neutral-400 font-medium tracking-wide">
+                  INP
+                </span>
+                <span className="text-xs text-white font-bold">40ms</span>
+              </div>
+              {/* CLS */}
+              <div className="flex flex-col items-center gap-1">
+                <div className="w-8 h-1 bg-green-500 rounded-full shadow-[0_0_8px_rgba(34,197,94,0.5)]"></div>
+                <span className="text-[10px] text-neutral-400 font-medium tracking-wide">
+                  CLS
+                </span>
+                <span className="text-xs text-white font-bold">0.01</span>
+              </div>
+            </div>
 
-        {/* Graph Lines */}
-        <div className="absolute bottom-0 left-0 right-0 h-40 flex items-end justify-around px-10 pb-10 opacity-30 group-hover:opacity-50 transition-opacity duration-500">
-            <div className="w-4 h-16 bg-green-500 rounded-t-sm" />
-            <div className="w-4 h-24 bg-green-500 rounded-t-sm" />
-            <div className="w-4 h-20 bg-green-500 rounded-t-sm" />
-            <div className="w-4 h-32 bg-green-500 rounded-t-sm" />
-            <div className="w-4 h-28 bg-green-500 rounded-t-sm" />
-            <div className="w-4 h-12 bg-green-500 rounded-t-sm" />
-        </div>
-      </div>
-
-      {/* --- CONTENT OVERLAY --- */}
-      <div className="absolute inset-0 bg-gradient-to-t from-neutral-900 via-neutral-900/40 to-transparent" />
-
-      {/* Text Content */}
-      <div className="absolute left-0 bottom-0 w-full p-8 md:p-12 flex flex-col justify-end z-20 pointer-events-none">
-        <div className="relative z-10 pointer-events-auto">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-400 text-xs font-bold uppercase tracking-widest mb-4">
-             <Zap size={14} />
-             Performance
+            {/* Desktop/Mobile Tabs Indicator */}
+            <div className="flex gap-2 mt-2 bg-neutral-800/50 p-1 rounded-lg border border-white/5">
+              <div className="px-3 py-1 rounded-md bg-neutral-700/50 border border-white/5">
+                <div className="w-4 h-3 border-2 border-neutral-400 rounded-sm"></div>
+              </div>
+              <div className="px-3 py-1 rounded-md">
+                <div className="w-2 h-3 border-2 border-neutral-600 rounded-sm"></div>
+              </div>
+            </div>
           </div>
-          <h3 className="text-3xl md:text-4xl font-bold tracking-tight text-white mb-4">
-            Bezkompromisowa szybkość
-          </h3>
-          <p className="text-neutral-400 text-sm md:text-base font-medium leading-relaxed max-w-lg">
-            Optymalizujemy każdy kilobajt. Nasze strony osiągają wyniki 90+ w
-            Google PageSpeed Insights, co przekłada się na lepsze SEO i niższy
-            współczynnik odrzuceń.
-          </p>
-        </div>
+        </DeepDarkWindow>
       </div>
-    </div>
+    </GlassBentoCard>
   );
 };

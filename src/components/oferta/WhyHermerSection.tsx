@@ -1,17 +1,17 @@
-'use client';
+"use client";
 
-import React, { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { Target, LayoutTemplate, Palette } from 'lucide-react';
-import { SplitRevealTitle } from '../ui/SplitRevealTitle';
+import React, { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { Target, LayoutTemplate, Palette } from "lucide-react";
+import { SplitRevealTitle } from "../ui/SplitRevealTitle";
 
 const features = [
   {
     icon: Target,
-    title: 'Skupiamy się na skuteczności strony, a nie na samym wyglądzie',
+    title: "Skupiamy się na skuteczności strony, a nie na samym wyglądzie",
     description:
-      'Projektujemy stronę uwzględniając cel biznesowy i ścieżkę klienta, tak aby prowadzić go od momentu wejścia na witrynę do kontaktu lub zakupu. Dzięki dopracowanej strukturze ruch z SEO i kampanii reklamowych jest bardziej efektywny – użytkownik rozumie ofertę i wie, jaki kolejny krok wykonać.',
-    color: 'from-blue-500 to-cyan-400',
+      "Projektujemy stronę uwzględniając cel biznesowy i ścieżkę klienta, tak aby prowadzić go od momentu wejścia na witrynę do kontaktu lub zakupu. Dzięki dopracowanej strukturze ruch z SEO i kampanii reklamowych jest bardziej efektywny – użytkownik rozumie ofertę i wie, jaki kolejny krok wykonać.",
+    color: "from-blue-500 to-cyan-400",
     visual: (
       <div className="relative w-full h-full bg-neutral-900 rounded-3xl border border-white/10 overflow-hidden flex flex-col p-6">
         {/* Abstract Funnel Visualization */}
@@ -44,10 +44,10 @@ const features = [
   },
   {
     icon: LayoutTemplate,
-    title: 'Tworzymy makiety UX, które porządkują nawigację i treści',
+    title: "Tworzymy makiety UX, które porządkują nawigację i treści",
     description:
-      'Zanim powstanie projekt graficzny, tworzymy makiety UX, które porządkują strukturę strony i nawigację. Na tym etapie układamy treści oraz kluczowe elementy tak, aby poruszanie się po stronie było intuicyjne, a kontakt lub zakup łatwe do wykonania.',
-    color: 'from-purple-500 to-pink-500',
+      "Zanim powstanie projekt graficzny, tworzymy makiety UX, które porządkują strukturę strony i nawigację. Na tym etapie układamy treści oraz kluczowe elementy tak, aby poruszanie się po stronie było intuicyjne, a kontakt lub zakup łatwe do wykonania.",
+    color: "from-purple-500 to-pink-500",
     visual: (
       <div className="relative w-full h-full bg-neutral-900 rounded-3xl border border-white/10 overflow-hidden p-6 flex flex-col">
         {/* Wireframe Mockup */}
@@ -76,10 +76,10 @@ const features = [
   },
   {
     icon: Palette,
-    title: 'Dbamy o projekt graficzny, który wzmacnia wiarygodność',
+    title: "Dbamy o projekt graficzny, który wzmacnia wiarygodność",
     description:
-      'Warstwę wizualną dopasowujemy do branży i wizerunku firmy, aby strona od pierwszych sekund była zachęcająca i wiarygodna. Czytelny układ i dopracowane detale wzmacniają przekaz oraz zachęcają do kontaktu.',
-    color: 'from-orange-500 to-red-500',
+      "Warstwę wizualną dopasowujemy do branży i wizerunku firmy, aby strona od pierwszych sekund była zachęcająca i wiarygodna. Czytelny układ i dopracowane detale wzmacniają przekaz oraz zachęcają do kontaktu.",
+    color: "from-orange-500 to-red-500",
     visual: (
       <div className="relative w-full h-[330px] sm:h-[330px] md:h-[260px] lg:h-[330px] xl:h-[400px] 2xl:h-[460px] bg-neutral-900 rounded-3xl border border-white/10 overflow-hidden flex flex-col items-center justify-center">
         <InterfaceCard />
@@ -201,73 +201,71 @@ const PrimaryButtonSvg = () => (
   </svg>
 );
 
-export const FrameGuides = () => {
+/* Scaled/Adapted for 500px width and 320px height with enlarged elements */
+
+const FrameGuides = () => {
   return (
     <div className="absolute inset-0 pointer-events-none z-0">
-      {/* Top Horizontal Line (-32px from top) */}
-      <div className="absolute -top-8 left-[-64px] right-[-64px] h-[2px] bg-[#333333]" />
+      {/* Top Horizontal Line (-8px from top) */}
+      <div className="absolute -top-2 left-[-16px] right-[-16px] h-[0.5px] bg-[#333333]" />
 
-      {/* Bottom Horizontal Line (-32px from bottom) */}
-      <div className="absolute -bottom-8 left-[-64px] right-[-64px] h-[2px] bg-[#333333]" />
+      {/* Bottom Horizontal Line (-8px from bottom) */}
+      <div className="absolute -bottom-2 left-[-16px] right-[-16px] h-[0.5px] bg-[#333333]" />
 
-      {/* Left Vertical Line (-32px from left) */}
-      <div className="absolute -left-8 top-[-64px] bottom-[-64px] w-[2px] bg-[#333333]" />
+      {/* Left Vertical Line (-8px from left) */}
+      <div className="absolute -left-2 top-[-16px] bottom-[-16px] w-[0.5px] bg-[#333333]" />
 
-      {/* Right Vertical Line (-32px from right) */}
-      <div className="absolute -right-8 top-[-64px] bottom-[-64px] w-[2px] bg-[#333333]" />
+      {/* Right Vertical Line (-8px from right) */}
+      <div className="absolute -right-2 top-[-16px] bottom-[-16px] w-[0.5px] bg-[#333333]" />
     </div>
   );
 };
 
-export const DesignSpecsOverlay = () => {
+const DesignSpecsOverlay = () => {
   return (
-    <div className="absolute inset-0 pointer-events-none z-50 overflow-visible">
-      {/* --- GAP 1: 64px (Between Header and Content) --- */}
-      {/* Top Line (Bottom of Header) - approx 76px from top */}
-      <div className="absolute top-[76px] -left-[48px] right-0 border-t-2 border-dashed border-[#9B87F5]" />
-      {/* Bottom Line (Top of Content) - 76 + 64 = 140px */}
-      <div className="absolute top-[140px] -left-[48px] right-0 border-t-2 border-dashed border-[#9B87F5]" />
+    <div className="absolute inset-0 pointer-events-none z-50 overflow-visible font-mono">
+      {/* --- GAP 1: 20px --- */}
+      {/* Top Line (Bottom of Header) - approx 28px from top */}
+      <div className="absolute top-[34px] -left-[12px] right-0 border-t border-dashed border-[#9B87F5] opacity-50 border-[0.5px]" />
+      {/* Bottom Line (Top of Content) - 28 + 20 = 48px */}
+      <div className="absolute top-[68px] -left-[12px] right-0 border-t border-dashed border-[#9B87F5] opacity-50 border-[0.5px]" />
 
       {/* Measurement Bracket */}
-      <div className="absolute top-[76px] -left-[80px] h-[64px] w-[20px] flex items-center justify-end">
-        <div className="absolute right-0 top-0 bottom-0 w-[10px] border-y-2 border-r-2 border-[#9B87F5] opacity-80" />
-        <span className="absolute right-[24px] text-[#9B87F5] font-mono text-xs whitespace-nowrap">
-          64px
+      <div className="absolute top-[34px] -left-[20px] h-[36px] w-[5px] flex items-center justify-end">
+        <div className="absolute right-0 top-0 bottom-0 w-[4px] border-y border-r border-[#9B87F5] opacity-80 border-[0.5px]" />
+        <span className="absolute right-[8px] text-[#9B87F5] text-[9px] leading-none">
+          36
         </span>
       </div>
 
-      {/* --- GAP 2: 72px (Between Content and Footer) --- */}
-      {/* We measure from bottom for stability */}
-      {/* Bottom Gap is 48px. Footer is now 32px (h-8). 
-          Footer Top = 48 + 32 = 80px from bottom.
-          Gap 2 starts at 80px from bottom and goes up 72px.
-          Top of Gap 2 = 80 + 72 = 152px from bottom.
-      */}
+      {/* --- GAP 2: Flexible (Between Content and Footer) --- */}
+      {/* Footer Top = 16 + 12 = 28px from bottom. */}
+      {/* Top of Gap 2 = 28 + 24 = 52px from bottom */}
 
-      {/* Top Line of Gap 2 (Bottom of Content) */}
-      <div className="absolute bottom-[152px] -left-[48px] right-0 border-t-2 border-dashed border-[#9B87F5]" />
+      {/* Top Line of Gap 2 (Bottom of Content Area) */}
+      <div className="absolute bottom-[52px] -left-[12px] right-0 border-t border-dashed border-[#9B87F5] opacity-50 border-[0.5px]" />
       {/* Bottom Line of Gap 2 (Top of Footer) */}
-      <div className="absolute bottom-[80px] -left-[48px] right-0 border-t-2 border-dashed border-[#9B87F5]" />
+      <div className="absolute bottom-[28px] -left-[12px] right-0 border-t border-dashed border-[#9B87F5] opacity-50 border-[0.5px]" />
 
       {/* Measurement Bracket */}
-      <div className="absolute bottom-[80px] -left-[80px] h-[72px] w-[20px] flex items-center justify-end">
-        <div className="absolute right-0 top-0 bottom-0 w-[10px] border-y-2 border-r-2 border-[#9B87F5] opacity-80" />
-        <span className="absolute right-[24px] text-[#9B87F5] font-mono text-xs whitespace-nowrap">
-          72px
+      <div className="absolute bottom-[28px] -left-[20px] h-[24px] w-[5px] flex items-center justify-end">
+        <div className="absolute right-0 top-0 bottom-0 w-[4px] border-y border-r border-[#9B87F5] opacity-80 border-[0.5px]" />
+        <span className="absolute right-[8px] text-[#9B87F5] text-[9px] leading-none">
+          24
         </span>
       </div>
 
-      {/* --- GAP 3: 48px (Bottom Padding) --- */}
+      {/* --- GAP 3: 16px (Bottom Padding) --- */}
       {/* Top Line of Gap 3 (Bottom of Footer) */}
-      <div className="absolute bottom-[48px] -left-[48px] right-0 border-t-2 border-dashed border-[#9B87F5]" />
+      <div className="absolute bottom-[16px] -left-[12px] right-0 border-t border-dashed border-[#9B87F5] opacity-50 border-[0.5px]" />
       {/* Bottom Line of Gap 3 (Bottom of Card) */}
-      <div className="absolute bottom-0 -left-[48px] right-0 border-t-2 border-dashed border-[#9B87F5]" />
+      <div className="absolute bottom-0 -left-[12px] right-0 border-t border-dashed border-[#9B87F5] opacity-50 border-[0.5px]" />
 
       {/* Measurement Bracket */}
-      <div className="absolute bottom-0 -left-[80px] h-[48px] w-[20px] flex items-center justify-end">
-        <div className="absolute right-0 top-0 bottom-0 w-[10px] border-y-2 border-r-2 border-[#9B87F5] opacity-80" />
-        <span className="absolute right-[24px] text-[#9B87F5] font-mono text-xs whitespace-nowrap">
-          48px
+      <div className="absolute bottom-0 -left-[20px] h-[16px] w-[5px] flex items-center justify-end">
+        <div className="absolute right-0 top-0 bottom-0 w-[4px] border-y border-r border-[#9B87F5] opacity-80 border-[0.5px]" />
+        <span className="absolute right-[8px] text-[#9B87F5] text-[9px] leading-none">
+          16
         </span>
       </div>
     </div>
@@ -276,106 +274,99 @@ export const DesignSpecsOverlay = () => {
 
 export default function InterfaceCard() {
   return (
-    <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
-      <div className="w-[250vw] sm:w-[120vw] md:w-[80vw] lg:w-[70vw] xl:w-[60vw] shrink-0 transform-gpu origin-center scale-[0.25] sm:scale-[0.25] md:scale-[0.2] lg:scale-[0.3] xl:scale-[0.4] 2xl:scale-[0.5]">
-        <div className="relative group mx-auto">
-          {/* Frame Guides (Dark Lines around card) */}
-          <FrameGuides />
+    <div className="relative group mx-auto w-[500px] h-[320px] shrink-0 font-sans">
+      {/* Frame Guides */}
+      <FrameGuides />
 
-          {/* Specs Overlay (Purple Measurements) */}
-          <DesignSpecsOverlay />
+      {/* Specs Overlay */}
+      <DesignSpecsOverlay />
 
-          {/* Main Card Container */}
-          <div className="relative bg-[#262626] rounded-[60px] shadow-2xl overflow-hidden border border-white/5 z-10 flex flex-col">
-            {/* Inner shadow/border effect */}
-            <div className="absolute inset-0 rounded-[60px] pointer-events-none shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)] z-50" />
+      {/* Main Card Container */}
+      <div className="relative w-full h-full bg-[#262626] rounded-[20px] shadow-2xl overflow-hidden border border-white/5 z-10 flex flex-col">
+        {/* Inner shadow/border effect */}
+        <div className="absolute inset-0 rounded-[20px] pointer-events-none shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)] z-50" />
 
-            {/* --- Header (Height: 40pt + 20h + 16pb = 76px) --- */}
-            <div className="px-12 pt-10 pb-4 flex gap-3 relative z-20 shrink-0">
-              <div className="w-5 h-5 rounded-full bg-[#8E8E8E]/25" />
-              <div className="w-5 h-5 rounded-full bg-[#8E8E8E]/25" />
-              <div className="w-5 h-5 rounded-full bg-[#8E8E8E]/25" />
+        {/* --- Header --- */}
+        <div className="px-6 pt-4 pb-2 flex gap-[5px] relative z-20 shrink-0">
+          <div className="w-[8px] h-[8px] rounded-full bg-[#8E8E8E]/25" />
+          <div className="w-[8px] h-[8px] rounded-full bg-[#8E8E8E]/25" />
+          <div className="w-[8px] h-[8px] rounded-full bg-[#8E8E8E]/25" />
+        </div>
+
+        {/* --- GAP 1: 40px --- */}
+        <div className="h-10 w-full shrink-0" />
+
+        {/* --- Content Grid --- */}
+        <div className="px-6 grid grid-cols-12 gap-6 relative z-20 flex-1 min-h-0">
+          {/* Left Column */}
+          <div className="col-span-8 flex flex-col gap-4">
+            {/* Top Gradient Pill */}
+            <div className="h-4 w-full max-w-[340px] rounded-full bg-gradient-to-r from-[#555555] to-transparent opacity-80" />
+
+            {/* Skeleton Text Area */}
+            <div className="space-y-2.5 py-1">
+              <div className="h-2.5 w-3/4 rounded-full bg-gradient-to-r from-[#555555] via-[#555555]/50 to-transparent opacity-60" />
+              <div className="h-2.5 w-1/2 rounded-full bg-gradient-to-r from-[#555555] via-[#555555]/50 to-transparent opacity-60" />
             </div>
 
-            {/* --- GAP 1: 64px --- */}
-            <div className="h-16 w-full shrink-0" />
+            {/* Buttons Area */}
+            <div className="flex flex-wrap items-center gap-3 mt-1">
+              {/* Primary Gradient Button */}
+              <div className="relative w-[100px] h-[28px] group/btn">
+                {/* Button Background */}
+                <button
+                  className="absolute inset-0 w-full h-full rounded-[6px] bg-gradient-to-r from-[#e0e0e0] to-[#999999] shadow-[0_1px_2px_rgba(0,0,0,0.2)] cursor-pointer z-10 flex items-center justify-center"
+                  aria-label="Primary Action"
+                >
+                  <div className="w-12 h-1.5 bg-white/40 rounded-full" />
+                </button>
 
-            {/* --- Content Grid --- */}
-            <div className="px-12 grid grid-cols-1 lg:grid-cols-12 gap-12 relative z-20 shrink-0">
-              {/* Left Column */}
-              <div className="lg:col-span-8 flex flex-col gap-10">
-                {/* Top Gradient Pill */}
-                <div className="h-12 w-full max-w-xl rounded-full bg-gradient-to-r from-[#555555] to-transparent opacity-80" />
-
-                {/* Skeleton Text Area */}
-                <div className="space-y-6 py-2">
-                  <div className="h-4 w-3/4 rounded-full bg-gradient-to-r from-[#555555] via-[#555555]/50 to-transparent opacity-60" />
-                  <div className="h-4 w-1/2 rounded-full bg-gradient-to-r from-[#555555] via-[#555555]/50 to-transparent opacity-60" />
-                </div>
-
-                {/* Buttons Area */}
-                <div className="flex flex-wrap items-center gap-6 mt-4">
-                  {/* Primary Gradient Button (SVG Based) */}
-                  <div className="relative w-[264px] h-[63px] group/btn">
-                    {/* Button SVG */}
-                    <div className="absolute -left-[20px] -top-[20px] w-[304px] max-w-none pointer-events-none">
-                      <PrimaryButtonSvg />
-                    </div>
-
-                    {/* Interactable Area (Invisible) */}
-                    <button
-                      className="absolute inset-0 w-full h-full cursor-pointer z-10"
-                      aria-label="Primary Action"
+                {/* Floating Cursor (Overlaid) */}
+                <div className="absolute -bottom-[24px] right-0 pointer-events-none z-30 filter drop-shadow-[0_5px_5px_rgba(0,0,0,0.28)]">
+                  <svg
+                    width="32"
+                    height="32"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M5.65376 12.3673H5.46026L5.31717 12.4976L0.500002 16.8829L0.500002 1.19177L11.7841 12.3673H5.65376Z"
+                      fill="#333333"
                     />
-
-                    {/* Floating Cursor (Overlaid) */}
-                    <div className="absolute -bottom-[30px] right-[10px] pointer-events-none z-30 filter drop-shadow-[0_20px_20px_rgba(0,0,0,0.28)]">
-                      <svg
-                        width="48"
-                        height="48"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M5.65376 12.3673H5.46026L5.31717 12.4976L0.500002 16.8829L0.500002 1.19177L11.7841 12.3673H5.65376Z"
-                          fill="#333333"
-                        />
-                        <path
-                          d="M5.46026 12.3673L5.65376 12.3673L11.7841 12.3673L0.500002 1.19177L0.500002 16.8829L5.31717 12.4976L5.46026 12.3673Z"
-                          stroke="white"
-                          strokeWidth="1"
-                        />
-                      </svg>
-                    </div>
-                  </div>
-
-                  {/* Secondary Outlined Button */}
-                  <button className="relative w-[264px] h-[63px] rounded-[12px] border-[3px] border-[#9b87f5] border-solid opacity-50 shadow-[0px_4px_4px_0px_rgba(0,0,0,0.1),0px_0px_16px_4px_rgba(0,0,0,0.05)] hover:opacity-80 transition-opacity">
-                    <div className="absolute inset-0 rounded-[inherit] shadow-[inset_-1px_-1px_9.8px_0px_rgba(255,255,255,0.04)]" />
-                    <span className="sr-only">Secondary Action</span>
-                  </button>
+                    <path
+                      d="M5.46026 12.3673L5.65376 12.3673L11.7841 12.3673L0.500002 1.19177L0.500002 16.8829L5.31717 12.4976L5.46026 12.3673Z"
+                      stroke="white"
+                      strokeWidth="1"
+                    />
+                  </svg>
                 </div>
               </div>
 
-              {/* Right Column (Placeholder Box) */}
-              <div className="lg:col-span-4 min-h-[300px]">
-                <div className="w-full h-full bg-white/5 rounded-[30px] border border-white/5 min-h-[350px]" />
-              </div>
+              {/* Secondary Outlined Button */}
+              <button className="relative w-[100px] h-[28px] rounded-[6px] border-[1.5px] border-[#9b87f5] border-solid opacity-50 shadow-[0px_1px_1px_0px_rgba(0,0,0,0.1),0px_0px_4px_1px_rgba(0,0,0,0.05)] hover:opacity-80 transition-opacity">
+                <div className="absolute inset-0 rounded-[inherit] shadow-[inset_-1px_-1px_2.5px_0px_rgba(255,255,255,0.04)]" />
+                <span className="sr-only">Secondary Action</span>
+              </button>
             </div>
+          </div>
 
-            {/* --- GAP 2: 72px --- */}
-            <div className="h-[72px] w-full shrink-0" />
-
-            {/* --- Footer Placeholder (New) --- */}
-            <div className="px-12 flex justify-center shrink-0">
-              <div className="h-8 w-96 rounded-full bg-gradient-to-r from-[#555555] via-[#555555]/50 to-transparent opacity-60" />
-            </div>
-
-            {/* --- GAP 3: 48px --- */}
-            <div className="h-12 w-full shrink-0" />
+          {/* Right Column (Placeholder Box) */}
+          <div className="col-span-4 h-full min-h-[100px]">
+            <div className="w-full h-full bg-white/5 rounded-[12px] border border-white/5" />
           </div>
         </div>
+
+        {/* --- GAP 2: Flexible Spacer (min 24px) --- */}
+        <div className="h-6 w-full shrink-0" />
+
+        {/* --- Footer Placeholder --- */}
+        <div className="px-6 flex justify-center shrink-0 mt-auto">
+          <div className="h-3 w-48 rounded-full bg-gradient-to-r from-[#555555] via-[#555555]/50 to-transparent opacity-60" />
+        </div>
+
+        {/* --- GAP 3: 16px --- */}
+        <div className="h-4 w-full shrink-0" />
       </div>
     </div>
   );
@@ -385,7 +376,7 @@ export const WhyHermerSection: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ['start start', 'end end'],
+    offset: ["start start", "end end"],
   });
 
   return (
@@ -409,7 +400,7 @@ export const WhyHermerSection: React.FC = () => {
             <div
               key={index}
               className={`flex flex-col md:flex-row items-center gap-12 md:gap-20 ${
-                index % 2 === 1 ? 'md:flex-row-reverse' : ''
+                index % 2 === 1 ? "md:flex-row-reverse" : ""
               }`}
             >
               {/* Text Content */}
@@ -419,10 +410,10 @@ export const WhyHermerSection: React.FC = () => {
                     className="absolute inset-0 rounded-[24px]"
                     style={{
                       background:
-                        'linear-gradient(135deg, #575757 0%, #1a1a1a 50%, #2d2d2d 100%)',
-                      border: '1px solid rgba(255,255,255,0.15)',
+                        "linear-gradient(135deg, #575757 0%, #1a1a1a 50%, #2d2d2d 100%)",
+                      border: "1px solid rgba(255,255,255,0.15)",
                       boxShadow:
-                        '0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1), inset 0 -1px 0 rgba(0,0,0,0.3)',
+                        "0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1), inset 0 -1px 0 rgba(0,0,0,0.3)",
                     }}
                   />
                   <div className="absolute inset-0 flex items-center justify-center">

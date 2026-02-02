@@ -1,68 +1,75 @@
 import React from "react";
 import { BarChartBig, Search } from "lucide-react";
+import { GlassBentoCard } from "../GlassBentoCard";
+import { DeepDarkWindow } from "../visuals/DeepDarkWindow";
 
 export const SeoFriendlyCard = ({ className = "" }: { className?: string }) => {
   return (
-    <div
-      className={`group relative w-full h-full min-h-[400px] rounded-[40px] overflow-hidden bg-neutral-900 hover:shadow-2xl hover:shadow-green-500/20 transition-all duration-700 block border border-white/5 ${className}`}
+    <GlassBentoCard
+      title="SEO Friendly"
+      description="Prawidłowa struktura, meta tagi i schema.org. Dajemy Ci solidny start w wynikach wyszukiwania."
+      icon={BarChartBig}
+      className={className}
     >
-      {/* --- VISUAL BACKDROP --- */}
-      <div className="absolute inset-0 w-full h-full overflow-hidden">
-        {/* Background Subtle Grid */}
-        <div
-          className="absolute inset-0 z-0 opacity-[0.05]"
-          style={{
-            backgroundImage:
-              "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)",
-            backgroundSize: "20px 20px",
-          }}
-        />
+      <div className="absolute inset-0 w-full h-full overflow-hidden flex items-center justify-center pt-8">
+        {/* Deep Dark Window Browser */}
+        <DeepDarkWindow className="w-[500px] left-10 h-[350px] shadow-2xl transition-transform duration-500 group-hover:-translate-y-2">
+          <div className="flex flex-col h-full bg-neutral-900/50">
+            {/* Google SERP Header */}
+            <div className="h-16 border-b border-white/5 flex flex-col justify-center px-6 bg-neutral-900/80 backdrop-blur-sm gap-2 rounded-t-[20px]">
+              {/* Google Logo Placeholder */}
 
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200px] h-[200px] bg-green-500/10 rounded-full blur-3xl group-hover:bg-green-500/20 transition-colors duration-700" />
+              {/* Search Bar */}
+              <div className="w-full h-8 bg-neutral-800 rounded-full border border-white/5 flex items-center px-4 gap-2">
+                <Search size={12} className="text-neutral-500" />
+                <div className="h-1.5 w-24 bg-neutral-700/50 rounded-full"></div>
+              </div>
+            </div>
 
-        {/* Search Results UI */}
-        <div className="absolute top-[15%] left-1/2 -translate-x-1/2 w-[240px] flex flex-col gap-3 group-hover:-translate-y-2 transition-transform duration-500">
-             {/* Fake Search Bar */}
-             <div className="w-full h-10 bg-neutral-800 rounded-full border border-white/10 flex items-center px-4 gap-2 mb-2 shadow-lg">
-                <Search size={14} className="text-neutral-500" />
-                <div className="h-2 w-24 bg-neutral-700 rounded-full"></div>
-             </div>
+            {/* SERP Results */}
+            <div className="p-6 space-y-6 flex-1 overflow-hidden">
+              {/* Result 1 (Hermer Organic) */}
+              <div className="w-full flex flex-col gap-1 group/result">
+                {/* Breadcrumb */}
+                <div className="flex items-center gap-2 mb-1">
+                  <div className="w-5 h-5 rounded-full bg-neutral-800 border border-white/10 flex items-center justify-center">
+                    <div className="w-2.5 h-2.5 bg-white/20 rounded-full"></div>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-[10px] text-neutral-400 leading-none">
+                      hermer.pl
+                    </span>
+                    <span className="text-[8px] text-neutral-600 leading-none">
+                      https://hermer.pl {">"} oferta
+                    </span>
+                  </div>
+                </div>
 
-             {/* Result 1 (Highlighted) */}
-             <div className="w-full bg-neutral-800/80 backdrop-blur rounded-xl p-4 border border-green-500/30 shadow-lg relative overflow-hidden">
-                <div className="absolute left-0 top-0 bottom-0 w-1 bg-green-500"></div>
-                <div className="h-3 w-32 bg-green-500/50 rounded mb-2"></div>
-                <div className="h-2 w-full bg-neutral-700 rounded mb-1"></div>
-                <div className="h-2 w-4/5 bg-neutral-700 rounded"></div>
-             </div>
+                {/* Title */}
+                <div className="text-sm font-medium text-blue-400 group-hover/result:underline decoration-blue-400/50 underline-offset-2">
+                  Strony WWW Premium - Nowoczesny Design
+                </div>
 
-             {/* Result 2 */}
-             <div className="w-full bg-neutral-800/50 rounded-xl p-4 border border-white/5 opacity-50">
-                <div className="h-3 w-20 bg-neutral-600 rounded mb-2"></div>
-                <div className="h-2 w-full bg-neutral-700 rounded mb-1"></div>
-                <div className="h-2 w-4/5 bg-neutral-700 rounded"></div>
-             </div>
-        </div>
-      </div>
+                {/* Description */}
+                <div className="space-y-1 mt-1">
+                  <div className="h-2 w-full bg-linear-to-r from-neutral-600/50 to-transparent rounded-full"></div>
+                  <div className="h-2 w-5/6 bg-linear-to-r from-neutral-600/50 to-transparent rounded-full"></div>
+                </div>
 
-      {/* --- CONTENT OVERLAY --- */}
-      <div className="absolute inset-0 bg-gradient-to-t from-neutral-900 via-neutral-900/60 to-transparent" />
-
-      {/* Text Content */}
-      <div className="absolute left-0 bottom-0 w-full p-8 flex flex-col justify-end z-20 pointer-events-none">
-        <div className="relative z-10 pointer-events-auto">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-500/10 border border-green-500/20 text-green-400 text-xs font-bold uppercase tracking-widest mb-4">
-             <BarChartBig size={14} />
-             SEO
+                {/* Sitelinks (Optional visual detail) */}
+                <div className="flex gap-2 mt-2">
+                  <div className="h-4 px-2 rounded-full bg-neutral-800 border border-white/5 flex items-center">
+                    <div className="h-1.5 w-10 bg-neutral-600/50 rounded-full"></div>
+                  </div>
+                  <div className="h-4 px-2 rounded-full bg-neutral-800 border border-white/5 flex items-center">
+                    <div className="h-1.5 w-12 bg-neutral-600/50 rounded-full"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <h3 className="text-2xl font-bold tracking-tight text-white mb-2">
-            SEO Friendly
-          </h3>
-          <p className="text-neutral-400 text-sm font-medium leading-relaxed">
-            Prawidłowa struktura, meta tagi i schema.org. Dajemy Ci solidny start w wynikach wyszukiwania.
-          </p>
-        </div>
+        </DeepDarkWindow>
       </div>
-    </div>
+    </GlassBentoCard>
   );
 };

@@ -176,7 +176,7 @@ export const MarketingOfferHero: React.FC = () => {
         <div
           id="browser-container"
           ref={browserContainerRef}
-          className="mt-10 relative mx-auto w-full max-w-6xl perspective-1000"
+          className="mt-10 relative mx-auto w-full max-w-6xl perspective-1000 hidden"
           style={{ perspective: "1000px" }}
         >
           {/* Background Glow */}

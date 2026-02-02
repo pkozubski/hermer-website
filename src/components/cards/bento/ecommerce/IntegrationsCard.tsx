@@ -1,49 +1,97 @@
 import React from "react";
 import { CreditCard } from "lucide-react";
+import { GlassBentoCard } from "../GlassBentoCard";
+import { DeepDarkWindow } from "../visuals/DeepDarkWindow";
 
-export const IntegrationsCard = ({ className = "" }: { className?: string }) => {
+export const IntegrationsCard = ({
+  className = "",
+}: {
+  className?: string;
+}) => {
   return (
-    <div
-      className={`group relative w-full h-full min-h-[400px] rounded-[40px] overflow-hidden bg-neutral-900 hover:shadow-2xl hover:shadow-blue-500/20 transition-all duration-700 block border border-white/5 ${className}`}
+    <GlassBentoCard
+      title="Płatności i Kurierzy"
+      description="Automatyczne etykiety i bezpieczne płatności. BLIK, Stripe, InPost – wszystko, czego potrzebuje nowoczesny e-commerce."
+      icon={CreditCard}
+      className={className}
     >
-      <div className="absolute inset-0 w-full h-full overflow-hidden">
-        <div
-          className="absolute inset-0 z-0 opacity-[0.05]"
-          style={{
-            backgroundImage:
-              "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)",
-            backgroundSize: "20px 20px",
-          }}
-        />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200px] h-[200px] bg-blue-500/10 rounded-full blur-3xl group-hover:bg-blue-500/20 transition-colors duration-700" />
-        
-        {/* Logos Grid */}
-        <div className="absolute inset-0 flex items-center justify-center p-8 opacity-50 group-hover:opacity-100 transition-opacity duration-500">
-             <div className="grid grid-cols-2 gap-4 w-full max-w-[200px]">
-                 <div className="aspect-square bg-white/5 rounded-xl border border-white/10 flex items-center justify-center text-xs text-white/50 font-bold">BLIK</div>
-                 <div className="aspect-square bg-white/5 rounded-xl border border-white/10 flex items-center justify-center text-xs text-white/50 font-bold">InPost</div>
-                 <div className="aspect-square bg-white/5 rounded-xl border border-white/10 flex items-center justify-center text-xs text-white/50 font-bold">PayU</div>
-                 <div className="aspect-square bg-white/5 rounded-xl border border-white/10 flex items-center justify-center text-xs text-white/50 font-bold">Stripe</div>
-             </div>
-        </div>
-      </div>
+      <div className="absolute inset-0 w-full h-full overflow-hidden flex items-center justify-center pt-8">
+        {/* Deep Dark Window Integrations Dashboard */}
+        <DeepDarkWindow className="w-[90%] h-[300px] shadow-2xl transition-transform duration-500 group-hover:-translate-y-2">
+          <div className="w-full h-full bg-neutral-900/50 flex flex-col p-6">
+            {/* Header Mockup */}
+            <div className="flex items-center gap-4 mb-6 border-b border-white/5 pb-4">
+              <div className="text-xs font-medium text-neutral-400">
+                Aktywne integracje
+              </div>
+              <div className="h-1.5 w-1.5 rounded-full bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.5)]"></div>
+            </div>
 
-      <div className="absolute inset-0 bg-gradient-to-t from-neutral-900 via-neutral-900/60 to-transparent" />
+            {/* Integration Grid */}
+            <div className="grid grid-cols-2 gap-4">
+              {/* Payment Gateways */}
+              <div className="space-y-3">
+                <div className="text-[10px] text-neutral-500 uppercase tracking-wider font-bold">
+                  Płatności
+                </div>
+                <div className="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/5 group/item hover:border-white/10 hover:bg-white/10 transition-colors">
+                  <div className="w-8 h-8 rounded-lg bg-black flex items-center justify-center text-[8px] font-bold text-white border border-white/10">
+                    BLIK
+                  </div>
+                  <div className="flex flex-col">
+                    <div className="textxs font-medium text-neutral-200">
+                      BLIK
+                    </div>
+                    <div className="text-[9px] text-green-500">Włączone</div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/5 group/item hover:border-white/10 hover:bg-white/10 transition-colors">
+                  <div className="w-8 h-8 rounded-lg bg-[#635BFF] flex items-center justify-center text-[8px] font-bold text-white border border-white/10">
+                    S
+                  </div>
+                  <div className="flex flex-col">
+                    <div className="text-xs font-medium text-neutral-200">
+                      Stripe
+                    </div>
+                    <div className="text-[9px] text-green-500">Włączone</div>
+                  </div>
+                </div>
+              </div>
 
-      <div className="absolute left-0 bottom-0 w-full p-8 flex flex-col justify-end z-20 pointer-events-none">
-        <div className="relative z-10 pointer-events-auto">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-bold uppercase tracking-widest mb-4">
-             <CreditCard size={14} />
-             Integracje
+              {/* Shipping Providers */}
+              <div className="space-y-3">
+                <div className="text-[10px] text-neutral-500 uppercase tracking-wider font-bold">
+                  Wysyłka
+                </div>
+                <div className="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/5 group/item hover:border-white/10 hover:bg-white/10 transition-colors">
+                  <div className="w-8 h-8 rounded-lg bg-[#FFCC00] flex items-center justify-center text-[8px] font-bold text-black border border-white/10">
+                    In
+                  </div>
+                  <div className="flex flex-col">
+                    <div className="text-xs font-medium text-neutral-200">
+                      InPost
+                    </div>
+                    <div className="text-[9px] text-green-500">Włączone</div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/5 group/item hover:border-white/10 hover:bg-white/10 transition-colors">
+                  <div className="w-8 h-8 rounded-lg bg-[#D40511] flex items-center justify-center text-[8px] font-bold text-white border border-white/10">
+                    DHL
+                  </div>
+                  <div className="flex flex-col">
+                    <div className="text-xs font-medium text-neutral-200">
+                      DHL
+                    </div>
+                    <div className="text-[9px] text-neutral-500">
+                      Skonfiguruj
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <h3 className="text-2xl font-bold tracking-tight text-white mb-2">
-            Płatności i Kurierzy
-          </h3>
-          <p className="text-neutral-400 text-sm font-medium leading-relaxed">
-            Automatyczne etykiety i bezpieczne płatności. Wszystko, czego potrzebuje nowoczesny e-commerce.
-          </p>
-        </div>
+        </DeepDarkWindow>
       </div>
-    </div>
+    </GlassBentoCard>
   );
 };

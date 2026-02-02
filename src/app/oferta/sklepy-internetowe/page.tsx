@@ -5,7 +5,7 @@ import { Footer } from "@/components/Footer";
 import { EcommerceOfferHero } from "@/components/oferta/EcommerceOfferHero";
 import { WhatIsEcommerceSection } from "@/components/oferta/WhatIsEcommerceSection";
 import { EcommerceProcessSection } from "@/components/oferta/EcommerceProcessSection";
-import { EcommerceFeaturesBento } from "@/components/oferta/EcommerceFeaturesBento";
+import { StoreFeaturesBento } from "@/components/oferta/StoreFeaturesBento";
 import { EcommerceTechStackSection } from "@/components/oferta/EcommerceTechStackSection";
 import { EcommercePricingSection } from "@/components/oferta/EcommercePricingSection";
 import { Faq } from "@/components/Faq";
@@ -47,7 +47,7 @@ export default async function EcommerceOfferPage() {
         <EcommerceOfferHero />
         <WhatIsEcommerceSection />
         <EcommerceProcessSection />
-        <EcommerceFeaturesBento />
+        <StoreFeaturesBento />
         <EcommerceTechStackSection />
         {/* <EcommercePricingSection /> */}
         <OfferProjects category="ecommerce" />

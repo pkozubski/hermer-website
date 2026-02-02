@@ -29,7 +29,7 @@ export const ProcessSection: React.FC = () => {
   ];
 
   return (
-    <section className="py-24 bg-transparent border-t border-white/5">
+    <section className="py-24 bg-transparent">
       <div className="container mx-auto px-4 md:px-8">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-20 gap-8">
           <SplitRevealTitle
@@ -38,9 +38,7 @@ export const ProcessSection: React.FC = () => {
             className="text-white! text-5xl md:text-8xl"
           />
           <LineReveal
-            lines={[
-              "3 podstawowe kroki",
-            ]}
+            lines={["3 podstawowe kroki"]}
             className="text-neutral-400 text-sm md:text-xl leading-relaxed max-w-md text-left md:text-right font-medium"
           />
         </div>
