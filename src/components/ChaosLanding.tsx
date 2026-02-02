@@ -2,8 +2,8 @@
 
 import React, { useId, useLayoutEffect, useRef } from "react";
 import { gsap } from "gsap";
-import { Flip } from "gsap/Flip";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Flip } from "gsap/dist/Flip";
+import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(Flip, ScrollTrigger);
