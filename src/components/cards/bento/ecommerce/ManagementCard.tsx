@@ -3,13 +3,22 @@ import { LayoutDashboard, TrendingUp, Users, Package } from "lucide-react";
 import { GlassBentoCard } from "../GlassBentoCard";
 import { DeepDarkWindow } from "../visuals/DeepDarkWindow";
 
-export const ManagementCard = ({ className = "" }: { className?: string }) => {
+interface ManagementCardProps {
+  className?: string;
+  contentAlign?: "left" | "right";
+}
+
+export const ManagementCard = ({
+  className = "",
+  contentAlign = "left",
+}: ManagementCardProps) => {
   return (
     <GlassBentoCard
       title="Analityka i Zamówienia"
       description="Pełna kontrola nad sklepem. Śledź sprzedaż, zarządzaj zamówieniami i magazynem w jednym intuicyjnym panelu."
       icon={LayoutDashboard}
       className={className}
+      contentAlign={contentAlign}
     >
       <div className="absolute inset-0 w-full h-full overflow-hidden flex items-center justify-center pt-8">
         {/* Deep Dark Window Dashboard */}
