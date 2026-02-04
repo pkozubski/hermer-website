@@ -16,7 +16,7 @@ export const DeepDarkPhone: React.FC<DeepDarkPhoneProps> = ({
         {/* Border Ring matching DeepDarkWindow */}
         <div
           aria-hidden="true"
-          className="absolute inset-[-4px] border-4 border-[rgba(255,255,255,0.03)] border-solid rounded-[36px] pointer-events-none shadow-[0px_0px_48px_10px_rgba(0,0,0,0.2),0px_4px_16px_8px_rgba(0,0,0,0.1)]"
+          className="absolute inset-[-4px] border-4 border-[rgba(255,255,255,0.03)] border-solid rounded-[36px] pointer-events-none shadow-[0px_0px_48px_10px_rgba(0,0,0,0.2),0px_4px_16px_8px_rgba(0,0,0,0.1)] backdrop-blur-[7px]"
         />
       </div>
 

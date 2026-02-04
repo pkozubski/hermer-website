@@ -415,3 +415,24 @@ html::-webkit-scrollbar {
     }
   }
 }
+
+  @keyframes scan-vertical {
+    0% { top: 0%; opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { top: 100%; opacity: 0; }
+  }
+  .animate-scan-vertical {
+    animation: scan-vertical 3s ease-in-out infinite;
+  }
+
+
+  .text-shadow-glow {
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  }
+
+
+  .text-shadow-glow {
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  }
+
