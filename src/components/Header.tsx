@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import React, { useState, useEffect, useRef } from "react";
-import Link from "next/link";
-import { ChevronDown } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
-import { OfferDropdown } from "./header/OfferDropdown";
-import { MobileMenu } from "./header/MobileMenu";
-import { ReelCtaButton } from "./ui/ReelCtaButton";
+import React, { useState, useEffect, useRef } from 'react';
+import Link from 'next/link';
+import { ChevronDown } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { OfferDropdown } from './header/OfferDropdown';
+import { MobileMenu } from './header/MobileMenu';
+import { ReelCtaButton } from './ui/ReelCtaButton';
 
 export const Header: React.FC<{ allowVisibility?: boolean }> = ({
   allowVisibility = true,
@@ -28,41 +28,43 @@ export const Header: React.FC<{ allowVisibility?: boolean }> = ({
       setIsScrolled(currentScrollY > 20);
     };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener('scroll', handleScroll, { passive: true });
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
   const navLinks = [
-    { name: "Home", href: "/" },
-    { name: "Oferta", href: "/oferta", hasDropdown: true },
-    { name: "Realizacje", href: "/realizacje" },
-    { name: "Opinie", href: "/opinie" },
-    { name: "O firmie", href: "/o-firmie" },
-    { name: "Blog", href: "/blog" },
+    { name: 'Home', href: '/' },
+    { name: 'Oferta', href: '/oferta', hasDropdown: true },
+    { name: 'Realizacje', href: '/realizacje' },
+    { name: 'Opinie', href: '/opinie' },
+    { name: 'O firmie', href: '/o-firmie' },
+    { name: 'Blog', href: '/blog' },
   ];
 
   return (
     <header
       className={`fixed top-0 left-0 right-0 w-full py-4 sm:py-6 px-4 sm:px-8 lg:px-16 flex items-center justify-center z-50 ${
-        isMounted ? "transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]" : ""
-      } ${allowVisibility && !isMobileMenuOpen ? "translate-y-0" : "-translate-y-full"} text-white`}
+        isMounted
+          ? 'transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]'
+          : ''
+      } ${allowVisibility && !isMobileMenuOpen ? 'translate-y-0' : '-translate-y-full'} text-white`}
     >
       {/* Backdrop blur wrapper for better readability when scrolling over content */}
       <div
         className={`absolute top-0 left-0 w-full h-[180px] pointer-events-none select-none transition-opacity duration-300 ${
-          isScrolled ? "opacity-100" : "opacity-0"
+          isScrolled ? 'opacity-100' : 'opacity-0'
         }`}
         style={{
           background:
-            "linear-gradient(to top, transparent 0%, rgba(23, 23, 23, 0.8) 100%)",
-          maskImage: "linear-gradient(to bottom, black 30%, transparent 100%)",
+            'linear-gradient(to top, transparent 0%, rgba(23, 23, 23, 0.8) 100%)',
+          maskImage: 'linear-gradient(to bottom, black 30%, transparent 100%)',
           WebkitMaskImage:
-            "linear-gradient(to bottom, black 30%, transparent 100%)",
-          backdropFilter: "blur(12px)",
-          WebkitBackdropFilter: "blur(12px)",
+            'linear-gradient(to bottom, black 30%, transparent 100%)',
+          backdropFilter: 'blur(12px)',
+          WebkitBackdropFilter: 'blur(12px)',
         }}
       ></div>
 
@@ -128,7 +130,7 @@ export const Header: React.FC<{ allowVisibility?: boolean }> = ({
         {/* Desktop Navigation */}
         <nav className="hidden lg:flex items-center gap-10">
           {navLinks.map((link) => {
-            if (link.name === "Oferta") {
+            if (link.name === 'Oferta') {
               return (
                 <div
                   key={link.name}
@@ -140,8 +142,8 @@ export const Header: React.FC<{ allowVisibility?: boolean }> = ({
                     href={link.href}
                     className={`text-sm font-medium hover:text-[#916AFF] transition-colors flex items-center gap-1 py-4 ${
                       isScrolled
-                        ? "text-white"
-                        : "text-white/80 hover:text-white"
+                        ? 'text-white'
+                        : 'text-white/80 hover:text-white'
                     }`}
                   >
                     {link.name}
@@ -167,7 +169,7 @@ export const Header: React.FC<{ allowVisibility?: boolean }> = ({
                 key={link.name}
                 href={link.href}
                 className={`text-sm font-medium hover:text-[#916AFF] transition-colors flex items-center gap-1 ${
-                  isScrolled ? "text-white" : "text-white/80 hover:text-white"
+                  isScrolled ? 'text-white' : 'text-white/80 hover:text-white'
                 }`}
               >
                 {link.name}
@@ -200,7 +202,7 @@ export const Header: React.FC<{ allowVisibility?: boolean }> = ({
         >
           <motion.div
             initial={false}
-            animate={isMobileMenuOpen ? "open" : "closed"}
+            animate={isMobileMenuOpen ? 'open' : 'closed'}
             className="w-6 h-6 flex flex-col justify-center items-center gap-[5px]"
           >
             <motion.span
