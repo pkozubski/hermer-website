@@ -199,7 +199,7 @@ function FloatingIcon() {
   );
 }
 
-export function EcommerceCard() {
+export const EcommerceCard = React.memo(function EcommerceCard() {
   return (
     <div className="bg-[rgba(26,26,26,0.4)] backdrop-blur-[7px] content-stretch flex flex-col gap-[10px] items-center justify-end overflow-clip px-[51px] py-[41px] relative rounded-[50px] w-[620px] h-[520px] shadow-2xl shrink-0">
       {/* Store Interface Mockup */}
@@ -246,4 +246,4 @@ export function EcommerceCard() {
       </div>
     </div>
   );
-}
+});

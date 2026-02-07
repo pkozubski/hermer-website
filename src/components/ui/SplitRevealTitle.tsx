@@ -14,6 +14,7 @@ interface SplitRevealTitleProps {
   className?: string;
   classNameLine1?: string;
   classNameLine2?: string;
+  once?: boolean;
 }
 
 export const SplitRevealTitle = ({
@@ -22,6 +23,7 @@ export const SplitRevealTitle = ({
   className = "",
   classNameLine1 = "",
   classNameLine2 = "",
+  once = false,
 }: SplitRevealTitleProps) => {
   const containerRef = useRef<HTMLHeadingElement>(null);
   const line1Ref = useRef<HTMLSpanElement>(null);
@@ -33,11 +35,12 @@ export const SplitRevealTitle = ({
       gsap.set(line1Ref.current, { yPercent: 100, force3D: true });
       gsap.set(line2Ref.current, { yPercent: -100, force3D: true });
 
-      // Create ScrollTrigger that replays on each scroll
+      // Create ScrollTrigger that can replay on scroll unless `once` is enabled.
       ScrollTrigger.create({
         trigger: containerRef.current,
         start: "top 95%",
         end: "bottom 5%",
+        once,
         onEnter: () => {
           const tl = gsap.timeline();
 
@@ -57,15 +60,17 @@ export const SplitRevealTitle = ({
             "<0.12",
           );
         },
-        onLeaveBack: () => {
-          // Reset elements when scrolling back up past the trigger
-          gsap.killTweensOf([line1Ref.current, line2Ref.current]);
-          gsap.set(line1Ref.current, { yPercent: 100, force3D: true });
-          gsap.set(line2Ref.current, { yPercent: -100, force3D: true });
-        },
+        onLeaveBack: once
+          ? undefined
+          : () => {
+              // Reset elements when scrolling back up past the trigger
+              gsap.killTweensOf([line1Ref.current, line2Ref.current]);
+              gsap.set(line1Ref.current, { yPercent: 100, force3D: true });
+              gsap.set(line2Ref.current, { yPercent: -100, force3D: true });
+            },
       });
     },
-    { scope: containerRef },
+    { scope: containerRef, dependencies: [once] },
   );
 
   return (

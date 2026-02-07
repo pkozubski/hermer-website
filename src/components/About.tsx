@@ -15,6 +15,7 @@ import { ChaosLanding } from './ChaosLanding';
 import jacekImg from '@/assets/team/jacek.png';
 import damianImg from '@/assets/team/damian.png';
 import oliwiaImg from '@/assets/team/oliwia.png';
+import lukaszImg from '@/assets/team/lukasz.png';
 import annaImg from '@/assets/team/anna.png';
 
 // --- Components ---
@@ -120,18 +121,16 @@ export const About: React.FC = () => {
               line2="kolejną agencją"
               className="text-5xl md:text-8xl text-white tracking-tighter"
             />
-            <div className="flex flex-col gap-4 max-w-xs md:max-w-2xl">
+            <div className="flex flex-col gap-4 max-w-xs md:max-w-sm">
               <LineReveal
                 lines={['Dlaczego warto skorzystać z naszego wsparcia?']}
                 className="text-white font-normal text-sm md:text-base mb-2"
               />
               <LineReveal
                 lines={[
-                  'Nie sprzedajemy ładnych projektów dla samego',
-                  'efektu wizualnego. Chcemy, aby miały sens',
-                  'biznesowy. Warstwa estetyczna strony czy',
-                  'sklepu jest ważna, ale zawsze stoi za nią',
-                  'przemyślana struktura, UX i SEO.',
+                  'Nie projektujemy dla samego efektu.',
+                  'Nasze realizacje mają sens biznesowy.',
+                  'Za estetyką stoi struktura, UX oraz SEO.',
                 ]}
                 className="text-neutral-400 text-xs md:text-sm uppercase tracking-wide leading-relaxed"
                 delay={0.2}
@@ -220,11 +219,11 @@ export const About: React.FC = () => {
               {/* Expert Pill Container */}
               <div className="relative mt-8 w-[130%] translate-x-[20%] sm:translate-x-[15%] h-[80px] sm:h-[100px] md:h-[120px] bg-[#262626] rounded-full border-[5px] border-white/5 flex items-center shadow-[0px_0px_48px_10px_rgba(0,0,0,0.2),0px_4px_16px_8px_rgba(0,0,0,0.1)]">
                 <div className="flex -space-x-4 sm:-space-x-6 w-full justify-start pl-4 md:pl-6">
-                  {[jacekImg, damianImg, oliwiaImg, annaImg].map((img, i) => (
+                  {[jacekImg, lukaszImg, oliwiaImg, annaImg].map((img, i) => (
                     <div
                       key={i}
                       className="relative w-14 h-14 sm:w-20 sm:h-20 rounded-full border-4 border-[#262626] overflow-hidden shrink-0 transition-transform duration-300 hover:scale-110 hover:z-10"
-                      style={{ zIndex: 4 - i }}
+                      style={{ zIndex: 5 - i }}
                     >
                       <img
                         src={img.src}
@@ -233,6 +232,9 @@ export const About: React.FC = () => {
                       />
                     </div>
                   ))}
+                  <div className="relative w-14 h-14 sm:w-20 sm:h-20 rounded-full border-4 border-[#262626] bg-[#2d2d2d] flex items-center justify-center shrink-0 z-0 text-white font-medium text-xs sm:text-base">
+                    +5
+                  </div>
                 </div>
               </div>
 

@@ -150,7 +150,7 @@ function FloatingIcon() {
   );
 }
 
-export function SeoCard() {
+export const SeoCard = React.memo(function SeoCard() {
   return (
     <div className="bg-[rgba(26,26,26,0.4)] backdrop-blur-[7px] content-stretch flex flex-col gap-[10px] items-center justify-end overflow-clip px-[51px] py-[41px] relative rounded-[50px] w-[620px] h-[520px] shadow-2xl shrink-0">
       {/* SEO Interface Mockup */}
@@ -197,4 +197,4 @@ export function SeoCard() {
       </div>
     </div>
   );
-}
+});

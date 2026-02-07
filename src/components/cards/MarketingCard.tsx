@@ -62,7 +62,7 @@ function FloatingIcon() {
   );
 }
 
-export function MarketingCard() {
+export const MarketingCard = React.memo(function MarketingCard() {
   return (
     <div className="bg-[rgba(26,26,26,0.4)] backdrop-blur-[7px] content-stretch flex flex-col gap-[10px] items-center justify-end overflow-clip px-[51px] py-[41px] relative rounded-[50px] w-[620px] h-[520px] shadow-2xl shrink-0">
       {/* Main Chart Card */}
@@ -111,4 +111,4 @@ export function MarketingCard() {
       </div>
     </div>
   );
-}
+});

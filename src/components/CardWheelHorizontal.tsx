@@ -38,21 +38,21 @@ export const CardWheelHorizontal: React.FC<CardWheelHorizontalProps> = ({
     () => {
       if (!wheelRef.current) return;
 
-      // Set initial position
       gsap.set(wheelRef.current, {
         z: -radius,
+        force3D: true,
       });
 
       const dirMulti = direction === "left" ? 1 : -1;
       const step = angleStep * dirMulti;
 
-      // Recursive animation with delay and overshoot
       const rotate = () => {
         gsap.to(wheelRef.current, {
           rotationY: `+=${step}`,
           duration: 1.6,
           ease: "back.out(1.2)",
           delay: 2,
+          force3D: true,
           onComplete: rotate,
         });
       };
@@ -69,6 +69,7 @@ export const CardWheelHorizontal: React.FC<CardWheelHorizontalProps> = ({
         className="w-full h-full absolute top-0 left-0 transform-style-3d bg-transparent flex items-center justify-center"
         style={{
           transformStyle: "preserve-3d",
+          willChange: "transform",
         }}
       >
         {repeatedCards.map((card, i) => (
@@ -76,10 +77,11 @@ export const CardWheelHorizontal: React.FC<CardWheelHorizontalProps> = ({
             key={`${card.id}-${i}`}
             className="absolute top-1/2 left-1/2 w-[350px] flex justify-center items-center backface-hidden"
             style={{
-              marginTop: "-130px", // Half of card height approx
+              marginTop: "-130px",
               marginLeft: `-${ITEM_WIDTH / 2}px`,
               transform: `rotateY(${i * angleStep}deg) translateZ(${radius}px)`,
               backfaceVisibility: "hidden",
+              contain: "content",
             }}
           >
             <div className="w-full flex justify-center">{card.content}</div>

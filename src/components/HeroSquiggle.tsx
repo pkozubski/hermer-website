@@ -1,7 +1,6 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useEffect, useState, useCallback, useRef, memo } from "react";
 
 // Different squiggle path variants - each extends beyond screen edges
 const SQUIGGLE_VARIANTS = [
@@ -59,108 +58,132 @@ const SNAKE_LENGTH = 0.35;
 const SQUIGGLE_STROKE_WIDTH = 18;
 const SQUIGGLE_BLUR_PX = 10;
 
-export default function HeroSquiggle() {
-  const [activeVariant, setActiveVariant] = useState<number | null>(null);
-  const [colorIndex, setColorIndex] = useState(0);
-  const [animationKey, setAnimationKey] = useState(0);
+// CSS keyframes injected once for squiggle dash animation
+const SQUIGGLE_STYLE_ID = "hero-squiggle-keyframes";
+function ensureSquiggleStyles() {
+  if (typeof document === "undefined") return;
+  if (document.getElementById(SQUIGGLE_STYLE_ID)) return;
+  const style = document.createElement("style");
+  style.id = SQUIGGLE_STYLE_ID;
+  style.textContent = `
+    @keyframes squiggle-dash {
+      from { stroke-dashoffset: var(--dash-start); }
+      to { stroke-dashoffset: var(--dash-end); }
+    }
+    @keyframes squiggle-fade-in {
+      from { opacity: 0; }
+      to { opacity: 0.32; }
+    }
+    @keyframes squiggle-fade-out {
+      from { opacity: 0.32; }
+      to { opacity: 0; }
+    }
+  `;
+  document.head.appendChild(style);
+}
+
+const SquigglePath = memo(function SquigglePath({
+  variant,
+  color,
+  animKey,
+}: {
+  variant: (typeof SQUIGGLE_VARIANTS)[number];
+  color: string;
+  animKey: number;
+}) {
   const pathRef = useRef<SVGPathElement>(null);
   const [pathLength, setPathLength] = useState(2000);
 
-  const triggerNewSquiggle = useCallback(() => {
-    // Pick a random variant different from current
-    let newVariant = Math.floor(Math.random() * SQUIGGLE_VARIANTS.length);
-    if (newVariant === activeVariant && SQUIGGLE_VARIANTS.length > 1) {
-      newVariant = (newVariant + 1) % SQUIGGLE_VARIANTS.length;
-    }
-
-    // Pick a random color (0 or 1)
-    const newColor = Math.floor(Math.random() * STROKE_COLORS.length);
-
-    setColorIndex(newColor);
-    setActiveVariant(newVariant);
-    setAnimationKey((prev) => prev + 1);
-  }, [activeVariant]);
-
-  useEffect(() => {
-    // Initial delay before first squiggle
-    const initialDelay = setTimeout(() => {
-      triggerNewSquiggle();
-    }, 2000);
-
-    return () => clearTimeout(initialDelay);
-  }, []);
-
-  useEffect(() => {
-    // Set up interval for subsequent squiggles
-    const interval = setInterval(() => {
-      triggerNewSquiggle();
-    }, 6000); // Every 6 seconds (slower)
-
-    return () => clearInterval(interval);
-  }, [triggerNewSquiggle]);
-
-  // Measure path length when path changes
   useEffect(() => {
     if (pathRef.current) {
-      const length = pathRef.current.getTotalLength();
-      setPathLength(length);
+      setPathLength(pathRef.current.getTotalLength());
     }
-  }, [activeVariant, animationKey]);
+  }, [variant.path]);
 
-  const currentVariant =
-    activeVariant !== null ? SQUIGGLE_VARIANTS[activeVariant] : null;
-  const currentColor = STROKE_COLORS[colorIndex];
-
-  // Calculate dash values for snake effect
   const snakeVisibleLength = pathLength * SNAKE_LENGTH;
   const totalDashLength = pathLength + snakeVisibleLength;
 
   return (
-    <div className="absolute inset-0 -z-10 pointer-events-none overflow-hidden">
-      <AnimatePresence mode="wait">
-        {currentVariant && activeVariant !== null && (
-          <motion.div
-            key={animationKey}
-            className="absolute"
-            style={currentVariant.style}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 0.32 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            <svg
-              className="w-full h-full"
-              viewBox={currentVariant.viewBox}
-              fill="none"
-              preserveAspectRatio="xMidYMid slice"
-              xmlns="http://www.w3.org/2000/svg"
-              style={{
-                filter: `blur(${SQUIGGLE_BLUR_PX}px)`,
-              }}
-            >
-              <motion.path
-                ref={pathRef}
-                d={currentVariant.path || "M0 0"}
-                stroke={currentColor}
-                strokeWidth={SQUIGGLE_STROKE_WIDTH}
-                strokeLinecap="round"
-                fill="none"
-                strokeDasharray={`${snakeVisibleLength} ${totalDashLength}`}
-                initial={{
-                  strokeDashoffset: snakeVisibleLength,
-                }}
-                animate={{
-                  strokeDashoffset: -pathLength - snakeVisibleLength,
-                }}
-                transition={{
-                  duration: 5, // Slower animation (was 3)
-                  ease: [0.25, 0.1, 0.25, 1],
-                }}
-              />
-            </svg>
-          </motion.div>
-        )}
-      </AnimatePresence>
+    <div
+      key={animKey}
+      className="absolute"
+      style={{
+        ...variant.style,
+        animation: "squiggle-fade-in 0.3s ease-out forwards",
+      }}
+    >
+      <svg
+        className="w-full h-full"
+        viewBox={variant.viewBox}
+        fill="none"
+        preserveAspectRatio="xMidYMid slice"
+        xmlns="http://www.w3.org/2000/svg"
+        style={{ filter: `blur(${SQUIGGLE_BLUR_PX}px)` }}
+      >
+        <path
+          ref={pathRef}
+          d={variant.path || "M0 0"}
+          stroke={color}
+          strokeWidth={SQUIGGLE_STROKE_WIDTH}
+          strokeLinecap="round"
+          fill="none"
+          strokeDasharray={`${snakeVisibleLength} ${totalDashLength}`}
+          style={{
+            "--dash-start": snakeVisibleLength,
+            "--dash-end": -pathLength - snakeVisibleLength,
+            animation: "squiggle-dash 5s cubic-bezier(0.25, 0.1, 0.25, 1) forwards",
+          } as React.CSSProperties}
+        />
+      </svg>
     </div>
   );
-}
+});
+
+export default memo(function HeroSquiggle() {
+  const [squiggle, setSquiggle] = useState<{
+    variantIdx: number;
+    colorIdx: number;
+    key: number;
+  } | null>(null);
+
+  useEffect(() => {
+    ensureSquiggleStyles();
+
+    let key = 0;
+    let lastVariant = -1;
+
+    const pickNew = () => {
+      let newVariant = Math.floor(Math.random() * SQUIGGLE_VARIANTS.length);
+      if (newVariant === lastVariant && SQUIGGLE_VARIANTS.length > 1) {
+        newVariant = (newVariant + 1) % SQUIGGLE_VARIANTS.length;
+      }
+      lastVariant = newVariant;
+      key++;
+      setSquiggle({
+        variantIdx: newVariant,
+        colorIdx: Math.floor(Math.random() * STROKE_COLORS.length),
+        key,
+      });
+    };
+
+    const initialDelay = setTimeout(pickNew, 2000);
+    const interval = setInterval(pickNew, 6000);
+
+    return () => {
+      clearTimeout(initialDelay);
+      clearInterval(interval);
+    };
+  }, []);
+
+  return (
+    <div className="absolute inset-0 -z-10 pointer-events-none overflow-hidden">
+      {squiggle && (
+        <SquigglePath
+          variant={SQUIGGLE_VARIANTS[squiggle.variantIdx]}
+          color={STROKE_COLORS[squiggle.colorIdx]}
+          animKey={squiggle.key}
+        />
+      )}
+    </div>
+  );
+});

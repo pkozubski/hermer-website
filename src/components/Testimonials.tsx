@@ -196,7 +196,7 @@ export const Testimonials = () => {
             <SplitRevealTitle
               line1="Zaufali nam"
               line2="Liderzy Branży."
-              className="text-5xl md:text-7xl text-white"
+              className="text-5xl md:text-8xl text-white tracking-tighter"
             />
           </div>
 

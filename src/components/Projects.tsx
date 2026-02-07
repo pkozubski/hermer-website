@@ -19,15 +19,14 @@ export function Projects() {
           <SplitRevealTitle
             line1="Wybrane"
             line2="Realizacje"
-            className="text-5xl md:text-8xl text-white"
+            className="text-5xl md:text-8xl text-white tracking-tighter"
           />
           <LineReveal
             lines={[
-              "Zobacz wybrane realizacje, które",
-              "najlepiej pokazują, jak przez lata",
-              "zamienialiśmy potrzeby klientów ",
-              "w dopracowane strony i sklepy —",
-              "od pierwszego pomysłu po gotowy efekt.",
+              "Zobacz realizacje, które najlepiej",
+              "pokazują, jak zamieniamy potrzeby",
+              "klientów w dopracowane i skuteczne",
+              "strony oraz sklepy internetowe.",
             ]}
             className="text-neutral-400 max-w-xs md:max-w-sm text-xs md:text-sm uppercase tracking-wide leading-relaxed"
           />
@@ -35,7 +34,7 @@ export function Projects() {
 
         {/* Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-16 md:gap-y-24">
-          {PROJECTS.map((project, index) => (
+          {PROJECTS.slice(0, 8).map((project, index) => (
             <ProjectCard key={project.id} project={project} index={index} />
           ))}
         </div>

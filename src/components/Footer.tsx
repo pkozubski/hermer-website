@@ -252,18 +252,18 @@ export const Footer: React.FC = () => {
             </p>
           </div>
           <div className="flex gap-8">
-            <a
-              href="#"
+            <Link
+              href="/rodo"
               className="text-xs font-bold text-neutral-500 hover:text-white transition-colors"
             >
               Polityka Prywatności
-            </a>
-            <a
-              href="#"
+            </Link>
+            <Link
+              href="/rodo"
               className="text-xs font-bold text-neutral-500 hover:text-white transition-colors"
             >
               Regulamin (RODO)
-            </a>
+            </Link>
           </div>
         </div>
       </div>

@@ -53,16 +53,18 @@ export const Contact: React.FC = () => {
               <SplitRevealTitle
                 line1="Zacznijmy"
                 line2="Projekt"
-                className="text-white text-6xl lg:text-8xl mb-6 tracking-tighter"
+                once
+                className="text-white text-5xl md:text-8xl tracking-tighter"
               />
               <LineReveal
                 lines={[
-                  "Chcesz rozwinąć swoją obecność w internecie?",
+                  "Chcesz rozwinąć swój biznes?",
                   "Skontaktuj się z nami i porozmawiajmy",
-                  "o Twoim projekcie strony internetowej",
-                  "lub strategii marketingowej.",
+                  "o Twoim projekcie lub strategii,",
+                  "którą wspólnie wdrożymy.",
                 ]}
-                className="text-neutral-400 text-lg max-w-md leading-relaxed mt-8 font-medium"
+                once
+                className="text-neutral-400 max-w-xs md:max-w-sm text-xs md:text-sm uppercase tracking-wide leading-relaxed mt-8"
               />
             </div>
 
@@ -90,7 +92,7 @@ export const Contact: React.FC = () => {
                   className="group"
                   initial={{ opacity: 0, x: -30 }}
                   whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: false, margin: "-50px" }}
+                  viewport={{ once: true, margin: "-50px" }}
                   transition={{
                     duration: 0.6,
                     delay: 0.3 + i * 0.15,
@@ -126,7 +128,7 @@ export const Contact: React.FC = () => {
             className="w-full lg:w-7/12 pt-8 bg-white/5 backdrop-blur-md rounded-3xl p-6 lg:p-10 border border-white/10"
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, margin: "-100px" }}
+            viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
           >
             {status === "success" ? (
@@ -159,7 +161,7 @@ export const Contact: React.FC = () => {
                   className="relative group"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: false, margin: "-50px" }}
+                  viewport={{ once: true, margin: "-50px" }}
                   transition={{
                     duration: 0.5,
                     delay: 0.1,
@@ -194,7 +196,7 @@ export const Contact: React.FC = () => {
                   className="relative group"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: false, margin: "-50px" }}
+                  viewport={{ once: true, margin: "-50px" }}
                   transition={{
                     duration: 0.5,
                     delay: 0.2,
@@ -231,7 +233,7 @@ export const Contact: React.FC = () => {
                   className="relative group"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: false, margin: "-50px" }}
+                  viewport={{ once: true, margin: "-50px" }}
                   transition={{
                     duration: 0.5,
                     delay: 0.3,
@@ -268,7 +270,7 @@ export const Contact: React.FC = () => {
                   className="pt-8"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: false, margin: "-50px" }}
+                  viewport={{ once: true, margin: "-50px" }}
                   transition={{
                     duration: 0.5,
                     delay: 0.4,

@@ -2,6 +2,7 @@
 import { motion, AnimatePresence } from 'motion/react';
 import { useState, useEffect } from 'react';
 import { ReelCtaButton } from './ui/ReelCtaButton';
+import { LineReveal } from './ui/LineReveal';
 
 function PhoneAnimatedUI() {
   const [phase, setPhase] = useState(0);
@@ -435,15 +436,20 @@ export function CTASection() {
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-8">
           {/* Left Column: Text */}
           <div className="flex-1 flex flex-col items-center lg:items-start text-center lg:text-left">
-            <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white tracking-tight">
+            <h2 className="text-5xl md:text-8xl text-white tracking-tighter leading-tight">
               Gotowy na zmianę?
             </h2>
 
-            <p className="mt-6 md:mt-8 max-w-md text-[#888] text-sm md:text-base">
-              Skontaktuj się z nami i porozmawiajmy o Twoim projekcie.
-              <br />
-              Wycena i konsultacja są bezpłatne.
-            </p>
+            <div className="mt-8">
+              <LineReveal
+                lines={[
+                  "Skontaktuj się z nami i porozmawiajmy",
+                  "o Twoim projekcie. Wycena",
+                  "i konsultacja są bezpłatne.",
+                ]}
+                className="text-neutral-400 max-w-xs md:max-w-sm text-xs md:text-sm uppercase tracking-wide leading-relaxed"
+              />
+            </div>
 
             <div className="mt-8 md:mt-10">
               <ReelCtaButton

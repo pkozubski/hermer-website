@@ -133,7 +133,7 @@ function FloatingIcon() {
   );
 }
 
-export function SocialMediaCard() {
+export const SocialMediaCard = React.memo(function SocialMediaCard() {
   return (
     // Dodano klasę 'group' tutaj, aby umożliwić 'group-hover' w elementach podrzędnych
     <div className="group bg-[rgba(26,26,26,0.4)] backdrop-blur-[7px] flex flex-col gap-[10px] items-center justify-end overflow-hidden px-[51px] py-[41px] relative rounded-[64px] w-[620px] h-[520px] shadow-2xl shrink-0 border border-white/5 transition-colors duration-500">
@@ -181,4 +181,4 @@ export function SocialMediaCard() {
       </div>
     </div>
   );
-}
+});

@@ -48,84 +48,108 @@ export const Faq: React.FC<FaqProps> = ({ items = FAQ_ITEMS }) => {
   return (
     <section className="py-24 lg:py-32 bg-transparent relative overflow-hidden">
       <div className="container mx-auto px-4 sm:px-8 lg:px-16 relative z-10">
-        <div className="mb-20 lg:mb-32 flex flex-col md:flex-row justify-between items-end gap-8">
-          <LineReveal
-            lines={[
-              "Jasne zasady to fundament dobrej współpracy.",
-              "Oto konkrety, o które pytacie najczęściej.",
-            ]}
-            className="text-neutral-400 text-lg lg:text-xl max-w-lg font-medium leading-relaxed order-2 md:order-1 text-left"
-          />
-          <div className="order-1 md:order-2 text-right w-full md:w-auto">
+        <div className="mb-20 lg:mb-32 flex flex-col md:flex-row justify-between items-start md:items-end gap-8">
+          <div className="order-2 md:order-1">
+            <LineReveal
+              lines={[
+                "Jasne zasady to fundament.",
+                "Oto konkrety, o które pytacie",
+                "nas najczęściej.",
+              ]}
+              once
+              className="text-neutral-400 max-w-xs md:max-w-sm text-xs md:text-sm uppercase tracking-wide leading-relaxed"
+            />
+          </div>
+          <div className="order-1 md:order-2">
             <SplitRevealTitle
               line1="Warto"
               line2="Wiedzieć"
-              className="text-white text-5xl sm:text-7xl lg:text-9xl tracking-tighter"
+              once
+              className="text-white text-5xl md:text-8xl tracking-tighter"
             />
           </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 items-start">
-          {/* --- LEFT: QUESTION LIST --- */}
+          {/* --- QUESTIONS LIST --- */}
           <div className="lg:col-span-5 flex flex-col">
             {items.map((item, index) => (
-              <motion.button
-                key={item.id}
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: false, margin: "-50px" }}
-                transition={{
-                  duration: 0.5,
-                  delay: index * 0.1,
-                  ease: [0.25, 0.1, 0.25, 1],
-                }}
-                onClick={() => setActiveId(item.id)}
-                className={`group relative flex items-center py-6 md:py-8 border-b border-white/10 transition-colors duration-300 ${
-                  activeId === item.id
-                    ? "border-white"
-                    : "hover:border-white/40"
-                }`}
-              >
-                {/* Number */}
-                <span
-                  className={`text-xs md:text-sm font-bold font-mono uppercase tracking-widest mr-6 md:mr-8 transition-colors duration-300 ${
-                    activeId === item.id ? "text-[#916AFF]" : "text-neutral-500"
-                  }`}
+              <div key={item.id} className="border-b border-white/10">
+                <motion.button
+                  initial={{ opacity: 0, x: -30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{
+                    duration: 0.5,
+                    delay: index * 0.1,
+                    ease: [0.25, 0.1, 0.25, 1],
+                  }}
+                  onClick={() => setActiveId(item.id)}
+                  className={`group relative flex items-center py-6 md:py-8 w-full transition-colors duration-300`}
                 >
-                  {`0${item.id}`}
-                </span>
+                  {/* Number */}
+                  <span
+                    className={`text-xs md:text-sm font-bold font-mono uppercase tracking-widest mr-6 md:mr-8 transition-colors duration-300 ${
+                      activeId === item.id
+                        ? "text-[#916AFF]"
+                        : "text-neutral-500"
+                    }`}
+                  >
+                    {`0${index + 1}`}
+                  </span>
 
-                {/* Question Text */}
-                <span
-                  className={`flex-1 pr-12 text-xl md:text-3xl font-display font-bold text-left tracking-tight transition-colors duration-300 ${
-                    activeId === item.id
-                      ? "text-white"
-                      : "text-neutral-500 group-hover:text-white"
-                  }`}
-                >
-                  {item.question}
-                </span>
+                  {/* Question Text */}
+                  <span
+                    className={`flex-1 pr-12 text-xl md:text-3xl font-display font-bold text-left tracking-tight transition-colors duration-300 ${
+                      activeId === item.id
+                        ? "text-white"
+                        : "text-neutral-500 group-hover:text-white"
+                    }`}
+                  >
+                    {item.question}
+                  </span>
 
-                {/* Active Indicator Arrow */}
-                <div
-                  className={`absolute right-0 transition-all duration-300 ${
-                    activeId === item.id
-                      ? "opacity-100 translate-x-0 text-[#916AFF]"
-                      : "opacity-0 -translate-x-4 text-neutral-500"
-                  }`}
-                >
-                  <ArrowRight size={24} />
-                </div>
-              </motion.button>
+                  {/* Active Indicator Arrow */}
+                  <div
+                    className={`absolute right-0 transition-all duration-300 ${
+                      activeId === item.id
+                        ? "opacity-100 translate-x-0 text-[#916AFF]"
+                        : "opacity-0 -translate-x-4 text-neutral-500"
+                    }`}
+                  >
+                    <ArrowRight
+                      size={24}
+                      className={`transform transition-transform duration-300 ${activeId === item.id ? "rotate-90 lg:rotate-0" : ""}`}
+                    />
+                  </div>
+                </motion.button>
+
+                {/* Mobile Answer (Accordion) */}
+                <AnimatePresence>
+                  {activeId === item.id && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                      className="lg:hidden overflow-hidden"
+                    >
+                      <p className="pb-8 text-lg text-neutral-300 leading-relaxed">
+                        {item.answer}
+                      </p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             ))}
           </div>
 
-          {/* --- RIGHT: ANSWER DISPLAY --- */}
+          {/* --- DESKTOP: ANSWER DISPLAY --- */}
           <motion.div
-            className="lg:col-span-7 relative pt-4 lg:pt-8 min-h-[300px]"
+            className="hidden lg:block lg:col-span-7 relative pt-8 min-h-[300px]"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, margin: "-50px" }}
+            viewport={{ once: true, margin: "-50px" }}
             transition={{
               duration: 0.6,
               delay: 0.2,
@@ -146,7 +170,7 @@ export const Faq: React.FC<FaqProps> = ({ items = FAQ_ITEMS }) => {
                       <h3 className="text-sm font-bold text-neutral-500 uppercase tracking-widest mb-6">
                         Odpowiedź
                       </h3>
-                      <p className="text-2xl md:text-4xl lg:text-5xl font-medium text-white leading-[1.2] tracking-tight">
+                      <p className="text-lg md:text-2xl lg:text-3xl font-medium text-white leading-relaxed tracking-tight">
                         {item.answer}
                       </p>
                     </motion.div>

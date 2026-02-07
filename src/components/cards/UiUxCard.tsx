@@ -109,7 +109,7 @@ function FloatingIcon() {
   );
 }
 
-export function UiUxCard() {
+export const UiUxCard = React.memo(function UiUxCard() {
   return (
     <div className="bg-[rgba(26,26,26,0.4)] backdrop-blur-[7px] content-stretch flex flex-col gap-[10px] items-center justify-end overflow-clip px-[51px] py-[41px] relative rounded-[50px] w-[620px] h-[520px] shadow-2xl shrink-0">
       {/* Floating Design Tool Interface */}
@@ -158,4 +158,4 @@ export function UiUxCard() {
       </div>
     </div>
   );
-}
+});

@@ -56,15 +56,16 @@ export const Blog: React.FC = () => {
           <SplitRevealTitle
             line1="Strefa"
             line2="Wiedzy"
-            className="text-white text-5xl md:text-8xl"
+            className="text-white text-5xl md:text-8xl tracking-tighter"
           />
           <div className="flex flex-col gap-6 md:text-right max-w-sm">
             <LineReveal
               lines={[
-                "Dzielimy się tym, co napędza cyfrowy świat.",
-                "Przesuń, aby odkryć więcej wpisów. ",
+                "Dzielimy się wiedzą, która napędza",
+                "cyfrowy świat. Przesuń listę,",
+                "aby odkryć najnowsze wpisy.",
               ]}
-              className="text-neutral-400 text-sm md:text-base leading-relaxed"
+              className="text-neutral-400 text-xs md:text-sm uppercase tracking-wide leading-relaxed"
             />
             <button className="hidden md:flex items-center gap-2 text-sm font-bold uppercase tracking-wider text-[#916AFF] hover:text-[#7a57d6] transition-colors justify-end">
               Zobacz wszystkie

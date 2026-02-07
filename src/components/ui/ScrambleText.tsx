@@ -21,7 +21,7 @@ export const ScrambleText = ({
   trailLength = 4,
 }: ScrambleTextProps) => {
   const ref = useRef<HTMLSpanElement>(null);
-  const isInView = useInView(ref, { once: false, amount: 0.1 });
+  const isInView = useInView(ref, { once: true, amount: 0.1 });
   const animationRef = useRef<{
     timeout: ReturnType<typeof setTimeout> | null;
     raf: number | null;

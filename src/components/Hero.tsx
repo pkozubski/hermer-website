@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useState } from 'react';
+import React, { memo, useEffect, useRef, useState, useCallback } from 'react';
 import {
   Code2,
   Palette,
@@ -151,26 +151,29 @@ const RIGHT_COLUMN_CARDS = [
   CARDS_DATA[7],
 ];
 
-// CountUp Component for animated stats
+// CountUp Component - uses single rAF with ref to avoid re-renders during animation
 const CountUp: React.FC<{
   end: number;
   duration?: number;
   delay?: number;
   suffix?: string;
 }> = ({ end, duration = 2000, delay = 0, suffix = '' }) => {
-  const [count, setCount] = useState(0);
+  const spanRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     let startTime: number | null = null;
     let animationFrameId: number | null = null;
+    const el = spanRef.current;
+    if (!el) return;
+
+    const easeOutExpo = (x: number): number =>
+      x === 1 ? 1 : 1 - Math.pow(2, -10 * x);
 
     const animate = (currentTime: number) => {
       if (!startTime) startTime = currentTime;
       const progress = Math.min((currentTime - startTime) / duration, 1);
-      const easeOutExpo = (x: number): number => {
-        return x === 1 ? 1 : 1 - Math.pow(2, -10 * x);
-      };
-      setCount(Math.floor(easeOutExpo(progress) * end));
+      const value = Math.floor(easeOutExpo(progress) * end);
+      el.textContent = `${value}${suffix}`;
       if (progress < 1) {
         animationFrameId = requestAnimationFrame(animate);
       }
@@ -186,14 +189,9 @@ const CountUp: React.FC<{
         cancelAnimationFrame(animationFrameId);
       }
     };
-  }, [end, duration, delay]);
+  }, [end, duration, delay, suffix]);
 
-  return (
-    <span className="tabular-nums">
-      {count}
-      {suffix}
-    </span>
-  );
+  return <span ref={spanRef} className="tabular-nums">0{suffix}</span>;
 };
 
 const HERO_TEXTS = [
@@ -304,35 +302,25 @@ export const Hero: React.FC<{ onAnimationComplete?: () => void }> = ({
   /* Removed scroll effects for classic landing behavior */
 
   return (
-    <motion.section className="w-full px-4 sm:px-8 lg:px-8 overflow-visible bg-transparent isolate flex items-center relative h-auto min-h-screen py-20 lg:py-0 z-0 text-center">
+    <motion.section
+      className="w-full px-4 sm:px-8 lg:px-8 overflow-visible bg-transparent isolate flex items-center relative h-auto min-h-screen py-20 lg:py-0 z-0 text-center"
+      style={{ contain: 'layout style' }}
+    >
       {/* Animated Squiggles */}
       <HeroSquiggle />
-      <motion.div
-        className="pointer-events-none absolute -top-24 -right-20 sm:-top-28 sm:-right-24 lg:-top-32 lg:-right-28 h-[300px] w-[300px] sm:h-[420px] sm:w-[420px] lg:h-[520px] lg:w-[520px] rounded-full blur-[160px] z-0"
+      {/* Gradient blobs - CSS-only animation for GPU compositing */}
+      <div
+        className="pointer-events-none absolute -top-24 -right-20 sm:-top-28 sm:-right-24 lg:-top-32 lg:-right-28 h-[300px] w-[300px] sm:h-[420px] sm:w-[420px] lg:h-[520px] lg:w-[520px] rounded-full blur-[160px] z-0 opacity-40 animate-[hero-blob-1_9s_ease-in-out_infinite] transform-gpu will-change-transform"
         style={{
           background:
             'radial-gradient(circle at 30% 30%, rgba(145,106,255,0.42) 0%, rgba(82,216,234,0.24) 45%, rgba(23,23,23,0) 75%)',
         }}
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 0.4, scale: 1, x: [0, -18, 0], y: [0, 12, 0] }}
-        transition={{
-          opacity: { duration: 1.1, ease: 'easeOut' },
-          scale: { duration: 1.1, ease: 'easeOut' },
-          x: { duration: 9, repeat: Infinity, ease: 'easeInOut' },
-          y: { duration: 7, repeat: Infinity, ease: 'easeInOut' },
-        }}
       />
-      <motion.div
-        className="pointer-events-none absolute top-6 right-8 sm:top-4 sm:right-10 lg:top-8 lg:right-16 h-[90px] w-[90px] sm:h-[120px] sm:w-[120px] rounded-full blur-[90px] z-0"
+      <div
+        className="pointer-events-none absolute top-6 right-8 sm:top-4 sm:right-10 lg:top-8 lg:right-16 h-[90px] w-[90px] sm:h-[120px] sm:w-[120px] rounded-full blur-[90px] z-0 opacity-[0.22] animate-[hero-blob-2_6s_ease-in-out_infinite] transform-gpu will-change-transform"
         style={{
           background:
             'radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(145,106,255,0.05) 70%, rgba(23,23,23,0) 100%)',
-        }}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0.22, y: [0, 8, 0] }}
-        transition={{
-          opacity: { duration: 1.2, ease: 'easeOut', delay: 0.15 },
-          y: { duration: 6, repeat: Infinity, ease: 'easeInOut' },
         }}
       />
 
@@ -345,10 +333,11 @@ export const Hero: React.FC<{ onAnimationComplete?: () => void }> = ({
               'linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)',
             transform: 'perspective(1500px) rotateY(12deg) translateZ(-20px)',
             transformStyle: 'preserve-3d',
+            willChange: 'transform',
             y: leftColumnY,
           }}
         >
-          <div className="absolute inset-0 rounded-[40px] bg-neutral-900/20 backdrop-blur-xl pointer-events-none z-0" />
+          <div className="absolute inset-0 rounded-[40px] bg-neutral-900/30 pointer-events-none z-0" />
           <div className="absolute inset-x-0 w-full h-full z-10">
             <CardWheel cards={LEFT_COLUMN_CARDS} direction="up" />
           </div>
@@ -453,10 +442,11 @@ export const Hero: React.FC<{ onAnimationComplete?: () => void }> = ({
               'linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)',
             transform: 'perspective(1500px) rotateY(-12deg) translateZ(-20px)',
             transformStyle: 'preserve-3d',
+            willChange: 'transform',
             y: rightColumnY,
           }}
         >
-          <div className="absolute inset-0 rounded-[40px] bg-neutral-900/20 backdrop-blur-xl pointer-events-none z-0" />
+          <div className="absolute inset-0 rounded-[40px] bg-neutral-900/30 pointer-events-none z-0" />
           <div className="absolute inset-x-0 w-full h-full z-10">
             <CardWheel cards={RIGHT_COLUMN_CARDS} direction="down" />
           </div>

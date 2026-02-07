@@ -111,9 +111,9 @@ export const WhoWeHelp: React.FC = () => {
           />
           <LineReveal
             lines={[
-              'Współpracujemy z firmami na różnych',
-              'etapach rozwoju, które chcą skutecznie',
-              'docierać do klientów w internecie.',
+              'Współpracujemy z firmami, które chcą',
+              'skutecznie docierać do klientów',
+              'i budować silną markę w sieci.',
             ]}
             className="text-neutral-400 max-w-xs md:max-w-sm text-xs md:text-sm uppercase tracking-wide leading-relaxed"
           />

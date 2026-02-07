@@ -13,13 +13,10 @@ import FluidButton from "./ui/FluidButton";
 
 const OFFER_ITEMS: OfferItem[] = [];
 const OFFER_SUBTITLE_LINES = [
-  "Czasem wystarczy krótka rozmowa, żeby myśl",
-  "„potrzebuję strony” przekuć w konkretny cel.",
-  "Jak ma wyglądać profesjonalna strona internetowa?",
-  "Do kogo ma trafiać i jaki ma dawać efekt?",
-  "Chętnie uzgodnimy z Tobą wszystkie szczegóły.",
-  "Sprawdź zakres naszej oferty i powiedz nam,",
-  "czego oczekujesz.",
+  "Czasem krótka rozmowa pozwala zamienić",
+  "mglisty pomysł w konkretny cel biznesowy.",
+  "Sprawdź zakres naszych usług i powiedz nam,",
+  "czego potrzebuje Twoja marka.",
 ];
 
 export const Offer: React.FC = () => {
@@ -126,11 +123,11 @@ export const Offer: React.FC = () => {
           <SplitRevealTitle
             line1="Powiedz, czego"
             line2="potrzebujesz"
-            className="text-white! text-5xl sm:text-6xl lg:text-8xl tracking-tighter mb-4 lg:mb-8"
+            className="text-white text-5xl md:text-8xl tracking-tighter"
           />
           <LineReveal
             lines={OFFER_SUBTITLE_LINES}
-            className="text-neutral-400 text-base lg:text-lg max-w-md leading-relaxed"
+            className="text-neutral-400 max-w-xs md:max-w-sm text-xs md:text-sm uppercase tracking-wide leading-relaxed mt-8"
             once
           />
         </div>
