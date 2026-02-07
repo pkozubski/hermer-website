@@ -1,22 +1,22 @@
-import React from "react";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
+import React from 'react';
+import { Header } from '@/components/Header';
+import { Footer } from '@/components/Footer';
 
-import { WebsiteOfferHero } from "@/components/oferta/WebsiteOfferHero";
-import { ProcessSection } from "@/components/oferta/ProcessSection";
-import { WebsiteFeaturesBento } from "@/components/oferta/WebsiteFeaturesBento";
-import { WhyHermerSection } from "@/components/oferta/WhyHermerSection";
-import { TechStackSection } from "@/components/oferta/TechStackSection";
-import { PricingSection } from "@/components/oferta/PricingSection";
-import { Faq } from "@/components/Faq";
-import { OfferProjects } from "@/components/oferta/OfferProjects";
-import { SimpleContactSection } from "@/components/oferta/SimpleContactSection";
+import { WebsiteOfferHero } from '@/components/oferta/WebsiteOfferHero';
+import { ProcessSection } from '@/components/oferta/ProcessSection';
+import { WebsiteFeaturesBento } from '@/components/oferta/WebsiteFeaturesBento';
+import { WhyHermerSection } from '@/components/oferta/WhyHermerSection';
+import { TechStackSection } from '@/components/oferta/TechStackSection';
+import { PricingSection } from '@/components/oferta/PricingSection';
+import { Faq } from '@/components/Faq';
+import { OfferProjects } from '@/components/oferta/OfferProjects';
 
-import { client } from "@/sanity/lib/client";
-import { PAGE_FAQS_QUERY } from "@/sanity/lib/queries";
+import { client } from '@/sanity/lib/client';
+import { PAGE_FAQS_QUERY } from '@/sanity/lib/queries';
+import { CTASection } from '@/components/CTASection';
 
 export default async function WebDesignPage() {
-  const data = await client.fetch(PAGE_FAQS_QUERY, { slug: "strony-www" });
+  const data = await client.fetch(PAGE_FAQS_QUERY, { slug: 'strony-www' });
   const faqItems = data?.faqs?.map((item: any, index: number) => ({
     id: index + 1,
     question: item.question,
@@ -50,7 +50,7 @@ export default async function WebDesignPage() {
         {/* <PricingSection /> */}
         <OfferProjects category="website" />
         <Faq items={faqItems} />
-        <SimpleContactSection />
+        <CTASection />
       </main>
       <Footer />
     </div>

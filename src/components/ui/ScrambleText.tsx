@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef, useCallback } from "react";
 import { useInView } from "framer-motion";
 
 const CHARS =
@@ -10,7 +10,7 @@ interface ScrambleTextProps {
   className?: string;
   delay?: number;
   speed?: number;
-  trailLength?: number; // how many characters behind are still scrambling
+  trailLength?: number;
 }
 
 export const ScrambleText = ({
@@ -22,67 +22,78 @@ export const ScrambleText = ({
 }: ScrambleTextProps) => {
   const ref = useRef<HTMLSpanElement>(null);
   const isInView = useInView(ref, { once: false, amount: 0.1 });
-  const [displayText, setDisplayText] = useState("");
-  const [isAnimating, setIsAnimating] = useState(false);
+  const animationRef = useRef<{
+    timeout: ReturnType<typeof setTimeout> | null;
+    raf: number | null;
+    lastTime: number;
+    revealedCount: number;
+    isRunning: boolean;
+  }>({ timeout: null, raf: null, lastTime: 0, revealedCount: 0, isRunning: false });
 
-  // Reset animation when element leaves viewport
+  const cleanup = useCallback(() => {
+    const state = animationRef.current;
+    if (state.timeout) clearTimeout(state.timeout);
+    if (state.raf) cancelAnimationFrame(state.raf);
+    state.timeout = null;
+    state.raf = null;
+    state.isRunning = false;
+    state.revealedCount = 0;
+    state.lastTime = 0;
+  }, []);
+
   useEffect(() => {
     if (!isInView) {
-      setIsAnimating(false);
-      setDisplayText("");
+      cleanup();
+      if (ref.current) ref.current.textContent = "";
+      return;
     }
-  }, [isInView]);
 
-  useEffect(() => {
-    if (!isInView || isAnimating) return;
+    if (animationRef.current.isRunning) return;
+    animationRef.current.isRunning = true;
 
-    setIsAnimating(true);
-    let revealedCount = 0;
+    const state = animationRef.current;
 
-    const timeout = setTimeout(() => {
-      const interval = setInterval(() => {
-        revealedCount++;
+    const step = (timestamp: number) => {
+      if (!state.isRunning) return;
+
+      if (!state.lastTime) state.lastTime = timestamp;
+      const elapsed = timestamp - state.lastTime;
+
+      if (elapsed >= speed) {
+        state.lastTime = timestamp;
+        state.revealedCount++;
 
         const result = text
           .split("")
           .map((char, i) => {
-            // Already revealed characters
-            if (i < revealedCount - trailLength) {
-              return char;
-            }
-
-            // Spaces and dots show immediately
-            if (char === " " || char === "•") {
-              return char;
-            }
-
-            // Characters in the scrambling trail
-            if (i < revealedCount) {
+            if (i < state.revealedCount - trailLength) return char;
+            if (char === " " || char === "•") return char;
+            if (i < state.revealedCount)
               return CHARS[Math.floor(Math.random() * CHARS.length)];
-            }
-
-            // Not yet reached
             return "";
           })
           .join("");
 
-        setDisplayText(result);
+        if (ref.current) ref.current.textContent = result;
 
-        if (revealedCount >= text.length + trailLength) {
-          clearInterval(interval);
-          setDisplayText(text);
+        if (state.revealedCount >= text.length + trailLength) {
+          if (ref.current) ref.current.textContent = text;
+          state.isRunning = false;
+          return;
         }
-      }, speed);
+      }
 
-      return () => clearInterval(interval);
+      state.raf = requestAnimationFrame(step);
+    };
+
+    state.timeout = setTimeout(() => {
+      state.raf = requestAnimationFrame(step);
     }, delay);
 
-    return () => clearTimeout(timeout);
-  }, [isInView, text, delay, speed, trailLength, isAnimating]);
+    return cleanup;
+  }, [isInView, text, delay, speed, trailLength, cleanup]);
 
   return (
-    <span ref={ref} className={className}>
-      {displayText}
-    </span>
+    <span ref={ref} className={className} />
   );
 };

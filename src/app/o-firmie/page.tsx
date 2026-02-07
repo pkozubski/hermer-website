@@ -7,7 +7,7 @@ import { AboutMission } from "@/components/about/AboutMission";
 import { AboutStats } from "@/components/about/AboutStats";
 import { AboutVision } from "@/components/about/AboutVision";
 import { AboutTeam } from "@/components/about/AboutTeam";
-import { AboutCTA } from "@/components/about/AboutCTA";
+import { CTASection } from "@/components/CTASection";
 
 export default function AboutPage() {
   return (
@@ -30,7 +30,7 @@ export default function AboutPage() {
         <AboutStats />
         <AboutVision />
         <AboutTeam />
-        <AboutCTA />
+        <CTASection />
       </main>
 
       <Footer />

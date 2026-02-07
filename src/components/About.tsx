@@ -1,27 +1,27 @@
-import React, { useRef } from "react";
+import React, { useRef } from 'react';
 import {
   motion,
   useScroll,
   useTransform,
   useMotionTemplate,
   useMotionValue,
-} from "framer-motion";
-import { ShieldCheck } from "lucide-react";
-import { SplitRevealTitle } from "./ui/SplitRevealTitle";
-import { LineReveal } from "./ui/LineReveal";
-import AnimatedArc from "./AnimatedArc";
-import FluidButton from "./ui/FluidButton";
-import { ChaosLanding } from "./ChaosLanding";
-import jacekImg from "@/assets/team/jacek.png";
-import damianImg from "@/assets/team/damian.png";
-import oliwiaImg from "@/assets/team/oliwia.png";
-import annaImg from "@/assets/team/anna.png";
+} from 'framer-motion';
+import { SplitRevealTitle } from './ui/SplitRevealTitle';
+import { SecurityBentoCard } from './SecurityBentoCard';
+import { LineReveal } from './ui/LineReveal';
+import AnimatedArc from './AnimatedArc';
+import FluidButton from './ui/FluidButton';
+import { ChaosLanding } from './ChaosLanding';
+import jacekImg from '@/assets/team/jacek.png';
+import damianImg from '@/assets/team/damian.png';
+import oliwiaImg from '@/assets/team/oliwia.png';
+import annaImg from '@/assets/team/anna.png';
 
 // --- Components ---
 
 const BentoCard = ({
   children,
-  className = "",
+  className = '',
   hoverEffect = true,
 }: {
   children: React.ReactNode;
@@ -45,15 +45,17 @@ const BentoCard = ({
   return (
     <div
       onMouseMove={handleMouseMove}
-      className={`group relative z-0 overflow-hidden border border-white/5 rounded-3xl shadow-sm hover:shadow-2xl hover:border-white/10 transition-[border-color,box-shadow] duration-300 ${className}`}
+      className={`group relative z-0 overflow-hidden border border-white/5 rounded-3xl bg-[#232323] text-white font-sans shadow-sm hover:shadow-2xl hover:border-white/10 transition-[border-color,box-shadow] duration-300 ${className}`}
     >
       <div
         className="absolute inset-0 bg-white/5 -z-10"
         style={{
-          backdropFilter: "blur(24px)",
-          WebkitBackdropFilter: "blur(24px)",
+          backdropFilter: 'blur(24px)',
+          WebkitBackdropFilter: 'blur(24px)',
         }}
       />
+      <div className="pointer-events-none absolute z-[1] top-0 left-1/2 -translate-x-1/2 w-40 h-px bg-linear-to-r from-transparent via-white/55 to-transparent opacity-80 transition-all duration-500 group-hover:w-64 group-hover:opacity-100" />
+      <div className="pointer-events-none absolute z-[1] -top-5 left-1/2 -translate-x-1/2 w-36 h-12 bg-[#916AFF]/25 blur-2xl opacity-70 transition-all duration-500 group-hover:w-56 group-hover:h-16 group-hover:opacity-95" />
       {/* Hover Spotlight Effect */}
       {hoverEffect && (
         <motion.div
@@ -69,7 +71,7 @@ const BentoCard = ({
           }}
         />
       )}
-      <div className="relative h-full">{children}</div>
+      <div className="relative z-10 h-full">{children}</div>
     </div>
   );
 };
@@ -78,7 +80,7 @@ export const About: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start end", "end start"],
+    offset: ['start end', 'end start'],
   });
 
   return (
@@ -86,7 +88,7 @@ export const About: React.FC = () => {
       ref={containerRef}
       id="about"
       className=" py-32 relative text-white"
-      style={{ position: "relative" }}
+      style={{ position: 'relative' }}
     >
       {/* Background Ambience moved to MainContent wrapper */}
 
@@ -94,8 +96,8 @@ export const About: React.FC = () => {
 
       {/* Scroll-Driven Decorative Arc (SVG) with Parallax */}
       <motion.div
-        className="absolute w-full h-full inset-0 pointer-events-none"
-        style={{ y: useTransform(scrollYProgress, [0, 1], [0, 150]) }}
+        className="absolute inset-0 w-full h-full pointer-events-none z-0"
+        style={{ y: useTransform(scrollYProgress, [0, 1], [0, 120]) }}
       >
         <AnimatedArc scrollYProgress={scrollYProgress} />
       </motion.div>
@@ -118,18 +120,18 @@ export const About: React.FC = () => {
               line2="kolejną agencją"
               className="text-5xl md:text-8xl text-white tracking-tighter"
             />
-            <div className="flex flex-col gap-4 max-w-xs md:max-w-sm">
+            <div className="flex flex-col gap-4 max-w-xs md:max-w-2xl">
               <LineReveal
-                lines={["Dlaczego warto skorzystać", "z naszego wsparcia?"]}
-                className="text-white font-medium text-sm md:text-base mb-2"
+                lines={['Dlaczego warto skorzystać z naszego wsparcia?']}
+                className="text-white font-normal text-sm md:text-base mb-2"
               />
               <LineReveal
                 lines={[
-                  "Nie sprzedajemy ładnych projektów dla samego",
-                  "efektu wizualnego. Chcemy, aby miały sens",
-                  "biznesowy. Warstwa estetyczna strony czy",
-                  "sklepu jest ważna, ale zawsze stoi za nią",
-                  "przemyślana struktura, UX i SEO.",
+                  'Nie sprzedajemy ładnych projektów dla samego',
+                  'efektu wizualnego. Chcemy, aby miały sens',
+                  'biznesowy. Warstwa estetyczna strony czy',
+                  'sklepu jest ważna, ale zawsze stoi za nią',
+                  'przemyślana struktura, UX i SEO.',
                 ]}
                 className="text-neutral-400 text-xs md:text-sm uppercase tracking-wide leading-relaxed"
                 delay={0.2}
@@ -141,34 +143,36 @@ export const About: React.FC = () => {
         {/* Bento Grid Layout - Adjusted for Dark Mode & Removed Image Card */}
         <div className="grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-6 auto-rows-[minmax(180px,auto)] mx-auto">
           {/* 1. Main Story Card - Spans 8 cols (CHAOS -> ORDER - DO NOT TOUCH) */}
-          <ChaosLanding className="md:col-span-6 lg:col-span-8" />
+          <ChaosLanding className="md:col-span-6 lg:col-span-8 bg-[#232323] text-white font-sans" />
 
           {/* 2. Stat Card: Experience - Spans 4 cols */}
-          <div className="md:col-span-6 lg:col-span-4 relative z-0 group/image-card min-h-[400px] w-full h-full rounded-[32px] border border-white/5 overflow-hidden shadow-2xl transition-all duration-500 hover:border-white/10 group">
+          <div className="md:col-span-6 lg:col-span-4 relative z-0 group/image-card min-h-[400px] w-full h-full rounded-[32px] border border-white/5 bg-[#232323] text-white font-sans overflow-hidden shadow-2xl transition-all duration-500 hover:border-white/10 group">
             <div
               className="absolute inset-0 bg-white/5 -z-10"
               style={{
-                backdropFilter: "blur(24px)",
-                WebkitBackdropFilter: "blur(24px)",
+                backdropFilter: 'blur(24px)',
+                WebkitBackdropFilter: 'blur(24px)',
               }}
             />
+            <div className="pointer-events-none absolute z-[1] top-0 left-1/2 -translate-x-1/2 w-40 h-px bg-linear-to-r from-transparent via-white/55 to-transparent opacity-80 transition-all duration-500 group-hover:w-64 group-hover:opacity-100" />
+            <div className="pointer-events-none absolute z-[1] -top-5 left-1/2 -translate-x-1/2 w-36 h-12 bg-[#916AFF]/25 blur-2xl opacity-70 transition-all duration-500 group-hover:w-56 group-hover:h-16 group-hover:opacity-95" />
             {/* Background Effects */}
-            <div className="absolute inset-0 bg-linear-to-b from-white/5 to-transparent opacity-20 pointer-events-none" />
+            <div className="absolute inset-0 bg-linear-to-b from-white/[0.06] to-transparent opacity-30 pointer-events-none" />
             <div
-              className="absolute inset-0 opacity-10"
+              className="absolute inset-0 opacity-[0.06] pointer-events-none"
               style={{
-                backgroundImage: "radial-gradient(#fff 1px, transparent 1px)",
-                backgroundSize: "24px 24px",
+                backgroundImage:
+                  'linear-gradient(to right, rgba(255,255,255,0.12) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.12) 1px, transparent 1px)',
+                backgroundSize: '22px 22px',
               }}
             />
-            <div className="absolute -right-20 -top-20 w-64 h-64 bg-[#8B5CF6] rounded-full blur-[80px] opacity-10 group-hover:opacity-20 transition-opacity duration-500" />
 
             {/* Floating Image */}
-            <div className="absolute bottom-0 right-[-40px] w-[320px] h-[130%] z-10 pointer-events-none hidden md:block">
+            <div className="absolute bottom-0 right-[-32px] w-[300px] h-[126%] z-10 pointer-events-none hidden md:block">
               <img
                 src="/images/img-onas-jacek.png"
                 alt="Jacek"
-                className="w-full h-full object-contain object-bottom drop-shadow-[0_10px_40px_rgba(0,0,0,0.5)]"
+                className="w-full h-full object-contain object-bottom drop-shadow-[0_10px_40px_rgba(0,0,0,0.45)]"
               />
             </div>
 
@@ -177,62 +181,32 @@ export const About: React.FC = () => {
               <div>
                 <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/5 rounded-full border border-white/10 mb-6">
                   <div className="w-1.5 h-1.5 bg-[#8B5CF6] rounded-full animate-pulse" />
-                  <span className="text-[10px] uppercase tracking-wider text-gray-400 font-medium">
+                  <span className="text-[10px] uppercase tracking-wider text-gray-400 font-normal">
                     Doświadczenie
                   </span>
                 </div>
-                <h2 className="text-8xl font-bold text-transparent bg-clip-text bg-linear-to-b from-white via-white to-white/10 tracking-tighter">
+                <h2 className="text-7xl lg:text-8xl font-semibold text-transparent bg-clip-text bg-linear-to-br from-white via-white to-white/60 tracking-tighter leading-none">
                   14<span className="text-4xl align-top text-[#8B5CF6]">+</span>
                 </h2>
+                <p className="text-xs text-neutral-300/80 font-normal uppercase tracking-[0.16em] mt-2">
+                  lat w branży digital
+                </p>
               </div>
-              <div className="relative z-20 max-w-[60%]">
-                <h3 className="text-xl text-white font-medium mb-2">
-                  lat doświadczenia
+              <div className="relative z-20 mt-auto max-w-[62%]">
+                <h3 className="text-3xl text-white font-normal mb-2">
+                  doświadczenie, które skraca drogę
                 </h3>
-                <p className="text-gray-400 text-sm leading-relaxed">
+                <p className="text-neutral-400 text-sm font-normal leading-relaxed">
                   Mamy wiele lat doświadczenia w projektowaniu profesjonalnych
                   stron i sklepów, dzięki czemu sprawnie przechodzimy od pomysłu
                   do gotowego rozwiązania.
                 </p>
               </div>
             </div>
-
-            <div className="absolute bottom-0 left-0 w-full h-1 bg-linear-to-r from-[#8B5CF6] to-transparent opacity-50" />
           </div>
 
-          {/* 3. Feature Card: Security (was Satisfaction) */}
-          <BentoCard className="md:col-span-3 lg:col-span-4 relative border border-[#333] overflow-hidden group/shield md:col-start-1 rounded-[32px]">
-            {/* Background Mesh Gradient */}
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,_var(--tw-gradient-stops))] from-white/5 via-transparent to-transparent opacity-50" />
-            <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-[#916AFF]/10 blur-[80px] rounded-full pointer-events-none group-hover/shield:bg-[#916AFF]/20 transition-all duration-700" />
-
-            <div className="relative p-8 flex flex-col h-full justify-between z-10">
-              {/* Top: Shield Icon */}
-              <div className="relative w-16 h-16 rounded-2xl flex items-center justify-center shadow-[0_8px_30px_rgba(0,0,0,0.5)] bg-linear-to-b from-neutral-800 to-neutral-900 border border-white/10 group-hover/shield:scale-110 transition-transform duration-500 ease-out">
-                <div className="absolute inset-0 rounded-2xl bg-linear-to-b from-white/10 to-transparent opacity-50 pointer-events-none" />
-                <ShieldCheck
-                  size={32}
-                  className="text-[#916AFF] drop-shadow-[0_0_15px_rgba(145,106,255,0.5)]"
-                  strokeWidth={2}
-                />
-              </div>
-
-              {/* Bottom: Typography */}
-              <div className="mt-8">
-                <h4 className="text-white font-bold text-xl leading-tight mb-3 flex items-center gap-2">
-                  Bezpieczeństwo współpracy
-                </h4>
-                <p className="text-neutral-400 text-sm font-medium leading-relaxed">
-                  Ustalamy jasny zakres i etapy prac, żebyś od początku
-                  wiedział, co obejmuje projekt i z jakich etapów będzie składał
-                  się cały proces od projektu po wdrożenie.
-                </p>
-              </div>
-            </div>
-
-            {/* Hover Shine Effect */}
-            <div className="absolute -inset-full bg-linear-to-r from-transparent via-white/5 to-transparent rotate-45 translate-x-[-100%] group-hover/shield:translate-x-[100%] transition-transform duration-1000 ease-in-out pointer-events-none" />
-          </BentoCard>
+          {/* 3. Feature Card: Security (Bezpieczeństwo współpracy) */}
+          <SecurityBentoCard className="bg-[#232323] text-white font-sans" />
 
           {/* 4. Feature Card: Experts (was Team) */}
           <BentoCard
@@ -264,11 +238,11 @@ export const About: React.FC = () => {
 
               {/* Typography */}
               <div className="mt-8">
-                <h4 className="text-xl font-bold text-white mb-2 flex items-center gap-2 group-hover/team:text-[#916AFF] transition-colors duration-300">
+                <h4 className="text-3xl font-normal text-white mb-2 flex items-center gap-2 group-hover/team:text-[#916AFF] transition-colors duration-300">
                   Wsparcie ekspertów
                 </h4>
                 <div className="h-0.5 w-8 bg-neutral-700 rounded-full mb-3 group-hover/team:w-full group-hover/team:bg-[#916AFF]/50 transition-all duration-700 ease-in-out" />
-                <p className="text-neutral-400 text-sm font-medium leading-relaxed">
+                <p className="text-neutral-400 text-sm font-normal leading-relaxed">
                   Otrzymujesz dostęp do zespołu, który łączy kompetencje
                   projektowe, techniczne i marketingowe, więc dostęp do
                   kompleksowej wiedzy masz w jednym miejscu.
@@ -277,26 +251,98 @@ export const About: React.FC = () => {
             </div>
           </BentoCard>
 
-          {/* 5. Stat Card: 700+ Projects (was CTA) */}
+          {/* 5. Stat Card: 700+ Projects */}
           <BentoCard className="md:col-span-6 lg:col-span-4 border border-[#333] overflow-hidden group/projects rounded-[32px]">
-            <div className="absolute inset-0 bg-linear-to-br from-white/5 via-transparent to-transparent opacity-50" />
-            <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-[#8B5CF6] rounded-full blur-[100px] opacity-20 group-hover:opacity-30 transition-opacity duration-500" />
+            {/* Rounded square grid with elliptical mask */}
+            <div className="absolute inset-0 pointer-events-none">
+              <div
+                className="absolute inset-0 p-3 flex items-center justify-center"
+                style={{
+                  maskImage:
+                    'radial-gradient(ellipse 65% 50% at 65% 55%, black 20%, transparent 70%)',
+                  WebkitMaskImage:
+                    'radial-gradient(ellipse 65% 50% at 65% 55%, black 20%, transparent 70%)',
+                }}
+              >
+                <div className="grid grid-cols-8 grid-rows-6 gap-1 w-full aspect-[4/3] max-h-full">
+                  {Array.from({ length: 48 }).map((_, i) => {
+                    const col = i % 8;
+                    const row = Math.floor(i / 8);
+                    const centerCol = 5;
+                    const centerRow = 3;
+                    const dist = Math.sqrt(
+                      (col - centerCol) ** 2 + (row - centerRow) ** 2,
+                    );
+                    const maxDist = Math.sqrt(centerCol ** 2 + centerRow ** 2);
+                    const proximity = 1 - dist / maxDist;
+                    const borderOpacity = Math.max(0.006, proximity * 0.045);
 
-            <div className="relative z-10 h-full flex flex-col justify-between p-8">
-              <div>
-                <h2 className="text-7xl lg:text-8xl font-bold text-transparent bg-clip-text bg-linear-to-br from-white to-white/50 tracking-tighter mb-4">
-                  700
-                  <span className="text-[#916AFF] text-5xl align-top">+</span>
-                </h2>
+                    const accentCells = [19, 20, 21, 27, 28, 29, 35, 36];
+                    const isAccent = accentCells.includes(i);
+
+                    return (
+                      <motion.div
+                        key={i}
+                        className={`rounded-lg w-full h-full ${
+                          isAccent
+                            ? 'border-[#916AFF]/20 bg-[#916AFF]/[0.06]'
+                            : ''
+                        }`}
+                        style={{
+                          border: `1px solid rgba(${isAccent ? '145,106,255' : '255,255,255'}, ${isAccent ? 0.2 : borderOpacity})`,
+                        }}
+                        initial={
+                          isAccent
+                            ? { opacity: 0.55, scale: 1 }
+                            : { opacity: 0, scale: 0.8 }
+                        }
+                        {...(isAccent
+                          ? {
+                              animate: { opacity: [0.55, 0.95] },
+                              transition: {
+                                duration: 1.6,
+                                repeat: Infinity,
+                                repeatType: 'reverse',
+                                ease: 'easeInOut',
+                                delay: i * 0.12,
+                              },
+                            }
+                          : {
+                              whileInView: { opacity: 1, scale: 1 },
+                              viewport: { once: true },
+                              transition: {
+                                duration: 0.4,
+                                delay: i * 0.012,
+                                ease: 'easeOut',
+                              },
+                            })}
+                      />
+                    );
+                  })}
+                </div>
               </div>
-              <div>
-                <h3 className="text-xl font-bold text-white mb-2">
-                  zrealizowanych projektów
+            </div>
+
+            <div className="relative z-10 h-full flex flex-col p-8">
+              <div className="mb-6">
+                <h2 className="text-7xl lg:text-8xl font-semibold text-transparent bg-clip-text bg-linear-to-br from-white via-white to-white/60 tracking-tighter leading-none">
+                  700
+                  <span className="text-[#916AFF] text-5xl align-top ml-1">
+                    +
+                  </span>
+                </h2>
+                <p className="text-xs text-neutral-300/80 font-normal uppercase tracking-[0.16em] mt-2">
+                  wdrożonych projektów
+                </p>
+              </div>
+
+              <div className="mt-auto">
+                <h3 className="text-3xl font-normal text-white mb-2">
+                  projektów, które dowożą wyniki
                 </h3>
-                <p className="text-neutral-400 text-sm leading-relaxed max-w-[95%]">
-                  Zrealizowaliśmy setki projektów, dlatego wiemy, jak budować
-                  strony i sklepy, które są czytelne, intuicyjne i wspierają
-                  decyzję o kontakcie lub zakupie.
+                <p className="text-neutral-400 text-sm font-normal leading-relaxed max-w-[95%]">
+                  Projektujemy i wdrażamy strony oraz sklepy, które łączą
+                  estetykę z konwersją i realnym wynikiem biznesowym.
                 </p>
               </div>
             </div>

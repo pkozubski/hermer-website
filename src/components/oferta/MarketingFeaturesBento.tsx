@@ -8,7 +8,6 @@ import { DashedCardWrapper } from "../cards/bento/DashedCardWrapper";
 import AdCampaigns from "../cards/marketing-service/AdCampaigns";
 import ContentCalendar from "../cards/marketing-service/ContentCalendar";
 import GrowthFunnel from "../cards/marketing-service/GrowthFunnel";
-import TrafficGraph from "../cards/seo-service/TrafficGraph";
 import { OrganicTrafficCard } from "../cards/bento/marketing/OrganicTrafficCard";
 import { ContentCalendarCard } from "../cards/bento/marketing/ContentCalendarCard";
 import { AdCampaignsCard } from "../cards/bento/marketing/AdCampaignsCard";

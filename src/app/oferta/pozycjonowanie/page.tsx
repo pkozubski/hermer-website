@@ -7,8 +7,8 @@ import { SeoProcessSection } from "@/components/oferta/SeoProcessSection";
 import { SeoFeaturesBento } from "@/components/oferta/SeoFeaturesBento";
 import { SeoBenefitsSection } from "@/components/oferta/SeoBenefitsSection";
 import { SeoTargetSection } from "@/components/oferta/SeoTargetSection";
-import { SimpleContactSection } from "@/components/oferta/SimpleContactSection";
 import { Faq } from "@/components/Faq";
+import { CTASection } from "@/components/CTASection";
 
 import { client } from "@/sanity/lib/client";
 import { PAGE_FAQS_QUERY } from "@/sanity/lib/queries";
@@ -46,7 +46,7 @@ export default async function SeoPage() {
         <SeoBenefitsSection />
         <SeoProcessSection />
         <Faq items={faqItems} />
-        <SimpleContactSection />
+        <CTASection />
       </main>
       <Footer />
     </div>

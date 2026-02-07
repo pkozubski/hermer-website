@@ -24,17 +24,16 @@ const OFFER_SUBTITLE_LINES = [
 
 export const Offer: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
-  /* Title Opacity State */
-  const [titleOpacity, setTitleOpacity] = useState(1);
+  const titleRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
-  const [transformX, setTransformX] = useState(0);
+  const rafRef = useRef<number | null>(null);
+  const lastTransformXRef = useRef<number>(-1);
+  const lastOpacityRef = useRef<number>(-1);
+  const isMobileRef = useRef<boolean>(false);
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      // Logic only for larger screens
-      if (window.innerWidth < 1024) return;
-
+    const updateDesktopStyles = () => {
       if (!sectionRef.current || !trackRef.current) return;
 
       const rect = sectionRef.current.getBoundingClientRect();
@@ -51,31 +50,61 @@ export const Offer: React.FC = () => {
       const trackWidth = trackRef.current.scrollWidth;
       const viewportWidth = window.innerWidth;
       const maxHorizontalScroll = Math.max(trackWidth - viewportWidth, 0);
+      const transformX = maxHorizontalScroll * progress;
 
-      setTransformX(maxHorizontalScroll * progress);
+      if (transformX !== lastTransformXRef.current) {
+        trackRef.current.style.transform = `translate3d(-${transformX}px, 0, 0)`;
+        lastTransformXRef.current = transformX;
+      }
 
       // Fade out title based on progress
       // Fade out quicker so it's gone before cards overlap significantly
-      const newOpacity = Math.max(0, 1 - progress * 5);
-      setTitleOpacity(newOpacity);
+      const opacity = Math.max(0, 1 - progress * 5);
+      if (titleRef.current && opacity !== lastOpacityRef.current) {
+        titleRef.current.style.opacity = `${opacity}`;
+        lastOpacityRef.current = opacity;
+      }
+    };
+
+    const scheduleUpdate = () => {
+      if (isMobileRef.current || rafRef.current !== null) return;
+      rafRef.current = window.requestAnimationFrame(() => {
+        rafRef.current = null;
+        updateDesktopStyles();
+      });
+    };
+
+    const handleScroll = () => {
+      scheduleUpdate();
     };
 
     const handleResize = () => {
       const mobile = window.innerWidth < 1024;
-      setIsMobile(mobile);
+      isMobileRef.current = mobile;
+      setIsMobile((prev) => (prev === mobile ? prev : mobile));
+
       if (mobile) {
-        setTransformX(0);
-        setTitleOpacity(1);
+        if (trackRef.current) {
+          trackRef.current.style.transform = "";
+        }
+        if (titleRef.current) {
+          titleRef.current.style.opacity = "1";
+        }
+        lastTransformXRef.current = -1;
+        lastOpacityRef.current = -1;
       } else {
-        handleScroll();
+        scheduleUpdate();
       }
     };
 
     handleResize();
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     window.addEventListener("resize", handleResize);
 
     return () => {
+      if (rafRef.current !== null) {
+        window.cancelAnimationFrame(rafRef.current);
+      }
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", handleResize);
     };
@@ -90,8 +119,9 @@ export const Offer: React.FC = () => {
       <div className="relative lg:sticky lg:top-0 h-auto lg:h-screen lg:overflow-hidden flex flex-col pt-24 lg:pt-0">
         {/* Title Section - Sticky/Fixed logic varies */}
         <div
+          ref={titleRef}
           className="relative lg:absolute lg:top-16 lg:left-16 z-20 max-w-4xl px-6 lg:px-0 mb-12 lg:mb-0 pointer-events-none transition-opacity duration-100"
-          style={{ opacity: isMobile ? 1 : titleOpacity }}
+          style={isMobile ? { opacity: 1 } : undefined}
         >
           <SplitRevealTitle
             line1="Powiedz, czego"
@@ -113,7 +143,6 @@ export const Offer: React.FC = () => {
               ? "flex-col px-4 pb-20 w-full"
               : "items-center h-full px-[6vw] lg:px-[10vw] gap-[2vw] w-max will-change-transform"
           }`}
-          style={!isMobile ? { transform: `translateX(-${transformX}px)` } : {}}
         >
           {/* Spacer for Desktop */}
           {!isMobile && <div className="w-[90vw] lg:w-[35vw] shrink-0"></div>}

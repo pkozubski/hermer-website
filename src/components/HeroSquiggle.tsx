@@ -56,6 +56,8 @@ const STROKE_COLORS = ["#9868FF", "#52D8EA"]; // Purple and Cyan
 
 // Snake length as percentage of total path
 const SNAKE_LENGTH = 0.35;
+const SQUIGGLE_STROKE_WIDTH = 18;
+const SQUIGGLE_BLUR_PX = 10;
 
 export default function HeroSquiggle() {
   const [activeVariant, setActiveVariant] = useState<number | null>(null);
@@ -122,7 +124,7 @@ export default function HeroSquiggle() {
             className="absolute"
             style={currentVariant.style}
             initial={{ opacity: 0 }}
-            animate={{ opacity: 0.5 }}
+            animate={{ opacity: 0.32 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
           >
@@ -132,12 +134,15 @@ export default function HeroSquiggle() {
               fill="none"
               preserveAspectRatio="xMidYMid slice"
               xmlns="http://www.w3.org/2000/svg"
+              style={{
+                filter: `blur(${SQUIGGLE_BLUR_PX}px)`,
+              }}
             >
               <motion.path
                 ref={pathRef}
-                d={currentVariant.path}
+                d={currentVariant.path || "M0 0"}
                 stroke={currentColor}
-                strokeWidth="10"
+                strokeWidth={SQUIGGLE_STROKE_WIDTH}
                 strokeLinecap="round"
                 fill="none"
                 strokeDasharray={`${snakeVisibleLength} ${totalDashLength}`}

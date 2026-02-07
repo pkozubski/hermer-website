@@ -128,14 +128,80 @@ const SalesCard = () => {
 
 // --- Card 2: Portfolio / Projects (700+) ---
 const ProjectsCard = () => {
-  const projects = [
-    { color: "bg-emerald-400", title: "Strony www", y: 0 },
-    { color: "bg-blue-500", title: "E-commerce", y: 15 },
-    { color: "bg-orange-400", title: "B2B", y: 30 },
-  ];
+  const GRID_COLS = 12;
+  const GRID_ROWS = 8;
 
   return (
     <div className="p-8 h-full flex flex-col relative overflow-hidden">
+      {/* Border grid */}
+      <div className="absolute inset-0 pointer-events-none">
+        {/* Elliptical radial mask */}
+        <div
+          className="absolute inset-0"
+          style={{
+            maskImage:
+              "radial-gradient(ellipse 60% 45% at 70% 60%, black 30%, transparent 70%)",
+            WebkitMaskImage:
+              "radial-gradient(ellipse 60% 45% at 70% 60%, black 30%, transparent 70%)",
+          }}
+        >
+          {/* Vertical lines */}
+          {Array.from({ length: GRID_COLS + 1 }).map((_, i) => (
+            <motion.div
+              key={`v-${i}`}
+              className="absolute top-0 bottom-0 w-px bg-white/[0.07]"
+              style={{ left: `${(i / GRID_COLS) * 100}%` }}
+              initial={{ scaleY: 0 }}
+              whileInView={{ scaleY: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: i * 0.03, ease: "easeOut" }}
+            />
+          ))}
+          {/* Horizontal lines */}
+          {Array.from({ length: GRID_ROWS + 1 }).map((_, i) => (
+            <motion.div
+              key={`h-${i}`}
+              className="absolute left-0 right-0 h-px bg-white/[0.07]"
+              style={{ top: `${(i / GRID_ROWS) * 100}%` }}
+              initial={{ scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: i * 0.04, ease: "easeOut" }}
+            />
+          ))}
+
+          {/* Accent cells — subtle pulse */}
+          {[
+            { col: 7, row: 3 },
+            { col: 8, row: 4 },
+            { col: 9, row: 3 },
+            { col: 8, row: 5 },
+            { col: 7, row: 4 },
+            { col: 9, row: 5 },
+            { col: 10, row: 4 },
+          ].map(({ col, row }, i) => (
+            <motion.div
+              key={`cell-${i}`}
+              className="absolute bg-[#916AFF]/10"
+              style={{
+                left: `${(col / GRID_COLS) * 100}%`,
+                top: `${(row / GRID_ROWS) * 100}%`,
+                width: `${100 / GRID_COLS}%`,
+                height: `${100 / GRID_ROWS}%`,
+              }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.5 + i * 0.08 }}
+              animate={{
+                opacity: [0.3, 0.6, 0.3],
+              }}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Content */}
       <div className="relative z-10">
         <div className="flex items-baseline gap-1">
           <h3 className="text-5xl font-bold text-white">700</h3>
@@ -146,34 +212,6 @@ const ProjectsCard = () => {
         </p>
       </div>
 
-      <div className="absolute right-[-20px] bottom-[-40px] w-[300px] h-[300px] flex flex-col items-center justify-center perspective-1000">
-        {projects.map((p, i) => (
-          <motion.div
-            key={i}
-            className={`absolute w-48 h-32 rounded-xl shadow-lg border border-white/20 ${p.color} flex items-center justify-center`}
-            style={{
-              zIndex: projects.length - i,
-              top: "30%",
-              left: "20%",
-            }}
-            initial={{ rotate: -10 + i * 5, x: 0, y: 0 }}
-            whileInView={{
-              rotate: -15 + i * 10,
-              x: i * 20,
-              y: i * -15,
-            }}
-            whileHover={{
-              scale: 1.05,
-              transition: { duration: 0.2 },
-            }}
-            transition={{ type: "spring", stiffness: 100, delay: i * 0.1 }}
-          >
-            <div className="w-full h-full bg-white/10 backdrop-blur-sm rounded-xl flex items-center justify-center text-white font-bold tracking-widest text-xs uppercase">
-              {p.title}
-            </div>
-          </motion.div>
-        ))}
-      </div>
       <button className="mt-auto relative z-10 flex items-center gap-2 text-sm font-semibold text-[#916AFF] group-hover:text-white transition-colors">
         Zobacz realizacje <ArrowUpRight size={16} />
       </button>

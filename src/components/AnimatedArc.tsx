@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { motion, MotionValue, useSpring, useTransform } from "framer-motion";
+import { motion, MotionValue, useSpring, useTransform } from 'framer-motion';
 
 interface AnimatedArcProps {
   scrollYProgress: MotionValue<number>;

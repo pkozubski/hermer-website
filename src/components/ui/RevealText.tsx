@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { motion } from "framer-motion";
 
 interface RevealTextProps {
@@ -9,6 +9,38 @@ interface RevealTextProps {
   stagger?: number;
 }
 
+const charVariants = {
+  hidden: {
+    y: "100%",
+    opacity: 0,
+  },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      duration: 0.8,
+      ease: [0.16, 1, 0.3, 1] as const,
+    },
+  },
+};
+
+const charVariantsBlur = {
+  hidden: {
+    y: "100%",
+    opacity: 0,
+    filter: "blur(8px)",
+  },
+  visible: {
+    y: 0,
+    opacity: 1,
+    filter: "blur(0px)",
+    transition: {
+      duration: 0.8,
+      ease: [0.16, 1, 0.3, 1] as const,
+    },
+  },
+};
+
 export const RevealText = ({
   text,
   className = "",
@@ -16,6 +48,9 @@ export const RevealText = ({
   blur = true,
   stagger = 0.03,
 }: RevealTextProps) => {
+  const words = useMemo(() => text.split(" "), [text]);
+  const variants = blur ? charVariantsBlur : charVariants;
+
   return (
     <motion.div
       key={text}
@@ -29,28 +64,13 @@ export const RevealText = ({
         },
       }}
     >
-      {text.split(" ").map((word, i) => (
+      {words.map((word, i) => (
         <span key={i} className="whitespace-nowrap inline-block mr-[0.25em]">
           {word.split("").map((char, j) => (
             <motion.span
               key={j}
-              className="inline-block"
-              variants={{
-                hidden: {
-                  y: "100%",
-                  opacity: 0,
-                  filter: blur ? "blur(10px)" : undefined,
-                },
-                visible: {
-                  y: 0,
-                  opacity: 1,
-                  filter: blur ? "blur(0px)" : undefined,
-                  transition: {
-                    duration: 0.8,
-                    ease: [0.16, 1, 0.3, 1],
-                  },
-                },
-              }}
+              className="inline-block will-change-[transform,opacity]"
+              variants={variants}
             >
               {char}
             </motion.span>

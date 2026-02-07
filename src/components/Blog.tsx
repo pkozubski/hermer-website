@@ -3,9 +3,7 @@ import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { SplitRevealTitle } from "./ui/SplitRevealTitle";
 import { LineReveal } from "./ui/LineReveal";
-import { client } from "@/sanity/lib/client";
 import { BlogCard, Post } from "./cards/BlogCard";
-import Link from "next/link";
 
 export const Blog: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -20,15 +18,11 @@ export const Blog: React.FC = () => {
       try {
         setIsLoading(true);
         setError(null);
-        const query = `*[_type == "post" && defined(slug.current)] | order(publishedAt desc) {
-          _id,
-          title,
-          slug,
-          category,
-          mainImage,
-          year
-        }`;
-        const data = await client.fetch(query);
+        const response = await fetch("/api/blog-posts", { cache: "no-store" });
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
+        const data = await response.json();
         setPosts(data || []);
       } catch (err) {
         console.error("Failed to fetch blog posts:", err);

@@ -1,9 +1,9 @@
 import React from "react";
-import Link from "next/link";
 import { SplitRevealTitle } from "./ui/SplitRevealTitle";
 import { LineReveal } from "./ui/LineReveal";
 import FluidButton from "./ui/FluidButton";
 import { ProjectCard } from "./ProjectCard";
+import { ProjectCardScrollShaderOverlay } from "./ProjectCardScrollShader";
 import { PROJECTS } from "@/data/projects";
 
 export function Projects() {
@@ -12,6 +12,7 @@ export function Projects() {
       id="projects"
       className="py-24 md:py-32 bg-transparent relative z-10 w-full"
     >
+      <ProjectCardScrollShaderOverlay />
       <div className="container mx-auto px-4 md:px-8">
         {/* Header */}
         <div className="w-full flex flex-col md:flex-row justify-between items-start md:items-end mb-16 md:mb-24 gap-6">

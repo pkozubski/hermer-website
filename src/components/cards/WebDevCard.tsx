@@ -97,7 +97,7 @@ function EditorWindow() {
             viewBox="0 0 8.16667 8.16667"
           >
             <path
-              d={svgPaths.p755a300}
+              d={svgPaths.p755a300 || "M0 0"}
               id="Vector"
               stroke="var(--stroke-0, #858585)"
               strokeLinecap="round"
@@ -119,7 +119,7 @@ function EditorWindow() {
             viewBox="0 0 8.16667 8.16667"
           >
             <path
-              d={svgPaths.p4618fa0}
+              d={svgPaths.p4618fa0 || "M0 0"}
               id="Vector"
               stroke="var(--stroke-0, #858585)"
               strokeLinecap="round"

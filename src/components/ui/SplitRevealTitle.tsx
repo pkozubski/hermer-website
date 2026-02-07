@@ -29,9 +29,9 @@ export const SplitRevealTitle = ({
 
   useGSAP(
     () => {
-      // Set initial state - elements start hidden
-      gsap.set(line1Ref.current, { yPercent: 100 });
-      gsap.set(line2Ref.current, { yPercent: -100 });
+      // Set initial state - elements start hidden, use force3D for GPU acceleration
+      gsap.set(line1Ref.current, { yPercent: 100, force3D: true });
+      gsap.set(line2Ref.current, { yPercent: -100, force3D: true });
 
       // Create ScrollTrigger that replays on each scroll
       ScrollTrigger.create({
@@ -43,22 +43,25 @@ export const SplitRevealTitle = ({
 
           tl.to(line1Ref.current, {
             yPercent: 0,
-            duration: 1,
-            ease: "elastic.out(1, 1)",
+            duration: 0.9,
+            ease: "power3.out",
+            force3D: true,
           }).to(
             line2Ref.current,
             {
               yPercent: 0,
-              duration: 1,
-              ease: "elastic.out(1, 1)",
+              duration: 0.9,
+              ease: "power3.out",
+              force3D: true,
             },
-            "<0.15", // Opóźnienie 0.15s względem początku poprzedniej animacji
+            "<0.12",
           );
         },
         onLeaveBack: () => {
           // Reset elements when scrolling back up past the trigger
-          gsap.set(line1Ref.current, { yPercent: 100 });
-          gsap.set(line2Ref.current, { yPercent: -100 });
+          gsap.killTweensOf([line1Ref.current, line2Ref.current]);
+          gsap.set(line1Ref.current, { yPercent: 100, force3D: true });
+          gsap.set(line2Ref.current, { yPercent: -100, force3D: true });
         },
       });
     },

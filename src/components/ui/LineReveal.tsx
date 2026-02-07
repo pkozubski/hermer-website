@@ -37,8 +37,8 @@ export const LineReveal = ({
 
       if (lineElements.length === 0) return;
 
-      // Set initial state - elements start hidden (translated down)
-      gsap.set(lineElements, { yPercent: 100 });
+      // Set initial state - elements start hidden (translated down), GPU accelerated
+      gsap.set(lineElements, { yPercent: 100, force3D: true });
 
       // Create ScrollTrigger that replays on each scroll unless once is true
       ScrollTrigger.create({
@@ -53,13 +53,15 @@ export const LineReveal = ({
             ease: "power3.out",
             stagger: 0.1,
             delay: delay,
+            force3D: true,
           });
         },
         onLeaveBack: once
           ? undefined
           : () => {
-              // Reset elements when scrolling back up past the trigger
-              gsap.set(lineElements, { yPercent: 100 });
+              // Kill running tweens before resetting to prevent conflicts
+              gsap.killTweensOf(lineElements);
+              gsap.set(lineElements, { yPercent: 100, force3D: true });
             },
       });
     },

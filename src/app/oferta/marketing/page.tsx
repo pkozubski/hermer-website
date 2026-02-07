@@ -7,8 +7,8 @@ import { MarketingProcessSection } from "@/components/oferta/MarketingProcessSec
 import { MarketingFeaturesBento } from "@/components/oferta/MarketingFeaturesBento";
 import { MarketingBenefitsSection } from "@/components/oferta/MarketingBenefitsSection";
 import { MarketingTargetSection } from "@/components/oferta/MarketingTargetSection";
-import { SimpleContactSection } from "@/components/oferta/SimpleContactSection";
 import { Faq } from "@/components/Faq";
+import { CTASection } from "@/components/CTASection";
 
 import { client } from "@/sanity/lib/client";
 import { PAGE_FAQS_QUERY } from "@/sanity/lib/queries";
@@ -46,7 +46,7 @@ export default async function MarketingPage() {
         <MarketingBenefitsSection />
         <MarketingProcessSection />
         <Faq items={faqItems} />
-        <SimpleContactSection />
+        <CTASection />
       </main>
       <Footer />
     </div>

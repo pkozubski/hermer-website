@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { PROJECTS } from "@/data/projects";
 import { ProjectCard } from "../ProjectCard";
+import { ProjectCardScrollShaderOverlay } from "../ProjectCardScrollShader";
 import { SplitRevealTitle } from "../ui/SplitRevealTitle";
 
 interface OfferProjectsProps {
@@ -19,6 +20,7 @@ export const OfferProjects: React.FC<OfferProjectsProps> = ({ category }) => {
 
   return (
     <section className="py-24 bg-transparent border-t border-white/5">
+       <ProjectCardScrollShaderOverlay />
        <div className="container mx-auto px-4 md:px-8">
            <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-8">
               <div>

@@ -10,7 +10,7 @@ import { EcommerceTechStackSection } from "@/components/oferta/EcommerceTechStac
 import { EcommercePricingSection } from "@/components/oferta/EcommercePricingSection";
 import { Faq } from "@/components/Faq";
 import { OfferProjects } from "@/components/oferta/OfferProjects";
-import { EcommerceContactSection } from "@/components/oferta/EcommerceContactSection";
+import { CTASection } from "@/components/CTASection";
 
 import { client } from "@/sanity/lib/client";
 import { PAGE_FAQS_QUERY } from "@/sanity/lib/queries";
@@ -52,7 +52,7 @@ export default async function EcommerceOfferPage() {
         {/* <EcommercePricingSection /> */}
         <OfferProjects category="ecommerce" />
         <Faq items={faqItems} />
-        <EcommerceContactSection />
+        <CTASection />
       </main>
       <Footer />
     </div>

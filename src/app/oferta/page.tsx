@@ -7,7 +7,7 @@ import { PillStatementSection } from "@/components/oferta/PillStatementSection";
 import { TrustSection } from "@/components/oferta/TrustSection";
 import { ProcessSection } from "@/components/oferta/ProcessSection";
 import { Faq } from "@/components/Faq";
-import { Contact } from "@/components/Contact";
+import { CTASection } from "@/components/CTASection";
 
 import { client } from "@/sanity/lib/client";
 import { PAGE_FAQS_QUERY } from "@/sanity/lib/queries";
@@ -44,7 +44,7 @@ export default async function OfferPage() {
         {/* <TrustSection /> */}
         {/* <ProcessSection /> */}
         <Faq items={faqItems} />
-        <Contact />
+        <CTASection />
       </main>
       <Footer />
     </div>

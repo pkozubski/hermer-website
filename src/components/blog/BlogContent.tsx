@@ -7,8 +7,8 @@ import { BlogFilters } from "./BlogFilters";
 import { BlogGridCard } from "./BlogGridCard";
 import { BlogNewsletterCard } from "./BlogNewsletterCard";
 import { BlogPagination } from "./BlogPagination";
-import { BlogCTA } from "./BlogCTA";
 import { Post } from "@/components/cards/BlogCard";
+import { CTASection } from "@/components/CTASection";
 
 interface BlogContentProps {
   posts: Post[];
@@ -91,7 +91,7 @@ export const BlogContent: React.FC<BlogContentProps> = ({ posts }) => {
           onPageChange={setCurrentPage}
         />
 
-        <BlogCTA />
+        <CTASection />
       </main>
     </div>
   );

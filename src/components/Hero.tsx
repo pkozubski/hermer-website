@@ -1,6 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { memo, useEffect, useState } from 'react';
 import {
-  ChevronRight,
   Code2,
   Palette,
   Search,
@@ -10,34 +9,34 @@ import {
   ShoppingCart,
   MessageSquare,
   Star,
-} from "lucide-react";
-import { CmsCard } from "./cards/CmsCard";
-import { SeoCard } from "./cards/SeoCard";
-import { ResponsivenessCard } from "./cards/ResponsivenessCard";
-import { CardWheelHorizontal } from "./CardWheelHorizontal";
+} from 'lucide-react';
+import { CmsCard } from './cards/CmsCard';
+import { SeoCard } from './cards/SeoCard';
+import { ResponsivenessCard } from './cards/ResponsivenessCard';
+import { CardWheelHorizontal } from './CardWheelHorizontal';
 import {
   motion,
   AnimatePresence,
   useScroll,
   useTransform,
-} from "framer-motion";
-import { CardWheel } from "./CardWheel";
-import HeroSquiggle from "./HeroSquiggle";
-import { WebDevCard } from "./cards/WebDevCard";
-import { EcommerceCard } from "./cards/EcommerceCard";
-import { SocialMediaCard } from "./cards/SocialMediaCard";
-import { MarketingCard } from "./cards/MarketingCard";
-import { UiUxCard } from "./cards/UiUxCard";
-import { ReelCtaButton } from "./ui/ReelCtaButton";
+} from 'framer-motion';
+import { CardWheel } from './CardWheel';
+import HeroSquiggle from './HeroSquiggle';
+import { WebDevCard } from './cards/WebDevCard';
+import { EcommerceCard } from './cards/EcommerceCard';
+import { SocialMediaCard } from './cards/SocialMediaCard';
+import { MarketingCard } from './cards/MarketingCard';
+import { UiUxCard } from './cards/UiUxCard';
+import { ReelCtaButton } from './ui/ReelCtaButton';
 
 // Data for the cards to be rendered - Monochrome Themes
 // Data for the cards to be rendered - Monochrome Themes
 const CARDS_DATA = [
   {
-    id: "code",
-    theme: "blue",
+    id: 'code',
+    theme: 'blue',
     icon: Code2,
-    title: "Development",
+    title: 'Development',
     content: (
       <div className="w-full flex justify-center h-[260px] overflow-visible relative z-10">
         <div className="scale-[0.55] origin-top transform-gpu">
@@ -47,10 +46,10 @@ const CARDS_DATA = [
     ),
   },
   {
-    id: "design",
-    theme: "purple",
+    id: 'design',
+    theme: 'purple',
     icon: Palette,
-    title: "UI/UX Design",
+    title: 'UI/UX Design',
     content: (
       <div className="w-full flex justify-center h-[260px] overflow-visible relative z-10">
         <div className="scale-[0.55] origin-top transform-gpu">
@@ -60,10 +59,10 @@ const CARDS_DATA = [
     ),
   },
   {
-    id: "mobile",
-    theme: "blue",
+    id: 'mobile',
+    theme: 'blue',
     icon: Smartphone,
-    title: "Responsywność",
+    title: 'Responsywność',
     content: (
       <div className="w-full flex justify-center h-[260px] overflow-visible relative z-10">
         <div className="scale-[0.55] origin-top transform-gpu">
@@ -73,10 +72,10 @@ const CARDS_DATA = [
     ),
   },
   {
-    id: "seo",
-    theme: "green",
+    id: 'seo',
+    theme: 'green',
     icon: Search,
-    title: "SEO & Pozycjonowanie",
+    title: 'SEO & Pozycjonowanie',
     content: (
       <div className="w-full flex justify-center h-[260px] overflow-visible relative z-10">
         <div className="scale-[0.55] origin-top transform-gpu">
@@ -86,10 +85,10 @@ const CARDS_DATA = [
     ),
   },
   {
-    id: "marketing",
-    theme: "orange",
+    id: 'marketing',
+    theme: 'orange',
     icon: BarChart3,
-    title: "Marketing",
+    title: 'Marketing',
     content: (
       <div className="w-full flex justify-center h-[260px] overflow-visible relative z-10">
         <div className="scale-[0.55] origin-top transform-gpu">
@@ -99,10 +98,10 @@ const CARDS_DATA = [
     ),
   },
   {
-    id: "cms",
-    theme: "purple",
+    id: 'cms',
+    theme: 'purple',
     icon: Layout,
-    title: "System CMS",
+    title: 'System CMS',
     content: (
       <div className="w-full flex justify-center h-[260px] overflow-visible relative z-10">
         <div className="scale-[0.55] origin-top transform-gpu">
@@ -112,10 +111,10 @@ const CARDS_DATA = [
     ),
   },
   {
-    id: "ecommerce",
-    theme: "pink",
+    id: 'ecommerce',
+    theme: 'pink',
     icon: ShoppingCart,
-    title: "E-commerce",
+    title: 'E-commerce',
     content: (
       <div className="w-full flex justify-center h-[260px] overflow-visible relative z-10">
         <div className="scale-[0.55] origin-top transform-gpu">
@@ -125,10 +124,10 @@ const CARDS_DATA = [
     ),
   },
   {
-    id: "social",
-    theme: "orange",
+    id: 'social',
+    theme: 'orange',
     icon: MessageSquare,
-    title: "Social Media",
+    title: 'Social Media',
     content: (
       <div className="w-full flex justify-center h-[260px] overflow-visible relative z-10">
         <div className="scale-[0.55] origin-top transform-gpu">
@@ -139,19 +138,31 @@ const CARDS_DATA = [
   },
 ];
 
+const LEFT_COLUMN_CARDS = [
+  CARDS_DATA[0],
+  CARDS_DATA[2],
+  CARDS_DATA[4],
+  CARDS_DATA[6],
+];
+const RIGHT_COLUMN_CARDS = [
+  CARDS_DATA[1],
+  CARDS_DATA[3],
+  CARDS_DATA[5],
+  CARDS_DATA[7],
+];
+
 // CountUp Component for animated stats
 const CountUp: React.FC<{
   end: number;
   duration?: number;
   delay?: number;
   suffix?: string;
-}> = ({ end, duration = 2000, delay = 0, suffix = "" }) => {
+}> = ({ end, duration = 2000, delay = 0, suffix = '' }) => {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
     let startTime: number | null = null;
-    let animationFrameId: number;
-    let timeoutId: ReturnType<typeof setTimeout>;
+    let animationFrameId: number | null = null;
 
     const animate = (currentTime: number) => {
       if (!startTime) startTime = currentTime;
@@ -165,13 +176,15 @@ const CountUp: React.FC<{
       }
     };
 
-    timeoutId = setTimeout(() => {
+    const timeoutId = window.setTimeout(() => {
       animationFrameId = requestAnimationFrame(animate);
     }, delay);
 
     return () => {
-      clearTimeout(timeoutId);
-      cancelAnimationFrame(animationFrameId);
+      window.clearTimeout(timeoutId);
+      if (animationFrameId !== null) {
+        cancelAnimationFrame(animationFrameId);
+      }
     };
   }, [end, duration, delay]);
 
@@ -184,47 +197,92 @@ const CountUp: React.FC<{
 };
 
 const HERO_TEXTS = [
-  "Strona www i marketing, które pracują na Twoją markę",
-  "Zamieniamy chaos w cyfrowy porządek",
-  "Buduj z nami lepszą widoczność firmy w Internecie",
+  'Strona www i marketing, które pracują na Twoją markę',
+  'Zamieniamy chaos w cyfrowy porządek',
+  'Buduj z nami lepszą widoczność firmy w Internecie',
 ];
 
-const LONGEST_TEXT = "Strona www i marketing, które pracują na Twoją markę";
+const HERO_SPACER_TEXT = HERO_TEXTS.reduce((longest, current) =>
+  current.length > longest.length ? current : longest
+);
 
-const MaskedRevealText = ({
+const MaskedRevealText = memo(function MaskedRevealText({
   text,
   delay = 0,
 }: {
   text: string;
   delay?: number;
-}) => {
+}) {
+  const words = text.split(' ');
+
   return (
     <span className="inline-block">
-      {text.split(" ").map((word, wordIndex) => (
+      {words.map((word, wordIndex) => (
         <span
           key={wordIndex}
           className="inline-block whitespace-nowrap mr-[0.25em] overflow-hidden align-bottom pb-1"
         >
-          {word.split("").map((char, charIndex) => (
-            <motion.span
-              key={charIndex}
-              className="inline-block"
-              initial={{ y: "110%" }}
-              animate={{ y: 0 }}
-              transition={{
-                duration: 0.8,
-                ease: [0.16, 1, 0.3, 1],
-                delay: delay + wordIndex * 0.1 + charIndex * 0.02,
-              }}
-            >
-              {char}
-            </motion.span>
-          ))}
+          <motion.span
+            className="inline-block"
+            initial={{ y: '110%' }}
+            animate={{ y: 0 }}
+            transition={{
+              duration: 0.8,
+              ease: [0.16, 1, 0.3, 1],
+              delay: delay + wordIndex * 0.08,
+            }}
+          >
+            {word}
+          </motion.span>
         </span>
       ))}
     </span>
   );
-};
+});
+
+const RotatingHeroHeadline = memo(function RotatingHeroHeadline() {
+  const [textIndex, setTextIndex] = useState(0);
+  const headingClassName =
+    'w-full mx-auto text-center text-4xl sm:text-5xl md:text-6xl xl:text-7xl 2xl:text-[5.25rem] leading-[1.05] text-white tracking-tight font-display font-medium [text-wrap:balance]';
+
+  useEffect(() => {
+    let intervalId: number | null = null;
+    const timeoutId = window.setTimeout(() => {
+      intervalId = window.setInterval(() => {
+        setTextIndex((prev) => (prev + 1) % HERO_TEXTS.length);
+      }, 5000);
+    }, 3000);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+      if (intervalId) {
+        window.clearInterval(intervalId);
+      }
+    };
+  }, []);
+
+  return (
+    <div className="w-full flex justify-center">
+      <div className="relative w-[min(92vw,1000px)] mx-auto">
+        <h1 className={`${headingClassName} invisible`} aria-hidden="true">
+          {HERO_SPACER_TEXT}
+        </h1>
+        <AnimatePresence mode="wait">
+          <motion.h1
+            key={textIndex}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+            className={`${headingClassName} absolute inset-0`}
+          >
+            <MaskedRevealText text={HERO_TEXTS[textIndex]} delay={0.1} />
+          </motion.h1>
+        </AnimatePresence>
+      </div>
+    </div>
+  );
+});
 
 export const Hero: React.FC<{ onAnimationComplete?: () => void }> = ({
   onAnimationComplete,
@@ -239,105 +297,71 @@ export const Hero: React.FC<{ onAnimationComplete?: () => void }> = ({
     return () => clearTimeout(timer);
   }, [onAnimationComplete]);
 
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 1024);
-    };
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
-
-  const [textIndex, setTextIndex] = useState(0);
-
-  useEffect(() => {
-    // Start cycling after the initial animation completes (approx 3s)
-    const startDelay = setTimeout(() => {
-      const interval = setInterval(() => {
-        setTextIndex((prev) => (prev + 1) % HERO_TEXTS.length);
-      }, 5000); // Change every 5 seconds
-
-      return () => clearInterval(interval);
-    }, 3000);
-
-    return () => clearTimeout(startDelay);
-  }, []);
-
   const { scrollY } = useScroll();
   const leftColumnY = useTransform(scrollY, [0, 1000], [0, -100]);
   const rightColumnY = useTransform(scrollY, [0, 1000], [0, 100]);
 
   /* Removed scroll effects for classic landing behavior */
 
-  const column1 = [CARDS_DATA[0], CARDS_DATA[2], CARDS_DATA[4], CARDS_DATA[6]];
-  const column2 = [CARDS_DATA[1], CARDS_DATA[3], CARDS_DATA[5], CARDS_DATA[7]];
-
   return (
-    <motion.section
-      ref={containerRef}
-      className="w-full px-4 sm:px-8 lg:px-8 overflow-hidden bg-transparent isolate flex items-center relative h-auto min-h-screen py-20 lg:py-0 z-0 text-center lg:text-left"
-    >
+    <motion.section className="w-full px-4 sm:px-8 lg:px-8 overflow-visible bg-transparent isolate flex items-center relative h-auto min-h-screen py-20 lg:py-0 z-0 text-center">
       {/* Animated Squiggles */}
       <HeroSquiggle />
+      <motion.div
+        className="pointer-events-none absolute -top-24 -right-20 sm:-top-28 sm:-right-24 lg:-top-32 lg:-right-28 h-[300px] w-[300px] sm:h-[420px] sm:w-[420px] lg:h-[520px] lg:w-[520px] rounded-full blur-[160px] z-0"
+        style={{
+          background:
+            'radial-gradient(circle at 30% 30%, rgba(145,106,255,0.42) 0%, rgba(82,216,234,0.24) 45%, rgba(23,23,23,0) 75%)',
+        }}
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 0.4, scale: 1, x: [0, -18, 0], y: [0, 12, 0] }}
+        transition={{
+          opacity: { duration: 1.1, ease: 'easeOut' },
+          scale: { duration: 1.1, ease: 'easeOut' },
+          x: { duration: 9, repeat: Infinity, ease: 'easeInOut' },
+          y: { duration: 7, repeat: Infinity, ease: 'easeInOut' },
+        }}
+      />
+      <motion.div
+        className="pointer-events-none absolute top-6 right-8 sm:top-4 sm:right-10 lg:top-8 lg:right-16 h-[90px] w-[90px] sm:h-[120px] sm:w-[120px] rounded-full blur-[90px] z-0"
+        style={{
+          background:
+            'radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(145,106,255,0.05) 70%, rgba(23,23,23,0) 100%)',
+        }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.22, y: [0, 8, 0] }}
+        transition={{
+          opacity: { duration: 1.2, ease: 'easeOut', delay: 0.15 },
+          y: { duration: 6, repeat: Infinity, ease: 'easeInOut' },
+        }}
+      />
 
-      {/* Aesthetic Grid Background - Dark Mode */}
-
-      <div className="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-0 items-center relative w-full z-0 perspective-[2000px]">
+      <div className="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-0 items-center relative w-full z-10 perspective-[2000px]">
         {/* Left Column */}
         <motion.div
           className="hidden lg:block col-span-3 w-[320px] xl:w-full lg:-mr-20 xl:mr-0 justify-self-end h-[650px] relative overflow-hidden select-none opacity-0 animate-[fade-in_1s_ease-out_1.5s_forwards]"
           style={{
             maskImage:
-              "linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)",
-            transform: "perspective(1500px) rotateY(12deg) translateZ(-20px)",
-            transformStyle: "preserve-3d",
+              'linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)',
+            transform: 'perspective(1500px) rotateY(12deg) translateZ(-20px)',
+            transformStyle: 'preserve-3d',
             y: leftColumnY,
           }}
         >
-          <div className="absolute inset-x-0 w-full h-full">
-            <CardWheel cards={column1} direction="up" />
+          <div className="absolute inset-0 rounded-[40px] bg-neutral-900/20 backdrop-blur-xl pointer-events-none z-0" />
+          <div className="absolute inset-x-0 w-full h-full z-10">
+            <CardWheel cards={LEFT_COLUMN_CARDS} direction="up" />
           </div>
         </motion.div>
 
         {/* Center Column: Text Content */}
         <div className="col-span-1 lg:col-span-6 flex flex-col items-center text-center z-20 relative pb-0 px-4 pt-12 lg:pt-32">
-          {/* Text Container with Invisible Spacer to prevent layout shift */}
-          <div className="relative mb-6 sm:mb-8 pb-4">
-            {/* Invisible Spacer */}
-            <h1
-              className="invisible text-4xl sm:text-6xl lg:text-5xl xl:text-7xl 2xl:text-[5.5rem] leading-[1.05] tracking-tight font-display font-medium pointer-events-none select-none"
-              aria-hidden="true"
-            >
-              {LONGEST_TEXT}
-            </h1>
-
-            {/* A second spacer for the potentially taller 3-line text if needed, or just relying on the longest text string. 
-                Actually, let's just ensure we reserve space for 3 lines roughly. 
-                The text "Strona www i marketing..." is long enough to force 3 lines on most breakpoints where it matters.
-            */}
-
-            {/* Active Text */}
-            <div className="absolute top-0 left-0 w-full h-full flex items-center lg:items-start justify-center lg:justify-start">
-              <AnimatePresence mode="wait">
-                <motion.h1
-                  key={textIndex}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.5 }}
-                  className="text-4xl sm:text-6xl lg:text-5xl xl:text-7xl 2xl:text-[5.5rem] leading-[1.05] text-white tracking-tight font-display font-medium"
-                >
-                  <MaskedRevealText text={HERO_TEXTS[textIndex]} delay={0.1} />
-                </motion.h1>
-              </AnimatePresence>
-            </div>
+          <div className="mb-6 sm:mb-8 pb-4 w-full flex justify-center">
+            <RotatingHeroHeadline />
           </div>
 
           <p className="text-neutral-400 text-base sm:text-lg lg:text-xl max-w-lg mb-8 lg:mb-10 font-light leading-relaxed animate-[text-reveal_0.8s_cubic-bezier(0.16,1,0.3,1)_0.8s_backwards] tracking-wide">
-            Zajmiemy się Twoją stroną kompleksowo —{" "}
+            Zajmiemy się Twoją stroną kompleksowo —{' '}
             <br className="hidden sm:block" />
             od przygotowania koncepcji po wdrożenie gotowego projektu.
           </p>
@@ -412,9 +436,9 @@ export const Hero: React.FC<{ onAnimationComplete?: () => void }> = ({
             className="lg:hidden w-[calc(100%+2rem)] sm:w-[calc(100%+4rem)] -mx-4 sm:-mx-8 mt-8 lg:mt-12 overflow-hidden relative animate-[text-reveal_0.8s_cubic-bezier(0.16,1,0.3,1)_1.6s_backwards] h-[400px]"
             style={{
               maskImage:
-                "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
+                'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
               WebkitMaskImage:
-                "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
+                'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
             }}
           >
             <CardWheelHorizontal cards={CARDS_DATA} direction="left" />
@@ -426,14 +450,15 @@ export const Hero: React.FC<{ onAnimationComplete?: () => void }> = ({
           className="hidden lg:block col-span-3 w-[320px] xl:w-full lg:-ml-20 xl:ml-0 justify-self-start h-[650px] relative overflow-hidden select-none opacity-0 animate-[fade-in_1s_ease-out_1.5s_forwards]"
           style={{
             maskImage:
-              "linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)",
-            transform: "perspective(1500px) rotateY(-12deg) translateZ(-20px)",
-            transformStyle: "preserve-3d",
+              'linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)',
+            transform: 'perspective(1500px) rotateY(-12deg) translateZ(-20px)',
+            transformStyle: 'preserve-3d',
             y: rightColumnY,
           }}
         >
-          <div className="absolute inset-x-0 w-full h-full">
-            <CardWheel cards={column2} direction="down" />
+          <div className="absolute inset-0 rounded-[40px] bg-neutral-900/20 backdrop-blur-xl pointer-events-none z-0" />
+          <div className="absolute inset-x-0 w-full h-full z-10">
+            <CardWheel cards={RIGHT_COLUMN_CARDS} direction="down" />
           </div>
         </motion.div>
       </div>

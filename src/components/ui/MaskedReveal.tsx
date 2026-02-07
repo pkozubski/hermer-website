@@ -1,5 +1,5 @@
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useMemo } from "react";
 
 interface MaskedRevealProps {
   text: string;
@@ -14,19 +14,20 @@ export const MaskedReveal = ({
 }: MaskedRevealProps) => {
   const ref = useRef<HTMLSpanElement>(null);
   const isInView = useInView(ref, { once: false, amount: 0.3 });
+  const chars = useMemo(() => text.split(""), [text]);
 
   return (
     <span ref={ref} className={`inline-block overflow-hidden ${className}`}>
-      {text.split("").map((char, i) => (
+      {chars.map((char, i) => (
         <motion.span
           key={i}
-          className="inline-block"
+          className="inline-block will-change-transform"
           initial={{ y: "110%" }}
           animate={isInView ? { y: 0 } : { y: "110%" }}
           transition={{
-            duration: 0.8,
-            ease: [0.16, 1, 0.3, 1],
-            delay: delay + i * 0.03,
+            duration: 0.7,
+            ease: [0.22, 1, 0.36, 1],
+            delay: delay + i * 0.025,
           }}
         >
           {char === " " ? "\u00A0" : char}
