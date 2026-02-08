@@ -1,23 +1,25 @@
-import React from "react";
-import Link from "next/link";
-import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowUpRight } from "lucide-react";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
-import { ProjectPreviewPanel } from "@/components/ProjectPreviewPanel";
-import { ProjectDetailEntrance } from "@/components/ProjectDetailEntrance";
-import { ProjectCardScrollShaderOverlay } from "@/components/ProjectCardScrollShader";
-import { SplitRevealTitle } from "@/components/ui/SplitRevealTitle";
-import { LineReveal } from "@/components/ui/LineReveal";
-import { ProjectCard } from "@/components/ProjectCard";
-import { CTASection } from "@/components/CTASection";
-import { PROJECTS } from "@/data/projects";
+import React from 'react';
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import { ArrowLeft, ArrowUpRight } from 'lucide-react';
+import { Header } from '@/components/Header';
+import { Footer } from '@/components/Footer';
+import { ProjectPreviewPanel } from '@/components/ProjectPreviewPanel';
+import { ProjectDetailEntrance } from '@/components/ProjectDetailEntrance';
+import { ProjectCardScrollShaderOverlay } from '@/components/ProjectCardScrollShader';
+import { SplitRevealTitle } from '@/components/ui/SplitRevealTitle';
+import { LineReveal } from '@/components/ui/LineReveal';
+import { ProjectCard } from '@/components/ProjectCard';
+import { CTASection } from '@/components/CTASection';
+import { PROJECTS } from '@/data/projects';
 
 interface ProjectDetailPageProps {
   params: Promise<{ id: string }>;
 }
 
-export default async function ProjectDetailPage({ params }: ProjectDetailPageProps) {
+export default async function ProjectDetailPage({
+  params,
+}: ProjectDetailPageProps) {
   const { id } = await params;
   const projectId = Number.parseInt(id, 10);
 
@@ -31,21 +33,20 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
     notFound();
   }
 
-  const words = project.title.split(" ");
+  const words = project.title.split(' ');
   const midpoint = Math.max(1, Math.ceil(words.length / 2));
-  const titleLine1 = words.slice(0, midpoint).join(" ");
-  const titleLine2 = words.slice(midpoint).join(" ") || "Realizacja";
-  
-  const relatedProjects = PROJECTS.filter((item) => item.id !== project.id).slice(
-    0,
-    2,
-  );
-  const hasLiveLink = project.link.startsWith("http");
+  const titleLine1 = words.slice(0, midpoint).join(' ');
+  const titleLine2 = words.slice(midpoint).join(' ') || 'Realizacja';
+
+  const relatedProjects = PROJECTS.filter(
+    (item) => item.id !== project.id,
+  ).slice(0, 2);
+  const hasLiveLink = project.link.startsWith('http');
 
   return (
     <div className="min-h-screen bg-neutral-900 text-white overflow-x-clip font-sans">
       <ProjectCardScrollShaderOverlay />
-      
+
       {/* Background Ambience */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute top-[-10%] right-[-5%] w-[1000px] h-[1000px] bg-[#916AFF]/10 rounded-full blur-[150px] mix-blend-screen animate-pulse-slow" />
@@ -108,7 +109,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
               className="border-none"
               mediaClassName="h-[60vh] md:h-[80vh]"
             />
-            
+
             {/* Stats Grid - Borders touch edges, content follows container */}
             <div className="grid grid-cols-1 md:grid-cols-3 border-t border-white/10">
               <div className="group border-b md:border-b-0 md:border-r border-white/10 bg-transparent py-10 md:py-16 pl-4 md:pl-8 lg:pl-[calc((100vw-1536px)/2+2rem)] pr-8 transition-colors hover:bg-white/[0.02]">
@@ -128,7 +129,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                   Zakres prac
                 </p>
                 <h4 className="text-3xl md:text-4xl font-medium text-white tracking-tight leading-tight">
-                  {project.tags.slice(0, 3).join(" + ")}
+                  {project.tags.slice(0, 3).join(' + ')}
                 </h4>
               </div>
               <div className="group border-white/10 bg-transparent py-10 md:py-16 pl-8 pr-4 md:pr-8 lg:pr-[calc((100vw-1536px)/2+2rem)] transition-colors hover:bg-white/[0.02]">
@@ -137,7 +138,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                   Status
                 </p>
                 <h4 className="text-3xl md:text-4xl font-medium text-white tracking-tight">
-                  {hasLiveLink ? "Live" : "W produkcji"}
+                  {hasLiveLink ? 'Live' : 'W produkcji'}
                 </h4>
               </div>
             </div>
@@ -151,10 +152,15 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
               </h3>
               <div className="space-y-6 text-neutral-400 text-lg leading-relaxed font-light">
                 <p>
-                  Każdy projekt w Hermer traktujemy jako unikalne wyzwanie biznesowe. Naszym celem nie jest tylko stworzenie estetycznej strony, ale przede wszystkim narzędzia, które realizuje konkretne cele.
+                  Każdy projekt w Hermer traktujemy jako unikalne wyzwanie
+                  biznesowe. Naszym celem nie jest tylko stworzenie estetycznej
+                  strony, ale przede wszystkim narzędzia, które realizuje
+                  konkretne cele.
                 </p>
                 <p>
-                  W przypadku realizacji {project.title}, skupiliśmy się na harmonijnym połączeniu nowoczesnego designu z intuicyjną architekturą informacji.
+                  W przypadku realizacji {project.title}, skupiliśmy się na
+                  harmonijnym połączeniu nowoczesnego designu z intuicyjną
+                  architekturą informacji.
                 </p>
               </div>
             </div>
@@ -181,12 +187,12 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
             </div>
           </section>
 
-          <CTASection 
+          <CTASection
             title="Twój projekt może być następny"
             subtitleLines={[
-              "Podoba Ci się ta realizacja?",
-              "Zaprojektujmy wspólnie system,",
-              "który wyróżni Twój biznes.",
+              'Podoba Ci się ta realizacja?',
+              'Zaprojektujmy wspólnie system,',
+              'który wyróżni Twój biznes.',
             ]}
           />
         </main>
