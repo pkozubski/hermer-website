@@ -34,7 +34,7 @@ const teamMembers: TeamMember[] = [
   {
     name: "Jacek",
     role: "CEO",
-    yearsNum: "14",
+    yearsNum: "16",
     yearsText: "LAT DOŚW.",
     description:
       "Łączy wiedzę biznesową z technologiczną. Strateg, który widzi szerszą perspektywę.",
@@ -91,15 +91,6 @@ const teamMembers: TeamMember[] = [
     description:
       "Tworzy wizualną stronę projektów, dbając o estetykę i spójność.",
     image: DarekImg,
-  },
-  {
-    name: "Ewelina",
-    role: "Specjalista ds. Sprzedaży",
-    yearsNum: "4",
-    yearsText: "LAT DOŚW.",
-    description:
-      "Buduje relacje z klientami i dba o ich zadowolenie na każdym etapie współpracy.",
-    image: EwelinaImg,
   },
   {
     name: "Oliwia",

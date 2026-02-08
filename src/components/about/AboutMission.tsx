@@ -25,7 +25,7 @@ export const AboutMission = () => {
 
               <div className="relative z-10">
                 <p className="text-3xl md:text-5xl font-light text-white leading-[1.15]">
-                  Od <span className="font-medium text-[#916AFF]">14 lat</span>{" "}
+                  Od <span className="font-medium text-[#916AFF]">16 lat</span>{" "}
                   pomagamy przedsiębiorcom zwiększać zyski dzięki skutecznym
                   stronom internetowym, które{" "}
                   <span className="relative inline-block">

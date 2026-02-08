@@ -185,7 +185,7 @@ export const About: React.FC = () => {
                   </span>
                 </div>
                 <h2 className="text-7xl lg:text-8xl font-semibold text-transparent bg-clip-text bg-linear-to-br from-white via-white to-white/60 tracking-tighter leading-none">
-                  14<span className="text-4xl align-top text-[#8B5CF6]">+</span>
+                  16<span className="text-4xl align-top text-[#8B5CF6]">+</span>
                 </h2>
                 <p className="text-xs text-neutral-300/80 font-normal uppercase tracking-[0.16em] mt-2">
                   lat w branży digital

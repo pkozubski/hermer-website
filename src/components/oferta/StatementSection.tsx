@@ -41,7 +41,7 @@ export const StatementSection = () => {
               delay={0}
             />
             <StatCounter
-              value="14 Lat"
+              value="16 Lat"
               label="Doświadczenia w Branży"
               delay={0.2}
             />

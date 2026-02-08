@@ -1,10 +1,13 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { ScrambleText } from './ui/ScrambleText';
 import { PROJECTS } from '@/data/projects';
+
+const MotionLink = motion(Link);
 
 type ProjectType = (typeof PROJECTS)[0];
 
@@ -14,12 +17,13 @@ interface ProjectCardProps {
 }
 
 export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
+  const destinationHref = `/realizacje/${project.id}`;
+
   return (
     <div>
-      <motion.a
-        href={project.link}
-        target="_blank"
-        rel="noopener noreferrer"
+      <MotionLink
+        href={destinationHref}
+        data-project-card
         className="group block"
         whileHover="hover"
         initial="rest"
@@ -110,7 +114,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ project, index }) => {
             </h3>
           </div>
         </div>
-      </motion.a>
+      </MotionLink>
     </div>
   );
 };

@@ -44,9 +44,9 @@ export const BlogCard = ({ post, index = 0 }: BlogCardProps) => {
           <div className="absolute inset-x-0 bottom-0 h-1/2 bg-linear-to-t from-black/60 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
 
           {/* Floating Category Badge */}
-          <div className="absolute top-6 left-6 z-10">
+          <div className="absolute top-6 left-6 z-30">
             <span className="px-3 py-1.5 bg-neutral-900/80 backdrop-blur-md text-xs font-bold uppercase tracking-widest text-white rounded-full shadow-sm border border-white/10 group-hover:bg-neutral-900 transition-all duration-300">
-              {post.category}
+              {typeof post.category === "string" ? post.category : "Blog"}
             </span>
           </div>
         </div>

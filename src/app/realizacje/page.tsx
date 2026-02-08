@@ -10,7 +10,10 @@ import { SplitRevealTitle } from "@/components/ui/SplitRevealTitle";
 
 export default function RealizacjePage() {
   return (
-    <div className="min-h-screen bg-neutral-900 text-white overflow-x-clip">
+    <div
+      data-realizations-root
+      className="min-h-screen bg-neutral-900 text-white overflow-x-clip"
+    >
       <ProjectCardScrollShaderOverlay />
       {/* Background Decor */}
       <div className="fixed inset-0 pointer-events-none z-0">
@@ -39,7 +42,10 @@ export default function RealizacjePage() {
           </div>
 
           {/* Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-16 md:gap-y-24">
+          <div
+            data-realizations-zoom-target
+            className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-16 md:gap-y-24"
+          >
             {PROJECTS.map((project, index) => (
               <ProjectCard key={project.id} project={project} index={index} />
             ))}

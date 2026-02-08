@@ -1,9 +1,9 @@
-"use client";
-import { useEffect, useRef, useCallback } from "react";
-import { useInView } from "framer-motion";
+'use client';
+import { useEffect, useRef, useCallback } from 'react';
+import { useInView } from 'framer-motion';
 
 const CHARS =
-  "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*";
+  'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
 
 interface ScrambleTextProps {
   text: string;
@@ -15,7 +15,7 @@ interface ScrambleTextProps {
 
 export const ScrambleText = ({
   text,
-  className = "",
+  className = '',
   delay = 0,
   speed = 25,
   trailLength = 4,
@@ -28,7 +28,13 @@ export const ScrambleText = ({
     lastTime: number;
     revealedCount: number;
     isRunning: boolean;
-  }>({ timeout: null, raf: null, lastTime: 0, revealedCount: 0, isRunning: false });
+  }>({
+    timeout: null,
+    raf: null,
+    lastTime: 0,
+    revealedCount: 0,
+    isRunning: false,
+  });
 
   const cleanup = useCallback(() => {
     const state = animationRef.current;
@@ -44,7 +50,7 @@ export const ScrambleText = ({
   useEffect(() => {
     if (!isInView) {
       cleanup();
-      if (ref.current) ref.current.textContent = "";
+      if (ref.current) ref.current.textContent = '';
       return;
     }
 
@@ -64,15 +70,15 @@ export const ScrambleText = ({
         state.revealedCount++;
 
         const result = text
-          .split("")
+          .split('')
           .map((char, i) => {
             if (i < state.revealedCount - trailLength) return char;
-            if (char === " " || char === "•") return char;
+            if (char === ' ' || char === '•') return char;
             if (i < state.revealedCount)
               return CHARS[Math.floor(Math.random() * CHARS.length)];
-            return "";
+            return '';
           })
-          .join("");
+          .join('');
 
         if (ref.current) ref.current.textContent = result;
 
@@ -93,7 +99,5 @@ export const ScrambleText = ({
     return cleanup;
   }, [isInView, text, delay, speed, trailLength, cleanup]);
 
-  return (
-    <span ref={ref} className={className} />
-  );
+  return <span ref={ref} className={className} />;
 };

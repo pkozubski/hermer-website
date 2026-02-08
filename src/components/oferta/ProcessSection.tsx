@@ -18,7 +18,7 @@ export const ProcessSection: React.FC = () => {
       icon: BarChartBig,
       title: "Przeprowadzamy audyt marketingowy",
       description:
-        "Specjalista z 14-letnim doświadczeniem dopracuje strategię marketingową strony, uwzględniając ustalone cele.",
+        "Specjalista z 16-letnim doświadczeniem dopracuje strategię marketingową strony, uwzględniając ustalone cele.",
     },
     {
       icon: Rocket,

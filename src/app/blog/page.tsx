@@ -10,11 +10,11 @@ import { BlogContent } from "@/components/blog/BlogContent";
 export const revalidate = 60;
 
 async function getPosts() {
-  const query = `*[_type == "post" && defined(slug.current)] | order(publishedAt desc) {
+  const query = `*[_type == "post" && defined(slug.current)] | order(publishedAt desc) [0...9] {
     _id,
     title,
     slug,
-    category,
+    "category": category->title,
     mainImage,
     year,
     publishedAt
@@ -22,8 +22,37 @@ async function getPosts() {
   return await client.fetch(query);
 }
 
+async function getCategories() {
+  const query = `*[_type == "category" && count(*[_type == "post" && references(^._id)]) > 0] {
+    title
+  } | order(title asc)`;
+  const cats = await client.fetch(query);
+  return cats.map((c: any) => c.title);
+}
+
+async function getBlogStats() {
+  const query = `*[_type == "post" && defined(slug.current)] {
+    "wordCount": length(pt::text(body))
+  }`;
+  const results = await client.fetch(query);
+  const total = results.length;
+  const avgWords = total > 0 
+    ? results.reduce((acc: number, curr: any) => acc + (curr.wordCount || 0), 0) / total 
+    : 0;
+  const avgReadingTime = Math.ceil(avgWords / 200); // 200 words per minute
+
+  return {
+    totalPosts: total,
+    avgReadingTime: avgReadingTime || 5
+  };
+}
+
 export default async function BlogPage() {
-  const posts: Post[] = await getPosts();
+  const [posts, categories, stats] = await Promise.all([
+    getPosts(),
+    getCategories(),
+    getBlogStats()
+  ]);
 
   return (
     <div className="relative min-h-screen bg-neutral-900 font-sans text-white overflow-x-clip selection:bg-[#916AFF] selection:text-white">
@@ -39,7 +68,7 @@ export default async function BlogPage() {
       <Header allowVisibility={true} />
 
       <div className="relative z-10">
-        <BlogContent posts={posts} />
+        <BlogContent posts={posts} categories={categories} stats={stats} />
       </div>
 
       <Footer />

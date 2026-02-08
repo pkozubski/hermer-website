@@ -3,7 +3,14 @@ import { motion } from "framer-motion";
 import { SplitRevealTitle } from "../ui/SplitRevealTitle";
 import { LineReveal } from "../ui/LineReveal";
 
-export const BlogHero: React.FC = () => {
+interface BlogHeroProps {
+  stats: {
+    totalPosts: number;
+    avgReadingTime: number;
+  };
+}
+
+export const BlogHero: React.FC<BlogHeroProps> = ({ stats }) => {
   return (
     <section className="container mx-auto px-4 md:px-8 mb-20 relative pt-32 md:pt-48">
       {/* Background Glow */}
@@ -33,7 +40,7 @@ export const BlogHero: React.FC = () => {
             className="border-l border-white/20 pl-6"
           >
             <span className="block text-3xl font-black text-white">
-              120+
+              {stats.totalPosts}+
             </span>
             <span className="text-slate-400 font-medium">Artykułów</span>
           </motion.div>
@@ -45,7 +52,7 @@ export const BlogHero: React.FC = () => {
             className="border-l border-white/20 pl-6"
           >
             <span className="block text-3xl font-black text-white">
-              5 min
+              {stats.avgReadingTime} min
             </span>
             <span className="text-slate-400 font-medium">
               Średni czas czytania

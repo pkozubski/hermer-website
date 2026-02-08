@@ -41,7 +41,7 @@ const CardWrapper = ({
   );
 };
 
-// --- Card 1: Sales Growth (14 lat) ---
+// --- Card 1: Sales Growth (16 lat) ---
 const SalesCard = () => {
   return (
     <div className="h-full flex flex-col justify-between p-8 min-h-[400px]">
@@ -63,7 +63,7 @@ const SalesCard = () => {
       <div className="relative z-10 flex flex-col items-start">
         <div className="flex items-baseline gap-2">
           <h2 className="text-8xl md:text-9xl font-bold leading-none text-white tracking-tighter">
-            14
+            16
           </h2>
           <span className="text-2xl md:text-3xl font-medium text-neutral-400">
             lat
@@ -480,7 +480,7 @@ export const Stats: React.FC = () => {
     <div className="bg-transparent py-20 px-4 sm:px-6 lg:px-8 font-sans">
       {/* Bento Grid */}
       <div className="max-w-screen-2xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[minmax(180px,auto)]">
-        {/* Card 1: 14 Lat (Big) */}
+        {/* Card 1: 16 Lat (Big) */}
         <CardWrapper colSpan="md:col-span-2 row-span-2">
           <SalesCard />
         </CardWrapper>

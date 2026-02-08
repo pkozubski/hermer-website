@@ -22,7 +22,8 @@ export const post = defineType({
     defineField({
       name: "category",
       title: "Kategoria",
-      type: "string",
+      type: "reference",
+      to: [{ type: "category" }],
     }),
     defineField({
       name: "mainImage",
@@ -48,6 +49,31 @@ export const post = defineType({
       title: "Treść",
       type: "array",
       of: [{ type: "block" }, { type: "image" }],
+    }),
+    defineField({
+      name: "seo",
+      title: "SEO",
+      type: "object",
+      fields: [
+        {
+          name: "title",
+          title: "Meta Tytuł",
+          type: "string",
+          description: "Tytuł wyświetlany w wyszukiwarce (zalecane ok. 60 znaków)",
+        },
+        {
+          name: "description",
+          title: "Meta Opis",
+          type: "text",
+          description: "Opis wyświetlany w wyszukiwarce (zalecane ok. 160 znaków)",
+        },
+        {
+          name: "ogImage",
+          title: "Zdjęcie Open Graph",
+          type: "image",
+          description: "Zdjęcie wyświetlane przy udostępnianiu w mediach społecznościowych",
+        },
+      ],
     }),
   ],
 });

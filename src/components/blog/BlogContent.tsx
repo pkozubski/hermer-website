@@ -1,57 +1,102 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect, useRef, useCallback } from "react";
 import { BlogHero } from "./BlogHero";
 import { BlogFeaturedPost } from "./BlogFeaturedPost";
 import { BlogFilters } from "./BlogFilters";
 import { BlogGridCard } from "./BlogGridCard";
 import { BlogNewsletterCard } from "./BlogNewsletterCard";
-import { BlogPagination } from "./BlogPagination";
 import { Post } from "@/components/cards/BlogCard";
 import { CTASection } from "@/components/CTASection";
+import { ProjectCardScrollShaderOverlay } from "../ProjectCardScrollShader";
 
 interface BlogContentProps {
   posts: Post[];
+  categories: string[];
+  stats: {
+    totalPosts: number;
+    avgReadingTime: number;
+  };
 }
 
-export const BlogContent: React.FC<BlogContentProps> = ({ posts }) => {
+export const BlogContent: React.FC<BlogContentProps> = ({ 
+  posts: initialPosts,
+  categories,
+  stats 
+}) => {
+  const [posts, setPosts] = useState<Post[]>(initialPosts);
   const [activeCategory, setActiveCategory] = useState("Wszystkie");
-  const [currentPage, setCurrentPage] = useState(1);
-  const postsPerPage = 8; // Adjust as needed
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(initialPosts.length >= 9);
+  
+  const observerTarget = useRef<HTMLDivElement>(null);
 
-  // Extract categories
-  const categories = useMemo(() => {
-    const cats = new Set(posts.map((p) => p.category).filter(Boolean));
-    return Array.from(cats);
-  }, [posts]);
+  const fetchPosts = useCallback(async (category: string, lastPublishedAt?: string) => {
+    setIsLoading(true);
+    try {
+      const url = new URL("/api/blog-posts", window.location.origin);
+      url.searchParams.set("limit", "9");
+      if (category !== "Wszystkie") url.searchParams.set("category", category);
+      if (lastPublishedAt) url.searchParams.set("lastPublishedAt", lastPublishedAt);
 
-  // Filter posts
-  const filteredPosts = useMemo(() => {
-    if (activeCategory === "Wszystkie") {
-      // Exclude the first post as it is featured, unless we have very few posts
-      return posts.length > 0 ? posts.slice(1) : [];
+      const response = await fetch(url.toString());
+      const newPosts = await response.json();
+
+      if (lastPublishedAt) {
+        setPosts((prev) => [...prev, ...newPosts]);
+      } else {
+        setPosts(newPosts);
+      }
+
+      setHasMore(newPosts.length === 9);
+    } catch (error) {
+      console.error("Failed to fetch posts:", error);
+    } finally {
+      setIsLoading(false);
     }
-    return posts.filter((p) => p.category === activeCategory);
-  }, [posts, activeCategory]);
+  }, []);
 
-  // Pagination Logic
-  const totalPages = Math.ceil((filteredPosts.length + 1) / postsPerPage); // +1 for newsletter? logic can vary
-  // Let's simplify: Pagination applies to the list *before* newsletter insertion, or after?
-  // Easier: Paginate the filteredPosts, then try to insert Newsletter in the visible chunk.
+  // Handle category change
+  useEffect(() => {
+    // Skip initial fetch since it's handled by SSR for "Wszystkie"
+    if (activeCategory === "Wszystkie" && posts === initialPosts) return;
+    
+    setPosts([]); // Clear immediately to trigger shader cleanup
+    fetchPosts(activeCategory);
+  }, [activeCategory, fetchPosts, initialPosts]);
 
-  const indexOfLastPost = currentPage * postsPerPage;
-  const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  const currentPosts = filteredPosts.slice(indexOfFirstPost, indexOfLastPost);
+  // Infinite Scroll Observer
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasMore && !isLoading) {
+          const lastPost = posts[posts.length - 1];
+          if (lastPost?.publishedAt) {
+            fetchPosts(activeCategory, lastPost.publishedAt);
+          }
+        }
+      },
+      { threshold: 0.1 }
+    );
 
-  // Featured Post is always the first one (index 0) of the original list
-  const featuredPost = posts[0];
+    if (observerTarget.current) {
+      observer.observe(observerTarget.current);
+    }
+
+    return () => observer.disconnect();
+  }, [posts, hasMore, isLoading, activeCategory, fetchPosts]);
+
+  // Featured Post is the first one in "Wszystkie"
+  const featuredPost = activeCategory === "Wszystkie" ? posts[0] : null;
+  const gridPosts = activeCategory === "Wszystkie" ? posts.slice(1) : posts;
 
   return (
     <div className="min-h-screen bg-transparent">
+      <ProjectCardScrollShaderOverlay />
       <main className="pb-20">
-        <BlogHero />
+        <BlogHero stats={stats} />
 
-        {featuredPost && activeCategory === "Wszystkie" && (
+        {featuredPost && (
           <BlogFeaturedPost post={featuredPost} />
         )}
 
@@ -60,36 +105,43 @@ export const BlogContent: React.FC<BlogContentProps> = ({ posts }) => {
           activeCategory={activeCategory}
           onCategoryChange={(cat) => {
             setActiveCategory(cat);
-            setCurrentPage(1);
           }}
         />
 
         <section className="container mx-auto px-4 md:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-            {currentPosts.map((post, index) => (
+          <div 
+            key={activeCategory}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16 md:gap-y-24"
+          >
+            {gridPosts.map((post, index) => (
               <React.Fragment key={post._id}>
-                {/* Insert Newsletter after 5th item (index 4) so it appears as 6th item */}
-                {index === 5 && <BlogNewsletterCard />}
                 <BlogGridCard post={post} index={index} />
+                {/* Insert Newsletter after specific position if needed */}
+                {index === 5 && <BlogNewsletterCard />}
               </React.Fragment>
             ))}
 
-            {/* If we have fewer than 5 posts, appending newsletter might be good too. 
-                    Or just ensure it shows up somewhere. 
-                    For now, specific insertion at index 5 is what sketch implies. 
-                    If list is short, maybe append it at the end? 
-                */}
-            {(currentPosts.length < 5 || currentPosts.length === 5) && (
+            {gridPosts.length <= 5 && !isLoading && (
               <BlogNewsletterCard />
             )}
           </div>
-        </section>
 
-        <BlogPagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={setCurrentPage}
-        />
+          {/* Observer Target */}
+          <div ref={observerTarget} className="h-20 w-full flex items-center justify-center mt-12">
+            {isLoading && (
+              <div className="flex gap-2">
+                <div className="w-2 h-2 bg-[#916AFF] rounded-full animate-bounce" />
+                <div className="w-2 h-2 bg-[#916AFF] rounded-full animate-bounce [animation-delay:0.2s]" />
+                <div className="w-2 h-2 bg-[#916AFF] rounded-full animate-bounce [animation-delay:0.4s]" />
+              </div>
+            )}
+            {!hasMore && posts.length > 0 && (
+              <p className="text-neutral-500 text-sm font-medium uppercase tracking-widest">
+                To już wszystkie wpisy
+              </p>
+            )}
+          </div>
+        </section>
 
         <CTASection />
       </main>

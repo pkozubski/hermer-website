@@ -1,5 +1,6 @@
 "use client";
 import { ReactLenis } from "lenis/react";
+import { ScrollToTop } from "./ui/ScrollToTop";
 
 export const SmoothScroll = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -13,6 +14,7 @@ export const SmoothScroll = ({ children }: { children: React.ReactNode }) => {
         smoothWheel: true,
       }}
     >
+      <ScrollToTop />
       {children}
     </ReactLenis>
   );

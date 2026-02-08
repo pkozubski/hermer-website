@@ -426,7 +426,19 @@ function PhoneMockup() {
   );
 }
 
-export function CTASection() {
+interface CTASectionProps {
+  title?: string;
+  subtitleLines?: string[];
+}
+
+export function CTASection({ 
+  title = "Gotowy na zmianę?", 
+  subtitleLines = [
+    "Skontaktuj się z nami i porozmawiajmy",
+    "o Twoim projekcie. Wycena",
+    "i konsultacja są bezpłatne.",
+  ]
+}: CTASectionProps) {
   return (
     <section
       className="relative w-full bg-[rgba(255,255,255,0.01)] mt-32"
@@ -437,16 +449,12 @@ export function CTASection() {
           {/* Left Column: Text */}
           <div className="flex-1 flex flex-col items-center lg:items-start text-center lg:text-left">
             <h2 className="text-5xl md:text-8xl text-white tracking-tighter leading-tight">
-              Gotowy na zmianę?
+              {title}
             </h2>
 
             <div className="mt-8">
               <LineReveal
-                lines={[
-                  "Skontaktuj się z nami i porozmawiajmy",
-                  "o Twoim projekcie. Wycena",
-                  "i konsultacja są bezpłatne.",
-                ]}
+                lines={subtitleLines}
                 className="text-neutral-400 max-w-xs md:max-w-sm text-xs md:text-sm uppercase tracking-wide leading-relaxed"
               />
             </div>

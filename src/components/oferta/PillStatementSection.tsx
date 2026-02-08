@@ -59,7 +59,7 @@ export const PillStatementSection = () => {
           className="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 mt-20 md:mt-32 pt-10 border-t border-white/10"
         >
           {[
-            { value: "14 lat", label: "Rozwijamy sprzedaż naszych klientów" },
+            { value: "16 lat", label: "Rozwijamy sprzedaż naszych klientów" },
             {
               value: "9 lat",
               label: "Tyle wynosi średnie doświadczenie w naszym zespole",

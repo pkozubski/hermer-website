@@ -30,10 +30,13 @@ void main() {
   vec3 pos = position;
 
   float sideMask = 0.0;
-  if (uDirection > 0.0) {
+  if (uDirection > 0.5) {
     sideMask = uv.x;
-  } else {
+  } else if (uDirection < -0.5) {
     sideMask = 1.0 - uv.x;
+  } else {
+    // Center column: both sides
+    sideMask = abs(uv.x - 0.5) * 2.0;
   }
   sideMask = pow(sideMask, 3.0);
 
@@ -117,8 +120,9 @@ export const ProjectCardScrollShaderOverlay: React.FC = () => {
     container.appendChild(renderer.domElement);
 
     const loader = new THREE.TextureLoader();
+    loader.setCrossOrigin('anonymous');
     const tracked: TrackedImage[] = [];
-    const known = new WeakSet<HTMLImageElement>();
+    const known = new Set<HTMLImageElement>();
 
     const scanImages = () => {
       document
@@ -170,15 +174,11 @@ export const ProjectCardScrollShaderOverlay: React.FC = () => {
         });
     };
 
-    let scrollY = window.scrollY;
+    let scrollY = typeof window !== 'undefined' ? window.scrollY : 0;
     let prevScrollY = scrollY;
     let scrollVelocity = 0;
     let lastTime = performance.now();
-
-    const onScroll = () => {
-      scrollY = window.scrollY;
-    };
-    window.addEventListener('scroll', onScroll, { passive: true });
+    const startTime = performance.now();
 
     const meshPositionAndScale = (
       mesh: THREE.Mesh<THREE.PlaneGeometry, THREE.ShaderMaterial>,
@@ -193,13 +193,35 @@ export const ProjectCardScrollShaderOverlay: React.FC = () => {
       animId = requestAnimationFrame(animate);
       scanImages();
 
+      // Clean up disconnected elements
+      for (let i = tracked.length - 1; i >= 0; i--) {
+        const obj = tracked[i];
+        if (!obj.el.isConnected) {
+          scene.remove(obj.mesh);
+          obj.mesh.geometry.dispose();
+          obj.mesh.material.dispose();
+          obj.texture.dispose();
+          tracked.splice(i, 1);
+          // Note: WeakSet doesn't need manual removal, but the image might be re-added
+          // If we want to allow re-scanning the same image element if it's re-mounted:
+          known.delete(obj.el);
+        }
+      }
+
+      // Read scrollY directly every frame for better sync with Lenis/Main thread
+      scrollY = window.scrollY;
+
       const now = performance.now();
-      const dt = Math.max((now - lastTime) / 1000, 1 / 240);
+      const dt = Math.max((now - lastTime) / 1000, 0.001);
       lastTime = now;
 
       const delta = scrollY - prevScrollY;
       prevScrollY = scrollY;
-      const rawVel = delta / dt;
+      
+      // Avoid velocity spikes on initial load/scroll restoration
+      const isInitial = now - startTime < 500;
+      const rawVel = (isInitial && Math.abs(delta) > 100) ? 0 : delta / dt;
+      
       scrollVelocity += (rawVel - scrollVelocity) * 0.12;
 
       tracked.forEach((obj) => {
@@ -210,11 +232,15 @@ export const ProjectCardScrollShaderOverlay: React.FC = () => {
           obj.mesh.visible = false;
           return;
         }
-        obj.mesh.visible = rect.bottom > -50 && rect.top < h + 50;
+        
+        // Only show if image is actually loaded and visible
+        obj.mesh.visible = rect.bottom > -100 && rect.top < h + 100 && obj.el.complete;
 
         meshPositionAndScale(obj.mesh, rect);
 
-        const direction = obj.mesh.position.x > 0 ? 1.0 : -1.0;
+        // Determine direction: 1 for right, -1 for left, 0 for center
+        // If the mesh is roughly in the middle of the screen (3-column layout), use 0
+        let direction = obj.mesh.position.x > 80 ? 1.0 : (obj.mesh.position.x < -80 ? -1.0 : 0.0);
         obj.mesh.material.uniforms.uDirection.value = direction;
 
         const normalizedY = obj.mesh.position.y / (h * 0.5);
@@ -265,7 +291,6 @@ export const ProjectCardScrollShaderOverlay: React.FC = () => {
 
     return () => {
       cancelAnimationFrame(animId);
-      window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', onResize);
 
       tracked.forEach(({ el, mesh, texture }) => {

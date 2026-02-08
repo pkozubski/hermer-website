@@ -29,7 +29,7 @@ export const AboutHero = () => {
             <LineReveal
               lines={[
                 "Tworzymy strony, które pracują na Twój zysk.",
-                "Od 14 lat łączymy design ze skuteczną sprzedażą.",
+                "Od 16 lat łączymy design ze skuteczną sprzedażą.",
               ]}
               className="text-lg md:text-2xl max-w-2xl text-neutral-400 font-light leading-relaxed"
             />
