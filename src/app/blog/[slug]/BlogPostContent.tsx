@@ -207,7 +207,7 @@ export default function BlogPostContent({ initialPost }: { initialPost: any }) {
 
                 <div className="flex flex-wrap items-center gap-4 mb-8">
                   <span className="px-4 py-1.5 bg-[#916AFF] text-white text-xs font-black uppercase tracking-widest rounded-full">
-                    {initialPost.category}
+                    {typeof initialPost.category === "string" ? initialPost.category : "Blog"}
                   </span>
                   <div className="flex items-center gap-2 text-white/60 text-sm font-medium">
                     <Clock size={16} />
@@ -258,7 +258,7 @@ export default function BlogPostContent({ initialPost }: { initialPost: any }) {
 
               <div className="mt-20 pt-10 border-t border-white/10 flex flex-wrap gap-4">
                 <span className="text-white/40 text-sm font-bold uppercase tracking-widest mr-4">Tags:</span>
-                {["Digital", initialPost.category, "Marketing", "Strategy"].map(tag => (
+                {["Digital", typeof initialPost.category === "string" ? initialPost.category : "Strategy", "Marketing", "Strategy"].map(tag => (
                   <span key={tag} className="text-[#916AFF] text-sm font-bold hover:underline cursor-pointer">#{tag}</span>
                 ))}
               </div>

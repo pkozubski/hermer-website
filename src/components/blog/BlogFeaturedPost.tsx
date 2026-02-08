@@ -35,7 +35,7 @@ export const BlogFeaturedPost: React.FC<BlogFeaturedPostProps> = ({ post }) => {
           <div className="relative z-10 max-w-3xl text-white">
             <div className="flex items-center space-x-4 mb-6">
               <span className="bg-[#916AFF] text-white text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full">
-                {post.category || "Featured"}
+                {typeof post.category === "string" ? post.category : "Featured"}
               </span>
               <span className="text-white/80 text-sm font-medium">
                 {post.year}

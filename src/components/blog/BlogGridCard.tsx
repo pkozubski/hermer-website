@@ -51,7 +51,7 @@ export const BlogGridCard: React.FC<BlogGridCardProps> = ({ post, index }) => {
 
             <div className="absolute top-4 left-4 pointer-events-none z-30">
               <span className="bg-black/50 backdrop-blur-md text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full border border-white/10 shadow-sm">
-                {post.category || 'General'}
+                {typeof post.category === "string" ? post.category : 'General'}
               </span>
             </div>
           </motion.div>
