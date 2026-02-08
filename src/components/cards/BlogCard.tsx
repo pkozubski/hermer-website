@@ -13,6 +13,7 @@ export interface Post {
   category: string;
   mainImage: any;
   year: string;
+  publishedAt?: string;
 }
 
 interface BlogCardProps {
