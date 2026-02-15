@@ -14,6 +14,7 @@ interface ReelCtaButtonProps {
   hoverColor?: string;
   hoverTextColor?: string;
   size?: "default" | "large" | "small";
+  noShadow?: boolean;
 }
 
 export function ReelCtaButton({
@@ -25,6 +26,7 @@ export function ReelCtaButton({
   hoverColor = "#ffffff",
   hoverTextColor = "#000000",
   size = "default",
+  noShadow = false,
 }: ReelCtaButtonProps) {
   const [scale, setScale] = React.useState(1);
   const buttonRef = React.useRef<HTMLDivElement>(null);
@@ -83,7 +85,11 @@ export function ReelCtaButton({
     <Link href={href} className={`inline-block ${className}`}>
       <motion.div
         ref={buttonRef}
-        className={`group relative inline-flex items-center ${heightClass} ${paddingClass} rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.08)] overflow-hidden cursor-pointer select-none no-underline transition-shadow duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.15)]`}
+        className={`group relative inline-flex items-center ${heightClass} ${paddingClass} rounded-full ${
+          noShadow
+            ? ""
+            : "shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.15)]"
+        } overflow-hidden cursor-pointer select-none no-underline transition-shadow duration-300`}
         style={{
           backgroundColor: baseColor,
           color: textColor,

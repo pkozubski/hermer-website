@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import React, { useId, useLayoutEffect, useRef } from 'react';
-import { gsap } from 'gsap/dist/gsap';
-import { Flip } from 'gsap/dist/Flip';
-import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
+import React, { useId, useLayoutEffect, useRef } from "react";
+import { gsap } from "gsap/dist/gsap";
+import { Flip } from "gsap/dist/Flip";
+import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 
-if (typeof window !== 'undefined') {
+if (typeof window !== "undefined") {
   gsap.registerPlugin(Flip, ScrollTrigger);
 }
 
@@ -14,7 +14,7 @@ if (typeof window !== 'undefined') {
 const ChaosLogo = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
->(({ className = '', ...props }, ref) => (
+>(({ className = "", ...props }, ref) => (
   <div
     ref={ref}
     className={`relative w-[80px] h-[32px] md:w-[98px] md:h-[40px] ${className}`}
@@ -24,12 +24,12 @@ const ChaosLogo = React.forwardRef<
     <div className="absolute bg-[#555] left-0 rounded-[6px] md:rounded-[8px] w-[32px] h-[32px] md:w-[40px] md:h-[40px] top-0" />
   </div>
 ));
-ChaosLogo.displayName = 'ChaosLogo';
+ChaosLogo.displayName = "ChaosLogo";
 
 const ChaosMenu = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
->(({ className = '', ...props }, ref) => (
+>(({ className = "", ...props }, ref) => (
   <div
     ref={ref}
     className={`w-8 h-8 md:w-10 md:h-10 bg-[#555] rounded-lg flex items-center justify-center p-2 md:p-2.5 shadow-lg ${className}`}
@@ -42,12 +42,12 @@ const ChaosMenu = React.forwardRef<
     </div>
   </div>
 ));
-ChaosMenu.displayName = 'ChaosMenu';
+ChaosMenu.displayName = "ChaosMenu";
 
 const ChaosInput = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
->(({ className = '', ...props }, ref) => (
+>(({ className = "", ...props }, ref) => (
   <div ref={ref} className={`relative ${className}`} {...props}>
     <div className="absolute -top-[14px] md:-top-[18px] right-0 text-[8px] md:text-[10px] font-extralight text-white font-sans tracking-wider">
       H1
@@ -62,12 +62,12 @@ const ChaosInput = React.forwardRef<
     </div>
   </div>
 ));
-ChaosInput.displayName = 'ChaosInput';
+ChaosInput.displayName = "ChaosInput";
 
 const ChaosSkeletonList = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
->(({ className = '', ...props }, ref) => (
+>(({ className = "", ...props }, ref) => (
   <div
     ref={ref}
     className={`flex flex-col gap-2 md:gap-3 w-full px-2 ${className}`}
@@ -78,12 +78,12 @@ const ChaosSkeletonList = React.forwardRef<
     <div className="h-[16px] md:h-[20px] w-[39%] rounded-full bg-linear-to-r from-[#555] to-transparent" />
   </div>
 ));
-ChaosSkeletonList.displayName = 'ChaosSkeletonList';
+ChaosSkeletonList.displayName = "ChaosSkeletonList";
 
 const ChaosFeatureCard = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
->(({ className = '', ...props }, ref) => (
+>(({ className = "", ...props }, ref) => (
   <div
     ref={ref}
     // ZMIANA: Gradient przeniesiony ze 'style' do 'className' (bg-[...])
@@ -92,12 +92,12 @@ const ChaosFeatureCard = React.forwardRef<
     {...props}
   />
 ));
-ChaosFeatureCard.displayName = 'ChaosFeatureCard';
+ChaosFeatureCard.displayName = "ChaosFeatureCard";
 
 const ChaosButton = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
->(({ className = '', ...props }, ref) => (
+>(({ className = "", ...props }, ref) => (
   <div ref={ref} className={`${className}`} {...props}>
     <button className="w-[120px] h-[32px] md:w-[150px] md:h-[40px] rounded-[6px] relative group overflow-hidden transition-all hover:scale-105 active:scale-95 cursor-pointer">
       <div className="absolute inset-0 bg-linear-to-r from-[#9b87f5] to-[#6f6699]" />
@@ -106,7 +106,7 @@ const ChaosButton = React.forwardRef<
     </button>
   </div>
 ));
-ChaosButton.displayName = 'ChaosButton';
+ChaosButton.displayName = "ChaosButton";
 
 // --- Component Config ---
 
@@ -119,15 +119,15 @@ type ChaosItemConfig = {
 };
 
 const chaosConfig: ChaosItemConfig[] = [
-  { id: 'logo', top: '15%', left: '60%', rotate: -15, scale: 0.9 },
-  { id: 'menu', top: '12%', left: '90%', rotate: 20, scale: 1.0 },
-  { id: 'selection-input', top: '35%', left: '70%', rotate: 5, scale: 0.8 },
-  { id: 'skeleton-list', top: '55%', left: '80%', rotate: -8, scale: 0.9 },
-  { id: 'feature-card', top: '75%', left: '60%', rotate: 10, scale: 0.45 },
-  { id: 'action-button', top: '85%', left: '85%', rotate: -12, scale: 1.0 },
+  { id: "logo", top: "15%", left: "60%", rotate: -15, scale: 0.9 },
+  { id: "menu", top: "12%", left: "90%", rotate: 20, scale: 1.0 },
+  { id: "selection-input", top: "35%", left: "70%", rotate: 5, scale: 0.8 },
+  { id: "skeleton-list", top: "55%", left: "80%", rotate: -8, scale: 0.9 },
+  { id: "feature-card", top: "75%", left: "60%", rotate: 10, scale: 0.45 },
+  { id: "action-button", top: "85%", left: "85%", rotate: -12, scale: 1.0 },
 ];
 
-export const ChaosLanding = ({ className = '' }: { className?: string }) => {
+export const ChaosLanding = ({ className = "" }: { className?: string }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const visualPhoneRef = useRef<HTMLDivElement>(null);
   const invisiblePhoneRef = useRef<HTMLDivElement>(null);
@@ -150,10 +150,10 @@ export const ChaosLanding = ({ className = '' }: { className?: string }) => {
 
     if (visualPhoneRef.current) {
       gsap.to(visualPhoneRef.current, {
-        x: isMobile ? '0%' : '0%',
-        y: isMobile ? '0%' : '0%',
+        x: isMobile ? "0%" : "0%",
+        y: isMobile ? "0%" : "0%",
         duration: 0.8,
-        ease: 'power3.out',
+        ease: "power3.out",
         overwrite: true,
       });
     }
@@ -166,14 +166,14 @@ export const ChaosLanding = ({ className = '' }: { className?: string }) => {
         Flip.fit(el, target, {
           scale: true,
           absolute: true,
-          props: 'rotation',
+          props: "rotation",
         });
       }
     });
 
     Flip.from(state, {
       duration: 0.8,
-      ease: 'power4.out',
+      ease: "power4.out",
       stagger: 0.05,
       absolute: true,
       scale: true,
@@ -190,10 +190,10 @@ export const ChaosLanding = ({ className = '' }: { className?: string }) => {
 
     if (visualPhoneRef.current) {
       gsap.to(visualPhoneRef.current, {
-        x: isMobile ? '0%' : '200%',
-        y: isMobile ? '100%' : '0%',
+        x: isMobile ? "0%" : "200%",
+        y: isMobile ? "100%" : "0%",
         duration: 0.6,
-        ease: 'power3.in',
+        ease: "power3.in",
         overwrite: true,
       });
     }
@@ -205,11 +205,11 @@ export const ChaosLanding = ({ className = '' }: { className?: string }) => {
       if (!el) return;
 
       gsap.set(el, {
-        clearProps: 'all',
+        clearProps: "all",
       });
 
       gsap.set(el, {
-        position: 'absolute',
+        position: "absolute",
         top: item.top,
         left: item.left,
         rotation: item.rotate,
@@ -221,7 +221,7 @@ export const ChaosLanding = ({ className = '' }: { className?: string }) => {
 
     Flip.from(state, {
       duration: 1,
-      ease: 'elastic.out(1, 0.75)',
+      ease: "elastic.out(1, 0.75)",
       stagger: 0.03,
       absolute: true,
       scale: true,
@@ -245,11 +245,11 @@ export const ChaosLanding = ({ className = '' }: { className?: string }) => {
           if (!el) return;
 
           gsap.set(el, {
-            clearProps: 'all',
+            clearProps: "all",
           });
 
           gsap.set(el, {
-            position: 'absolute',
+            position: "absolute",
             top: item.top,
             left: item.left,
             rotation: item.rotate,
@@ -263,17 +263,17 @@ export const ChaosLanding = ({ className = '' }: { className?: string }) => {
       setChaosPositions();
 
       // Desktop
-      mm.add('(min-width: 768px)', () => {
-        gsap.set(visualPhoneRef.current, { x: '200%', y: '0%' });
+      mm.add("(min-width: 768px)", () => {
+        gsap.set(visualPhoneRef.current, { x: "200%", y: "0%" });
       });
 
       // Mobile
-      mm.add('(max-width: 767px)', () => {
-        gsap.set(visualPhoneRef.current, { x: '0%', y: '100%' });
+      mm.add("(max-width: 767px)", () => {
+        gsap.set(visualPhoneRef.current, { x: "0%", y: "100%" });
 
         ScrollTrigger.create({
           trigger: containerRef.current,
-          start: 'top 60%',
+          start: "top 60%",
           onEnter: () => animateIn(true),
           onLeaveBack: () => animateOut(true),
         });
@@ -302,12 +302,12 @@ export const ChaosLanding = ({ className = '' }: { className?: string }) => {
   return (
     <div
       ref={containerRef}
-      className={`relative w-full h-[600px] md:h-full bg-[#232323] backdrop-blur-xl rounded-[40px] border border-[#333] overflow-hidden shadow-2xl group cursor-default flex items-center justify-center ${className}`}
+      className={`relative w-full h-[600px] md:h-full bg-[#232323] rounded-[40px] border border-[#333] overflow-hidden shadow-2xl group cursor-default flex items-center justify-center ${className}`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-40 h-px bg-linear-to-r from-transparent via-white/55 to-transparent opacity-80 transition-all duration-500 group-hover:w-64 group-hover:opacity-100" />
-      <div className="pointer-events-none absolute -top-5 left-1/2 -translate-x-1/2 w-36 h-12 bg-[#916AFF]/25 blur-2xl opacity-70 transition-all duration-500 group-hover:w-56 group-hover:h-16 group-hover:opacity-95" />
+      <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-40 h-px bg-linear-to-r from-transparent via-white/55 to-transparent opacity-80 transition-[width,opacity] duration-500 group-hover:w-64 group-hover:opacity-100" />
+      <div className="pointer-events-none absolute -top-5 left-1/2 -translate-x-1/2 w-36 h-12 bg-[#916AFF]/25 blur-2xl opacity-70 transition-[width,height,opacity] duration-500 group-hover:w-56 group-hover:h-16 group-hover:opacity-95" />
       {/* Debug/Info Text */}
       <div className="absolute top-8 left-8 md:top-16 md:left-16 z-10 max-w-md pointer-events-none select-none">
         <h2 className="text-4xl md:text-5xl font-normal text-white tracking-tighter mb-4">
@@ -333,13 +333,13 @@ export const ChaosLanding = ({ className = '' }: { className?: string }) => {
           <div className="flex items-center justify-between w-full mb-8">
             <div
               ref={(el) => {
-                targetRefs.current['logo'] = el;
+                targetRefs.current["logo"] = el;
               }}
               className="relative w-[98px] h-[40px]"
             />
             <div
               ref={(el) => {
-                targetRefs.current['menu'] = el;
+                targetRefs.current["menu"] = el;
               }}
               className="w-10 h-10 bg-[#555] rounded-lg"
             />
@@ -347,7 +347,7 @@ export const ChaosLanding = ({ className = '' }: { className?: string }) => {
           <div className="mt-8">
             <div
               ref={(el) => {
-                targetRefs.current['selection-input'] = el;
+                targetRefs.current["selection-input"] = el;
               }}
               className="relative w-full h-[35px]"
             />
@@ -355,7 +355,7 @@ export const ChaosLanding = ({ className = '' }: { className?: string }) => {
           <div className="mt-8">
             <div
               ref={(el) => {
-                targetRefs.current['skeleton-list'] = el;
+                targetRefs.current["skeleton-list"] = el;
               }}
               className="flex flex-col gap-3 w-full px-2"
             >
@@ -367,7 +367,7 @@ export const ChaosLanding = ({ className = '' }: { className?: string }) => {
           <div className="mt-8">
             <div
               ref={(el) => {
-                targetRefs.current['feature-card'] = el;
+                targetRefs.current["feature-card"] = el;
               }}
               className="w-full h-[180px] rounded-[20px]"
             />
@@ -375,7 +375,7 @@ export const ChaosLanding = ({ className = '' }: { className?: string }) => {
           <div className="mt-auto pt-8 pb-4">
             <div
               ref={(el) => {
-                targetRefs.current['action-button'] = el;
+                targetRefs.current["action-button"] = el;
               }}
               className="w-[150px] h-[40px] rounded-[6px]"
             />
@@ -402,42 +402,42 @@ export const ChaosLanding = ({ className = '' }: { className?: string }) => {
       >
         <ChaosLogo
           ref={(el) => {
-            elementRefs.current['logo'] = el;
+            elementRefs.current["logo"] = el;
           }}
           data-flip-id="logo"
           className="absolute will-change-transform"
         />
         <ChaosMenu
           ref={(el) => {
-            elementRefs.current['menu'] = el;
+            elementRefs.current["menu"] = el;
           }}
           data-flip-id="menu"
           className="absolute will-change-transform"
         />
         <ChaosInput
           ref={(el) => {
-            elementRefs.current['selection-input'] = el;
+            elementRefs.current["selection-input"] = el;
           }}
           data-flip-id="selection-input"
           className="absolute w-[240px] md:w-[327px] will-change-transform"
         />
         <ChaosSkeletonList
           ref={(el) => {
-            elementRefs.current['skeleton-list'] = el;
+            elementRefs.current["skeleton-list"] = el;
           }}
           data-flip-id="skeleton-list"
           className="absolute w-[240px] md:w-[327px] will-change-transform"
         />
         <ChaosFeatureCard
           ref={(el) => {
-            elementRefs.current['feature-card'] = el;
+            elementRefs.current["feature-card"] = el;
           }}
           data-flip-id="feature-card"
           className="absolute w-[240px] md:w-[327px] will-change-transform"
         />
         <ChaosButton
           ref={(el) => {
-            elementRefs.current['action-button'] = el;
+            elementRefs.current["action-button"] = el;
           }}
           data-flip-id="action-button"
           className="absolute will-change-transform"

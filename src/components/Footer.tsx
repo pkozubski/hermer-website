@@ -154,10 +154,13 @@ export const Footer: React.FC = () => {
             <ul className="space-y-4">
               {[
                 { label: 'Strona główna', href: '/' },
-                { label: 'Realizacje', href: '/realizacje' },
+                { label: 'Realizacje', href: '/Realizacje' },
                 { label: 'Opinie', href: '/opinie' },
                 { label: 'O firmie', href: '/o-firmie' },
                 { label: 'Blog', href: '/blog' },
+                { label: 'Kontakt', href: '/kontakt' },
+                { label: 'Obszar działania', href: '/obszar-dzialania' },
+                { label: 'Dla kogo', href: '/dla-kogo' },
               ].map((item) => (
                 <li key={item.label}>
                   <a
@@ -176,9 +179,11 @@ export const Footer: React.FC = () => {
             <h4 className="text-white font-bold mb-6 text-lg">Oferta</h4>
             <ul className="space-y-4">
               {[
-                { label: 'Strony www', href: '/oferta/strony-www' },
-                { label: 'Sklepy online', href: '/oferta/sklepy-internetowe' },
-                { label: 'Marketing', href: '/oferta/marketing' },
+                { label: 'Strony internetowe', href: '/oferta/strony-www/' },
+                { label: 'Sklepy internetowe', href: '/oferta/sklepy-internetowe/' },
+                { label: 'Marketing', href: '/oferta/marketing/' },
+                { label: 'Zewnętrzny dział marketingu', href: '/oferta/zewnetrzny-dzial-marketingu' },
+                { label: 'Wordpress Shield', href: '/oferta/wordpress-shield' },
               ].map((item) => (
                 <li key={item.label}>
                   <a

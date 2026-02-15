@@ -1,15 +1,36 @@
 "use client";
 
-import React from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { ArrowUpRight, Search } from "lucide-react";
 
 export const SeoCard = ({ className = "" }: { className?: string }) => {
-  const [typedText, setTypedText] = React.useState("");
-  const [showResults, setShowResults] = React.useState(false);
-  const [cycle, setCycle] = React.useState(0);
+  const [typedText, setTypedText] = useState("");
+  const [showResults, setShowResults] = useState(false);
+  const [cycle, setCycle] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
+  const cardRef = useRef<HTMLAnchorElement>(null);
   const searchPhrase = "agencja marketingowa";
 
-  React.useEffect(() => {
+  // Only animate when visible in viewport
+  useEffect(() => {
+    const el = cardRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsVisible(entry.isIntersecting),
+      { threshold: 0.1 },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!isVisible) {
+      setTypedText("");
+      setShowResults(false);
+      return;
+    }
+
     let charIndex = 0;
     setTypedText("");
     setShowResults(false);
@@ -28,16 +49,17 @@ export const SeoCard = ({ className = "" }: { className?: string }) => {
     }, 100);
 
     return () => clearInterval(typeInterval);
-  }, [cycle]);
+  }, [cycle, isVisible]);
 
   return (
     <a
+      ref={cardRef}
       href="/oferta/marketing"
-      className={`group relative h-full w-full rounded-[40px] overflow-hidden bg-neutral-900 hover:shadow-2xl hover:shadow-black/50 transition-all duration-700 flex flex-col justify-between border border-white/5 ${className}`}
+      className={`group relative h-full w-full rounded-[40px] overflow-hidden bg-neutral-900 hover:shadow-2xl hover:shadow-black/50 transition-shadow duration-700 flex flex-col justify-between border border-white/5 ${className}`}
     >
       {/* 1. TOP: Text Content */}
       <div className="relative z-20 p-8 md:p-10 flex flex-col items-start w-full">
-        <div className="absolute top-8 right-8 md:top-10 md:right-10 w-10 h-10 rounded-full border border-white/10 text-neutral-400 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 bg-neutral-800">
+        <div className="absolute top-8 right-8 md:top-10 md:right-10 w-10 h-10 rounded-full border border-white/10 text-neutral-400 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-neutral-800">
           <ArrowUpRight size={20} />
         </div>
 
@@ -71,7 +93,7 @@ export const SeoCard = ({ className = "" }: { className?: string }) => {
 
           {/* Search Results */}
           <div
-            className={`space-y-2 transition-all duration-500 ${showResults ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"}`}
+            className={`space-y-2 transition-[opacity,transform] duration-500 ${showResults ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"}`}
           >
             {/* Result 1 - Your Brand (Highlighted) */}
             <div className="bg-neutral-800 rounded-xl p-3 shadow-md border border-white/10 transform scale-[1.02]">

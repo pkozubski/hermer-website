@@ -13,18 +13,18 @@ import {
 
 export const OFFER_ITEMS = [
   {
-    title: "Strony WWW",
+    title: "Strony www",
     description: "Profesjonalne witryny, które sprzedają i budują wizerunek.",
     icon: LayoutTemplate,
-    href: "/oferta/strony-www",
+    href: "/oferta/strony-www/",
     color: "text-blue-400",
     bgColor: "bg-blue-400/10",
   },
   {
-    title: "Sklepy Internetowe",
+    title: "Sklepy online",
     description: "Funkcjonalne platformy e-commerce nastawione na konwersję.",
     icon: ShoppingBag,
-    href: "/oferta/sklepy-internetowe",
+    href: "/oferta/sklepy-internetowe/",
     color: "text-purple-400",
     bgColor: "bg-purple-400/10",
   },
@@ -32,7 +32,7 @@ export const OFFER_ITEMS = [
     title: "Marketing",
     description: "Skuteczne kampanie Google Ads i Facebook Ads, SEO i więcej.",
     icon: Megaphone,
-    href: "/oferta/marketing",
+    href: "/oferta/marketing/",
     color: "text-orange-400",
     bgColor: "bg-orange-400/10",
   },

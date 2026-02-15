@@ -71,7 +71,11 @@ const ContractVisual: React.FC = () => (
               whileInView={{ pathLength: 1, opacity: 1 }}
               viewport={{ once: true, amount: 0.8 }}
               transition={{
-                pathLength: { duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.3 },
+                pathLength: {
+                  duration: 1.2,
+                  ease: [0.16, 1, 0.3, 1],
+                  delay: 0.3,
+                },
                 opacity: { duration: 0.2, delay: 0.3 },
               }}
             />
@@ -92,8 +96,8 @@ export const SecurityBentoCard: React.FC<{ className?: string }> = ({
     <div
       className={`md:col-span-3 lg:col-span-4 md:col-start-1 relative z-0 overflow-hidden border border-[#333] rounded-[32px] bg-[#232323] text-white font-sans group/shield ${className}`}
     >
-      <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-40 h-px bg-linear-to-r from-transparent via-white/55 to-transparent opacity-80 transition-all duration-500 group-hover/shield:w-64 group-hover/shield:opacity-100" />
-      <div className="pointer-events-none absolute -top-5 left-1/2 -translate-x-1/2 w-36 h-12 bg-[#916AFF]/25 blur-2xl opacity-70 transition-all duration-500 group-hover/shield:w-56 group-hover/shield:h-16 group-hover/shield:opacity-95" />
+      <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-40 h-px bg-linear-to-r from-transparent via-white/55 to-transparent opacity-80 transition-[width,opacity] duration-500 group-hover/shield:w-64 group-hover/shield:opacity-100" />
+      <div className="pointer-events-none absolute -top-5 left-1/2 -translate-x-1/2 w-36 h-12 bg-[#916AFF]/25 blur-2xl opacity-70 transition-[width,height,opacity] duration-500 group-hover/shield:w-56 group-hover/shield:h-16 group-hover/shield:opacity-95" />
       {/* Background Mesh Gradient */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_0%_100%,_var(--tw-gradient-stops))] from-[#916AFF]/10 via-transparent to-transparent opacity-50" />
 
@@ -103,11 +107,11 @@ export const SecurityBentoCard: React.FC<{ className?: string }> = ({
           <h4 className="text-3xl font-normal text-white mb-2 flex items-center gap-2 group-hover/shield:text-[#916AFF] transition-colors duration-300">
             Bezpieczeństwo współpracy
           </h4>
-          <div className="h-0.5 w-8 bg-neutral-700 rounded-full mb-3 group-hover/shield:w-full group-hover/shield:bg-[#916AFF]/50 transition-all duration-700 ease-in-out" />
+          <div className="h-0.5 w-8 bg-neutral-700 rounded-full mb-3 group-hover/shield:w-full group-hover/shield:bg-[#916AFF]/50 transition-[width,background-color] duration-700 ease-in-out" />
           <p className="text-neutral-400 text-sm font-normal leading-relaxed">
-            Ustalamy jasny zakres i&nbsp;etapy prac, żebyś od początku
-            wiedział, co obejmuje projekt i&nbsp;z&nbsp;jakich etapów będzie
-            składał się cały proces od projektu po wdrożenie.
+            Ustalamy jasny zakres i&nbsp;etapy prac, żebyś od początku wiedział,
+            co obejmuje projekt i&nbsp;z&nbsp;jakich etapów będzie składał się
+            cały proces od projektu po wdrożenie.
           </p>
         </div>
 

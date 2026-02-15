@@ -1,11 +1,9 @@
 "use client";
-
 import React, { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 
-// Register plugin (required in Next.js/React)
 gsap.registerPlugin(ScrollTrigger);
 
 interface LineRevealProps {
@@ -29,40 +27,30 @@ export const LineReveal = ({
   useGSAP(
     () => {
       if (!containerRef.current) return;
+      const els = lineRefs.current.filter(Boolean) as HTMLSpanElement[];
+      if (els.length === 0) return;
 
-      // Get all line elements
-      const lineElements = lineRefs.current.filter(
-        Boolean,
-      ) as HTMLSpanElement[];
+      gsap.set(els, { yPercent: 100, visibility: "visible", force3D: true });
 
-      if (lineElements.length === 0) return;
-
-      // Set initial state - elements start hidden (translated down), GPU accelerated
-      gsap.set(lineElements, { yPercent: 100, force3D: true });
-
-      // Create ScrollTrigger that replays on each scroll unless once is true
-      ScrollTrigger.create({
-        trigger: containerRef.current,
-        start: "top 95%",
-        end: "bottom 5%",
-        once,
-        onEnter: () => {
-          gsap.to(lineElements, {
-            yPercent: 0,
-            duration: 0.8,
-            ease: "power3.out",
-            stagger: 0.1,
-            delay: delay,
-            force3D: true,
-          });
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top 92%",
+          end: "bottom 5%",
+          once,
+          toggleActions: once
+            ? "play none none none"
+            : "play none none reverse",
         },
-        onLeaveBack: once
-          ? undefined
-          : () => {
-              // Kill running tweens before resetting to prevent conflicts
-              gsap.killTweensOf(lineElements);
-              gsap.set(lineElements, { yPercent: 100, force3D: true });
-            },
+      });
+
+      tl.to(els, {
+        yPercent: 0,
+        duration: 1.0,
+        ease: "power4.out",
+        stagger: 0.08,
+        delay,
+        force3D: true,
       });
     },
     { scope: containerRef, dependencies: [delay, lines, once] },
@@ -71,12 +59,16 @@ export const LineReveal = ({
   return (
     <div ref={containerRef} className={`flex flex-col ${className}`}>
       {lines.map((line, i) => (
-        <span key={i} className={`block overflow-hidden ${classNameLine}`}>
+        <span
+          key={i}
+          className={`block overflow-hidden pb-[0.15em] ${classNameLine}`}
+        >
           <span
             ref={(el) => {
               lineRefs.current[i] = el;
             }}
-            className="block will-change-transform"
+            className="block"
+            style={{ visibility: "hidden" }}
           >
             {line}
           </span>

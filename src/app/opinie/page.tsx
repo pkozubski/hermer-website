@@ -1,120 +1,51 @@
-"use client";
-
+import {
+  buildMetadataFromSanityWithFallbackMetadata,
+  type SanitySeo,
+} from "@/sanity/lib/seo";
+import { PAGE_SEO_QUERY } from "@/sanity/lib/queries";
+import type { Metadata } from "next";
 import React from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { SplitRevealTitle } from "@/components/ui/SplitRevealTitle";
+import { client } from "@/sanity/lib/client";
+import { Review } from "@/components/Testimonials";
+import { ReviewsGrid } from "@/components/ReviewsGrid";
 
-import { Star, Quote } from "lucide-react";
-import { motion } from "framer-motion";
+const SEO_SLUG = "opinie";
 
-// --- DANE (Copied from Testimonials.tsx) ---
-const REVIEWS = [
-  {
-    id: 1,
-    name: "Anna Nowak",
-    role: "Marketing Dir. @ EcoLife",
-    text: "Wyniki SEO przerosły oczekiwania. Ruch organiczny wzrósł o 300% w kwartał.",
-  },
-  {
-    id: 2,
-    name: "Piotr Wiśniewski",
-    role: "Founder @ CoffeeLover",
-    text: "Sklep e-commerce stał się maszyną do sprzedaży. Konwersja skoczyła dwukrotnie.",
-  },
-  {
-    id: 3,
-    name: "Monika Zając",
-    role: "Owner @ BeautySpace",
-    text: "Projekt oddany przed czasem, bez kompromisów jakościowych. Rzadkość.",
-  },
-  {
-    id: 4,
-    name: "Robert Mazur",
-    role: "Logistics Mgr. @ TransPol",
-    text: "Dashboard zautomatyzował 40% pracy biurowej. Najlepsza inwestycja roku.",
-  },
-  {
-    id: 5,
-    name: "Katarzyna Wójcik",
-    role: "Creative Lead @ ArtStudio",
-    text: "Zrozumieli wizję szybciej niż my sami. Strona działa błyskawicznie.",
-  },
-  {
-    id: 6,
-    name: "Marek Kowalski",
-    role: "CEO @ TechStart",
-    text: "Świetna architektura kodu. Jakość techniczna na poziomie światowym.",
-  },
-  {
-    id: 7,
-    name: "Ewa Domagała",
-    role: "CMO @ GreenEnergy",
-    text: "Kampanie reklamowe zoptymalizowane perfekcyjnie. ROI skoczyło o 50%.",
-  },
-  {
-    id: 8,
-    name: "Janusz Kowalczyk",
-    role: "Dyrektor @ Budmix",
-    text: "Nowa strona to wizytówka, której brakowało. Klienci chwalą nowoczesny wygląd.",
-  },
-  {
-    id: 9,
-    name: "Aleksandra Wilk",
-    role: "Owner @ YogaFlow",
-    text: "System rezerwacji działa bez zarzutu. Oszczędzamy godziny na administracji.",
-  },
-];
+const metadataFallback: Metadata = {
+  title: "Opinie Klientów | Hermer",
+  description:
+    "Zobacz, co mówią o nas klienci, którym pomogliśmy osiągnąć sukces w świecie cyfrowym. Przeczytaj autentyczne opinie o współpracy z Hermer.",
+};
 
-const GlassCard = ({
-  review,
-  index,
-}: {
-  review: (typeof REVIEWS)[0];
-  index: number;
-}) => (
-  <motion.div
-    initial={{ opacity: 0, scale: 0.9, filter: "blur(10px)" }}
-    whileInView={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-    viewport={{ once: true }}
-    transition={{
-      duration: 0.8,
-      delay: (index % 3) * 0.1,
-      ease: [0.16, 1, 0.3, 1],
-    }}
-    className="group relative p-6 md:p-8 bg-white/[0.03] backdrop-blur-md border border-white/[0.08] rounded-2xl overflow-hidden hover:bg-white/[0.06] transition-colors duration-500 h-full flex flex-col justify-between"
-  >
-    {/* Subtelny gradientowy blik na hover */}
-    <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 blur-[50px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+export async function generateMetadata(): Promise<Metadata> {
+  const page = await client.fetch<{ seo?: SanitySeo } | null>(PAGE_SEO_QUERY, {
+    slug: SEO_SLUG,
+  });
 
-    <div className="relative z-10">
-      {/* Gwiazdki */}
-      <div className="flex gap-1 mb-4">
-        {[...Array(5)].map((_, i) => (
-          <Star key={i} size={12} className="fill-[#FBBC05] text-[#FBBC05]" />
-        ))}
-      </div>
+  return buildMetadataFromSanityWithFallbackMetadata(page?.seo ?? null, metadataFallback);
+}
 
-      {/* Treść */}
-      <p className="text-zinc-200 text-lg leading-relaxed font-light mb-6">
-        "{review.text}"
-      </p>
-    </div>
+export default async function OpiniePage() {
+  const reviewsQuery = `*[_type == "review" && rating == 5] | order(publishedAt desc) {
+    _id,
+    author,
+    rating,
+    text,
+    publishedAt,
+    avatarUrl,
+    platform,
+    reviewLink
+  }`;
 
-    <div className="relative z-10">
-      {/* Stopka karty */}
-      <div className="flex items-center justify-between pt-6 border-t border-white/5">
-        <div>
-          <div className="text-white font-medium text-sm">{review.name}</div>
-          <div className="text-xs text-zinc-500 mt-0.5">{review.role}</div>
-        </div>
-        <Quote className="text-white/10 w-8 h-8 group-hover:text-white/20 transition-colors" />
-      </div>
-    </div>
-  </motion.div>
-);
+  const reviews = await client.fetch<Review[]>(
+    reviewsQuery,
+    {},
+    { next: { revalidate: 3600 } },
+  );
 
-export default function OpiniePage() {
   return (
     <div className="min-h-screen bg-neutral-900 text-white overflow-x-clip">
       {/* Background Decor */}
@@ -143,11 +74,7 @@ export default function OpiniePage() {
           </div>
 
           {/* Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {REVIEWS.map((review, index) => (
-              <GlassCard key={review.id} review={review} index={index} />
-            ))}
-          </div>
+          <ReviewsGrid reviews={reviews} />
         </div>
       </main>
 

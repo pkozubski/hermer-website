@@ -1,28 +1,27 @@
-import React, { useRef } from 'react';
+import React, { useRef, useSyncExternalStore } from "react";
 import {
   motion,
   useScroll,
   useTransform,
   useMotionTemplate,
   useMotionValue,
-} from 'framer-motion';
-import { SplitRevealTitle } from './ui/SplitRevealTitle';
-import { SecurityBentoCard } from './SecurityBentoCard';
-import { LineReveal } from './ui/LineReveal';
-import AnimatedArc from './AnimatedArc';
-import FluidButton from './ui/FluidButton';
-import { ChaosLanding } from './ChaosLanding';
-import jacekImg from '@/assets/team/jacek.png';
-import damianImg from '@/assets/team/damian.png';
-import oliwiaImg from '@/assets/team/oliwia.png';
-import lukaszImg from '@/assets/team/lukasz.png';
-import annaImg from '@/assets/team/anna.png';
+} from "framer-motion";
+import { SplitRevealTitle } from "./ui/SplitRevealTitle";
+import { SecurityBentoCard } from "./SecurityBentoCard";
+import { LineReveal } from "./ui/LineReveal";
+import AnimatedArc from "./AnimatedArc";
+import FluidButton from "./ui/FluidButton";
+import { ChaosLanding } from "./ChaosLanding";
+import jacekImg from "@/assets/team/jacek.png";
+import oliwiaImg from "@/assets/team/oliwia.png";
+import lukaszImg from "@/assets/team/lukasz.png";
+import annaImg from "@/assets/team/anna.png";
 
 // --- Components ---
 
 const BentoCard = ({
   children,
-  className = '',
+  className = "",
   hoverEffect = true,
 }: {
   children: React.ReactNode;
@@ -48,15 +47,10 @@ const BentoCard = ({
       onMouseMove={handleMouseMove}
       className={`group relative z-0 overflow-hidden border border-white/5 rounded-3xl bg-[#232323] text-white font-sans shadow-sm hover:shadow-2xl hover:border-white/10 transition-[border-color,box-shadow] duration-300 ${className}`}
     >
-      <div
-        className="absolute inset-0 bg-white/5 -z-10"
-        style={{
-          backdropFilter: 'blur(24px)',
-          WebkitBackdropFilter: 'blur(24px)',
-        }}
-      />
-      <div className="pointer-events-none absolute z-[1] top-0 left-1/2 -translate-x-1/2 w-40 h-px bg-linear-to-r from-transparent via-white/55 to-transparent opacity-80 transition-all duration-500 group-hover:w-64 group-hover:opacity-100" />
-      <div className="pointer-events-none absolute z-[1] -top-5 left-1/2 -translate-x-1/2 w-36 h-12 bg-[#916AFF]/25 blur-2xl opacity-70 transition-all duration-500 group-hover:w-56 group-hover:h-16 group-hover:opacity-95" />
+      {/* Solid bg instead of backdrop-blur(24px) — Safari perf fix */}
+      <div className="absolute inset-0 bg-[#262626] -z-10" />
+      <div className="pointer-events-none absolute z-[1] top-0 left-1/2 -translate-x-1/2 w-40 h-px bg-linear-to-r from-transparent via-white/55 to-transparent opacity-80 transition-[width,opacity] duration-500 group-hover:w-64 group-hover:opacity-100" />
+      <div className="pointer-events-none absolute z-[1] -top-5 left-1/2 -translate-x-1/2 w-36 h-12 bg-[#916AFF]/25 blur-2xl opacity-70 transition-[width,height,opacity] duration-500 group-hover:w-56 group-hover:h-16 group-hover:opacity-95" />
       {/* Hover Spotlight Effect */}
       {hoverEffect && (
         <motion.div
@@ -77,31 +71,109 @@ const BentoCard = ({
   );
 };
 
+/* ------------------------------------------------------------------ */
+/*  ArcParallax — extracted to avoid inline useTransform in JSX        */
+/* ------------------------------------------------------------------ */
+const ArcParallax = ({
+  scrollYProgress,
+}: {
+  scrollYProgress: import("framer-motion").MotionValue<number>;
+}) => {
+  const y = useTransform(scrollYProgress, [0, 1], [0, 120]);
+  return (
+    <motion.div
+      className="absolute inset-0 w-full h-full pointer-events-none z-0"
+      style={{ y }}
+    >
+      <AnimatedArc scrollYProgress={scrollYProgress} />
+    </motion.div>
+  );
+};
+
+/* ------------------------------------------------------------------ */
+/*  ProjectsGrid — 48 plain divs instead of 48 motion.div instances   */
+/* ------------------------------------------------------------------ */
+const ACCENT_CELLS = new Set([19, 20, 21, 27, 28, 29, 35, 36]);
+const CENTER_COL = 5;
+const CENTER_ROW = 3;
+const MAX_DIST = Math.sqrt(CENTER_COL ** 2 + CENTER_ROW ** 2);
+
+const gridCellData = Array.from({ length: 48 }, (_, i) => {
+  const col = i % 8;
+  const row = Math.floor(i / 8);
+  const dist = Math.sqrt((col - CENTER_COL) ** 2 + (row - CENTER_ROW) ** 2);
+  const proximity = 1 - dist / MAX_DIST;
+  const borderOpacity = Math.max(0.006, proximity * 0.045);
+  const isAccent = ACCENT_CELLS.has(i);
+  return { isAccent, borderOpacity, delay: isAccent ? i * 0.12 : i * 0.012 };
+});
+
+const ProjectsGrid = () => (
+  <div className="grid grid-cols-8 grid-rows-6 gap-1 w-full aspect-[4/3] max-h-full">
+    {gridCellData.map(({ isAccent, borderOpacity, delay }, i) => (
+      <div
+        key={i}
+        className={`rounded-lg w-full h-full ${
+          isAccent
+            ? "border-[#916AFF]/20 bg-[#916AFF]/[0.06] animate-[gridPulse_1.6s_ease-in-out_infinite_alternate]"
+            : ""
+        }`}
+        style={{
+          border: `1px solid rgba(${isAccent ? "145,106,255" : "255,255,255"}, ${isAccent ? 0.2 : borderOpacity})`,
+          animationDelay: isAccent ? `${delay}s` : undefined,
+        }}
+      />
+    ))}
+    {/* CSS animation for accent cells — replaces 8 infinite framer-motion instances */}
+    <style>{`
+      @keyframes gridPulse {
+        from { opacity: 0.55; }
+        to { opacity: 0.95; }
+      }
+    `}</style>
+  </div>
+);
+
+const isSafariBrowser = () => {
+  if (typeof navigator === "undefined") return false;
+  const ua = navigator.userAgent;
+  return /Safari/i.test(ua) && !/Chrome|CriOS|FxiOS|EdgiOS|OPR|SamsungBrowser/i.test(ua);
+};
+
 export const About: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const isSafari = useSyncExternalStore(
+    () => () => {},
+    isSafariBrowser,
+    () => false,
+  );
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ['start end', 'end start'],
+    offset: ["start end", "end start"],
   });
+
+  const projectsMaskStyle = isSafari
+    ? undefined
+    : {
+        maskImage:
+          "radial-gradient(ellipse 65% 50% at 65% 55%, black 20%, transparent 70%)",
+        WebkitMaskImage:
+          "radial-gradient(ellipse 65% 50% at 65% 55%, black 20%, transparent 70%)",
+      };
 
   return (
     <section
       ref={containerRef}
       id="about"
       className=" py-32 relative text-white"
-      style={{ position: 'relative' }}
+      style={{ position: "relative" }}
     >
       {/* Background Ambience moved to MainContent wrapper */}
 
       {/* Background Ambience moved to MainContent wrapper */}
 
       {/* Scroll-Driven Decorative Arc (SVG) with Parallax */}
-      <motion.div
-        className="absolute inset-0 w-full h-full pointer-events-none z-0"
-        style={{ y: useTransform(scrollYProgress, [0, 1], [0, 120]) }}
-      >
-        <AnimatedArc scrollYProgress={scrollYProgress} />
-      </motion.div>
+      {!isSafari && <ArcParallax scrollYProgress={scrollYProgress} />}
 
       <div className="container mx-auto px-4 md:px-8 relative z-10">
         {/* Section Header - Lusion Style */}
@@ -123,14 +195,14 @@ export const About: React.FC = () => {
             />
             <div className="flex flex-col gap-4 max-w-xs md:max-w-sm">
               <LineReveal
-                lines={['Dlaczego warto skorzystać z naszego wsparcia?']}
+                lines={["Dlaczego warto skorzystać z naszego wsparcia?"]}
                 className="text-white font-normal text-sm md:text-base mb-2"
               />
               <LineReveal
                 lines={[
-                  'Nie projektujemy dla samego efektu.',
-                  'Nasze realizacje mają sens biznesowy.',
-                  'Za estetyką stoi struktura, UX oraz SEO.',
+                  "Nie projektujemy dla samego efektu.",
+                  "Nasze realizacje mają sens biznesowy.",
+                  "Za estetyką stoi struktura, UX oraz SEO.",
                 ]}
                 className="text-neutral-400 text-xs md:text-sm uppercase tracking-wide leading-relaxed"
                 delay={0.2}
@@ -145,24 +217,19 @@ export const About: React.FC = () => {
           <ChaosLanding className="md:col-span-6 lg:col-span-8 bg-[#232323] text-white font-sans" />
 
           {/* 2. Stat Card: Experience - Spans 4 cols */}
-          <div className="md:col-span-6 lg:col-span-4 relative z-0 group/image-card min-h-[400px] w-full h-full rounded-[32px] border border-white/5 bg-[#232323] text-white font-sans overflow-hidden shadow-2xl transition-all duration-500 hover:border-white/10 group">
-            <div
-              className="absolute inset-0 bg-white/5 -z-10"
-              style={{
-                backdropFilter: 'blur(24px)',
-                WebkitBackdropFilter: 'blur(24px)',
-              }}
-            />
-            <div className="pointer-events-none absolute z-[1] top-0 left-1/2 -translate-x-1/2 w-40 h-px bg-linear-to-r from-transparent via-white/55 to-transparent opacity-80 transition-all duration-500 group-hover:w-64 group-hover:opacity-100" />
-            <div className="pointer-events-none absolute z-[1] -top-5 left-1/2 -translate-x-1/2 w-36 h-12 bg-[#916AFF]/25 blur-2xl opacity-70 transition-all duration-500 group-hover:w-56 group-hover:h-16 group-hover:opacity-95" />
+          <div className="md:col-span-6 lg:col-span-4 relative z-0 group/image-card min-h-[400px] w-full h-full rounded-[32px] border border-white/5 bg-[#232323] text-white font-sans overflow-hidden shadow-2xl transition-[border-color] duration-500 hover:border-white/10 group">
+            {/* Solid bg instead of backdrop-blur(24px) — Safari perf fix */}
+            <div className="absolute inset-0 bg-[#262626] -z-10" />
+            <div className="pointer-events-none absolute z-[1] top-0 left-1/2 -translate-x-1/2 w-40 h-px bg-linear-to-r from-transparent via-white/55 to-transparent opacity-80 transition-[width,opacity] duration-500 group-hover:w-64 group-hover:opacity-100" />
+            <div className="pointer-events-none absolute z-[1] -top-5 left-1/2 -translate-x-1/2 w-36 h-12 bg-[#916AFF]/25 blur-2xl opacity-70 transition-[width,height,opacity] duration-500 group-hover:w-56 group-hover:h-16 group-hover:opacity-95" />
             {/* Background Effects */}
             <div className="absolute inset-0 bg-linear-to-b from-white/[0.06] to-transparent opacity-30 pointer-events-none" />
             <div
               className="absolute inset-0 opacity-[0.06] pointer-events-none"
               style={{
                 backgroundImage:
-                  'linear-gradient(to right, rgba(255,255,255,0.12) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.12) 1px, transparent 1px)',
-                backgroundSize: '22px 22px',
+                  "linear-gradient(to right, rgba(255,255,255,0.12) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.12) 1px, transparent 1px)",
+                backgroundSize: "22px 22px",
               }}
             />
 
@@ -259,69 +326,9 @@ export const About: React.FC = () => {
             <div className="absolute inset-0 pointer-events-none">
               <div
                 className="absolute inset-0 p-3 flex items-center justify-center"
-                style={{
-                  maskImage:
-                    'radial-gradient(ellipse 65% 50% at 65% 55%, black 20%, transparent 70%)',
-                  WebkitMaskImage:
-                    'radial-gradient(ellipse 65% 50% at 65% 55%, black 20%, transparent 70%)',
-                }}
+                style={projectsMaskStyle}
               >
-                <div className="grid grid-cols-8 grid-rows-6 gap-1 w-full aspect-[4/3] max-h-full">
-                  {Array.from({ length: 48 }).map((_, i) => {
-                    const col = i % 8;
-                    const row = Math.floor(i / 8);
-                    const centerCol = 5;
-                    const centerRow = 3;
-                    const dist = Math.sqrt(
-                      (col - centerCol) ** 2 + (row - centerRow) ** 2,
-                    );
-                    const maxDist = Math.sqrt(centerCol ** 2 + centerRow ** 2);
-                    const proximity = 1 - dist / maxDist;
-                    const borderOpacity = Math.max(0.006, proximity * 0.045);
-
-                    const accentCells = [19, 20, 21, 27, 28, 29, 35, 36];
-                    const isAccent = accentCells.includes(i);
-
-                    return (
-                      <motion.div
-                        key={i}
-                        className={`rounded-lg w-full h-full ${
-                          isAccent
-                            ? 'border-[#916AFF]/20 bg-[#916AFF]/[0.06]'
-                            : ''
-                        }`}
-                        style={{
-                          border: `1px solid rgba(${isAccent ? '145,106,255' : '255,255,255'}, ${isAccent ? 0.2 : borderOpacity})`,
-                        }}
-                        initial={
-                          isAccent
-                            ? { opacity: 0.55, scale: 1 }
-                            : { opacity: 0, scale: 0.8 }
-                        }
-                        {...(isAccent
-                          ? {
-                              animate: { opacity: [0.55, 0.95] },
-                              transition: {
-                                duration: 1.6,
-                                repeat: Infinity,
-                                repeatType: 'reverse',
-                                ease: 'easeInOut',
-                                delay: i * 0.12,
-                              },
-                            }
-                          : {
-                              whileInView: { opacity: 1, scale: 1 },
-                              viewport: { once: true },
-                              transition: {
-                                duration: 0.4,
-                                delay: i * 0.012,
-                                ease: 'easeOut',
-                              },
-                            })}
-                      />
-                    );
-                  })}
-                </div>
+                <ProjectsGrid />
               </div>
             </div>
 

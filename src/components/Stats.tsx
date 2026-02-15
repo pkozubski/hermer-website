@@ -10,12 +10,13 @@ import {
   Globe,
   Cpu,
   MousePointer2,
-  Star,
   Layout,
   Type,
   Box,
   Hash,
 } from "lucide-react";
+
+import { CustomStar } from "@/components/ui/CustomStar";
 
 // --- Shared Components ---
 
@@ -84,9 +85,9 @@ const SalesCard = () => {
             style={{ left: `${10 + ((i * 12) % 80)}%` }}
             animate={{ y: [0, -250], opacity: [0, 0.8, 0], scale: [0, 1.2, 0] }}
             transition={{
-              duration: 3 + Math.random() * 4,
+              duration: 3 + ((i * 1.5) % 4),
               repeat: Infinity,
-              delay: Math.random() * 2,
+              delay: (i * 0.5) % 2,
               ease: "easeOut",
             }}
           />
@@ -463,7 +464,7 @@ const TeamStatsCard = () => {
                 whileInView={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.2 + i * 0.1 }}
               >
-                <Star size={18} className="fill-amber-400 text-amber-400" />
+                <CustomStar size={18} fill="#916AFF" />
               </motion.div>
             ))}
           </div>

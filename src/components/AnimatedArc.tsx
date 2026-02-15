@@ -1,24 +1,17 @@
-'use client';
+"use client";
 
-import { motion, MotionValue, useSpring, useTransform } from 'framer-motion';
+import { motion, MotionValue, useTransform } from "framer-motion";
 
 interface AnimatedArcProps {
   scrollYProgress: MotionValue<number>;
 }
 
 export default function AnimatedArc({ scrollYProgress }: AnimatedArcProps) {
-  // Delay start: map 0.45-0.7 scroll to 0-1 path (Even shorter range = much faster drawing)
-  const delayedProgress = useTransform(scrollYProgress, [0.45, 0.7], [0, 1]);
-
-  // Smooth the scroll progress for a buttery animation
-  const smoothProgress = useSpring(delayedProgress, {
-    stiffness: 400, // Very fast spring
-    damping: 30,
-    restDelta: 0.001,
-  });
+  // Delay start: map 0.45-0.7 scroll to 0-1 path
+  const pathProgress = useTransform(scrollYProgress, [0.45, 0.7], [0, 1]);
 
   // Hide the dot when not drawing (opacity 0 when progress is near 0)
-  const opacity = useTransform(smoothProgress, [0, 0.01], [0, 1]);
+  const opacity = useTransform(pathProgress, [0, 0.01], [0, 1]);
 
   return (
     <div className="absolute inset-0 -z-10 pointer-events-none overflow-hidden translate-y-32">
@@ -43,7 +36,7 @@ export default function AnimatedArc({ scrollYProgress }: AnimatedArcProps) {
           strokeWidth="18"
           strokeLinecap="round"
           fill="none"
-          style={{ pathLength: smoothProgress, opacity }}
+          style={{ pathLength: pathProgress, opacity }}
         />
       </svg>
     </div>

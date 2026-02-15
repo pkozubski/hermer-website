@@ -1,3 +1,9 @@
+import {
+  buildMetadataFromSanityWithFallbackMetadata,
+  type SanitySeo,
+} from "@/sanity/lib/seo";
+import { PAGE_SEO_QUERY } from "@/sanity/lib/queries";
+import { client } from "@/sanity/lib/client";
 import type { Metadata } from "next";
 import { Inter, Instrument_Serif } from "next/font/google";
 import { Suspense } from "react";
@@ -5,9 +11,8 @@ import "./globals.css";
 import VisualEditingWrapper from "@/components/VisualEditingWrapper";
 import StyledComponentsRegistry from "@/lib/registry";
 import { SmoothScroll } from "@/components/SmoothScroll";
-import { CustomScrollbar } from "@/components/CustomScrollbar";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"], display: "swap" });
 const instrumentSerif = Instrument_Serif({
   weight: "400",
   subsets: ["latin"],
@@ -15,11 +20,24 @@ const instrumentSerif = Instrument_Serif({
   display: "swap",
 });
 
-export const metadata: Metadata = {
+const SEO_SLUG = "home";
+
+const metadataFallback: Metadata = {
   title: "Hermer - Efektywne strony internetowe",
   description:
     "Tworzymy nowoczesne i skuteczne strony internetowe, które przyciągają klientów.",
 };
+
+export async function generateMetadata(): Promise<Metadata> {
+  const page = await client.fetch<{ seo?: SanitySeo } | null>(PAGE_SEO_QUERY, {
+    slug: SEO_SLUG,
+  });
+
+  return buildMetadataFromSanityWithFallbackMetadata(
+    page?.seo ?? null,
+    metadataFallback,
+  );
+}
 
 export default function RootLayout({
   children,
@@ -32,7 +50,6 @@ export default function RootLayout({
       <body className={`${inter.className} ${instrumentSerif.variable}`}>
         <StyledComponentsRegistry>
           <SmoothScroll>
-            <CustomScrollbar />
             {children}
             <Suspense fallback={null}>
               <VisualEditingWrapper />

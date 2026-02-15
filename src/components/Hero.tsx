@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useRef, useState, useCallback } from 'react';
+import React, { memo, useEffect, useRef, useState, useCallback } from "react";
 import {
   Code2,
   Palette,
@@ -9,34 +9,34 @@ import {
   ShoppingCart,
   MessageSquare,
   Star,
-} from 'lucide-react';
-import { CmsCard } from './cards/CmsCard';
-import { SeoCard } from './cards/SeoCard';
-import { ResponsivenessCard } from './cards/ResponsivenessCard';
-import { CardWheelHorizontal } from './CardWheelHorizontal';
+} from "lucide-react";
+import { CmsCard } from "./cards/CmsCard";
+import { SeoCard } from "./cards/SeoCard";
+import { ResponsivenessCard } from "./cards/ResponsivenessCard";
+import { CardWheelHorizontal } from "./CardWheelHorizontal";
 import {
   motion,
   AnimatePresence,
   useScroll,
   useTransform,
-} from 'framer-motion';
-import { CardWheel } from './CardWheel';
-import HeroSquiggle from './HeroSquiggle';
-import { WebDevCard } from './cards/WebDevCard';
-import { EcommerceCard } from './cards/EcommerceCard';
-import { SocialMediaCard } from './cards/SocialMediaCard';
-import { MarketingCard } from './cards/MarketingCard';
-import { UiUxCard } from './cards/UiUxCard';
-import { ReelCtaButton } from './ui/ReelCtaButton';
+} from "framer-motion";
+import { CardWheel } from "./CardWheel";
+import HeroSquiggle from "./HeroSquiggle";
+import { WebDevCard } from "./cards/WebDevCard";
+import { EcommerceCard } from "./cards/EcommerceCard";
+import { SocialMediaCard } from "./cards/SocialMediaCard";
+import { MarketingCard } from "./cards/MarketingCard";
+import { UiUxCard } from "./cards/UiUxCard";
+import { ReelCtaButton } from "./ui/ReelCtaButton";
 
 // Data for the cards to be rendered - Monochrome Themes
 // Data for the cards to be rendered - Monochrome Themes
 const CARDS_DATA = [
   {
-    id: 'code',
-    theme: 'blue',
+    id: "code",
+    theme: "blue",
     icon: Code2,
-    title: 'Development',
+    title: "Development",
     content: (
       <div className="w-full flex justify-center h-[260px] overflow-visible relative z-10">
         <div className="scale-[0.55] origin-top transform-gpu">
@@ -46,10 +46,10 @@ const CARDS_DATA = [
     ),
   },
   {
-    id: 'design',
-    theme: 'purple',
+    id: "design",
+    theme: "purple",
     icon: Palette,
-    title: 'UI/UX Design',
+    title: "UI/UX Design",
     content: (
       <div className="w-full flex justify-center h-[260px] overflow-visible relative z-10">
         <div className="scale-[0.55] origin-top transform-gpu">
@@ -59,10 +59,10 @@ const CARDS_DATA = [
     ),
   },
   {
-    id: 'mobile',
-    theme: 'blue',
+    id: "mobile",
+    theme: "blue",
     icon: Smartphone,
-    title: 'Responsywność',
+    title: "Responsywność",
     content: (
       <div className="w-full flex justify-center h-[260px] overflow-visible relative z-10">
         <div className="scale-[0.55] origin-top transform-gpu">
@@ -72,10 +72,10 @@ const CARDS_DATA = [
     ),
   },
   {
-    id: 'seo',
-    theme: 'green',
+    id: "seo",
+    theme: "green",
     icon: Search,
-    title: 'SEO & Pozycjonowanie',
+    title: "SEO & Pozycjonowanie",
     content: (
       <div className="w-full flex justify-center h-[260px] overflow-visible relative z-10">
         <div className="scale-[0.55] origin-top transform-gpu">
@@ -85,10 +85,10 @@ const CARDS_DATA = [
     ),
   },
   {
-    id: 'marketing',
-    theme: 'orange',
+    id: "marketing",
+    theme: "orange",
     icon: BarChart3,
-    title: 'Marketing',
+    title: "Marketing",
     content: (
       <div className="w-full flex justify-center h-[260px] overflow-visible relative z-10">
         <div className="scale-[0.55] origin-top transform-gpu">
@@ -98,10 +98,10 @@ const CARDS_DATA = [
     ),
   },
   {
-    id: 'cms',
-    theme: 'purple',
+    id: "cms",
+    theme: "purple",
     icon: Layout,
-    title: 'System CMS',
+    title: "System CMS",
     content: (
       <div className="w-full flex justify-center h-[260px] overflow-visible relative z-10">
         <div className="scale-[0.55] origin-top transform-gpu">
@@ -111,10 +111,10 @@ const CARDS_DATA = [
     ),
   },
   {
-    id: 'ecommerce',
-    theme: 'pink',
+    id: "ecommerce",
+    theme: "pink",
     icon: ShoppingCart,
-    title: 'E-commerce',
+    title: "E-commerce",
     content: (
       <div className="w-full flex justify-center h-[260px] overflow-visible relative z-10">
         <div className="scale-[0.55] origin-top transform-gpu">
@@ -124,10 +124,10 @@ const CARDS_DATA = [
     ),
   },
   {
-    id: 'social',
-    theme: 'orange',
+    id: "social",
+    theme: "orange",
     icon: MessageSquare,
-    title: 'Social Media',
+    title: "Social Media",
     content: (
       <div className="w-full flex justify-center h-[260px] overflow-visible relative z-10">
         <div className="scale-[0.55] origin-top transform-gpu">
@@ -157,7 +157,7 @@ const CountUp: React.FC<{
   duration?: number;
   delay?: number;
   suffix?: string;
-}> = ({ end, duration = 2000, delay = 0, suffix = '' }) => {
+}> = ({ end, duration = 2000, delay = 0, suffix = "" }) => {
   const spanRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
@@ -191,17 +191,21 @@ const CountUp: React.FC<{
     };
   }, [end, duration, delay, suffix]);
 
-  return <span ref={spanRef} className="tabular-nums">0{suffix}</span>;
+  return (
+    <span ref={spanRef} className="tabular-nums">
+      0{suffix}
+    </span>
+  );
 };
 
 const HERO_TEXTS = [
-  'Strona www i marketing, które pracują na Twoją markę',
-  'Zamieniamy chaos w cyfrowy porządek',
-  'Buduj z nami lepszą widoczność firmy w Internecie',
+  "Strona www i marketing, które pracują na Twoją markę",
+  "Zamieniamy chaos w cyfrowy porządek",
+  "Buduj z nami lepszą widoczność firmy w Internecie",
 ];
 
 const HERO_SPACER_TEXT = HERO_TEXTS.reduce((longest, current) =>
-  current.length > longest.length ? current : longest
+  current.length > longest.length ? current : longest,
 );
 
 const MaskedRevealText = memo(function MaskedRevealText({
@@ -211,7 +215,7 @@ const MaskedRevealText = memo(function MaskedRevealText({
   text: string;
   delay?: number;
 }) {
-  const words = text.split(' ');
+  const words = text.split(" ");
 
   return (
     <span className="inline-block">
@@ -222,7 +226,7 @@ const MaskedRevealText = memo(function MaskedRevealText({
         >
           <motion.span
             className="inline-block"
-            initial={{ y: '110%' }}
+            initial={{ y: "110%" }}
             animate={{ y: 0 }}
             transition={{
               duration: 0.8,
@@ -240,60 +244,69 @@ const MaskedRevealText = memo(function MaskedRevealText({
 
 const RotatingHeroHeadline = memo(function RotatingHeroHeadline() {
   const [textIndex, setTextIndex] = useState(0);
+  const [isRotating, setIsRotating] = useState(false);
   const headingClassName =
-    'w-full mx-auto text-center text-4xl sm:text-5xl md:text-6xl xl:text-7xl 2xl:text-[5.25rem] leading-[1.05] text-white tracking-tight font-display font-medium [text-wrap:balance]';
+    "w-full mx-auto text-center text-4xl sm:text-5xl md:text-6xl xl:text-7xl 2xl:text-[5.25rem] leading-[1.05] text-white tracking-tight font-display font-medium [text-wrap:balance]";
 
   useEffect(() => {
-    let intervalId: number | null = null;
-    const timeoutId = window.setTimeout(() => {
-      intervalId = window.setInterval(() => {
-        setTextIndex((prev) => (prev + 1) % HERO_TEXTS.length);
-      }, 5000);
-    }, 3000);
+    // Delay the start of complex animations to prioritize LCP
+    const startRotationProps = window.setTimeout(() => {
+      setIsRotating(true);
+    }, 3500); // Wait for initial render and user perception
 
-    return () => {
-      window.clearTimeout(timeoutId);
-      if (intervalId) {
-        window.clearInterval(intervalId);
-      }
-    };
+    return () => window.clearTimeout(startRotationProps);
   }, []);
+
+  useEffect(() => {
+    if (!isRotating) return;
+
+    const intervalId = window.setInterval(() => {
+      setTextIndex((prev) => (prev + 1) % HERO_TEXTS.length);
+    }, 5000);
+
+    return () => window.clearInterval(intervalId);
+  }, [isRotating]);
 
   return (
     <div className="w-full flex justify-center">
       <div className="relative w-[min(92vw,1000px)] mx-auto">
+        {/* Invisible Spacer for Layout Stability */}
         <h1 className={`${headingClassName} invisible`} aria-hidden="true">
           {HERO_SPACER_TEXT}
         </h1>
-        <AnimatePresence mode="wait">
-          <motion.h1
-            key={textIndex}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.5 }}
-            className={`${headingClassName} absolute inset-0`}
-          >
-            <MaskedRevealText text={HERO_TEXTS[textIndex]} delay={0.1} />
-          </motion.h1>
-        </AnimatePresence>
+
+        {/* 1. Static/Server Rendered Initial View (Fast LCP) */}
+        {/* Only visible when rotation hasn't started yet */}
+        <h1
+          className={`${headingClassName} absolute inset-0 transition-opacity duration-500 ${
+            isRotating ? "opacity-0 pointer-events-none" : "opacity-100"
+          }`}
+        >
+          {HERO_TEXTS[0]}
+        </h1>
+
+        {/* 2. Complex Animated View (Hydrated Later) */}
+        {isRotating && (
+          <AnimatePresence mode="wait">
+            <motion.h1
+              key={textIndex}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5 }}
+              className={`${headingClassName} absolute inset-0`}
+            >
+              <MaskedRevealText text={HERO_TEXTS[textIndex]} delay={0} />
+            </motion.h1>
+          </AnimatePresence>
+        )}
       </div>
     </div>
   );
 });
 
-export const Hero: React.FC<{ onAnimationComplete?: () => void }> = ({
-  onAnimationComplete,
-}) => {
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (onAnimationComplete) {
-        onAnimationComplete();
-      }
-    }, 2200);
-
-    return () => clearTimeout(timer);
-  }, [onAnimationComplete]);
+export const Hero: React.FC = () => {
+  /* Removed onAnimationComplete logic for LCP optimization */
 
   const { scrollY } = useScroll();
   const leftColumnY = useTransform(scrollY, [0, 1000], [0, -100]);
@@ -304,7 +317,7 @@ export const Hero: React.FC<{ onAnimationComplete?: () => void }> = ({
   return (
     <motion.section
       className="w-full px-4 sm:px-8 lg:px-8 overflow-visible bg-transparent isolate flex items-center relative h-auto min-h-screen py-20 lg:py-0 z-0 text-center"
-      style={{ contain: 'layout style' }}
+      style={{ contain: "layout style" }}
     >
       {/* Animated Squiggles */}
       <HeroSquiggle />
@@ -313,27 +326,28 @@ export const Hero: React.FC<{ onAnimationComplete?: () => void }> = ({
         className="pointer-events-none absolute -top-24 -right-20 sm:-top-28 sm:-right-24 lg:-top-32 lg:-right-28 h-[300px] w-[300px] sm:h-[420px] sm:w-[420px] lg:h-[520px] lg:w-[520px] rounded-full blur-[160px] z-0 opacity-40 animate-[hero-blob-1_9s_ease-in-out_infinite] transform-gpu will-change-transform"
         style={{
           background:
-            'radial-gradient(circle at 30% 30%, rgba(145,106,255,0.42) 0%, rgba(82,216,234,0.24) 45%, rgba(23,23,23,0) 75%)',
+            "radial-gradient(circle at 30% 30%, rgba(145,106,255,0.42) 0%, rgba(82,216,234,0.24) 45%, rgba(23,23,23,0) 75%)",
         }}
       />
       <div
         className="pointer-events-none absolute top-6 right-8 sm:top-4 sm:right-10 lg:top-8 lg:right-16 h-[90px] w-[90px] sm:h-[120px] sm:w-[120px] rounded-full blur-[90px] z-0 opacity-[0.22] animate-[hero-blob-2_6s_ease-in-out_infinite] transform-gpu will-change-transform"
         style={{
           background:
-            'radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(145,106,255,0.05) 70%, rgba(23,23,23,0) 100%)',
+            "radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(145,106,255,0.05) 70%, rgba(23,23,23,0) 100%)",
         }}
       />
 
       <div className="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-0 items-center relative w-full z-10 perspective-[2000px]">
         {/* Left Column */}
         <motion.div
-          className="hidden lg:block col-span-3 w-[320px] xl:w-full lg:-mr-20 xl:mr-0 justify-self-end h-[650px] relative overflow-hidden select-none opacity-0 animate-[fade-in_1s_ease-out_1.5s_forwards]"
+          /* Reduced delay from 1.5s to 0.2s */
+          className="hidden lg:block col-span-3 w-[320px] xl:w-full lg:-mr-20 xl:mr-0 justify-self-end h-[650px] relative overflow-hidden select-none opacity-0 animate-[fade-in_1s_ease-out_0.2s_forwards]"
           style={{
             maskImage:
-              'linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)',
-            transform: 'perspective(1500px) rotateY(12deg) translateZ(-20px)',
-            transformStyle: 'preserve-3d',
-            willChange: 'transform',
+              "linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)",
+            transform: "perspective(1500px) rotateY(12deg) translateZ(-20px)",
+            transformStyle: "preserve-3d",
+            willChange: "transform",
             y: leftColumnY,
           }}
         >
@@ -349,13 +363,13 @@ export const Hero: React.FC<{ onAnimationComplete?: () => void }> = ({
             <RotatingHeroHeadline />
           </div>
 
-          <p className="text-neutral-400 text-base sm:text-lg lg:text-xl max-w-lg mb-8 lg:mb-10 font-light leading-relaxed animate-[text-reveal_0.8s_cubic-bezier(0.16,1,0.3,1)_0.8s_backwards] tracking-wide">
-            Zajmiemy się Twoją stroną kompleksowo —{' '}
+          <p className="text-neutral-400 text-base sm:text-lg lg:text-xl max-w-lg mb-8 lg:mb-10 font-light leading-relaxed animate-[text-reveal_0.8s_cubic-bezier(0.16,1,0.3,1)_0.3s_backwards] tracking-wide">
+            Zajmiemy się Twoją stroną kompleksowo —{" "}
             <br className="hidden sm:block" />
             od przygotowania koncepcji po wdrożenie gotowego projektu.
           </p>
 
-          <div className="animate-[text-reveal_0.8s_cubic-bezier(0.16,1,0.3,1)_1s_backwards]">
+          <div className="animate-[text-reveal_0.8s_cubic-bezier(0.16,1,0.3,1)_0.4s_backwards]">
             <ReelCtaButton
               text="Rozpocznij projekt"
               href="/kontakt"
@@ -364,12 +378,12 @@ export const Hero: React.FC<{ onAnimationComplete?: () => void }> = ({
             />
           </div>
 
-          <div className="w-full max-w-xs h-px bg-white/10 mt-10 lg:mt-16 mb-8 lg:mb-10 animate-[text-reveal_0.8s_cubic-bezier(0.16,1,0.3,1)_1.2s_backwards]"></div>
+          <div className="w-full max-w-xs h-px bg-white/10 mt-10 lg:mt-16 mb-8 lg:mb-10 animate-[text-reveal_0.8s_cubic-bezier(0.16,1,0.3,1)_0.5s_backwards]"></div>
 
-          <div className="flex flex-nowrap justify-center gap-2 sm:gap-8 lg:gap-16 w-full animate-[text-reveal_0.8s_cubic-bezier(0.16,1,0.3,1)_1.4s_backwards]">
+          <div className="flex flex-nowrap justify-center gap-2 sm:gap-8 lg:gap-16 w-full animate-[text-reveal_0.8s_cubic-bezier(0.16,1,0.3,1)_0.6s_backwards]">
             <div className="flex flex-col items-center group cursor-default">
               <span className="text-2xl sm:text-4xl lg:text-5xl font-semibold text-white flex items-center tracking-tight mb-2">
-                <CountUp end={700} delay={2200} />
+                <CountUp end={700} delay={1000} />
                 <span className="text-[#916AFF] text-lg sm:text-2xl lg:text-3xl align-top ml-1">
                   +
                 </span>
@@ -381,7 +395,7 @@ export const Hero: React.FC<{ onAnimationComplete?: () => void }> = ({
 
             <div className="flex flex-col items-center group cursor-default">
               <span className="text-2xl sm:text-4xl lg:text-5xl font-semibold text-white flex items-center tracking-tight mb-2">
-                <CountUp end={98} delay={2400} />
+                <CountUp end={98} delay={1100} />
                 <span className="text-[#916AFF] text-lg sm:text-2xl lg:text-3xl align-top ml-1">
                   %
                 </span>
@@ -403,7 +417,7 @@ export const Hero: React.FC<{ onAnimationComplete?: () => void }> = ({
 
             <div className="flex flex-col items-center group cursor-default">
               <span className="text-2xl sm:text-4xl lg:text-5xl font-semibold text-white flex items-center tracking-tight mb-2">
-                <CountUp end={15} delay={2600} />
+                <CountUp end={15} delay={1200} />
                 <span className="text-[#916AFF] text-lg sm:text-2xl lg:text-3xl align-top ml-1">
                   +
                 </span>
@@ -422,12 +436,12 @@ export const Hero: React.FC<{ onAnimationComplete?: () => void }> = ({
           </div>
 
           <div
-            className="lg:hidden w-[calc(100%+2rem)] sm:w-[calc(100%+4rem)] -mx-4 sm:-mx-8 mt-8 lg:mt-12 overflow-hidden relative animate-[text-reveal_0.8s_cubic-bezier(0.16,1,0.3,1)_1.6s_backwards] h-[400px]"
+            className="lg:hidden w-[calc(100%+2rem)] sm:w-[calc(100%+4rem)] -mx-4 sm:-mx-8 mt-8 lg:mt-12 overflow-hidden relative animate-[text-reveal_0.8s_cubic-bezier(0.16,1,0.3,1)_0.7s_backwards] h-[400px]"
             style={{
               maskImage:
-                'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
+                "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
               WebkitMaskImage:
-                'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
+                "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
             }}
           >
             <CardWheelHorizontal cards={CARDS_DATA} direction="left" />
@@ -436,13 +450,13 @@ export const Hero: React.FC<{ onAnimationComplete?: () => void }> = ({
 
         {/* Right Column */}
         <motion.div
-          className="hidden lg:block col-span-3 w-[320px] xl:w-full lg:-ml-20 xl:ml-0 justify-self-start h-[650px] relative overflow-hidden select-none opacity-0 animate-[fade-in_1s_ease-out_1.5s_forwards]"
+          className="hidden lg:block col-span-3 w-[320px] xl:w-full lg:-ml-20 xl:ml-0 justify-self-start h-[650px] relative overflow-hidden select-none opacity-0 animate-[fade-in_1s_ease-out_0.2s_forwards]"
           style={{
             maskImage:
-              'linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)',
-            transform: 'perspective(1500px) rotateY(-12deg) translateZ(-20px)',
-            transformStyle: 'preserve-3d',
-            willChange: 'transform',
+              "linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)",
+            transform: "perspective(1500px) rotateY(-12deg) translateZ(-20px)",
+            transformStyle: "preserve-3d",
+            willChange: "transform",
             y: rightColumnY,
           }}
         >

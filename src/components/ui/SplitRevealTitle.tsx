@@ -5,7 +5,6 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 
-// Rejestracja pluginu (wymagane w Next.js/React)
 gsap.registerPlugin(ScrollTrigger);
 
 interface SplitRevealTitleProps {
@@ -31,44 +30,40 @@ export const SplitRevealTitle = ({
 
   useGSAP(
     () => {
-      // Set initial state - elements start hidden, use force3D for GPU acceleration
-      gsap.set(line1Ref.current, { yPercent: 100, force3D: true });
-      gsap.set(line2Ref.current, { yPercent: -100, force3D: true });
+      const l1 = line1Ref.current;
+      const l2 = line2Ref.current;
+      if (!l1 || !l2) return;
 
-      // Create ScrollTrigger that can replay on scroll unless `once` is enabled.
-      ScrollTrigger.create({
-        trigger: containerRef.current,
-        start: "top 95%",
-        end: "bottom 5%",
-        once,
-        onEnter: () => {
-          const tl = gsap.timeline();
+      gsap.set(l1, { yPercent: 100, visibility: "visible", force3D: true });
+      gsap.set(l2, { yPercent: -100, visibility: "visible", force3D: true });
 
-          tl.to(line1Ref.current, {
-            yPercent: 0,
-            duration: 0.9,
-            ease: "power3.out",
-            force3D: true,
-          }).to(
-            line2Ref.current,
-            {
-              yPercent: 0,
-              duration: 0.9,
-              ease: "power3.out",
-              force3D: true,
-            },
-            "<0.12",
-          );
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top 92%",
+          end: "bottom 5%",
+          once,
+          toggleActions: once
+            ? "play none none none"
+            : "play none none reverse",
         },
-        onLeaveBack: once
-          ? undefined
-          : () => {
-              // Reset elements when scrolling back up past the trigger
-              gsap.killTweensOf([line1Ref.current, line2Ref.current]);
-              gsap.set(line1Ref.current, { yPercent: 100, force3D: true });
-              gsap.set(line2Ref.current, { yPercent: -100, force3D: true });
-            },
       });
+
+      tl.to(l1, {
+        yPercent: 0,
+        duration: 1.2,
+        ease: "power4.out",
+        force3D: true,
+      }).to(
+        l2,
+        {
+          yPercent: 0,
+          duration: 1.2,
+          ease: "power4.out",
+          force3D: true,
+        },
+        "<0.18",
+      );
     },
     { scope: containerRef, dependencies: [once] },
   );
@@ -76,28 +71,17 @@ export const SplitRevealTitle = ({
   return (
     <h2
       ref={containerRef}
-      className={`font-medium tracking-tight leading-[1] ${className}`}
+      className={`font-medium tracking-tight leading-none ${className}`}
     >
-      {/* 
-         Line 1 Wrapper
-         Dodajemy minimalny padding (py), aby fonty nie były przycięte przez overflow-hidden 
-      */}
-      <span
-        className={`block overflow-hidden pt-[0.2em] pb-[0.2em] ${classNameLine1}`}
-      >
-        <span ref={line1Ref} className="block will-change-transform">
+      <span className={`block overflow-hidden pb-[0.05em] ${classNameLine1}`}>
+        <span ref={line1Ref} className="block" style={{ visibility: "hidden" }}>
           {line1}
         </span>
       </span>
-
-      {/* 
-         Line 2 Wrapper 
-         Dodajemy margin-top i padding, aby zachować odstępy i bezpieczeństwo znaków
-      */}
       <span
-        className={`block overflow-hidden pt-[0.1em] pb-[0.3em] mt-[-0.1em] ${classNameLine2}`}
+        className={`block overflow-hidden pb-[0.05em] pt-[0.02em] ${classNameLine2}`}
       >
-        <span ref={line2Ref} className="block will-change-transform">
+        <span ref={line2Ref} className="block" style={{ visibility: "hidden" }}>
           {line2}
         </span>
       </span>

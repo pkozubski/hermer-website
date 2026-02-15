@@ -14,17 +14,21 @@ export async function GET(request: Request) {
     return new Response("Missing SANITY_API_READ_TOKEN", { status: 500 });
   }
 
+  let redirectTo = "/";
+
   try {
-    const { isValid, redirectTo = "/" } = await validatePreviewUrl(
-      clientWithToken,
-      request.url
-    );
+    const result = await validatePreviewUrl(clientWithToken, request.url);
+
+    const isValid = result.isValid;
+    if (result.redirectTo) {
+      redirectTo = result.redirectTo;
+    }
 
     console.log(
       "Draft Mode Enable: isValid",
       isValid,
       "redirectTo",
-      redirectTo
+      redirectTo,
     );
 
     if (!isValid) {
@@ -41,5 +45,10 @@ export async function GET(request: Request) {
     });
   }
 
-  redirect("/");
+  const safeRedirectTo =
+    typeof redirectTo === "string" && redirectTo.startsWith("/")
+      ? redirectTo
+      : "/";
+
+  redirect(safeRedirectTo);
 }

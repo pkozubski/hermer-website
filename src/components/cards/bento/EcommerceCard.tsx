@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useRef, useState, useEffect } from "react";
 import {
   Package,
   ShoppingBag,
@@ -12,13 +12,29 @@ import {
 
 export const EcommerceCard = ({ className = "" }: { className?: string }) => {
   const [activeStep, setActiveStep] = React.useState(0);
+  const cardRef = useRef<HTMLAnchorElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
 
-  React.useEffect(() => {
+  // Only animate when visible in viewport
+  useEffect(() => {
+    const el = cardRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsVisible(entry.isIntersecting),
+      { threshold: 0.1 },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!isVisible) return;
     const interval = setInterval(() => {
       setActiveStep((prev) => (prev + 1) % 3);
     }, 2000);
     return () => clearInterval(interval);
-  }, []);
+  }, [isVisible]);
 
   const steps = [
     { icon: Package, label: "Produkt" },
@@ -28,12 +44,13 @@ export const EcommerceCard = ({ className = "" }: { className?: string }) => {
 
   return (
     <a
+      ref={cardRef}
       href="/oferta/sklepy-internetowe"
-      className={`group relative h-full w-full rounded-[40px] overflow-hidden bg-neutral-900 hover:shadow-2xl hover:shadow-black/50 transition-all duration-700 flex flex-col justify-between border border-white/5 ${className}`}
+      className={`group relative h-full w-full rounded-[40px] overflow-hidden bg-neutral-900 hover:shadow-2xl hover:shadow-black/50 transition-shadow duration-700 flex flex-col justify-between border border-white/5 ${className}`}
     >
       {/* 1. TOP: Text Content */}
       <div className="relative z-20 p-8 md:p-10 flex flex-col items-start w-full">
-        <div className="absolute top-8 right-8 md:top-10 md:right-10 w-10 h-10 rounded-full border border-white/10 text-neutral-400 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 bg-neutral-800">
+        <div className="absolute top-8 right-8 md:top-10 md:right-10 w-10 h-10 rounded-full border border-white/10 text-neutral-400 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-neutral-800">
           <ArrowUpRight size={20} />
         </div>
 
@@ -67,7 +84,7 @@ export const EcommerceCard = ({ className = "" }: { className?: string }) => {
                   {/* Step Circle */}
                   <div className="flex flex-col items-center gap-2">
                     <div
-                      className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-500 ${
+                      className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-[transform,box-shadow] duration-500 ${
                         isActive
                           ? "scale-110 shadow-xl"
                           : isCompleted
@@ -105,7 +122,7 @@ export const EcommerceCard = ({ className = "" }: { className?: string }) => {
                       )}
                     </div>
                     <span
-                      className={`text-[10px] font-bold tracking-wide transition-all duration-300 ${
+                      className={`text-[10px] font-bold tracking-wide transition-colors duration-300 ${
                         isActive ? "text-white" : "text-neutral-500"
                       }`}
                     >
@@ -131,7 +148,7 @@ export const EcommerceCard = ({ className = "" }: { className?: string }) => {
           {/* Progress Bar */}
           <div className="mt-6 h-1.5 bg-neutral-800 rounded-full overflow-hidden">
             <div
-              className="h-full bg-white rounded-full transition-all duration-500 ease-out"
+              className="h-full bg-white rounded-full transition-[width] duration-500 ease-out"
               style={{ width: `${((activeStep + 1) / 3) * 100}%` }}
             />
           </div>

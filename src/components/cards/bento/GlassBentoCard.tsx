@@ -1,10 +1,12 @@
 import React from "react";
 import { LucideIcon } from "lucide-react";
+import Image from "next/image";
 
 interface GlassBentoCardProps {
   title: string;
   description?: string;
-  icon: LucideIcon;
+  icon?: LucideIcon;
+  iconSrc?: string;
   children: React.ReactNode; // The visual content
   className?: string;
   contentAlign?: "left" | "right";
@@ -15,6 +17,7 @@ export const GlassBentoCard: React.FC<GlassBentoCardProps> = ({
   title,
   description,
   icon: Icon,
+  iconSrc,
   children,
   className = "",
   contentAlign = "left",
@@ -70,27 +73,39 @@ export const GlassBentoCard: React.FC<GlassBentoCardProps> = ({
         }`}
       >
         {/* Floating Icon */}
-        <div
-          className={`rotate-[-10deg] hover:rotate-0 transition-transform duration-500 origin-bottom-left mb-2 ${
-            isRight ? "-mr-2 origin-bottom-right" : "-ml-2 origin-bottom-left"
-          }`}
-        >
-          <div className="relative size-[72px]">
-            <div
-              className="absolute left-0 top-0 size-[72px] rounded-[20px]"
-              style={{
-                background:
-                  "linear-gradient(135deg, #575757 0%, #1a1a1a 50%, #2d2d2d 100%)",
-                border: "1px solid rgba(255,255,255,0.15)",
-                boxShadow:
-                  "0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1), inset 0 -1px 0 rgba(0,0,0,0.3)",
-              }}
-            />
-            <div className="absolute inset-0 flex items-center justify-center text-white">
-              <Icon size={36} strokeWidth={1.5} />
+        {(Icon || iconSrc) && (
+          <div
+            className={`rotate-[-10deg] hover:rotate-0 transition-transform duration-500 origin-bottom-left mb-2 ${
+              isRight ? "-mr-2 origin-bottom-right" : "-ml-2 origin-bottom-left"
+            }`}
+          >
+            <div className="relative size-[72px]">
+              <div
+                className="absolute left-0 top-0 size-[72px] rounded-[20px]"
+                style={{
+                  background:
+                    "linear-gradient(135deg, #575757 0%, #1a1a1a 50%, #2d2d2d 100%)",
+                  border: "1px solid rgba(255,255,255,0.15)",
+                  boxShadow:
+                    "0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1), inset 0 -1px 0 rgba(0,0,0,0.3)",
+                }}
+              />
+              <div className="absolute inset-0 flex items-center justify-center text-white">
+                {iconSrc ? (
+                  <Image
+                    src={iconSrc}
+                    alt={title || "Icon"}
+                    width={36}
+                    height={36}
+                    className="object-contain"
+                  />
+                ) : (
+                  Icon && <Icon size={36} strokeWidth={1.5} />
+                )}
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
         <div>
           <h3 className="font-['Inter:Medium',sans-serif] font-medium leading-tight text-2xl md:text-3xl text-white mb-3">

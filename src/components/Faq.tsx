@@ -1,9 +1,15 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { SplitRevealTitle } from "./ui/SplitRevealTitle";
 import { ArrowRight } from "lucide-react";
 import { LineReveal } from "./ui/LineReveal";
+import { usePathname } from "next/navigation";
+import {
+  PortableText,
+  type PortableTextBlock,
+  type PortableTextComponents,
+} from "@portabletext/react";
 
 const FAQ_ITEMS = [
   {
@@ -32,18 +38,114 @@ const FAQ_ITEMS = [
   },
 ];
 
-interface FaqItem {
+export interface FaqItem {
   id: number | string;
   question: string;
-  answer: string;
+  answer: string | PortableTextBlock[];
 }
 
 interface FaqProps {
   items?: FaqItem[];
+  sanitySlug?: string;
 }
 
-export const Faq: React.FC<FaqProps> = ({ items = FAQ_ITEMS }) => {
-  const [activeId, setActiveId] = useState<number | string>(items[0]?.id || 1);
+const portableTextComponents: PortableTextComponents = {
+  block: {
+    normal: ({ children }) => (
+      <p className="mb-3 last:mb-0">{children}</p>
+    ),
+  },
+  list: {
+    bullet: ({ children }) => (
+      <ul className="mb-3 list-disc pl-6 space-y-1 marker:text-[#916AFF]">
+        {children}
+      </ul>
+    ),
+    number: ({ children }) => (
+      <ol className="mb-3 list-decimal pl-6 space-y-1 marker:text-[#916AFF]">
+        {children}
+      </ol>
+    ),
+  },
+  marks: {
+    strong: ({ children }) => (
+      <strong className="font-bold text-white">{children}</strong>
+    ),
+  },
+};
+
+function FaqAnswerContent({ answer }: { answer: FaqItem["answer"] }) {
+  if (typeof answer === "string") {
+    return <>{answer}</>;
+  }
+
+  if (Array.isArray(answer) && answer.length > 0) {
+    return <PortableText value={answer} components={portableTextComponents} />;
+  }
+
+  return null;
+}
+
+export const Faq: React.FC<FaqProps> = ({ items = FAQ_ITEMS, sanitySlug }) => {
+  const pathname = usePathname();
+  const [sanityItems, setSanityItems] = useState<FaqItem[] | null>(null);
+
+  const slug = useMemo(() => {
+    if (sanitySlug) {
+      return sanitySlug.replace(/^\/|\/$/g, "");
+    }
+
+    if (!pathname || pathname === "/") {
+      return "home";
+    }
+
+    return pathname.replace(/^\/|\/$/g, "");
+  }, [pathname, sanitySlug]);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadFaqFromSanity() {
+      if (!slug) {
+        return;
+      }
+
+      try {
+        const response = await fetch(`/api/faqs?slug=${encodeURIComponent(slug)}`, {
+          cache: "no-store",
+        });
+        if (!response.ok) {
+          return;
+        }
+
+        const data = (await response.json()) as { items?: FaqItem[] };
+        if (!cancelled && Array.isArray(data.items) && data.items.length > 0) {
+          setSanityItems(data.items);
+        }
+      } catch {
+        // Keep provided fallback items when API is unavailable.
+      }
+    }
+
+    loadFaqFromSanity();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [slug]);
+
+  const resolvedItems = useMemo(() => {
+    return sanityItems && sanityItems.length > 0 ? sanityItems : items;
+  }, [sanityItems, items]);
+
+  const [activeId, setActiveId] = useState<number | string | null>(null);
+
+  // Set initial activeId when resolvedItems are available
+  useEffect(() => {
+    if (resolvedItems.length > 0 && activeId === null) {
+      setActiveId(resolvedItems[0].id);
+    }
+  }, [resolvedItems, activeId]);
 
   return (
     <section className="py-24 lg:py-32 bg-transparent relative overflow-hidden">
@@ -73,7 +175,7 @@ export const Faq: React.FC<FaqProps> = ({ items = FAQ_ITEMS }) => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 items-start">
           {/* --- QUESTIONS LIST --- */}
           <div className="lg:col-span-5 flex flex-col">
-            {items.map((item, index) => (
+            {resolvedItems.map((item, index) => (
               <div key={item.id} className="border-b border-white/10">
                 <motion.button
                   initial={{ opacity: 0, x: -30 }}
@@ -134,9 +236,9 @@ export const Faq: React.FC<FaqProps> = ({ items = FAQ_ITEMS }) => {
                       transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                       className="lg:hidden overflow-hidden"
                     >
-                      <p className="pb-8 text-lg text-neutral-300 leading-relaxed">
-                        {item.answer}
-                      </p>
+                      <div className="pb-8 text-lg text-neutral-300 leading-relaxed">
+                        <FaqAnswerContent answer={item.answer} />
+                      </div>
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -157,7 +259,7 @@ export const Faq: React.FC<FaqProps> = ({ items = FAQ_ITEMS }) => {
             }}
           >
             <AnimatePresence mode="wait">
-              {items.map(
+              {resolvedItems.map(
                 (item) =>
                   activeId === item.id && (
                     <motion.div
@@ -170,9 +272,9 @@ export const Faq: React.FC<FaqProps> = ({ items = FAQ_ITEMS }) => {
                       <h3 className="text-sm font-bold text-neutral-500 uppercase tracking-widest mb-6">
                         Odpowiedź
                       </h3>
-                      <p className="text-lg md:text-2xl lg:text-3xl font-medium text-white leading-relaxed tracking-tight">
-                        {item.answer}
-                      </p>
+                      <div className="text-lg md:text-2xl lg:text-3xl font-medium text-white leading-relaxed tracking-tight">
+                        <FaqAnswerContent answer={item.answer} />
+                      </div>
                     </motion.div>
                   ),
               )}

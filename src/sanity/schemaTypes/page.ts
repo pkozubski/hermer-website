@@ -30,24 +30,7 @@ export const page = defineType({
     defineField({
       name: "seo",
       title: "SEO",
-      type: "object",
-      fields: [
-        {
-          name: "title",
-          title: "Meta Tytuł",
-          type: "string",
-        },
-        {
-          name: "description",
-          title: "Meta Opis",
-          type: "text",
-        },
-        {
-          name: "ogImage",
-          title: "Zdjęcie Open Graph",
-          type: "image",
-        },
-      ],
+      type: "seoMetaFields",
     }),
   ],
 });

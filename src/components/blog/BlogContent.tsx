@@ -29,6 +29,7 @@ export const BlogContent: React.FC<BlogContentProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [hasMore, setHasMore] = useState(initialPosts.length >= 9);
   
+  const lastActiveCategory = useRef("Wszystkie");
   const observerTarget = useRef<HTMLDivElement>(null);
 
   const fetchPosts = useCallback(async (category: string, lastPublishedAt?: string) => {
@@ -58,12 +59,16 @@ export const BlogContent: React.FC<BlogContentProps> = ({
 
   // Handle category change
   useEffect(() => {
-    // Skip initial fetch since it's handled by SSR for "Wszystkie"
-    if (activeCategory === "Wszystkie" && posts === initialPosts) return;
+    // Skip if it's the initial render and category is "Wszystkie"
+    if (activeCategory === "Wszystkie" && lastActiveCategory.current === "Wszystkie") return;
     
+    // Skip if category hasn't changed
+    if (activeCategory === lastActiveCategory.current) return;
+
+    lastActiveCategory.current = activeCategory;
     setPosts([]); // Clear immediately to trigger shader cleanup
     fetchPosts(activeCategory);
-  }, [activeCategory, fetchPosts, initialPosts]);
+  }, [activeCategory, fetchPosts]);
 
   // Infinite Scroll Observer
   useEffect(() => {

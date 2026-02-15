@@ -1,4 +1,4 @@
-import { defineField, defineType } from "sanity";
+import { defineArrayMember, defineField, defineType } from "sanity";
 
 export const faqItem = defineType({
   name: "faqItem",
@@ -14,7 +14,24 @@ export const faqItem = defineType({
     defineField({
       name: "answer",
       title: "Answer",
-      type: "text",
+      type: "array",
+      of: [
+        defineArrayMember({
+          type: "block",
+          styles: [{ title: "Normal", value: "normal" }],
+          lists: [
+            { title: "Bullet", value: "bullet" },
+            { title: "Number", value: "number" },
+          ],
+          marks: {
+            decorators: [
+              { title: "Bold", value: "strong" },
+              { title: "Italic", value: "em" },
+            ],
+            annotations: [],
+          },
+        }),
+      ],
       validation: (Rule) => Rule.required(),
     }),
   ],

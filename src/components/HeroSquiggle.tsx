@@ -128,11 +128,14 @@ const SquigglePath = memo(function SquigglePath({
           strokeLinecap="round"
           fill="none"
           strokeDasharray={`${snakeVisibleLength} ${totalDashLength}`}
-          style={{
-            "--dash-start": snakeVisibleLength,
-            "--dash-end": -pathLength - snakeVisibleLength,
-            animation: "squiggle-dash 5s cubic-bezier(0.25, 0.1, 0.25, 1) forwards",
-          } as React.CSSProperties}
+          style={
+            {
+              "--dash-start": snakeVisibleLength,
+              "--dash-end": -pathLength - snakeVisibleLength,
+              animation:
+                "squiggle-dash 5s cubic-bezier(0.25, 0.1, 0.25, 1) forwards",
+            } as React.CSSProperties
+          }
         />
       </svg>
     </div>

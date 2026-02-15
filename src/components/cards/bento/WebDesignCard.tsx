@@ -7,7 +7,7 @@ export const WebDesignCard = ({ className = "" }: { className?: string }) => {
   return (
     <a
       href="/oferta/strony-www"
-      className={`@container group relative w-full rounded-[40px] overflow-hidden bg-neutral-900 hover:shadow-2xl hover:shadow-black/50 transition-all duration-700 block cursor-pointer border border-white/5 ${className}`}
+      className={`@container group relative w-full rounded-[40px] overflow-hidden bg-neutral-900 hover:shadow-2xl hover:shadow-black/50 transition-shadow duration-700 block cursor-pointer border border-white/5 ${className}`}
     >
       {/* --- VISUAL BACKDROP --- */}
       <div className="absolute inset-0 w-full h-full overflow-hidden">

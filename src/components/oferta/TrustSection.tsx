@@ -1,7 +1,8 @@
 "use client";
 import React from "react";
 import { motion } from "framer-motion";
-import { Quote, Star } from "lucide-react";
+import { Quote } from "lucide-react";
+import { CustomStar } from "@/components/ui/CustomStar";
 import Image from "next/image";
 
 const LogoMarquee = () => {
@@ -102,7 +103,7 @@ export const TrustSection = () => {
           <div className="lg:col-span-7 text-left">
             <div className="mb-6 flex gap-1 text-[#916AFF]">
               {[1, 2, 3, 4, 5].map((i) => (
-                <Star key={i} size={16} className="fill-current" />
+                <CustomStar key={i} size={18} fill="currentColor" />
               ))}
             </div>
             <blockquote className="text-2xl md:text-3xl lg:text-4xl font-medium font-display text-white leading-[1.2] mb-10 tracking-tight">

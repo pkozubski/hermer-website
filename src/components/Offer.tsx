@@ -1,10 +1,7 @@
-"use client";
-
-import React, { useRef, useState, useEffect, memo } from "react";
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import React, { useRef, useState, useEffect, useCallback, memo } from "react";
+import { motion, useScroll, useTransform } from "motion/react";
 import { SplitRevealTitle } from "./ui/SplitRevealTitle";
 import { LineReveal } from "./ui/LineReveal";
-import { OfferCard, OfferItem } from "./cards/offer/OfferCard";
 import { WebDesignCard } from "./cards/bento/WebDesignCard";
 import { EcommerceCard } from "./cards/bento/EcommerceCard";
 import { SeoCard } from "./cards/bento/SeoCard";
@@ -14,7 +11,6 @@ import { DashedCardWrapper } from "./cards/bento/DashedCardWrapper";
 import { Phone } from "lucide-react";
 import FluidButton from "./ui/FluidButton";
 
-const OFFER_ITEMS: OfferItem[] = [];
 const OFFER_SUBTITLE_LINES = [
   "Czasem krótka rozmowa pozwala zamienić",
   "mglisty pomysł w konkretny cel biznesowy.",
@@ -65,15 +61,6 @@ const OfferContent = memo(({ isMobile }: { isMobile: boolean }) => {
         </DashedCardWrapper>
       </div>
 
-      {OFFER_ITEMS.map((item, index) => (
-        <OfferCard
-          key={item.id}
-          item={item}
-          index={index + 1}
-          isMobile={isMobile}
-        />
-      ))}
-
       {/* Spacer for Desktop */}
       {!isMobile && <div className="w-[12vw] shrink-0"></div>}
     </>
@@ -88,49 +75,61 @@ export const Offer: React.FC = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [trackWidth, setTrackWidth] = useState(0);
 
-  // Handle Resize and Mobile Detection
+  // Debounced mobile check + ResizeObserver for track width
   useEffect(() => {
-    const handleResize = () => {
+    let rafId: number | null = null;
+
+    const checkMobile = () => {
       setIsMobile(window.innerWidth < 1024);
-      if (trackRef.current) {
-        setTrackWidth(trackRef.current.scrollWidth);
-      }
     };
 
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    window.addEventListener("load", handleResize);
-    
-    // Recalculate after a short delay to ensure children are rendered
-    const timer = setTimeout(handleResize, 500);
-    
+    const handleResize = () => {
+      if (rafId !== null) return;
+      rafId = requestAnimationFrame(() => {
+        rafId = null;
+        checkMobile();
+      });
+    };
+
+    checkMobile();
+    window.addEventListener("resize", handleResize, { passive: true });
+
+    // Use ResizeObserver for accurate track width measurement
+    let ro: ResizeObserver | null = null;
+    if (trackRef.current) {
+      ro = new ResizeObserver(() => {
+        if (trackRef.current) {
+          setTrackWidth(trackRef.current.scrollWidth);
+        }
+      });
+      ro.observe(trackRef.current);
+    }
+
     return () => {
       window.removeEventListener("resize", handleResize);
-      window.removeEventListener("load", handleResize);
-      clearTimeout(timer);
+      if (rafId !== null) cancelAnimationFrame(rafId);
+      ro?.disconnect();
     };
   }, []);
 
-  // Framer Motion Scroll Logic
+  // Motion Scroll Logic
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end end"],
   });
 
-  // Calculate horizontal translation
-  // We want to translate from 0 to -(trackWidth - viewportWidth)
+  // Calculate horizontal translation — passive useTransform, no spring overhead
   const x = useTransform(
     scrollYProgress,
     [0, 1],
-    [0, -Math.max(trackWidth - (typeof window !== "undefined" ? window.innerWidth : 0), 0)]
+    [
+      0,
+      -Math.max(
+        trackWidth - (typeof window !== "undefined" ? window.innerWidth : 0),
+        0,
+      ),
+    ],
   );
-
-  // Smooth out the horizontal scroll
-  const springX = useSpring(x, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001
-  });
 
   // Fade out title based on progress
   const titleOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
@@ -163,7 +162,7 @@ export const Offer: React.FC = () => {
         <div className="h-full flex items-center overflow-hidden lg:overflow-visible">
           <motion.div
             ref={trackRef}
-            style={{ x: isMobile ? 0 : springX }}
+            style={{ x: isMobile ? 0 : x }}
             className={`flex ${
               isMobile
                 ? "flex-col px-4 pb-20 w-full"

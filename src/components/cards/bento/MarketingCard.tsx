@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { TrendingUp, BarChart3 } from 'lucide-react';
+import React from "react";
+import { TrendingUp, BarChart3 } from "lucide-react";
 
-export const MarketingCard = ({ className = '' }: { className?: string }) => {
+export const MarketingCard = ({ className = "" }: { className?: string }) => {
   return (
     <a
       href="/oferta/marketing"
-      className={`group relative w-full rounded-[40px] overflow-hidden bg-neutral-900 hover:shadow-2xl hover:shadow-black/50 transition-all duration-700 block cursor-pointer border border-white/5 ${className}`}
+      className={`group relative w-full rounded-[40px] overflow-hidden bg-neutral-900 hover:shadow-2xl hover:shadow-black/50 transition-shadow duration-700 block cursor-pointer border border-white/5 ${className}`}
     >
       {/* --- VISUAL BACKDROP --- */}
       <div className="absolute inset-0 w-full h-full overflow-hidden">
@@ -16,8 +16,8 @@ export const MarketingCard = ({ className = '' }: { className?: string }) => {
           className="absolute inset-0 z-0 opacity-[0.05]"
           style={{
             backgroundImage:
-              'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)',
-            backgroundSize: '20px 20px',
+              "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)",
+            backgroundSize: "20px 20px",
           }}
         />
 
@@ -29,8 +29,8 @@ export const MarketingCard = ({ className = '' }: { className?: string }) => {
               className="w-8 h-8 rounded-lg flex items-center justify-center shadow-lg"
               style={{
                 background:
-                  'linear-gradient(135deg, #575757 0%, #1a1a1a 50%, #2d2d2d 100%)',
-                border: '1px solid rgba(255,255,255,0.15)',
+                  "linear-gradient(135deg, #575757 0%, #1a1a1a 50%, #2d2d2d 100%)",
+                border: "1px solid rgba(255,255,255,0.15)",
               }}
             >
               <TrendingUp size={16} className="text-white" />
@@ -115,7 +115,7 @@ export const MarketingCard = ({ className = '' }: { className?: string }) => {
                   style={{
                     strokeDasharray: 600,
                     strokeDashoffset: 0,
-                    animation: 'drawLine 2s ease-out forwards',
+                    animation: "drawLine 2s ease-out forwards",
                   }}
                 />
               </svg>
@@ -162,10 +162,10 @@ export const MarketingCard = ({ className = '' }: { className?: string }) => {
             className="absolute bottom-24 right-4 w-12 h-12 rounded-xl flex items-center justify-center z-20 rotate-6 transition-transform duration-500 group-hover:rotate-0 group-hover:scale-105 shadow-2xl"
             style={{
               background:
-                'linear-gradient(135deg, #575757 0%, #1a1a1a 50%, #2d2d2d 100%)',
-              border: '1px solid rgba(255,255,255,0.15)',
+                "linear-gradient(135deg, #575757 0%, #1a1a1a 50%, #2d2d2d 100%)",
+              border: "1px solid rgba(255,255,255,0.15)",
               boxShadow:
-                '0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1), inset 0 -1px 0 rgba(0,0,0,0.3)',
+                "0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1), inset 0 -1px 0 rgba(0,0,0,0.3)",
             }}
           >
             <BarChart3

@@ -1,11 +1,14 @@
 "use client";
 import { useLenis } from "lenis/react";
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 
 export const CustomScrollbar = () => {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [windowHeight, setWindowHeight] = useState(0);
   const [docHeight, setDocHeight] = useState(0);
+  const pathname = usePathname();
+  const isStudio = pathname?.startsWith("/studio");
 
   const lenis = useLenis(({ scroll, limit }) => {
     // Calculate progress based on current scroll position and total scrollable distance
@@ -14,6 +17,8 @@ export const CustomScrollbar = () => {
   });
 
   useEffect(() => {
+    if (isStudio) return;
+
     const updateDimensions = () => {
       setWindowHeight(window.innerHeight);
       setDocHeight(document.documentElement.scrollHeight);
@@ -29,7 +34,9 @@ export const CustomScrollbar = () => {
       window.removeEventListener("resize", updateDimensions);
       clearInterval(interval);
     };
-  }, []);
+  }, [isStudio]);
+
+  if (isStudio) return null;
 
   // Use a fixed height for the scroll indicator track
   const trackHeight = 200; // px

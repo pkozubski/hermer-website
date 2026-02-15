@@ -1,11 +1,12 @@
-import { type SchemaTypeDefinition } from 'sanity';
+import { type SchemaTypeDefinition } from "sanity";
 
-import { post } from './post';
-import { project } from './project';
-import { faqItem } from './faqItem';
-import { page } from './page';
-import { category } from './category';
+import { post } from "./post";
+import { project } from "./project";
+import { faqItem } from "./faqItem";
+import { page } from "./page";
+import { category } from "./category";
+import { review } from "./review";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [post, category, project, faqItem, page],
+  types: [post, category, project, faqItem, page, review],
 };
