@@ -1,109 +1,6 @@
-import React from "react";
-import {
-  MessageSquare,
-  Heart,
-  MessageCircle,
-  Send,
-  Bookmark,
-} from "lucide-react";
-
-// --- Internal Mock UI Components ---
-
-function DynamicIsland() {
-  return (
-    // Zmieniono 'hover:' na 'group-hover:' aby reagowało na najechanie na całą kartę
-    <div className="absolute top-[11px] left-1/2 -translate-x-1/2 h-[25px] w-[80px] group-hover:w-[100px] group-hover:scale-[1.02] bg-black rounded-full z-50 flex items-center justify-between px-2 transition-all duration-500 ease-[cubic-bezier(0.175,0.885,0.32,1.275)] cursor-default"></div>
-  );
-}
-
-function SocialPost() {
-  return (
-    <div className="flex flex-col gap-3 p-4">
-      {/* Post Header */}
-      <div className="flex items-center gap-2">
-        {/* Zmieniono na gradient w odcieniach szarości */}
-        <div className="size-8 rounded-full bg-gradient-to-tr from-neutral-600 to-neutral-400" />
-        <div className="flex flex-col gap-1">
-          <div className="h-2 w-24 bg-gradient-to-r from-white/30 to-transparent rounded-full" />
-          <div className="h-1.5 w-16 bg-gradient-to-r from-white/10 to-transparent rounded-full" />
-        </div>
-        <div className="ml-auto text-white/40">...</div>
-      </div>
-
-      {/* Post Content (Image) */}
-      <div className="aspect-[4/5] w-full rounded-xl bg-neutral-800 relative overflow-hidden">
-        {/* Zmieniono na monochromatyczną nakładkę */}
-        <div className="absolute inset-0 bg-gradient-to-tr from-white/10 via-white/5 to-transparent" />
-        {/* Abstract Shapes - Desaturated */}
-        <div className="absolute top-1/4 left-1/4 size-24 rounded-full bg-white/5 blur-2xl" />
-        <div className="absolute bottom-1/4 right-1/4 size-32 rounded-full bg-white/10 blur-2xl" />
-      </div>
-
-      {/* Action Buttons */}
-      <div className="flex items-center justify-between mt-1">
-        <div className="flex gap-4">
-          <Heart size={20} className="text-white" />
-          <MessageCircle size={20} className="text-white" />
-          <Send size={20} className="text-white" />
-        </div>
-        <Bookmark size={20} className="text-white" />
-      </div>
-
-      {/* Likes & Caption placeholders */}
-      <div className="space-y-2 mt-1">
-        <div className="h-2 w-32 bg-gradient-to-r from-white/30 to-transparent rounded-full" />
-        <div className="h-2 w-full bg-gradient-to-r from-white/20 to-transparent rounded-full" />
-        <div className="h-2 w-2/3 bg-gradient-to-r from-white/20 to-transparent rounded-full" />
-      </div>
-    </div>
-  );
-}
-
-function AbstractPhoneFrame() {
-  return (
-    <div className="absolute h-[630px] left-1/2 -translate-x-1/2 top-[40px] w-[320px]">
-      {/* Abstract Border/Shadow Frame */}
-      <div className="absolute contents left-0 top-0">
-        <div className="absolute bg-[#262626] h-full w-full left-0 rounded-[56px] top-0">
-          <div
-            aria-hidden="true"
-            className="absolute border-[8px] border-[rgba(255,255,255,0.03)] border-solid inset-[-8px] pointer-events-none rounded-[64px] shadow-[0px_0px_48px_10px_rgba(0,0,0,0.2),0px_4px_16px_8px_rgba(0,0,0,0.1)]"
-          />
-        </div>
-      </div>
-
-      {/* Internal Content Container */}
-      <div className="absolute inset-0 bg-[#262626] overflow-hidden rounded-[56px]">
-        <DynamicIsland />
-        {/* Content */}
-        <div className="pt-8 pb-8 overflow-hidden h-full relative">
-          <SocialPost />
-          <div className="h-px w-full bg-white/10 my-2" />
-          {/* Partial Next Post */}
-          <div className="flex flex-col gap-3 p-4 opacity-50">
-            <div className="flex items-center gap-2">
-              {/* Zmieniono na gradient w odcieniach szarości */}
-              <div className="size-8 rounded-full bg-gradient-to-tr from-neutral-700 to-neutral-500" />
-              <div className="flex flex-col gap-1">
-                <div className="h-2 w-24 bg-white/20 rounded-full" />
-                <div className="h-1.5 w-16 bg-white/10 rounded-full" />
-              </div>
-            </div>
-            <div className="aspect-square w-full rounded-xl bg-neutral-800" />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function PhoneContainer() {
-  return (
-    <div className="absolute h-[500px] w-full top-0 scale-[0.65] origin-top">
-      <AbstractPhoneFrame />
-    </div>
-  );
-}
+import React from 'react';
+import { MessageSquare } from 'lucide-react';
+import Image from 'next/image';
 
 function MessageIconVector() {
   return (
@@ -120,10 +17,10 @@ function FloatingIcon() {
         className="absolute left-0 top-0 size-[88px] rounded-[24px]"
         style={{
           background:
-            "linear-gradient(135deg, #575757 0%, #1a1a1a 50%, #2d2d2d 100%)",
-          border: "1px solid rgba(255,255,255,0.15)",
+            'linear-gradient(135deg, #575757 0%, #1a1a1a 50%, #2d2d2d 100%)',
+          border: '1px solid rgba(255,255,255,0.15)',
           boxShadow:
-            "0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1), inset 0 -1px 0 rgba(0,0,0,0.3)",
+            '0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1), inset 0 -1px 0 rgba(0,0,0,0.3)',
         }}
       />
       <div className="absolute inset-0 flex items-center justify-center">
@@ -135,36 +32,43 @@ function FloatingIcon() {
 
 export const SocialMediaCard = React.memo(function SocialMediaCard() {
   return (
-    // Dodano klasę 'group' tutaj, aby umożliwić 'group-hover' w elementach podrzędnych
-    <div className="group bg-[rgba(26,26,26,0.4)] backdrop-blur-[7px] flex flex-col gap-[10px] items-center justify-end overflow-hidden px-[51px] py-[41px] relative rounded-[64px] w-[620px] h-[520px] shadow-2xl shrink-0 border border-white/5 transition-colors duration-500">
-      {/* iPhone Mockup */}
-      <PhoneContainer />
+    <div className="group bg-[rgba(26,26,26,0.4)] backdrop-blur-[7px] flex flex-col gap-[10px] items-center justify-end overflow-hidden px-[51px] py-[41px] relative rounded-[50px] w-[620px] h-[520px] shadow-2xl shrink-0 border border-white/5 transition-colors duration-500">
+      {/* Visual Image */}
+      <div className="absolute top-0 left-0 w-full h-full opacity-80 z-0">
+        <Image
+          src="/assets/hero-cards/socialmedia.png"
+          alt="Social Media Visual"
+          fill
+          className="object-contain object-top"
+          priority
+        />
+      </div>
 
       {/* Progressive Blur and Gradient Overlay */}
       <div className="absolute h-[340px] left-0 bottom-0 w-full pointer-events-none z-0">
         <div
           className="absolute inset-0 backdrop-blur-sm"
           style={{
-            maskImage: "linear-gradient(to bottom, transparent 0%, black 30%)",
+            maskImage: 'linear-gradient(to bottom, transparent 0%, black 30%)',
             WebkitMaskImage:
-              "linear-gradient(to bottom, transparent 0%, black 30%)",
+              'linear-gradient(to bottom, transparent 0%, black 30%)',
           }}
         />
         <div
           className="absolute inset-0 backdrop-blur-md"
           style={{
-            maskImage: "linear-gradient(to bottom, transparent 30%, black 60%)",
+            maskImage: 'linear-gradient(to bottom, transparent 30%, black 60%)',
             WebkitMaskImage:
-              "linear-gradient(to bottom, transparent 30%, black 60%)",
+              'linear-gradient(to bottom, transparent 30%, black 60%)',
           }}
         />
         <div
           className="absolute inset-0 backdrop-blur-xl"
           style={{
             maskImage:
-              "linear-gradient(to bottom, transparent 60%, black 100%)",
+              'linear-gradient(to bottom, transparent 60%, black 100%)',
             WebkitMaskImage:
-              "linear-gradient(to bottom, transparent 60%, black 100%)",
+              'linear-gradient(to bottom, transparent 60%, black 100%)',
           }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[rgba(26,26,26,0.8)] to-[#1a1a1a]" />

@@ -1,8 +1,8 @@
-import React, { useRef } from "react";
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
+import React, { useRef } from 'react';
+import { useGSAP } from '@gsap/react';
+import gsap from 'gsap';
 
-import { LucideIcon } from "lucide-react";
+import { LucideIcon } from 'lucide-react';
 
 interface CardData {
   id: string;
@@ -14,14 +14,14 @@ interface CardData {
 
 interface CardWheelProps {
   cards: CardData[];
-  direction?: "up" | "down";
+  direction?: 'up' | 'down';
 }
 
 const ITEM_HEIGHT = 320; // Estimated height of LiquidCard + margin
 
 export const CardWheel: React.FC<CardWheelProps> = ({
   cards,
-  direction = "up",
+  direction = 'up',
 }) => {
   const wheelRef = useRef<HTMLDivElement>(null);
 
@@ -43,7 +43,7 @@ export const CardWheel: React.FC<CardWheelProps> = ({
         force3D: true,
       });
 
-      const dirMulti = direction === "up" ? -1 : 1;
+      const dirMulti = direction === 'up' ? -1 : 1;
       const step = angleStep * dirMulti;
 
       // Continuous rotation using GSAP timeline for better performance
@@ -51,7 +51,7 @@ export const CardWheel: React.FC<CardWheelProps> = ({
         gsap.to(wheelRef.current, {
           rotationX: `+=${step}`,
           duration: 1.6,
-          ease: "back.out(1.2)",
+          ease: 'back.out(1.2)',
           delay: 2,
           force3D: true,
           onComplete: rotate,
@@ -69,8 +69,8 @@ export const CardWheel: React.FC<CardWheelProps> = ({
         ref={wheelRef}
         className="w-full h-full absolute top-0 left-0 transform-style-3d bg-transparent"
         style={{
-          transformStyle: "preserve-3d",
-          willChange: "transform",
+          transformStyle: 'preserve-3d',
+          willChange: 'transform',
         }}
       >
         {repeatedCards.map((card, i) => (
@@ -81,8 +81,7 @@ export const CardWheel: React.FC<CardWheelProps> = ({
               height: `${ITEM_HEIGHT}px`,
               marginTop: `-${ITEM_HEIGHT / 2}px`,
               transform: `rotateX(${i * angleStep}deg) translateZ(${radius}px)`,
-              backfaceVisibility: "hidden",
-              contain: "content",
+              backfaceVisibility: 'hidden',
             }}
           >
             {/* 

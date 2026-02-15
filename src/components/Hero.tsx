@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useRef, useState, useCallback } from "react";
+import React, { memo, useEffect, useRef, useState, useCallback } from 'react';
 import {
   Code2,
   Palette,
@@ -9,34 +9,34 @@ import {
   ShoppingCart,
   MessageSquare,
   Star,
-} from "lucide-react";
-import { CmsCard } from "./cards/CmsCard";
-import { SeoCard } from "./cards/SeoCard";
-import { ResponsivenessCard } from "./cards/ResponsivenessCard";
-import { CardWheelHorizontal } from "./CardWheelHorizontal";
+} from 'lucide-react';
+import { CmsCard } from './cards/CmsCard';
+import { SeoCard } from './cards/SeoCard';
+import { ResponsivenessCard } from './cards/ResponsivenessCard';
+import { CardWheelHorizontal } from './CardWheelHorizontal';
 import {
   motion,
   AnimatePresence,
   useScroll,
   useTransform,
-} from "framer-motion";
-import { CardWheel } from "./CardWheel";
-import HeroSquiggle from "./HeroSquiggle";
-import { WebDevCard } from "./cards/WebDevCard";
-import { EcommerceCard } from "./cards/EcommerceCard";
-import { SocialMediaCard } from "./cards/SocialMediaCard";
-import { MarketingCard } from "./cards/MarketingCard";
-import { UiUxCard } from "./cards/UiUxCard";
-import { ReelCtaButton } from "./ui/ReelCtaButton";
+} from 'framer-motion';
+import { CardWheel } from './CardWheel';
+import HeroSquiggle from './HeroSquiggle';
+import { WebDevCard } from './cards/WebDevCard';
+import { EcommerceCard } from './cards/EcommerceCard';
+import { SocialMediaCard } from './cards/SocialMediaCard';
+import { MarketingCard } from './cards/MarketingCard';
+import { UiUxCard } from './cards/UiUxCard';
+import { ReelCtaButton } from './ui/ReelCtaButton';
 
 // Data for the cards to be rendered - Monochrome Themes
 // Data for the cards to be rendered - Monochrome Themes
 const CARDS_DATA = [
   {
-    id: "code",
-    theme: "blue",
+    id: 'code',
+    theme: 'blue',
     icon: Code2,
-    title: "Development",
+    title: 'Development',
     content: (
       <div className="w-full flex justify-center h-[260px] overflow-visible relative z-10">
         <div className="scale-[0.55] origin-top transform-gpu">
@@ -46,10 +46,10 @@ const CARDS_DATA = [
     ),
   },
   {
-    id: "design",
-    theme: "purple",
+    id: 'design',
+    theme: 'purple',
     icon: Palette,
-    title: "UI/UX Design",
+    title: 'UI/UX Design',
     content: (
       <div className="w-full flex justify-center h-[260px] overflow-visible relative z-10">
         <div className="scale-[0.55] origin-top transform-gpu">
@@ -59,10 +59,10 @@ const CARDS_DATA = [
     ),
   },
   {
-    id: "mobile",
-    theme: "blue",
+    id: 'mobile',
+    theme: 'blue',
     icon: Smartphone,
-    title: "Responsywność",
+    title: 'Responsywność',
     content: (
       <div className="w-full flex justify-center h-[260px] overflow-visible relative z-10">
         <div className="scale-[0.55] origin-top transform-gpu">
@@ -72,10 +72,10 @@ const CARDS_DATA = [
     ),
   },
   {
-    id: "seo",
-    theme: "green",
+    id: 'seo',
+    theme: 'green',
     icon: Search,
-    title: "SEO & Pozycjonowanie",
+    title: 'SEO & Pozycjonowanie',
     content: (
       <div className="w-full flex justify-center h-[260px] overflow-visible relative z-10">
         <div className="scale-[0.55] origin-top transform-gpu">
@@ -85,10 +85,10 @@ const CARDS_DATA = [
     ),
   },
   {
-    id: "marketing",
-    theme: "orange",
+    id: 'marketing',
+    theme: 'orange',
     icon: BarChart3,
-    title: "Marketing",
+    title: 'Marketing',
     content: (
       <div className="w-full flex justify-center h-[260px] overflow-visible relative z-10">
         <div className="scale-[0.55] origin-top transform-gpu">
@@ -98,10 +98,10 @@ const CARDS_DATA = [
     ),
   },
   {
-    id: "cms",
-    theme: "purple",
+    id: 'cms',
+    theme: 'purple',
     icon: Layout,
-    title: "System CMS",
+    title: 'System CMS',
     content: (
       <div className="w-full flex justify-center h-[260px] overflow-visible relative z-10">
         <div className="scale-[0.55] origin-top transform-gpu">
@@ -111,10 +111,10 @@ const CARDS_DATA = [
     ),
   },
   {
-    id: "ecommerce",
-    theme: "pink",
+    id: 'ecommerce',
+    theme: 'pink',
     icon: ShoppingCart,
-    title: "E-commerce",
+    title: 'E-commerce',
     content: (
       <div className="w-full flex justify-center h-[260px] overflow-visible relative z-10">
         <div className="scale-[0.55] origin-top transform-gpu">
@@ -124,10 +124,10 @@ const CARDS_DATA = [
     ),
   },
   {
-    id: "social",
-    theme: "orange",
+    id: 'social',
+    theme: 'orange',
     icon: MessageSquare,
-    title: "Social Media",
+    title: 'Social Media',
     content: (
       <div className="w-full flex justify-center h-[260px] overflow-visible relative z-10">
         <div className="scale-[0.55] origin-top transform-gpu">
@@ -158,7 +158,7 @@ const CountUp: React.FC<{
   delay?: number;
   suffix?: string;
   start?: boolean;
-}> = ({ end, duration = 2000, delay = 0, suffix = "", start = false }) => {
+}> = ({ end, duration = 2000, delay = 0, suffix = '', start = false }) => {
   const spanRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
@@ -202,9 +202,9 @@ const CountUp: React.FC<{
 };
 
 const HERO_TEXTS = [
-  "Strona www i marketing, które pracują na Twoją markę",
-  "Zamieniamy chaos w cyfrowy porządek",
-  "Buduj z nami lepszą widoczność firmy w Internecie",
+  'Strona www i marketing, które pracują na Twoją markę',
+  'Zamieniamy chaos w cyfrowy porządek',
+  'Buduj z nami lepszą widoczność firmy w Internecie',
 ];
 
 const HERO_SPACER_TEXT = HERO_TEXTS.reduce((longest, current) =>
@@ -220,7 +220,7 @@ const MaskedRevealText = memo(function MaskedRevealText({
   delay?: number;
   start?: boolean;
 }) {
-  const words = text.split(" ");
+  const words = text.split(' ');
 
   return (
     <span className="inline-block">
@@ -231,8 +231,8 @@ const MaskedRevealText = memo(function MaskedRevealText({
         >
           <motion.span
             className="inline-block"
-            initial={{ y: "110%" }}
-            animate={start ? { y: 0 } : { y: "110%" }}
+            initial={{ y: '110%' }}
+            animate={start ? { y: 0 } : { y: '110%' }}
             transition={{
               duration: 0.8,
               ease: [0.16, 1, 0.3, 1],
@@ -254,7 +254,7 @@ const RotatingHeroHeadline = memo(function RotatingHeroHeadline({
 }) {
   const [textIndex, setTextIndex] = useState(0);
   const headingClassName =
-    "w-full mx-auto text-center text-4xl sm:text-5xl md:text-6xl xl:text-7xl 2xl:text-[5.25rem] leading-[1.05] text-white tracking-tight font-display font-medium [text-wrap:balance]";
+    'w-full mx-auto text-center text-4xl sm:text-5xl md:text-6xl xl:text-7xl 2xl:text-[5.25rem] leading-[1.05] text-white tracking-tight font-display font-medium [text-wrap:balance]';
 
   // Only start rotation if start prop is true
   useEffect(() => {
@@ -329,7 +329,7 @@ export const Hero: React.FC<{
   return (
     <motion.section
       className="w-full px-4 sm:px-8 lg:px-8 overflow-visible bg-transparent isolate flex items-center relative h-auto min-h-screen py-20 lg:py-0 z-0 text-center"
-      style={{ contain: "layout style" }}
+      style={{ contain: 'layout style' }}
     >
       {/* Animated Squiggles */}
       <HeroSquiggle />
@@ -338,14 +338,14 @@ export const Hero: React.FC<{
         className="pointer-events-none absolute -top-24 -right-20 sm:-top-28 sm:-right-24 lg:-top-32 lg:-right-28 h-[300px] w-[300px] sm:h-[420px] sm:w-[420px] lg:h-[520px] lg:w-[520px] rounded-full blur-[160px] z-0 opacity-40 animate-[hero-blob-1_9s_ease-in-out_infinite] transform-gpu will-change-transform"
         style={{
           background:
-            "radial-gradient(circle at 30% 30%, rgba(145,106,255,0.42) 0%, rgba(82,216,234,0.24) 45%, rgba(23,23,23,0) 75%)",
+            'radial-gradient(circle at 30% 30%, rgba(145,106,255,0.42) 0%, rgba(82,216,234,0.24) 45%, rgba(23,23,23,0) 75%)',
         }}
       />
       <div
         className="pointer-events-none absolute top-6 right-8 sm:top-4 sm:right-10 lg:top-8 lg:right-16 h-[90px] w-[90px] sm:h-[120px] sm:w-[120px] rounded-full blur-[90px] z-0 opacity-[0.22] animate-[hero-blob-2_6s_ease-in-out_infinite] transform-gpu will-change-transform"
         style={{
           background:
-            "radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(145,106,255,0.05) 70%, rgba(23,23,23,0) 100%)",
+            'radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(145,106,255,0.05) 70%, rgba(23,23,23,0) 100%)',
         }}
       />
 
@@ -355,19 +355,18 @@ export const Hero: React.FC<{
           /* Reduced delay from 1.5s to 0.2s */
           className={`hidden lg:block col-span-3 w-[320px] xl:w-full lg:-mr-20 xl:mr-0 justify-self-end h-[650px] relative overflow-hidden select-none ${
             startAnimation
-              ? "animate-[fade-in_1s_ease-out_0.2s_forwards]"
-              : "opacity-0"
+              ? 'animate-[fade-in_1s_ease-out_0.2s_forwards]'
+              : 'opacity-0'
           }`}
           style={{
             maskImage:
-              "linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)",
-            transform: "perspective(1500px) rotateY(12deg) translateZ(-20px)",
-            transformStyle: "preserve-3d",
-            willChange: "transform",
+              'linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)',
+            transform: 'perspective(1500px) rotateY(12deg) translateZ(-20px)',
+            transformStyle: 'preserve-3d',
+            willChange: 'transform',
             y: leftColumnY,
           }}
         >
-          <div className="absolute inset-0 rounded-[40px] bg-neutral-900/30 pointer-events-none z-0" />
           <div className="absolute inset-x-0 w-full h-full z-10">
             <CardWheel cards={LEFT_COLUMN_CARDS} direction="up" />
           </div>
@@ -382,11 +381,11 @@ export const Hero: React.FC<{
           <p
             className={`text-neutral-400 text-base sm:text-lg lg:text-xl max-w-lg mb-8 lg:mb-10 font-light leading-relaxed tracking-wide ${
               startAnimation
-                ? "animate-[text-reveal_0.8s_cubic-bezier(0.16,1,0.3,1)_0.3s_backwards]"
-                : "opacity-0"
+                ? 'animate-[text-reveal_0.8s_cubic-bezier(0.16,1,0.3,1)_0.3s_backwards]'
+                : 'opacity-0'
             }`}
           >
-            Zajmiemy się Twoją stroną kompleksowo —{" "}
+            Zajmiemy się Twoją stroną kompleksowo —{' '}
             <br className="hidden sm:block" />
             od przygotowania koncepcji po wdrożenie gotowego projektu.
           </p>
@@ -394,8 +393,8 @@ export const Hero: React.FC<{
           <div
             className={
               startAnimation
-                ? "animate-[text-reveal_0.8s_cubic-bezier(0.16,1,0.3,1)_0.4s_backwards]"
-                : "opacity-0"
+                ? 'animate-[text-reveal_0.8s_cubic-bezier(0.16,1,0.3,1)_0.4s_backwards]'
+                : 'opacity-0'
             }
           >
             <ReelCtaButton
@@ -409,16 +408,16 @@ export const Hero: React.FC<{
           <div
             className={`w-full max-w-xs h-px bg-white/10 mt-10 lg:mt-16 mb-8 lg:mb-10 ${
               startAnimation
-                ? "animate-[text-reveal_0.8s_cubic-bezier(0.16,1,0.3,1)_0.5s_backwards]"
-                : "opacity-0"
+                ? 'animate-[text-reveal_0.8s_cubic-bezier(0.16,1,0.3,1)_0.5s_backwards]'
+                : 'opacity-0'
             }`}
           ></div>
 
           <div
             className={`flex flex-nowrap justify-center gap-2 sm:gap-8 lg:gap-16 w-full ${
               startAnimation
-                ? "animate-[text-reveal_0.8s_cubic-bezier(0.16,1,0.3,1)_0.6s_backwards]"
-                : "opacity-0"
+                ? 'animate-[text-reveal_0.8s_cubic-bezier(0.16,1,0.3,1)_0.6s_backwards]'
+                : 'opacity-0'
             }`}
           >
             <div className="flex flex-col items-center group cursor-default">
@@ -478,14 +477,14 @@ export const Hero: React.FC<{
           <div
             className={`lg:hidden w-[calc(100%+2rem)] sm:w-[calc(100%+4rem)] -mx-4 sm:-mx-8 mt-8 lg:mt-12 overflow-hidden relative h-[400px] ${
               startAnimation
-                ? "animate-[text-reveal_0.8s_cubic-bezier(0.16,1,0.3,1)_0.7s_backwards]"
-                : "opacity-0"
+                ? 'animate-[text-reveal_0.8s_cubic-bezier(0.16,1,0.3,1)_0.7s_backwards]'
+                : 'opacity-0'
             }`}
             style={{
               maskImage:
-                "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
+                'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
               WebkitMaskImage:
-                "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
+                'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
             }}
           >
             <CardWheelHorizontal cards={CARDS_DATA} direction="left" />
@@ -496,19 +495,18 @@ export const Hero: React.FC<{
         <motion.div
           className={`hidden lg:block col-span-3 w-[320px] xl:w-full lg:-ml-20 xl:ml-0 justify-self-start h-[650px] relative overflow-hidden select-none ${
             startAnimation
-              ? "animate-[fade-in_1s_ease-out_0.2s_forwards]"
-              : "opacity-0"
+              ? 'animate-[fade-in_1s_ease-out_0.2s_forwards]'
+              : 'opacity-0'
           }`}
           style={{
             maskImage:
-              "linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)",
-            transform: "perspective(1500px) rotateY(-12deg) translateZ(-20px)",
-            transformStyle: "preserve-3d",
-            willChange: "transform",
+              'linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)',
+            transform: 'perspective(1500px) rotateY(-12deg) translateZ(-20px)',
+            transformStyle: 'preserve-3d',
+            willChange: 'transform',
             y: rightColumnY,
           }}
         >
-          <div className="absolute inset-0 rounded-[40px] bg-neutral-900/30 pointer-events-none z-0" />
           <div className="absolute inset-x-0 w-full h-full z-10">
             <CardWheel cards={RIGHT_COLUMN_CARDS} direction="down" />
           </div>
