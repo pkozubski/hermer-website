@@ -157,10 +157,13 @@ const CountUp: React.FC<{
   duration?: number;
   delay?: number;
   suffix?: string;
-}> = ({ end, duration = 2000, delay = 0, suffix = "" }) => {
+  start?: boolean;
+}> = ({ end, duration = 2000, delay = 0, suffix = "", start = false }) => {
   const spanRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
+    if (!start) return;
+
     let startTime: number | null = null;
     let animationFrameId: number | null = null;
     const el = spanRef.current;
@@ -189,7 +192,7 @@ const CountUp: React.FC<{
         cancelAnimationFrame(animationFrameId);
       }
     };
-  }, [end, duration, delay, suffix]);
+  }, [end, duration, delay, suffix, start]);
 
   return (
     <span ref={spanRef} className="tabular-nums">
@@ -211,9 +214,11 @@ const HERO_SPACER_TEXT = HERO_TEXTS.reduce((longest, current) =>
 const MaskedRevealText = memo(function MaskedRevealText({
   text,
   delay = 0,
+  start = false,
 }: {
   text: string;
   delay?: number;
+  start?: boolean;
 }) {
   const words = text.split(" ");
 
@@ -227,7 +232,7 @@ const MaskedRevealText = memo(function MaskedRevealText({
           <motion.span
             className="inline-block"
             initial={{ y: "110%" }}
-            animate={{ y: 0 }}
+            animate={start ? { y: 0 } : { y: "110%" }}
             transition={{
               duration: 0.8,
               ease: [0.16, 1, 0.3, 1],
@@ -242,52 +247,42 @@ const MaskedRevealText = memo(function MaskedRevealText({
   );
 });
 
-const RotatingHeroHeadline = memo(function RotatingHeroHeadline() {
+const RotatingHeroHeadline = memo(function RotatingHeroHeadline({
+  start = false,
+}: {
+  start?: boolean;
+}) {
   const [textIndex, setTextIndex] = useState(0);
-  const [isRotating, setIsRotating] = useState(false);
   const headingClassName =
     "w-full mx-auto text-center text-4xl sm:text-5xl md:text-6xl xl:text-7xl 2xl:text-[5.25rem] leading-[1.05] text-white tracking-tight font-display font-medium [text-wrap:balance]";
 
+  // Only start rotation if start prop is true
   useEffect(() => {
-    // Delay the start of complex animations to prioritize LCP
-    const startRotationProps = window.setTimeout(() => {
-      setIsRotating(true);
-    }, 3500); // Wait for initial render and user perception
+    if (!start) return;
 
-    return () => window.clearTimeout(startRotationProps);
-  }, []);
+    let intervalId: number | null = null;
+    const timeoutId = window.setTimeout(() => {
+      intervalId = window.setInterval(() => {
+        setTextIndex((prev) => (prev + 1) % HERO_TEXTS.length);
+      }, 5000);
+    }, 3000);
 
-  useEffect(() => {
-    if (!isRotating) return;
-
-    const intervalId = window.setInterval(() => {
-      setTextIndex((prev) => (prev + 1) % HERO_TEXTS.length);
-    }, 5000);
-
-    return () => window.clearInterval(intervalId);
-  }, [isRotating]);
+    return () => {
+      window.clearTimeout(timeoutId);
+      if (intervalId) {
+        window.clearInterval(intervalId);
+      }
+    };
+  }, [start]);
 
   return (
     <div className="w-full flex justify-center">
       <div className="relative w-[min(92vw,1000px)] mx-auto">
-        {/* Invisible Spacer for Layout Stability */}
         <h1 className={`${headingClassName} invisible`} aria-hidden="true">
           {HERO_SPACER_TEXT}
         </h1>
-
-        {/* 1. Static/Server Rendered Initial View (Fast LCP) */}
-        {/* Only visible when rotation hasn't started yet */}
-        <h1
-          className={`${headingClassName} absolute inset-0 transition-opacity duration-500 ${
-            isRotating ? "opacity-0 pointer-events-none" : "opacity-100"
-          }`}
-        >
-          {HERO_TEXTS[0]}
-        </h1>
-
-        {/* 2. Complex Animated View (Hydrated Later) */}
-        {isRotating && (
-          <AnimatePresence mode="wait">
+        <AnimatePresence mode="wait">
+          {start && (
             <motion.h1
               key={textIndex}
               initial={{ opacity: 0 }}
@@ -296,17 +291,34 @@ const RotatingHeroHeadline = memo(function RotatingHeroHeadline() {
               transition={{ duration: 0.5 }}
               className={`${headingClassName} absolute inset-0`}
             >
-              <MaskedRevealText text={HERO_TEXTS[textIndex]} delay={0} />
+              <MaskedRevealText
+                text={HERO_TEXTS[textIndex]}
+                delay={0.1}
+                start={start}
+              />
             </motion.h1>
-          </AnimatePresence>
-        )}
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );
 });
 
-export const Hero: React.FC = () => {
-  /* Removed onAnimationComplete logic for LCP optimization */
+export const Hero: React.FC<{
+  onAnimationComplete?: () => void;
+  startAnimation?: boolean;
+}> = ({ onAnimationComplete, startAnimation = false }) => {
+  useEffect(() => {
+    if (!startAnimation) return;
+
+    const timer = setTimeout(() => {
+      if (onAnimationComplete) {
+        onAnimationComplete();
+      }
+    }, 2200);
+
+    return () => clearTimeout(timer);
+  }, [onAnimationComplete, startAnimation]);
 
   const { scrollY } = useScroll();
   const leftColumnY = useTransform(scrollY, [0, 1000], [0, -100]);
@@ -341,7 +353,11 @@ export const Hero: React.FC = () => {
         {/* Left Column */}
         <motion.div
           /* Reduced delay from 1.5s to 0.2s */
-          className="hidden lg:block col-span-3 w-[320px] xl:w-full lg:-mr-20 xl:mr-0 justify-self-end h-[650px] relative overflow-hidden select-none opacity-0 animate-[fade-in_1s_ease-out_0.2s_forwards]"
+          className={`hidden lg:block col-span-3 w-[320px] xl:w-full lg:-mr-20 xl:mr-0 justify-self-end h-[650px] relative overflow-hidden select-none ${
+            startAnimation
+              ? "animate-[fade-in_1s_ease-out_0.2s_forwards]"
+              : "opacity-0"
+          }`}
           style={{
             maskImage:
               "linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)",
@@ -360,16 +376,28 @@ export const Hero: React.FC = () => {
         {/* Center Column: Text Content */}
         <div className="col-span-1 lg:col-span-6 flex flex-col items-center text-center z-20 relative pb-0 px-4 pt-12 lg:pt-32">
           <div className="mb-6 sm:mb-8 pb-4 w-full flex justify-center">
-            <RotatingHeroHeadline />
+            <RotatingHeroHeadline start={startAnimation} />
           </div>
 
-          <p className="text-neutral-400 text-base sm:text-lg lg:text-xl max-w-lg mb-8 lg:mb-10 font-light leading-relaxed animate-[text-reveal_0.8s_cubic-bezier(0.16,1,0.3,1)_0.3s_backwards] tracking-wide">
+          <p
+            className={`text-neutral-400 text-base sm:text-lg lg:text-xl max-w-lg mb-8 lg:mb-10 font-light leading-relaxed tracking-wide ${
+              startAnimation
+                ? "animate-[text-reveal_0.8s_cubic-bezier(0.16,1,0.3,1)_0.3s_backwards]"
+                : "opacity-0"
+            }`}
+          >
             Zajmiemy się Twoją stroną kompleksowo —{" "}
             <br className="hidden sm:block" />
             od przygotowania koncepcji po wdrożenie gotowego projektu.
           </p>
 
-          <div className="animate-[text-reveal_0.8s_cubic-bezier(0.16,1,0.3,1)_0.4s_backwards]">
+          <div
+            className={
+              startAnimation
+                ? "animate-[text-reveal_0.8s_cubic-bezier(0.16,1,0.3,1)_0.4s_backwards]"
+                : "opacity-0"
+            }
+          >
             <ReelCtaButton
               text="Rozpocznij projekt"
               href="/kontakt"
@@ -378,12 +406,24 @@ export const Hero: React.FC = () => {
             />
           </div>
 
-          <div className="w-full max-w-xs h-px bg-white/10 mt-10 lg:mt-16 mb-8 lg:mb-10 animate-[text-reveal_0.8s_cubic-bezier(0.16,1,0.3,1)_0.5s_backwards]"></div>
+          <div
+            className={`w-full max-w-xs h-px bg-white/10 mt-10 lg:mt-16 mb-8 lg:mb-10 ${
+              startAnimation
+                ? "animate-[text-reveal_0.8s_cubic-bezier(0.16,1,0.3,1)_0.5s_backwards]"
+                : "opacity-0"
+            }`}
+          ></div>
 
-          <div className="flex flex-nowrap justify-center gap-2 sm:gap-8 lg:gap-16 w-full animate-[text-reveal_0.8s_cubic-bezier(0.16,1,0.3,1)_0.6s_backwards]">
+          <div
+            className={`flex flex-nowrap justify-center gap-2 sm:gap-8 lg:gap-16 w-full ${
+              startAnimation
+                ? "animate-[text-reveal_0.8s_cubic-bezier(0.16,1,0.3,1)_0.6s_backwards]"
+                : "opacity-0"
+            }`}
+          >
             <div className="flex flex-col items-center group cursor-default">
               <span className="text-2xl sm:text-4xl lg:text-5xl font-semibold text-white flex items-center tracking-tight mb-2">
-                <CountUp end={700} delay={1000} />
+                <CountUp end={700} delay={1000} start={startAnimation} />
                 <span className="text-[#916AFF] text-lg sm:text-2xl lg:text-3xl align-top ml-1">
                   +
                 </span>
@@ -395,7 +435,7 @@ export const Hero: React.FC = () => {
 
             <div className="flex flex-col items-center group cursor-default">
               <span className="text-2xl sm:text-4xl lg:text-5xl font-semibold text-white flex items-center tracking-tight mb-2">
-                <CountUp end={98} delay={1100} />
+                <CountUp end={98} delay={1100} start={startAnimation} />
                 <span className="text-[#916AFF] text-lg sm:text-2xl lg:text-3xl align-top ml-1">
                   %
                 </span>
@@ -417,7 +457,7 @@ export const Hero: React.FC = () => {
 
             <div className="flex flex-col items-center group cursor-default">
               <span className="text-2xl sm:text-4xl lg:text-5xl font-semibold text-white flex items-center tracking-tight mb-2">
-                <CountUp end={15} delay={1200} />
+                <CountUp end={15} delay={1200} start={startAnimation} />
                 <span className="text-[#916AFF] text-lg sm:text-2xl lg:text-3xl align-top ml-1">
                   +
                 </span>
@@ -436,7 +476,11 @@ export const Hero: React.FC = () => {
           </div>
 
           <div
-            className="lg:hidden w-[calc(100%+2rem)] sm:w-[calc(100%+4rem)] -mx-4 sm:-mx-8 mt-8 lg:mt-12 overflow-hidden relative animate-[text-reveal_0.8s_cubic-bezier(0.16,1,0.3,1)_0.7s_backwards] h-[400px]"
+            className={`lg:hidden w-[calc(100%+2rem)] sm:w-[calc(100%+4rem)] -mx-4 sm:-mx-8 mt-8 lg:mt-12 overflow-hidden relative h-[400px] ${
+              startAnimation
+                ? "animate-[text-reveal_0.8s_cubic-bezier(0.16,1,0.3,1)_0.7s_backwards]"
+                : "opacity-0"
+            }`}
             style={{
               maskImage:
                 "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
@@ -450,7 +494,11 @@ export const Hero: React.FC = () => {
 
         {/* Right Column */}
         <motion.div
-          className="hidden lg:block col-span-3 w-[320px] xl:w-full lg:-ml-20 xl:ml-0 justify-self-start h-[650px] relative overflow-hidden select-none opacity-0 animate-[fade-in_1s_ease-out_0.2s_forwards]"
+          className={`hidden lg:block col-span-3 w-[320px] xl:w-full lg:-ml-20 xl:ml-0 justify-self-start h-[650px] relative overflow-hidden select-none ${
+            startAnimation
+              ? "animate-[fade-in_1s_ease-out_0.2s_forwards]"
+              : "opacity-0"
+          }`}
           style={{
             maskImage:
               "linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)",
