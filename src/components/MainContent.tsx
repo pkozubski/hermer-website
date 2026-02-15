@@ -5,6 +5,9 @@ import { Header } from './Header';
 import { Hero } from './Hero';
 import { Preloader } from './Preloader';
 import { Review } from './Testimonials';
+import { PROJECTS_SHADER_WARMUP_EVENT } from './ProjectCardScrollShader';
+import { PROJECTS } from '@/data/projects';
+import type { FaqItem } from './Faq';
 
 const Offer = dynamic(
   () => import('./Offer').then((m) => ({ default: m.Offer })),
@@ -47,7 +50,7 @@ const CTASection = dynamic(
 );
 
 interface MainContentProps {
-  faqItems?: any[];
+  faqItems?: FaqItem[];
   reviews?: Review[];
 }
 
@@ -59,6 +62,8 @@ export const MainContent: React.FC<MainContentProps> = ({
   const [isHeaderAllowed, setIsHeaderAllowed] = useState(false);
   const [contentReady, setContentReady] = useState(false);
   const [isHeroAnimationAllowed, setIsHeroAnimationAllowed] = useState(false);
+  const [projectAssetsReady, setProjectAssetsReady] = useState(false);
+  const [projectShaderWarmupReady, setProjectShaderWarmupReady] = useState(false);
 
   // Signal content ready once MainContent has mounted and painted
   useEffect(() => {
@@ -78,6 +83,87 @@ export const MainContent: React.FC<MainContentProps> = ({
     }
   }, [isLoaded]);
 
+  // Warm up "Realizations" thumbnails while preloader is visible.
+  useEffect(() => {
+    let cancelled = false;
+    const sources = PROJECTS.slice(0, 8).map((project) => project.image.src);
+
+    const preload = (src: string) =>
+      new Promise<void>((resolve) => {
+        const img = new window.Image();
+        const done = () => {
+          img.onload = null;
+          img.onerror = null;
+          resolve();
+        };
+        img.onload = done;
+        img.onerror = done;
+        img.decoding = 'async';
+        img.src = src;
+
+        if (img.complete) {
+          done();
+          return;
+        }
+
+        // decode() may resolve before onload in some browsers.
+        if (typeof img.decode === 'function') {
+          img.decode().then(done).catch(() => {
+            /* no-op: onload/onerror will resolve */
+          });
+        }
+      });
+
+    const fallbackTimer = window.setTimeout(() => {
+      if (!cancelled) setProjectAssetsReady(true);
+    }, 2200);
+
+    Promise.allSettled(sources.map(preload)).then(() => {
+      if (cancelled) return;
+      clearTimeout(fallbackTimer);
+      setProjectAssetsReady(true);
+    });
+
+    return () => {
+      cancelled = true;
+      clearTimeout(fallbackTimer);
+    };
+  }, []);
+
+  // Wait for WebGL card overlay warmup while preloader is visible.
+  useEffect(() => {
+    const w = window as unknown as Record<string, unknown>;
+    const readyFlagKey = `__${PROJECTS_SHADER_WARMUP_EVENT}__`;
+    const markReady = () => setProjectShaderWarmupReady(true);
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      markReady();
+      return;
+    }
+
+    if (w[readyFlagKey] === true) {
+      markReady();
+      return;
+    }
+
+    let fallbackTimer = 0;
+    const onWarmupReady: EventListener = () => {
+      clearTimeout(fallbackTimer);
+      w[readyFlagKey] = true;
+      markReady();
+    };
+
+    fallbackTimer = window.setTimeout(() => {
+      markReady();
+    }, 2600);
+
+    window.addEventListener(PROJECTS_SHADER_WARMUP_EVENT, onWarmupReady);
+    return () => {
+      clearTimeout(fallbackTimer);
+      window.removeEventListener(PROJECTS_SHADER_WARMUP_EVENT, onWarmupReady);
+    };
+  }, []);
+
   const handlePreloaderComplete = useCallback(() => {
     setIsLoaded(true);
   }, []);
@@ -92,6 +178,7 @@ export const MainContent: React.FC<MainContentProps> = ({
         <Preloader
           onComplete={handlePreloaderComplete}
           contentReady={contentReady}
+          assetsReady={projectAssetsReady && projectShaderWarmupReady}
         />
       )}
       <div

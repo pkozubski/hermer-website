@@ -14,7 +14,7 @@ export default function RealizacjePage() {
       data-realizations-root
       className="min-h-screen bg-neutral-900 text-white overflow-x-clip"
     >
-      <ProjectCardScrollShaderOverlay />
+      <ProjectCardScrollShaderOverlay scopeSelector="[data-realizations-zoom-target]" />
       {/* Background Decor */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <div className="absolute top-[-10%] right-[-5%] w-[1000px] h-[1000px] bg-[#916AFF]/10 rounded-full blur-[150px] mix-blend-screen animate-pulse-slow" />

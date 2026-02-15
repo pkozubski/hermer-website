@@ -6,7 +6,6 @@ import Link from "next/link";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { ArrowRight, CheckCircle, ArrowUpRight } from "lucide-react";
-import { motion } from "framer-motion";
 import { ReelCtaButton } from "@/components/ui/ReelCtaButton";
 
 export default function DlaKogoPage() {
@@ -282,11 +281,8 @@ export default function DlaKogoPage() {
               </p>
 
               {status === "success" ? (
-                <motion.div
+                <div
                   className="min-h-[400px] flex flex-col items-start justify-center border-l-2 border-[#916AFF] pl-12 bg-white/5 rounded-r-3xl"
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.5 }}
                 >
                   <div className="w-20 h-20 bg-emerald-500/10 text-emerald-500 rounded-full flex items-center justify-center mb-6">
                     <CheckCircle size={40} />
@@ -303,7 +299,7 @@ export default function DlaKogoPage() {
                   >
                     Wyślij kolejną
                   </button>
-                </motion.div>
+                </div>
               ) : (
                 <form onSubmit={handleSubmit} className="flex flex-col gap-8">
                   {/* Name Field */}

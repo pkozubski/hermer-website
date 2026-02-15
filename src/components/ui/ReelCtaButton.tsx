@@ -2,8 +2,6 @@
 
 import React from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { ArrowUpRight } from "lucide-react"; // Using standard arrow, or SVG from example
 
 interface ReelCtaButtonProps {
   text?: string;
@@ -29,6 +27,7 @@ export function ReelCtaButton({
   noShadow = false,
 }: ReelCtaButtonProps) {
   const [scale, setScale] = React.useState(1);
+  const [isHovered, setIsHovered] = React.useState(false);
   const buttonRef = React.useRef<HTMLDivElement>(null);
 
   const isLarge = size === "large";
@@ -83,8 +82,10 @@ export function ReelCtaButton({
 
   return (
     <Link href={href} className={`inline-block ${className}`}>
-      <motion.div
+      <div
         ref={buttonRef}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
         className={`group relative inline-flex items-center ${heightClass} ${paddingClass} rounded-full ${
           noShadow
             ? ""
@@ -94,66 +95,48 @@ export function ReelCtaButton({
           backgroundColor: baseColor,
           color: textColor,
         }}
-        initial="initial"
-        whileHover="hover"
-        animate="initial"
       >
         {/* 1. DOT (Background expander) */}
-        <motion.span
-          className={`absolute ${dotPositionClass} top-1/2 -translate-y-1/2 ${dotSizeClass} rounded-full z-0 pointer-events-none origin-center`}
-          variants={{
-            initial: {
-              scale: 1,
+        <span
+          className={`absolute ${dotPositionClass} top-1/2 -translate-y-1/2 ${dotSizeClass} z-0 pointer-events-none`}
+        >
+          <span
+            className="block h-full w-full rounded-full origin-center"
+            style={{
+              transform: `scale(${isHovered ? scale : 1})`,
               backgroundColor: hoverColor,
-              transition: { duration: 0.5, ease: [0.35, 0, 0, 1] },
-            },
-            hover: {
-              scale: scale,
-              backgroundColor: hoverColor,
-              transition: { duration: 0.8, ease: [0.35, 0, 0, 1] },
-            },
-          }}
-        />
+              transitionProperty: "transform, background-color",
+              transitionDuration: isHovered ? "0.8s" : "0.5s",
+              transitionTimingFunction: "cubic-bezier(0.35, 0, 0, 1)",
+            }}
+          />
+        </span>
 
         {/* 2. TEXT */}
-        <motion.span
+        <span
           className={`relative z-10 font-medium  ${textSizeClass} leading-none whitespace-nowrap`}
-          variants={{
-            initial: {
-              x: 0,
-              color: textColor,
-              transition: { duration: 0.5, ease: [0.35, 0, 0, 1] },
-            },
-            hover: {
-              x: isLarge ? -30 : isSmall ? -20 : -25, // Slide adjustment for different sizes
-              color: hoverTextColor,
-              transition: { duration: 0.8, ease: [0.35, 0, 0, 1] },
-            },
+          style={{
+            transform: `translateX(${isHovered ? (isLarge ? -30 : isSmall ? -20 : -25) : 0}px)`,
+            color: isHovered ? hoverTextColor : textColor,
+            transitionProperty: "transform, color",
+            transitionDuration: isHovered ? "0.8s" : "0.5s",
+            transitionTimingFunction: "cubic-bezier(0.35, 0, 0, 1)",
           }}
         >
           {text}
-        </motion.span>
+        </span>
 
         {/* 3. ARROW */}
-        <motion.span
+        <span
           className={`absolute ${arrowPositionClass} z-10 flex items-center justify-center`}
-          variants={{
-            initial: {
-              x: 15,
-              opacity: 0,
-              color: hoverTextColor,
-              transition: { duration: 0.5, ease: [0.35, 0, 0, 1] },
-            },
-            hover: {
-              x: 0,
-              opacity: 1,
-              color: hoverTextColor,
-              transition: {
-                duration: 0.8,
-                ease: [0.35, 0, 0, 1],
-                delay: 0.05,
-              },
-            },
+          style={{
+            transform: `translateX(${isHovered ? 0 : 15}px)`,
+            opacity: isHovered ? 1 : 0,
+            color: hoverTextColor,
+            transitionProperty: "transform, opacity, color",
+            transitionDuration: isHovered ? "0.8s" : "0.5s",
+            transitionTimingFunction: "cubic-bezier(0.35, 0, 0, 1)",
+            transitionDelay: isHovered ? "0.05s" : "0s",
           }}
         >
           <svg
@@ -171,8 +154,8 @@ export function ReelCtaButton({
               d="M2.343 8h11.314m0 0L8.673 3.016M13.657 8l-4.984 4.984"
             />
           </svg>
-        </motion.span>
-      </motion.div>
+        </span>
+      </div>
     </Link>
   );
 }

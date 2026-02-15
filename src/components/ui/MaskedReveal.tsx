@@ -1,5 +1,5 @@
-import { motion, useInView } from "framer-motion";
-import { useRef, useMemo } from "react";
+import gsap from "gsap";
+import { useRef, useMemo, useEffect, useState } from "react";
 
 interface MaskedRevealProps {
   text: string;
@@ -12,26 +12,53 @@ export const MaskedReveal = ({
   className = "",
   delay = 0,
 }: MaskedRevealProps) => {
-  const ref = useRef<HTMLSpanElement>(null);
-  const isInView = useInView(ref, { once: false, amount: 0.3 });
+  const containerRef = useRef<HTMLSpanElement>(null);
+  const charRefs = useRef<(HTMLSpanElement | null)[]>([]);
+  const [isInView, setIsInView] = useState(false);
   const chars = useMemo(() => text.split(""), [text]);
 
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInView(entry.isIntersecting);
+      },
+      { threshold: 0.3 },
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const elements = charRefs.current.filter(Boolean) as HTMLSpanElement[];
+    if (elements.length === 0) return;
+
+    gsap.killTweensOf(elements);
+    gsap.to(elements, {
+      y: isInView ? "0%" : "110%",
+      duration: 0.7,
+      ease: "power3.out",
+      delay,
+      stagger: 0.025,
+    });
+  }, [delay, isInView, text]);
+
   return (
-    <span ref={ref} className={`inline-block overflow-hidden ${className}`}>
+    <span ref={containerRef} className={`inline-block overflow-hidden ${className}`}>
       {chars.map((char, i) => (
-        <motion.span
+        <span
           key={i}
-          className="inline-block will-change-transform"
-          initial={{ y: "110%" }}
-          animate={isInView ? { y: 0 } : { y: "110%" }}
-          transition={{
-            duration: 0.7,
-            ease: [0.22, 1, 0.36, 1],
-            delay: delay + i * 0.025,
+          ref={(el) => {
+            charRefs.current[i] = el;
           }}
+          className="inline-block will-change-transform"
+          style={{ transform: "translateY(110%)" }}
         >
           {char === " " ? "\u00A0" : char}
-        </motion.span>
+        </span>
       ))}
     </span>
   );

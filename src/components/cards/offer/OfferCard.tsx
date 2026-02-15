@@ -1,7 +1,11 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 import { ArrowRight } from "lucide-react";
 import { ScrambleText } from "../../ui/ScrambleText";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export type OfferItem = {
   id: number;
@@ -27,15 +31,37 @@ export const OfferCard: React.FC<OfferCardProps> = ({
   index,
   isMobile,
 }) => {
+  const cardRef = useRef<HTMLElement>(null);
   const Icon = item.Icon;
   const Visual = item.Visual;
 
+  useGSAP(
+    () => {
+      if (!cardRef.current) return;
+
+      gsap.fromTo(
+        cardRef.current,
+        { autoAlpha: 0, y: 40 },
+        {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.7,
+          delay: isMobile ? 0.1 : 0.1 + index * 0.1,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: cardRef.current,
+            start: isMobile ? "top 95%" : "top 90%",
+            once: true,
+          },
+        },
+      );
+    },
+    { scope: cardRef, dependencies: [index, isMobile] },
+  );
+
   return (
-    <motion.article
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: isMobile ? "0px" : "-10%" }}
-      transition={{ duration: 0.7, delay: isMobile ? 0.1 : 0.1 + index * 0.1 }}
+    <article
+      ref={cardRef}
       className={`group relative w-full lg:w-[72vw] xl:w-[70vw] lg:max-w-[1280px] shrink-0 rounded-[32px] lg:rounded-[40px] bg-neutral-900/50 backdrop-blur-md border border-white/10 shadow-2xl shadow-black/50 overflow-hidden ${
         isMobile ? "mb-8 last:mb-0" : ""
       }`}
@@ -77,17 +103,12 @@ export const OfferCard: React.FC<OfferCardProps> = ({
 
             <button className="group/cta flex items-center gap-4 text-white font-medium text-base sm:text-lg w-max">
               <div className="relative overflow-hidden flex items-center justify-center">
-                <motion.div
-                  className="flex items-center"
-                  initial="rest"
-                  whileHover="hover"
-                  animate="rest"
-                >
+                <div className="flex items-center">
                   <ArrowRight
                     className={`w-6 h-6 lg:w-8 lg:h-8 transition-transform duration-500 group-hover/cta:translate-x-1 ${item.accentText}`}
                     strokeWidth={2}
                   />
-                </motion.div>
+                </div>
               </div>
               <span className="relative">
                 Zobacz szczegóły
@@ -110,6 +131,6 @@ export const OfferCard: React.FC<OfferCardProps> = ({
           <div className="absolute inset-0 border border-white/5 rounded-[24px] lg:rounded-[32px] pointer-events-none" />
         </div>
       </div>
-    </motion.article>
+    </article>
   );
 };

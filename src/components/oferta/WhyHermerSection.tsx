@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import React from "react";
 import { Target, LayoutTemplate, Palette } from "lucide-react";
 import { SplitRevealTitle } from "../ui/SplitRevealTitle";
 
@@ -373,14 +372,8 @@ export default function InterfaceCard() {
 }
 
 export const WhyHermerSection: React.FC = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"],
-  });
-
   return (
-    <section ref={containerRef} className="py-24 bg-transparent relative">
+    <section className="py-24 bg-transparent relative">
       <div className="container mx-auto px-4 md:px-8">
         <div className="max-w-4xl mx-auto text-center mb-24">
           <SplitRevealTitle

@@ -3,8 +3,12 @@
 import React, { useRef } from "react";
 import { Quote } from "lucide-react";
 import { CustomStar } from "@/components/ui/CustomStar";
-import { motion, useSpring, useTransform } from "framer-motion";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 import { Review } from "@/components/Testimonials";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export const ReviewCard = ({
   review,
@@ -14,22 +18,39 @@ export const ReviewCard = ({
   index: number;
 }) => {
   const [isExpanded, setIsExpanded] = React.useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
   const MAX_LENGTH = 200;
 
   const shouldTruncate = review.text.length > MAX_LENGTH;
 
+  useGSAP(
+    () => {
+      if (!cardRef.current) return;
+      gsap.fromTo(
+        cardRef.current,
+        { autoAlpha: 0, scale: 0.95, y: 20 },
+        {
+          autoAlpha: 1,
+          scale: 1,
+          y: 0,
+          duration: 0.8,
+          delay: (index % 3) * 0.1,
+          ease: "power4.out",
+          scrollTrigger: {
+            trigger: cardRef.current,
+            start: "top 88%",
+            once: true,
+          },
+        },
+      );
+    },
+    { scope: cardRef, dependencies: [index] },
+  );
+
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.95, y: 20 }}
-      whileInView={{ opacity: 1, scale: 1, y: 0 }}
-      whileHover={{ y: -10, transition: { duration: 0.3, ease: "easeOut", delay: 0 } }}
-      viewport={{ once: true }}
-      transition={{
-        duration: 0.8,
-        delay: (index % 3) * 0.1,
-        ease: [0.23, 1, 0.32, 1],
-      }}
-      className="group relative flex flex-col h-full p-8 md:p-10 bg-white/[0.02] backdrop-blur-xl border border-white/[0.08] rounded-[2.5rem] hover:bg-white/[0.05] hover:border-white/20 transition-colors duration-500"
+    <div
+      ref={cardRef}
+      className="group relative flex flex-col h-full p-8 md:p-10 bg-white/[0.02] backdrop-blur-xl border border-white/[0.08] rounded-[2.5rem] hover:bg-white/[0.05] hover:border-white/20 hover:-translate-y-2.5 transition-[transform,background-color,border-color] duration-300"
     >
       {/* Glow Effect */}
       <div className="absolute -top-10 -right-10 w-32 h-32 bg-[#916AFF]/5 blur-[50px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
@@ -43,7 +64,7 @@ export const ReviewCard = ({
 
       <div className="flex-grow">
         <p className={`text-zinc-200 text-lg leading-relaxed font-normal tracking-tight ${!isExpanded && shouldTruncate ? "line-clamp-4" : ""}`}>
-          "{review.text}"
+          &quot;{review.text}&quot;
         </p>
         {shouldTruncate && (
           <button
@@ -77,7 +98,7 @@ export const ReviewCard = ({
           </span>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 };
 

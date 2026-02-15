@@ -1,6 +1,5 @@
 "use client";
-import React, { useEffect, useMemo, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { SplitRevealTitle } from "./ui/SplitRevealTitle";
 import { ArrowRight } from "lucide-react";
 import { LineReveal } from "./ui/LineReveal";
@@ -88,7 +87,9 @@ function FaqAnswerContent({ answer }: { answer: FaqItem["answer"] }) {
 
 export const Faq: React.FC<FaqProps> = ({ items = FAQ_ITEMS, sanitySlug }) => {
   const pathname = usePathname();
+  const sectionRef = useRef<HTMLElement>(null);
   const [sanityItems, setSanityItems] = useState<FaqItem[] | null>(null);
+  const [isInView, setIsInView] = useState(false);
 
   const slug = useMemo(() => {
     if (sanitySlug) {
@@ -140,15 +141,43 @@ export const Faq: React.FC<FaqProps> = ({ items = FAQ_ITEMS, sanitySlug }) => {
 
   const [activeId, setActiveId] = useState<number | string | null>(null);
 
-  // Set initial activeId when resolvedItems are available
-  useEffect(() => {
-    if (resolvedItems.length > 0 && activeId === null) {
-      setActiveId(resolvedItems[0].id);
+  const currentActiveId = useMemo(() => {
+    if (
+      activeId !== null &&
+      resolvedItems.some((item) => item.id === activeId)
+    ) {
+      return activeId;
     }
-  }, [resolvedItems, activeId]);
+    return resolvedItems[0]?.id ?? null;
+  }, [activeId, resolvedItems]);
+
+  const activeItem = useMemo(
+    () => resolvedItems.find((item) => item.id === currentActiveId) ?? null,
+    [resolvedItems, currentActiveId],
+  );
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        setIsInView(true);
+        observer.disconnect();
+      },
+      { threshold: 0.1 },
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <section className="py-24 lg:py-32 bg-transparent relative overflow-hidden">
+    <section
+      ref={sectionRef}
+      className="py-24 lg:py-32 bg-transparent relative overflow-hidden"
+    >
       <div className="container mx-auto px-4 sm:px-8 lg:px-16 relative z-10">
         <div className="mb-20 lg:mb-32 flex flex-col md:flex-row justify-between items-start md:items-end gap-8">
           <div className="order-2 md:order-1">
@@ -177,22 +206,22 @@ export const Faq: React.FC<FaqProps> = ({ items = FAQ_ITEMS, sanitySlug }) => {
           <div className="lg:col-span-5 flex flex-col">
             {resolvedItems.map((item, index) => (
               <div key={item.id} className="border-b border-white/10">
-                <motion.button
-                  initial={{ opacity: 0, x: -30 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, margin: "-50px" }}
-                  transition={{
-                    duration: 0.5,
-                    delay: index * 0.1,
-                    ease: [0.25, 0.1, 0.25, 1],
-                  }}
+                <button
                   onClick={() => setActiveId(item.id)}
                   className={`group relative flex items-center py-6 md:py-8 w-full transition-colors duration-300`}
+                  style={{
+                    opacity: isInView ? 1 : 0,
+                    transform: isInView ? "translateX(0)" : "translateX(-30px)",
+                    transitionProperty: "opacity, transform",
+                    transitionDuration: "0.5s",
+                    transitionDelay: `${index * 0.1}s`,
+                    transitionTimingFunction: "cubic-bezier(0.25, 0.1, 0.25, 1)",
+                  }}
                 >
                   {/* Number */}
                   <span
                     className={`text-xs md:text-sm font-bold font-mono uppercase tracking-widest mr-6 md:mr-8 transition-colors duration-300 ${
-                      activeId === item.id
+                      currentActiveId === item.id
                         ? "text-[#916AFF]"
                         : "text-neutral-500"
                     }`}
@@ -203,7 +232,7 @@ export const Faq: React.FC<FaqProps> = ({ items = FAQ_ITEMS, sanitySlug }) => {
                   {/* Question Text */}
                   <span
                     className={`flex-1 pr-12 text-xl md:text-3xl font-display font-bold text-left tracking-tight transition-colors duration-300 ${
-                      activeId === item.id
+                      currentActiveId === item.id
                         ? "text-white"
                         : "text-neutral-500 group-hover:text-white"
                     }`}
@@ -214,74 +243,74 @@ export const Faq: React.FC<FaqProps> = ({ items = FAQ_ITEMS, sanitySlug }) => {
                   {/* Active Indicator Arrow */}
                   <div
                     className={`absolute right-0 transition-all duration-300 ${
-                      activeId === item.id
+                      currentActiveId === item.id
                         ? "opacity-100 translate-x-0 text-[#916AFF]"
                         : "opacity-0 -translate-x-4 text-neutral-500"
                     }`}
                   >
                     <ArrowRight
                       size={24}
-                      className={`transform transition-transform duration-300 ${activeId === item.id ? "rotate-90 lg:rotate-0" : ""}`}
+                      className={`transform transition-transform duration-300 ${currentActiveId === item.id ? "rotate-90 lg:rotate-0" : ""}`}
                     />
                   </div>
-                </motion.button>
+                </button>
 
                 {/* Mobile Answer (Accordion) */}
-                <AnimatePresence>
-                  {activeId === item.id && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                      className="lg:hidden overflow-hidden"
-                    >
-                      <div className="pb-8 text-lg text-neutral-300 leading-relaxed">
-                        <FaqAnswerContent answer={item.answer} />
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                <div
+                  className={`lg:hidden grid transition-[grid-template-rows,opacity] duration-400 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                    currentActiveId === item.id
+                      ? "grid-rows-[1fr] opacity-100"
+                      : "grid-rows-[0fr] opacity-0"
+                  }`}
+                >
+                  <div className="overflow-hidden">
+                    <div className="pb-8 text-lg text-neutral-300 leading-relaxed">
+                      <FaqAnswerContent answer={item.answer} />
+                    </div>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
 
           {/* --- DESKTOP: ANSWER DISPLAY --- */}
-          <motion.div
+          <div
             className="hidden lg:block lg:col-span-7 relative pt-8 min-h-[300px]"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{
-              duration: 0.6,
-              delay: 0.2,
-              ease: [0.25, 0.1, 0.25, 1],
+            style={{
+              opacity: isInView ? 1 : 0,
+              transform: isInView ? "translateY(0)" : "translateY(30px)",
+              transition:
+                "opacity 0.6s cubic-bezier(0.25, 0.1, 0.25, 1) 0.2s, transform 0.6s cubic-bezier(0.25, 0.1, 0.25, 1) 0.2s",
             }}
           >
-            <AnimatePresence mode="wait">
-              {resolvedItems.map(
-                (item) =>
-                  activeId === item.id && (
-                    <motion.div
-                      key={item.id}
-                      initial={{ opacity: 0, y: 10, filter: "blur(10px)" }}
-                      animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                      exit={{ opacity: 0, y: -10, filter: "blur(5px)" }}
-                      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                    >
-                      <h3 className="text-sm font-bold text-neutral-500 uppercase tracking-widest mb-6">
-                        Odpowiedź
-                      </h3>
-                      <div className="text-lg md:text-2xl lg:text-3xl font-medium text-white leading-relaxed tracking-tight">
-                        <FaqAnswerContent answer={item.answer} />
-                      </div>
-                    </motion.div>
-                  ),
-              )}
-            </AnimatePresence>
-          </motion.div>
+            {activeItem && (
+              <div key={activeItem.id} className="animate-[faqFade_0.35s_ease-out]">
+                <h3 className="text-sm font-bold text-neutral-500 uppercase tracking-widest mb-6">
+                  Odpowiedź
+                </h3>
+                <div className="text-lg md:text-2xl lg:text-3xl font-medium text-white leading-relaxed tracking-tight">
+                  <FaqAnswerContent answer={activeItem.answer} />
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
+
+      <style>{`
+        @keyframes faqFade {
+          from {
+            opacity: 0;
+            transform: translateY(10px);
+            filter: blur(10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0px);
+          }
+        }
+      `}</style>
     </section>
   );
 };

@@ -1,20 +1,13 @@
 "use client";
-import React, { useState } from "react";
-import { motion } from "framer-motion";
-import {
-  Mail,
-  MapPin,
-  Phone,
-  Send,
-  CheckCircle,
-  ArrowRight,
-} from "lucide-react";
+import React, { useEffect, useRef, useState } from "react";
+import { CheckCircle, ArrowRight } from "lucide-react";
 import { SplitRevealTitle } from "./ui/SplitRevealTitle";
 import { LineReveal } from "./ui/LineReveal";
 import ContactSquiggle from "./ContactSquiggle";
 import { ScrambleText } from "./ui/ScrambleText";
 
 export const Contact: React.FC = () => {
+  const sectionRef = useRef<HTMLElement>(null);
   const [formState, setFormState] = useState({
     name: "",
     email: "",
@@ -24,6 +17,24 @@ export const Contact: React.FC = () => {
     "idle",
   );
   const [activeField, setActiveField] = useState<string | null>(null);
+  const [isInView, setIsInView] = useState(false);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        setIsInView(true);
+        observer.disconnect();
+      },
+      { threshold: 0.1 },
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,6 +49,7 @@ export const Contact: React.FC = () => {
 
   return (
     <section
+      ref={sectionRef}
       id="contact"
       className="py-16 lg:py-24 bg-[#171717] relative isolate"
     >
@@ -87,16 +99,16 @@ export const Contact: React.FC = () => {
                   href: "#",
                 },
               ].map((item, i) => (
-                <motion.div
+                <div
                   key={i}
                   className="group"
-                  initial={{ opacity: 0, x: -30 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, margin: "-50px" }}
-                  transition={{
-                    duration: 0.6,
-                    delay: 0.3 + i * 0.15,
-                    ease: [0.25, 0.1, 0.25, 1],
+                  style={{
+                    opacity: isInView ? 1 : 0,
+                    transform: isInView ? "translateX(0)" : "translateX(-30px)",
+                    transitionProperty: "opacity, transform",
+                    transitionDuration: "0.6s",
+                    transitionDelay: `${0.3 + i * 0.15}s`,
+                    transitionTimingFunction: "cubic-bezier(0.25, 0.1, 0.25, 1)",
                   }}
                 >
                   <h4 className="text-xs font-bold text-neutral-500 uppercase tracking-widest mb-2">
@@ -118,25 +130,27 @@ export const Contact: React.FC = () => {
                       />
                     )}
                   </a>
-                </motion.div>
+                </div>
               ))}
             </div>
           </div>
 
           {/* --- RIGHT: SWISS GRID FORM --- */}
-          <motion.div
+          <div
             className="w-full lg:w-7/12 pt-8 bg-white/5 backdrop-blur-md rounded-3xl p-6 lg:p-10 border border-white/10"
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
+            style={{
+              opacity: isInView ? 1 : 0,
+              transform: isInView ? "translateY(0)" : "translateY(40px)",
+              transition:
+                "opacity 0.7s cubic-bezier(0.25, 0.1, 0.25, 1), transform 0.7s cubic-bezier(0.25, 0.1, 0.25, 1)",
+            }}
           >
             {status === "success" ? (
-              <motion.div
+              <div
                 className="min-h-[400px] flex flex-col items-start justify-center border-l-2 border-slate-900 pl-12"
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5 }}
+                style={{
+                  animation: "contactSuccessIn 0.5s ease-out both",
+                }}
               >
                 <div className="w-20 h-20 bg-emerald-500/10 text-emerald-500 rounded-full flex items-center justify-center mb-6">
                   <CheckCircle size={40} />
@@ -153,19 +167,19 @@ export const Contact: React.FC = () => {
                 >
                   Wyślij kolejną wiadomość
                 </button>
-              </motion.div>
+              </div>
             ) : (
               <form onSubmit={handleSubmit} className="flex flex-col gap-10">
                 {/* Name Field */}
-                <motion.div
+                <div
                   className="relative group"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-50px" }}
-                  transition={{
-                    duration: 0.5,
-                    delay: 0.1,
-                    ease: [0.25, 0.1, 0.25, 1],
+                  style={{
+                    opacity: isInView ? 1 : 0,
+                    transform: isInView ? "translateY(0)" : "translateY(20px)",
+                    transitionProperty: "opacity, transform",
+                    transitionDuration: "0.5s",
+                    transitionDelay: "0.1s",
+                    transitionTimingFunction: "cubic-bezier(0.25, 0.1, 0.25, 1)",
                   }}
                 >
                   <label
@@ -189,18 +203,18 @@ export const Contact: React.FC = () => {
                     placeholder="Imię i Nazwisko"
                     className="w-full bg-transparent border-b border-white/20 py-4 text-xl md:text-2xl font-bold text-white placeholder-white/20 focus:outline-none focus:border-white transition-all duration-500 rounded-none"
                   />
-                </motion.div>
+                </div>
 
                 {/* Email Field */}
-                <motion.div
+                <div
                   className="relative group"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-50px" }}
-                  transition={{
-                    duration: 0.5,
-                    delay: 0.2,
-                    ease: [0.25, 0.1, 0.25, 1],
+                  style={{
+                    opacity: isInView ? 1 : 0,
+                    transform: isInView ? "translateY(0)" : "translateY(20px)",
+                    transitionProperty: "opacity, transform",
+                    transitionDuration: "0.5s",
+                    transitionDelay: "0.2s",
+                    transitionTimingFunction: "cubic-bezier(0.25, 0.1, 0.25, 1)",
                   }}
                 >
                   <label
@@ -226,18 +240,18 @@ export const Contact: React.FC = () => {
                     placeholder="adres@email.com"
                     className="w-full bg-transparent border-b border-white/20 py-4 text-xl md:text-2xl font-bold text-white placeholder-white/20 focus:outline-none focus:border-white transition-all duration-500 rounded-none"
                   />
-                </motion.div>
+                </div>
 
                 {/* Message Field */}
-                <motion.div
+                <div
                   className="relative group"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-50px" }}
-                  transition={{
-                    duration: 0.5,
-                    delay: 0.3,
-                    ease: [0.25, 0.1, 0.25, 1],
+                  style={{
+                    opacity: isInView ? 1 : 0,
+                    transform: isInView ? "translateY(0)" : "translateY(20px)",
+                    transitionProperty: "opacity, transform",
+                    transitionDuration: "0.5s",
+                    transitionDelay: "0.3s",
+                    transitionTimingFunction: "cubic-bezier(0.25, 0.1, 0.25, 1)",
                   }}
                 >
                   <label
@@ -263,18 +277,18 @@ export const Contact: React.FC = () => {
                     placeholder="Opowiedz nam o swoim pomyśle..."
                     className="w-full bg-transparent border-b border-white/20 py-4 text-xl md:text-2xl font-bold text-white placeholder-white/20 focus:outline-none focus:border-white transition-all duration-500 resize-none rounded-none"
                   />
-                </motion.div>
+                </div>
 
                 {/* Submit Button */}
-                <motion.div
+                <div
                   className="pt-8"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-50px" }}
-                  transition={{
-                    duration: 0.5,
-                    delay: 0.4,
-                    ease: [0.25, 0.1, 0.25, 1],
+                  style={{
+                    opacity: isInView ? 1 : 0,
+                    transform: isInView ? "translateY(0)" : "translateY(20px)",
+                    transitionProperty: "opacity, transform",
+                    transitionDuration: "0.5s",
+                    transitionDelay: "0.4s",
+                    transitionTimingFunction: "cubic-bezier(0.25, 0.1, 0.25, 1)",
                   }}
                 >
                   <button
@@ -298,12 +312,25 @@ export const Contact: React.FC = () => {
                       </>
                     )}
                   </button>
-                </motion.div>
+                </div>
               </form>
             )}
-          </motion.div>
+          </div>
         </div>
       </div>
+
+      <style>{`
+        @keyframes contactSuccessIn {
+          from {
+            opacity: 0;
+            transform: scale(0.95);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+      `}</style>
     </section>
   );
 };

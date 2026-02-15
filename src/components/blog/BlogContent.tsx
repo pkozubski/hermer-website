@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { BlogHero } from "./BlogHero";
 import { BlogFeaturedPost } from "./BlogFeaturedPost";
 import { BlogFilters } from "./BlogFilters";
@@ -97,7 +97,7 @@ export const BlogContent: React.FC<BlogContentProps> = ({
 
   return (
     <div className="min-h-screen bg-transparent">
-      <ProjectCardScrollShaderOverlay />
+      <ProjectCardScrollShaderOverlay scopeSelector="[data-blog-grid-zoom-target]" />
       <main className="pb-20">
         <BlogHero stats={stats} />
 
@@ -114,7 +114,8 @@ export const BlogContent: React.FC<BlogContentProps> = ({
         />
 
         <section className="container mx-auto px-4 md:px-8">
-          <div 
+          <div
+            data-blog-grid-zoom-target
             key={activeCategory}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16 md:gap-y-24"
           >

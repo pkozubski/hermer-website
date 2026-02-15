@@ -1,5 +1,4 @@
 import React, { useRef, useState, useEffect } from "react";
-import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { SplitRevealTitle } from "./ui/SplitRevealTitle";
 import { LineReveal } from "./ui/LineReveal";
@@ -7,7 +6,16 @@ import { BlogCard, Post } from "./cards/BlogCard";
 
 export const Blog: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const dragStateRef = useRef({
+    active: false,
+    startX: 0,
+    startTranslate: 0,
+    currentTranslate: 0,
+  });
   const [width, setWidth] = useState(0);
+  const [translateX, setTranslateX] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
   const [posts, setPosts] = useState<Post[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -38,12 +46,49 @@ export const Blog: React.FC = () => {
 
   // Calculate draggable constraints
   useEffect(() => {
-    if (containerRef.current) {
-      setWidth(
-        containerRef.current.scrollWidth - containerRef.current.offsetWidth,
-      );
-    }
+    const recalcWidth = () => {
+      if (!containerRef.current) return;
+      setWidth(containerRef.current.scrollWidth - containerRef.current.offsetWidth);
+    };
+
+    recalcWidth();
+    window.addEventListener("resize", recalcWidth);
+    return () => window.removeEventListener("resize", recalcWidth);
   }, [posts]); // Recalculate when posts are loaded
+
+  useEffect(() => {
+    const minX = -Math.max(width, 0);
+    const clamped = Math.min(0, Math.max(dragStateRef.current.currentTranslate, minX));
+    dragStateRef.current.currentTranslate = clamped;
+    setTranslateX(clamped);
+  }, [width]);
+
+  const handlePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (width <= 0) return;
+    dragStateRef.current.active = true;
+    dragStateRef.current.startX = e.clientX;
+    dragStateRef.current.startTranslate = dragStateRef.current.currentTranslate;
+    setIsDragging(true);
+    e.currentTarget.setPointerCapture(e.pointerId);
+  };
+
+  const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!dragStateRef.current.active) return;
+    const deltaX = e.clientX - dragStateRef.current.startX;
+    const minX = -Math.max(width, 0);
+    const nextX = Math.min(
+      0,
+      Math.max(dragStateRef.current.startTranslate + deltaX, minX),
+    );
+    dragStateRef.current.currentTranslate = nextX;
+    setTranslateX(nextX);
+  };
+
+  const handlePointerEnd = () => {
+    if (!dragStateRef.current.active) return;
+    dragStateRef.current.active = false;
+    setIsDragging(false);
+  };
 
   return (
     <section
@@ -94,11 +139,18 @@ export const Blog: React.FC = () => {
           </div>
         ) : (
           // Posts List
-          <motion.div
-            className="flex gap-4 md:gap-8 cursor-grab active:cursor-grabbing w-max pr-8 md:pr-16"
-            drag="x"
-            dragConstraints={{ right: 0, left: -width }}
-            whileTap={{ cursor: "grabbing" }}
+          <div
+            ref={trackRef}
+            onPointerDown={handlePointerDown}
+            onPointerMove={handlePointerMove}
+            onPointerUp={handlePointerEnd}
+            onPointerCancel={handlePointerEnd}
+            onLostPointerCapture={handlePointerEnd}
+            className={`flex gap-4 md:gap-8 w-max pr-8 md:pr-16 ${isDragging ? "cursor-grabbing" : "cursor-grab"}`}
+            style={{
+              transform: `translate3d(${translateX}px, 0, 0)`,
+              touchAction: "pan-y",
+            }}
           >
             {posts.map((post, index) => (
               <BlogCard key={post._id} post={post} index={index} />
@@ -111,7 +163,7 @@ export const Blog: React.FC = () => {
                 Pokaż Więcej
               </span>
             </div>
-          </motion.div>
+          </div>
         )}
       </div>
     </section>

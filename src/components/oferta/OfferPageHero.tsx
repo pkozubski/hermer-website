@@ -3,21 +3,14 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
 
 export const OfferPageHero = () => {
   return (
     <section className="relative min-h-[90vh] w-full flex flex-col items-center justify-center overflow-hidden bg-transparent py-20 isolate">
-      {/* Background Grid - Adjusted for Dark Mode */}
-      <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:40px_40px] opacity-[0.03] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
-      {/* Central Content */}
+      <div className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:40px_40px] opacity-[0.03] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
+
       <div className="container mx-auto px-4 relative z-10 flex flex-col items-center">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="text-center max-w-5xl mx-auto"
-        >
+        <div className="text-center max-w-5xl mx-auto animate-[offerHeroFade_0.8s_cubic-bezier(0.16,1,0.3,1)_both]">
           <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-display font-medium tracking-tighter text-white leading-[1.05] mb-6 sm:mb-8">
             Zbudujemy Ci stronę,
             <br />
@@ -46,14 +39,11 @@ export const OfferPageHero = () => {
               Zobacz realizacje
             </Link>
           </div>
-        </motion.div>
+        </div>
 
-        {/* Mobile View: Cards Grid */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.4 }}
-          className="grid grid-cols-2 gap-4 mt-16 md:hidden w-full max-w-lg"
+        <div
+          className="grid grid-cols-2 gap-4 mt-16 md:hidden w-full max-w-lg animate-[offerHeroFade_0.8s_cubic-bezier(0.16,1,0.3,1)_both]"
+          style={{ animationDelay: "0.4s" }}
         >
           <MobileCard
             img="/offer-hero-imgs/phone_1.png"
@@ -71,12 +61,10 @@ export const OfferPageHero = () => {
             img="/offer-hero-imgs/dashboard.png"
             title="Data & Analytics"
           />
-        </motion.div>
+        </div>
       </div>
 
-      {/* Desktop View: Floating Cards */}
       <div className="absolute inset-0 pointer-events-none hidden md:block max-w-[1800px] mx-auto select-none">
-        {/* Top Left */}
         <FloatingCard
           img="/offer-hero-imgs/phone_1.png"
           title={
@@ -88,9 +76,8 @@ export const OfferPageHero = () => {
           }
           className="top-[15%] left-[5%] xl:left-[10%]"
           delay={0.2}
-          isPhone={true}
+          isPhone
         />
-        {/* Top Right */}
         <FloatingCard
           img="/offer-hero-imgs/browser.png"
           title={
@@ -102,24 +89,24 @@ export const OfferPageHero = () => {
           className="top-[15%] right-[5%] xl:right-[10%]"
           delay={0.4}
         />
-        {/* Bottom Left */}
         <FloatingCard
           img="/offer-hero-imgs/search.png"
           title={
             <>
-              SEO &<br />
+              SEO &
+              <br />
               Marketing
             </>
           }
           className="bottom-[15%] left-[10%] xl:left-[15%]"
           delay={0.6}
         />
-        {/* Bottom Right */}
         <FloatingCard
           img="/offer-hero-imgs/dashboard.png"
           title={
             <>
-              Data &<br />
+              Data &
+              <br />
               Analytics
             </>
           }
@@ -127,6 +114,42 @@ export const OfferPageHero = () => {
           delay={0.8}
         />
       </div>
+
+      <style>{`
+        @keyframes offerHeroFade {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @keyframes offerCardPop {
+          from {
+            opacity: 0;
+            transform: scale(0.8);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+
+        @keyframes offerCardFloat {
+          0% {
+            transform: translateY(0);
+          }
+          50% {
+            transform: translateY(-12px);
+          }
+          100% {
+            transform: translateY(0);
+          }
+        }
+      `}</style>
     </section>
   );
 };
@@ -144,29 +167,19 @@ const FloatingCard = ({
   delay: number;
   isPhone?: boolean;
 }) => (
-  <motion.div
-    initial={{ opacity: 0, scale: 0.8 }}
-    animate={{ opacity: 1, scale: 1 }}
-    transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
-    className={`absolute ${className}`}
+  <div
+    className={`absolute ${className} animate-[offerCardPop_0.8s_cubic-bezier(0.16,1,0.3,1)_both]`}
+    style={{ animationDelay: `${delay}s` }}
   >
-    <motion.div
-      animate={{ y: [0, -12, 0] }}
-      transition={{
-        duration: 6,
-        repeat: Infinity,
-        ease: "easeInOut",
-        delay: delay * 2,
-      }}
-      className="relative"
+    <div
+      className="relative animate-[offerCardFloat_6s_ease-in-out_infinite]"
+      style={{ animationDelay: `${delay * 2}s` }}
     >
-      {/* Back Card (Stacked Effect) - fioletowa karta za główną */}
       <div
         className="absolute -inset-1 bg-gradient-to-br from-[#1e1e1e] to-[#2a2a2a] rounded-3xl transform rotate-[8deg] translate-x-3 translate-y-3 border-2 border-[#916AFF]/20"
         style={{ boxShadow: "0 8px 32px rgba(0, 0, 0, 0.3)" }}
       />
 
-      {/* Main Card - ciemna karta */}
       <div
         className={`relative bg-[#171717] rounded-3xl border-2 border-white/10 flex flex-col items-center z-10 ${isPhone ? "pt-2 pb-6 px-6" : "p-6"}`}
         style={{
@@ -174,11 +187,9 @@ const FloatingCard = ({
           width: "200px",
         }}
       >
-        {/* Asset Container */}
         <div
           className={`relative w-full flex items-center justify-center ${isPhone ? "-mt-16 mb-2" : "aspect-square"}`}
         >
-          {/* Purple Glow behind asset */}
           <div
             className="absolute inset-0 rounded-full"
             style={{
@@ -189,7 +200,6 @@ const FloatingCard = ({
             }}
           />
 
-          {/* Image */}
           <div className={`relative ${isPhone ? "w-28 h-40" : "w-full h-32"}`}>
             <Image
               src={img}
@@ -200,21 +210,18 @@ const FloatingCard = ({
           </div>
         </div>
 
-        {/* Title */}
         <span className="text-center font-bold text-white text-base leading-snug mt-2">
           {title}
         </span>
       </div>
-    </motion.div>
-  </motion.div>
+    </div>
+  </div>
 );
 
 const MobileCard = ({ img, title }: { img: string; title: string }) => (
   <div className="relative">
-    {/* Back Card (Stacked Effect) */}
     <div className="absolute inset-0 bg-[#1e1e1e] rounded-3xl transform rotate-3 translate-y-1 translate-x-1 border border-white/10" />
 
-    {/* Main Card */}
     <div className="relative bg-[#171717] p-5 rounded-3xl shadow-lg border border-white/10 flex flex-col items-center gap-3 z-10">
       <div className="relative w-full aspect-square flex items-center justify-center">
         <div className="absolute inset-0 bg-purple-500/5 filter blur-2xl rounded-full scale-75" />

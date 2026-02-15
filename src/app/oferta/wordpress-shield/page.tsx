@@ -20,7 +20,6 @@ import {
   HelpCircle,
   Clock,
 } from "lucide-react";
-import { motion } from "framer-motion";
 
 // Helper icons
 const Code2Icon = ({ className }: { className?: string }) => (

@@ -1,20 +1,46 @@
 "use client";
 
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 import { SplitRevealTitle } from "@/components/ui/SplitRevealTitle";
 import targetImg from "@/assets/target.png";
 
+gsap.registerPlugin(ScrollTrigger);
+
 export const AboutVision = () => {
+  const imageBlockRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      if (!imageBlockRef.current) return;
+
+      gsap.fromTo(
+        imageBlockRef.current,
+        { autoAlpha: 0, x: -50 },
+        {
+          autoAlpha: 1,
+          x: 0,
+          duration: 0.8,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: imageBlockRef.current,
+            start: "top 88%",
+            once: true,
+          },
+        },
+      );
+    },
+    { scope: imageBlockRef },
+  );
+
   return (
     <section className="py-24 md:py-32 bg-transparent container mx-auto px-4 sm:px-8 lg:px-16">
       <div className="grid lg:grid-cols-12 gap-16 lg:gap-24 items-center">
         {/* Image Side */}
-        <motion.div
-          initial={{ opacity: 0, x: -50 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
+        <div
+          ref={imageBlockRef}
           className="lg:col-span-5 relative rounded-[2rem] aspect-4/5 group"
         >
           {/* Placeholder for real image */}
@@ -34,7 +60,7 @@ export const AboutVision = () => {
               <br />w Twój projekt
             </span>
           </div>
-        </motion.div>
+        </div>
 
         {/* Content Side */}
         <div className="lg:col-span-7 relative">
@@ -53,7 +79,7 @@ export const AboutVision = () => {
               <p>
                 Tworzenie stron internetowych to dla nas coś więcej niż praca —
                 to pasja. Nie interesuje nas przeciętność, sztampowe szablony
-                czy rozwiązania "na chwilę".
+                czy rozwiązania &quot;na chwilę&quot;.
               </p>
               <p>
                 Każdy projekt strony, sklepu wykonujemy we ścisłej współpracy
@@ -67,8 +93,8 @@ export const AboutVision = () => {
 
             <div className="mt-16 border-l-2 border-[#916AFF] pl-8 py-2">
               <p className="font-medium text-white text-lg md:text-2xl italic leading-relaxed">
-                "To nie liczby nas definiują — to nasza dbałość o każdy detal i
-                nieustanna chęć tworzenia stron, które działają i zachwycają."
+                &quot;To nie liczby nas definiują — to nasza dbałość o każdy detal i
+                nieustanna chęć tworzenia stron, które działają i zachwycają.&quot;
               </p>
             </div>
           </div>

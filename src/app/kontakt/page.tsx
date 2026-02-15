@@ -12,7 +12,6 @@ import {
   ArrowRight,
   MapPin,
 } from "lucide-react";
-import { motion } from "framer-motion";
 import JacekImg from "@/assets/team/jacek.png";
 import OliwiaImg from "@/assets/team/oliwia.png";
 // Placeholder for Mateusz or just text fallback
@@ -163,11 +162,8 @@ const ContactPage = () => {
                 </h3>
 
                 {status === "success" ? (
-                  <motion.div
+                  <div
                     className="min-h-[400px] flex flex-col items-start justify-center border-l-2 border-slate-900 pl-12"
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.5 }}
                   >
                     <div className="w-20 h-20 bg-emerald-500/10 text-emerald-500 rounded-full flex items-center justify-center mb-6">
                       <CheckCircle size={40} />
@@ -184,7 +180,7 @@ const ContactPage = () => {
                     >
                       Wyślij kolejną wiadomość
                     </button>
-                  </motion.div>
+                  </div>
                 ) : (
                   <form
                     onSubmit={handleSubmit}

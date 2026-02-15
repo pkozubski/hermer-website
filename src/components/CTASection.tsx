@@ -1,297 +1,145 @@
 'use client';
-import { motion, AnimatePresence } from 'motion/react';
-import { useState, useEffect } from 'react';
+
+import { gsap } from 'gsap';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { ReelCtaButton } from './ui/ReelCtaButton';
 import { LineReveal } from './ui/LineReveal';
 
 function PhoneAnimatedUI() {
   const [phase, setPhase] = useState(0);
-  // 0: skeleton build-up, 1: progress, 2: message, 3: CTA pulse
-  // Total cycle ~10s
+  const phaseRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    const timers = [
-      setTimeout(() => setPhase(1), 1800),
-      setTimeout(() => setPhase(2), 4000),
-      setTimeout(() => setPhase(3), 6500),
-      setTimeout(() => setPhase(0), 9500),
-    ];
-    const loop = setInterval(() => {
+    const timers: number[] = [];
+
+    const runCycle = () => {
       setPhase(0);
-      const t1 = setTimeout(() => setPhase(1), 1800);
-      const t2 = setTimeout(() => setPhase(2), 4000);
-      const t3 = setTimeout(() => setPhase(3), 6500);
-      timers.push(t1, t2, t3);
-    }, 9500);
+      timers.push(window.setTimeout(() => setPhase(1), 1800));
+      timers.push(window.setTimeout(() => setPhase(2), 4000));
+      timers.push(window.setTimeout(() => setPhase(3), 6500));
+    };
+
+    runCycle();
+    const loop = window.setInterval(runCycle, 9500);
+
     return () => {
-      timers.forEach(clearTimeout);
-      clearInterval(loop);
+      timers.forEach((timer) => window.clearTimeout(timer));
+      window.clearInterval(loop);
     };
   }, []);
 
-  const skeletonBlocks = [
-    { w: 'w-10', h: 'h-6', delay: 0 },
-    { w: 'flex-1', h: 'h-6', delay: 0.08 },
-    { w: 'w-8', h: 'h-6', delay: 0.16 },
-    { w: 'w-full', h: 'h-[30%]', delay: 0.3, full: true },
-    { w: 'w-[30%]', h: 'h-6', delay: 0.5 },
-    { w: 'w-[25%]', h: 'h-6', delay: 0.58 },
-    { w: 'w-[20%]', h: 'h-6', delay: 0.66 },
-    { w: 'w-[25%]', h: 'h-6', delay: 0.74 },
-    { w: 'w-[85%]', h: 'h-3', delay: 0.9 },
-    { w: 'w-[70%]', h: 'h-3', delay: 0.98 },
-    { w: 'w-[55%]', h: 'h-3', delay: 1.06 },
-  ];
+  useEffect(() => {
+    if (!phaseRef.current) return;
+    gsap.fromTo(
+      phaseRef.current,
+      { autoAlpha: 0, y: 12 },
+      { autoAlpha: 1, y: 0, duration: 0.45, ease: 'power2.out' },
+    );
+  }, [phase]);
+
+  const skeletonBlocks = useMemo(
+    () => [
+      { w: 'w-10', h: 'h-6', delay: 0 },
+      { w: 'flex-1', h: 'h-6', delay: 0.08 },
+      { w: 'w-8', h: 'h-6', delay: 0.16 },
+      { w: 'w-[30%]', h: 'h-6', delay: 0.5 },
+      { w: 'w-[25%]', h: 'h-6', delay: 0.58 },
+      { w: 'w-[20%]', h: 'h-6', delay: 0.66 },
+      { w: 'w-[25%]', h: 'h-6', delay: 0.74 },
+      { w: 'w-[85%]', h: 'h-3', delay: 0.9 },
+      { w: 'w-[70%]', h: 'h-3', delay: 0.98 },
+      { w: 'w-[55%]', h: 'h-3', delay: 1.06 },
+    ],
+    [],
+  );
 
   return (
-    <div className="absolute inset-0 overflow-hidden p-4 sm:p-5 flex flex-col">
-      {/* Phase 0-1: Skeleton blocks build up */}
-      <AnimatePresence mode="wait">
+    <div className="absolute inset-0 flex flex-col overflow-hidden p-4 sm:p-5">
+      <div key={phase} ref={phaseRef} className="h-full">
         {phase <= 1 && (
-          <motion.div
-            key="skeleton"
-            className="flex flex-col h-full"
-            exit={{ opacity: 0, y: -10, transition: { duration: 0.4 } }}
-          >
-            {/* Top bar */}
-            <div className="flex gap-2 mb-3 sm:mb-4">
-              {skeletonBlocks.slice(0, 3).map((b, i) => (
-                <motion.div
-                  key={i}
-                  className={`${b.w} ${b.h} rounded-md`}
-                  initial={{ opacity: 0, scaleX: 0 }}
-                  animate={{
-                    opacity: 1,
-                    scaleX: 1,
-                    backgroundColor:
-                      phase >= 1 && i === 0
-                        ? 'rgba(145,106,255,0.3)'
-                        : 'rgba(255,255,255,0.08)',
-                  }}
-                  transition={{
-                    delay: b.delay,
-                    duration: 0.4,
-                    ease: 'easeOut',
-                  }}
-                  style={{ originX: 0 }}
+          <div className="flex h-full flex-col">
+            <div className="mb-3 flex gap-2 sm:mb-4">
+              {skeletonBlocks.slice(0, 3).map((block, index) => (
+                <div
+                  key={index}
+                  className={`${block.w} ${block.h} rounded-md bg-white/10 animate-pulse`}
+                  style={{ animationDelay: `${block.delay}s` }}
                 />
               ))}
             </div>
 
-            {/* Hero block */}
-            <motion.div
-              className="w-full h-[30%] rounded-lg mb-3 sm:mb-4 relative overflow-hidden"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{
-                opacity: 1,
-                y: 0,
-                backgroundColor:
-                  phase >= 1
-                    ? 'rgba(145,106,255,0.12)'
-                    : 'rgba(255,255,255,0.06)',
-              }}
-              transition={{ delay: 0.3, duration: 0.5, ease: 'easeOut' }}
-            >
+            <div className="relative mb-3 h-[30%] w-full overflow-hidden rounded-lg bg-white/8 sm:mb-4">
               {phase >= 1 && (
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent"
-                  animate={{ x: ['-100%', '200%'] }}
-                  transition={{
-                    duration: 1.5,
-                    repeat: Infinity,
-                    ease: 'linear',
-                  }}
-                />
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-pulse" />
               )}
-            </motion.div>
+            </div>
 
-            {/* Chip row */}
-            <div className="flex gap-1.5 sm:gap-2 mb-3 sm:mb-4">
-              {skeletonBlocks.slice(4, 8).map((b, i) => (
-                <motion.div
-                  key={i}
-                  className={`${b.w} ${b.h} rounded-md`}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{
-                    opacity: 1,
-                    y: 0,
-                    backgroundColor:
-                      phase >= 1 && i === 1
-                        ? 'rgba(145,106,255,0.25)'
-                        : 'rgba(255,255,255,0.06)',
-                  }}
-                  transition={{
-                    delay: b.delay,
-                    duration: 0.35,
-                    ease: 'easeOut',
-                  }}
+            <div className="mb-3 flex gap-1.5 sm:mb-4 sm:gap-2">
+              {skeletonBlocks.slice(3, 7).map((block, index) => (
+                <div
+                  key={index}
+                  className={`${block.w} ${block.h} rounded-md bg-white/10 animate-pulse`}
+                  style={{ animationDelay: `${block.delay}s` }}
                 />
               ))}
             </div>
 
-            {/* Text lines */}
-            <div className="space-y-2 mb-3 sm:mb-4">
-              {skeletonBlocks.slice(8).map((b, i) => (
-                <motion.div
-                  key={i}
-                  className={`${b.w} ${b.h} rounded`}
-                  initial={{ opacity: 0, scaleX: 0 }}
-                  animate={{ opacity: 1, scaleX: 1 }}
-                  transition={{
-                    delay: b.delay,
-                    duration: 0.4,
-                    ease: 'easeOut',
-                  }}
-                  style={{
-                    originX: 0,
-                    backgroundColor: 'rgba(255,255,255,0.06)',
-                  }}
+            <div className="mb-3 space-y-2 sm:mb-4">
+              {skeletonBlocks.slice(7).map((block, index) => (
+                <div
+                  key={index}
+                  className={`${block.w} ${block.h} rounded bg-white/8 animate-pulse`}
+                  style={{ animationDelay: `${block.delay}s` }}
                 />
               ))}
             </div>
 
-            {/* Progress bar (phase 1) */}
             {phase >= 1 && (
-              <motion.div className="mt-auto">
-                <div className="flex items-center justify-between mb-2">
-                  <motion.span
-                    className="text-white/40"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    style={{ fontSize: '10px' }}
-                  >
-                    Budowanie strony...
-                  </motion.span>
-                  <motion.span
-                    className="text-[#916aff]"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    style={{ fontSize: '10px' }}
-                  >
-                    67%
-                  </motion.span>
+              <div className="mt-auto">
+                <div className="mb-2 flex items-center justify-between text-[10px]">
+                  <span className="text-white/40">Budowanie strony...</span>
+                  <span className="text-[#916aff]">67%</span>
                 </div>
-                <div className="w-full h-1.5 rounded-full bg-white/5 overflow-hidden">
-                  <motion.div
+                <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/5">
+                  <div
                     className="h-full rounded-full bg-gradient-to-r from-[#916aff] to-[#b794ff]"
-                    initial={{ width: '0%' }}
-                    animate={{ width: '67%' }}
-                    transition={{ duration: 1.8, ease: 'easeOut' }}
+                    style={{ width: '67%', transition: 'width 1.8s ease-out' }}
                   />
                 </div>
-              </motion.div>
+              </div>
             )}
-          </motion.div>
+          </div>
         )}
 
-        {/* Phase 2: "Site in progress" message */}
         {phase === 2 && (
-          <motion.div
-            key="message"
-            className="flex flex-col items-center justify-center h-full text-center px-3"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.3 } }}
-            transition={{ duration: 0.5 }}
-          >
-            {/* Animated circles */}
-            <div className="relative w-16 h-16 sm:w-20 sm:h-20 mb-5 sm:mb-6">
-              <motion.div
-                className="absolute inset-0 rounded-full border border-[#916aff]/30"
-                animate={{ scale: [1, 1.4, 1], opacity: [0.5, 0, 0.5] }}
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
-                }}
-              />
-              <motion.div
-                className="absolute inset-1.5 sm:inset-2 rounded-full border border-[#916aff]/50"
-                animate={{ scale: [1, 1.2, 1], opacity: [0.7, 0.2, 0.7] }}
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
-                  delay: 0.3,
-                }}
-              />
-              <motion.div
-                className="absolute inset-3 sm:inset-4 rounded-full bg-[#916aff]/20 flex items-center justify-center"
-                animate={{ scale: [0.9, 1.05, 0.9] }}
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
-                }}
-              >
-                <motion.div
-                  className="w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-[#916aff]"
-                  animate={{ opacity: [0.6, 1, 0.6] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                />
-              </motion.div>
+          <div className="flex h-full flex-col items-center justify-center px-3 text-center">
+            <div className="relative mb-5 h-16 w-16 sm:mb-6 sm:h-20 sm:w-20">
+              <div className="absolute inset-0 rounded-full border border-[#916aff]/30 animate-ping" />
+              <div className="absolute inset-2 rounded-full border border-[#916aff]/50 animate-pulse" />
+              <div className="absolute inset-4 flex items-center justify-center rounded-full bg-[#916aff]/20">
+                <div className="h-3 w-3 rounded-full bg-[#916aff] animate-pulse sm:h-4 sm:w-4" />
+              </div>
             </div>
 
-            <motion.p
-              className="text-white/90 mb-2"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3, duration: 0.5 }}
-              style={{ fontSize: '14px', fontWeight: 500 }}
-            >
-              Twoja strona jest
-            </motion.p>
-            <motion.p
-              className="text-[#916aff] mb-4"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.5 }}
-              style={{ fontSize: '18px', fontWeight: 600 }}
-            >
-              w budowie
-            </motion.p>
+            <p className="mb-2 text-[14px] font-medium text-white/90">Twoja strona jest</p>
+            <p className="mb-4 text-[18px] font-semibold text-[#916aff]">w budowie</p>
 
-            {/* Animated dots */}
             <div className="flex gap-1.5">
-              {[0, 1, 2].map((i) => (
-                <motion.div
-                  key={i}
-                  className="w-1.5 h-1.5 rounded-full bg-[#916aff]"
-                  animate={{ opacity: [0.3, 1, 0.3], scale: [0.8, 1.2, 0.8] }}
-                  transition={{
-                    duration: 1.2,
-                    repeat: Infinity,
-                    delay: i * 0.2,
-                  }}
+              {[0, 1, 2].map((dot) => (
+                <div
+                  key={dot}
+                  className="h-1.5 w-1.5 rounded-full bg-[#916aff] animate-bounce"
+                  style={{ animationDelay: `${dot * 0.15}s` }}
                 />
               ))}
             </div>
-          </motion.div>
+          </div>
         )}
 
-        {/* Phase 3: CTA inside phone */}
         {phase === 3 && (
-          <motion.div
-            key="cta"
-            className="flex flex-col items-center justify-center h-full text-center px-4"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0, transition: { duration: 0.3 } }}
-            transition={{ duration: 0.5 }}
-          >
-            {/* Checkmark */}
-            <motion.div
-              className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#916aff]/15 flex items-center justify-center mb-5"
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{
-                type: 'spring',
-                stiffness: 200,
-                damping: 15,
-                delay: 0.2,
-              }}
-            >
-              <motion.svg
+          <div className="relative flex h-full flex-col items-center justify-center px-4 text-center">
+            <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-[#916aff]/15 sm:h-14 sm:w-14">
+              <svg
                 width="24"
                 height="24"
                 viewBox="0 0 24 24"
@@ -300,83 +148,33 @@ function PhoneAnimatedUI() {
                 strokeWidth="2.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                initial={{ pathLength: 0 }}
-                animate={{ pathLength: 1 }}
-                transition={{ delay: 0.5, duration: 0.6 }}
               >
-                <motion.path
-                  d="M20 6L9 17L4 12"
-                  initial={{ pathLength: 0 }}
-                  animate={{ pathLength: 1 }}
-                  transition={{ delay: 0.5, duration: 0.6, ease: 'easeOut' }}
-                />
-              </motion.svg>
-            </motion.div>
+                <path d="M20 6L9 17L4 12" />
+              </svg>
+            </div>
 
-            <motion.p
-              className="text-white/80 mb-1"
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.4 }}
-              style={{ fontSize: '12px' }}
-            >
-              Wystarczy jeden krok
-            </motion.p>
-            <motion.p
-              className="text-white/90 mb-5"
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.75, duration: 0.4 }}
-              style={{ fontSize: '15px', fontWeight: 500 }}
-            >
-              Skontaktuj się z nami
-            </motion.p>
+            <p className="mb-1 text-[12px] text-white/80">Wystarczy jeden krok</p>
+            <p className="mb-5 text-[15px] font-medium text-white/90">Skontaktuj się z nami</p>
 
-            {/* Animated CTA button */}
-            <motion.div
-              className="px-5 py-2.5 rounded-full bg-[#916aff] text-white flex items-center gap-2"
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.9, duration: 0.4 }}
-              style={{ fontSize: '12px', fontWeight: 500 }}
-            >
-              <motion.span
-                animate={{ x: [0, 3, 0] }}
-                transition={{
-                  duration: 1.2,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
-                }}
-              >
-                →
-              </motion.span>
+            <div className="flex items-center gap-2 rounded-full bg-[#916aff] px-5 py-2.5 text-[12px] font-medium text-white">
+              <span className="inline-block animate-pulse">→</span>
               <span>Rozpocznij projekt</span>
-            </motion.div>
+            </div>
 
-            {/* Subtle floating particles */}
-            {[...Array(6)].map((_, i) => (
-              <motion.div
-                key={i}
-                className="absolute w-1 h-1 rounded-full bg-[#916aff]/30"
+            {[...Array(6)].map((_, index) => (
+              <div
+                key={index}
+                className="absolute h-1 w-1 rounded-full bg-[#916aff]/30 animate-bounce"
                 style={{
-                  left: `${15 + i * 14}%`,
-                  top: `${20 + (i % 3) * 25}%`,
-                }}
-                animate={{
-                  y: [0, -15, 0],
-                  opacity: [0, 0.6, 0],
-                }}
-                transition={{
-                  duration: 2.5,
-                  repeat: Infinity,
-                  delay: i * 0.35,
-                  ease: 'easeInOut',
+                  left: `${15 + index * 14}%`,
+                  top: `${20 + (index % 3) * 25}%`,
+                  animationDelay: `${index * 0.2}s`,
                 }}
               />
             ))}
-          </motion.div>
+          </div>
         )}
-      </AnimatePresence>
+      </div>
     </div>
   );
 }
@@ -384,41 +182,22 @@ function PhoneAnimatedUI() {
 function PhoneMockup() {
   return (
     <div className="relative">
-      {/* Purple glow behind phone */}
-      <div className="absolute left-1/2 bottom-[-40px] -translate-x-1/2 w-[350px] h-[200px] md:w-[500px] md:h-[300px] pointer-events-none">
+      <div className="pointer-events-none absolute bottom-[-40px] left-1/2 h-[200px] w-[350px] -translate-x-1/2 md:h-[300px] md:w-[500px]">
         <div className="size-full rounded-full bg-[#916AFF]/30 blur-[100px]" />
       </div>
 
-      {/* Crosshair lines — offset from phone, moderate extension */}
       <div
-        className="absolute pointer-events-none hidden lg:block"
+        className="pointer-events-none absolute hidden lg:block"
         style={{ top: '-30px', bottom: '-30px', left: '-30px', right: '-30px' }}
       >
-        {/* Horizontal line at top */}
-        <div
-          className="absolute top-0 h-px bg-[#333]"
-          style={{ left: '-60px', right: '-60px' }}
-        />
-        {/* Horizontal line at bottom */}
-        <div
-          className="absolute bottom-0 h-px bg-[#333]"
-          style={{ left: '-60px', right: '-60px' }}
-        />
-        {/* Vertical line at left */}
-        <div
-          className="absolute left-0 w-px bg-[#333]"
-          style={{ top: '-60px', bottom: '-60px' }}
-        />
-        {/* Vertical line at right */}
-        <div
-          className="absolute right-0 w-px bg-[#333]"
-          style={{ top: '-60px', bottom: '-60px' }}
-        />
+        <div className="absolute top-0 h-px bg-[#333]" style={{ left: '-60px', right: '-60px' }} />
+        <div className="absolute bottom-0 h-px bg-[#333]" style={{ left: '-60px', right: '-60px' }} />
+        <div className="absolute left-0 w-px bg-[#333]" style={{ top: '-60px', bottom: '-60px' }} />
+        <div className="absolute right-0 w-px bg-[#333]" style={{ top: '-60px', bottom: '-60px' }} />
       </div>
 
-      {/* Phone body */}
-      <div className="relative z-10 w-[260px] sm:w-[320px] md:w-[380px] lg:w-[440px] h-[390px] sm:h-[460px] md:h-[530px] lg:h-[600px] rounded-[24px] sm:rounded-[28px] md:rounded-[32px] lg:rounded-[36px] p-[3px] backdrop-blur-xl backdrop-saturate-150 bg-white/15 shadow-2xl">
-        <div className="relative w-full h-full rounded-[21px] sm:rounded-[25px] md:rounded-[29px] lg:rounded-[33px] bg-[#1e1e1e]/95 backdrop-saturate-150 overflow-hidden">
+      <div className="relative z-10 h-[390px] w-[260px] rounded-[24px] bg-white/15 p-[3px] shadow-2xl backdrop-blur-xl backdrop-saturate-150 sm:h-[460px] sm:w-[320px] sm:rounded-[28px] md:h-[530px] md:w-[380px] md:rounded-[32px] lg:h-[600px] lg:w-[440px] lg:rounded-[36px]">
+        <div className="relative h-full w-full overflow-hidden rounded-[21px] bg-[#1e1e1e]/95 backdrop-saturate-150 sm:rounded-[25px] md:rounded-[29px] lg:rounded-[33px]">
           <PhoneAnimatedUI />
         </div>
       </div>
@@ -431,45 +210,37 @@ interface CTASectionProps {
   subtitleLines?: string[];
 }
 
-export function CTASection({ 
-  title = "Gotowy na zmianę?", 
+export function CTASection({
+  title = 'Gotowy na zmianę?',
   subtitleLines = [
-    "Skontaktuj się z nami i porozmawiajmy",
-    "o Twoim projekcie. Wycena",
-    "i konsultacja są bezpłatne.",
-  ]
+    'Skontaktuj się z nami i porozmawiajmy',
+    'o Twoim projekcie. Wycena',
+    'i konsultacja są bezpłatne.',
+  ],
 }: CTASectionProps) {
   return (
     <section
-      className="relative w-full bg-[rgba(255,255,255,0.01)] mt-32"
+      className="relative mt-32 w-full bg-[rgba(255,255,255,0.01)]"
       style={{ clipPath: 'inset(-200px 0 0 0)' }}
     >
-      <div className="relative container mx-auto px-4 py-10 md:py-14 lg:py-16">
-        <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-8">
-          {/* Left Column: Text */}
-          <div className="flex-1 flex flex-col items-center lg:items-start text-center lg:text-left">
-            <h2 className="text-5xl md:text-8xl text-white tracking-tighter leading-tight">
-              {title}
-            </h2>
+      <div className="container relative mx-auto px-4 py-10 md:py-14 lg:py-16">
+        <div className="flex flex-col items-center gap-12 lg:flex-row lg:gap-8">
+          <div className="flex flex-1 flex-col items-center text-center lg:items-start lg:text-left">
+            <h2 className="text-5xl leading-tight tracking-tighter text-white md:text-8xl">{title}</h2>
 
             <div className="mt-8">
               <LineReveal
                 lines={subtitleLines}
-                className="text-neutral-400 max-w-xs md:max-w-sm text-xs md:text-sm uppercase tracking-wide leading-relaxed"
+                className="max-w-xs text-xs uppercase tracking-wide text-neutral-400 leading-relaxed md:max-w-sm md:text-sm"
               />
             </div>
 
             <div className="mt-8 md:mt-10">
-              <ReelCtaButton
-                text="Zacznijmy współpracę"
-                href="/kontakt"
-                size="large"
-              />
+              <ReelCtaButton text="Zacznijmy współpracę" href="/kontakt" size="large" />
             </div>
           </div>
 
-          {/* Right Column: Phone Mockup — sticks out above, clipped at bottom */}
-          <div className="relative flex-shrink-0 flex justify-center lg:justify-end lg:-mt-32 lg:mb-[-180px]">
+          <div className="relative flex flex-shrink-0 justify-center lg:-mb-[180px] lg:-mt-32 lg:justify-end">
             <PhoneMockup />
           </div>
         </div>

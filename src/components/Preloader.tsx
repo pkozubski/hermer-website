@@ -3,14 +3,16 @@
 import { useState, useEffect, useRef } from "react";
 
 // Total number of loading milestones tracked
-const TOTAL_STEPS = 3; // fonts, window load, content ready
+const TOTAL_STEPS = 4; // fonts, window load, content ready, project assets
 
 export function Preloader({
   onComplete,
   contentReady,
+  assetsReady = true,
 }: {
   onComplete: () => void;
   contentReady: boolean;
+  assetsReady?: boolean;
 }) {
   const [completedSteps, setCompletedSteps] = useState(0);
   const [hiding, setHiding] = useState(false);
@@ -42,6 +44,11 @@ export function Preloader({
   useEffect(() => {
     if (contentReady) markStep("content");
   }, [contentReady]);
+
+  // Track preloaded assets (used by realizacje/projects sections).
+  useEffect(() => {
+    if (assetsReady) markStep("assets");
+  }, [assetsReady]);
 
   // Calculate real progress percentage
   const progress = Math.round((completedSteps / TOTAL_STEPS) * 100);

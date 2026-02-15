@@ -20,7 +20,7 @@ export const OfferProjects: React.FC<OfferProjectsProps> = ({ category }) => {
 
   return (
     <section className="py-24 bg-transparent border-t border-white/5">
-       <ProjectCardScrollShaderOverlay />
+       <ProjectCardScrollShaderOverlay scopeSelector="[data-offer-projects-zoom-target]" />
        <div className="container mx-auto px-4 md:px-8">
            <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-8">
               <div>
@@ -38,7 +38,10 @@ export const OfferProjects: React.FC<OfferProjectsProps> = ({ category }) => {
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
            </div>
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-16">
+           <div
+             data-offer-projects-zoom-target
+             className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-16"
+           >
               {selectedProjects.map((project, index) => (
                  <ProjectCard key={project.id} project={project} index={index} />
               ))}

@@ -1,10 +1,14 @@
 'use client';
 
-import React from 'react';
+import React, { useRef } from 'react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGSAP } from '@gsap/react';
 import { urlFor } from '@/sanity/lib/image';
 import { Post } from '@/components/cards/BlogCard';
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface BlogGridCardProps {
   post: Post;
@@ -12,29 +16,46 @@ interface BlogGridCardProps {
 }
 
 export const BlogGridCard: React.FC<BlogGridCardProps> = ({ post, index }) => {
+  const imageContainerRef = useRef<HTMLDivElement>(null);
   const destinationHref = post.slug?.current
     ? `/blog/${post.slug.current}`
     : '#';
 
+  useGSAP(
+    () => {
+      if (!imageContainerRef.current) return;
+      gsap.fromTo(
+        imageContainerRef.current,
+        {
+          scale: 0.9,
+          autoAlpha: 0.8,
+          rotate: index % 2 === 0 ? -3 : 3,
+        },
+        {
+          scale: 1,
+          autoAlpha: 1,
+          rotate: 0,
+          duration: 0.8,
+          ease: 'power4.out',
+          scrollTrigger: {
+            trigger: imageContainerRef.current,
+            start: 'top 85%',
+            once: true,
+          },
+        },
+      );
+    },
+    { scope: imageContainerRef, dependencies: [index] },
+  );
+
   return (
     <div className="w-full">
       <Link href={destinationHref} className="group block">
-        <motion.div initial="rest" whileHover="hover" animate="rest">
+        <div>
           {/* Image Container with entrance animation */}
-          <motion.div
+          <div
+            ref={imageContainerRef}
             className="relative aspect-4/3 rounded-3xl mb-6 overflow-hidden"
-            initial={{
-              scale: 0.9,
-              opacity: 0.8,
-              rotate: index % 2 === 0 ? -3 : 3,
-            }}
-            whileInView={{ scale: 1, opacity: 1, rotate: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{
-              duration: 0.8,
-              ease: [0.16, 1, 0.3, 1],
-              rotate: { duration: 1.2, ease: [0.16, 1, 0.3, 1] },
-            }}
           >
             {post.mainImage && (
               <img
@@ -54,7 +75,7 @@ export const BlogGridCard: React.FC<BlogGridCardProps> = ({ post, index }) => {
                 {typeof post.category === "string" ? post.category : 'General'}
               </span>
             </div>
-          </motion.div>
+          </div>
 
           <div className="flex flex-col gap-2">
             {/* Meta Info - Static */}
@@ -71,7 +92,7 @@ export const BlogGridCard: React.FC<BlogGridCardProps> = ({ post, index }) => {
               Dowiedz się więcej o temacie czytając nasz artykuł.
             </p>
           </div>
-        </motion.div>
+        </div>
       </Link>
     </div>
   );

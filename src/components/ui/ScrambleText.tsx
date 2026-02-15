@@ -1,6 +1,5 @@
 'use client';
-import { useEffect, useRef, useCallback } from 'react';
-import { useInView } from 'framer-motion';
+import { useEffect, useRef, useCallback, useState } from 'react';
 
 const CHARS =
   'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
@@ -21,7 +20,7 @@ export const ScrambleText = ({
   trailLength = 4,
 }: ScrambleTextProps) => {
   const ref = useRef<HTMLSpanElement>(null);
-  const isInView = useInView(ref, { once: true, amount: 0.1 });
+  const [isInView, setIsInView] = useState(false);
   const animationRef = useRef<{
     timeout: ReturnType<typeof setTimeout> | null;
     raf: number | null;
@@ -46,6 +45,23 @@ export const ScrambleText = ({
     state.revealedCount = 0;
     state.lastTime = 0;
   }, []);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || isInView) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        setIsInView(true);
+        observer.disconnect();
+      },
+      { threshold: 0.1 },
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [isInView]);
 
   useEffect(() => {
     if (!isInView) {

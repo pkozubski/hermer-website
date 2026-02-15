@@ -2,9 +2,6 @@
 
 import React from "react";
 import { CheckCircle2, TrendingUp } from "lucide-react";
-import { motion } from "framer-motion";
-
-import { SplitRevealTitle } from "@/components/ui/SplitRevealTitle";
 
 export const AboutMission = () => {
   return (

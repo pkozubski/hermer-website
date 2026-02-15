@@ -1,8 +1,9 @@
 "use client";
 
-import React from "react";
+import React, { useRef } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import {
   LayoutTemplate,
   ShoppingBag,
@@ -47,12 +48,29 @@ export const OFFER_ITEMS = [
 ];
 
 export const OfferDropdown = () => {
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      if (!dropdownRef.current) return;
+      gsap.fromTo(
+        dropdownRef.current,
+        { autoAlpha: 0, y: 10, scale: 0.95 },
+        {
+          autoAlpha: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.2,
+          ease: "power1.out",
+        },
+      );
+    },
+    { scope: dropdownRef },
+  );
+
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 10, scale: 0.95 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={{ opacity: 0, y: 10, scale: 0.95 }}
-      transition={{ duration: 0.2, ease: "easeOut" }}
+    <div
+      ref={dropdownRef}
       className="absolute top-full left-1/2 -translate-x-1/2 mt-4 w-[900px] bg-[#171717] border border-white/10 rounded-2xl shadow-2xl overflow-hidden z-[60]"
     >
       <div className="grid grid-cols-4 gap-2 p-4">
@@ -103,6 +121,6 @@ export const OfferDropdown = () => {
           Umów bezpłatną konsultację <ArrowRight size={12} />
         </Link>
       </div>
-    </motion.div>
+    </div>
   );
 };

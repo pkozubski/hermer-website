@@ -45,7 +45,7 @@ export default async function ProjectDetailPage({
 
   return (
     <div className="min-h-screen bg-neutral-900 text-white overflow-x-clip font-sans">
-      <ProjectCardScrollShaderOverlay />
+      <ProjectCardScrollShaderOverlay scopeSelector="[data-related-projects-zoom-target]" />
 
       {/* Background Ambience */}
       <div className="fixed inset-0 pointer-events-none z-0">
@@ -180,7 +180,10 @@ export default async function ProjectDetailPage({
               </Link>
             </div>
 
-            <div className="grid grid-cols-1 gap-x-12 gap-y-16 md:grid-cols-2">
+            <div
+              data-related-projects-zoom-target
+              className="grid grid-cols-1 gap-x-12 gap-y-16 md:grid-cols-2"
+            >
               {relatedProjects.map((item, index) => (
                 <ProjectCard key={item.id} project={item} index={index} />
               ))}

@@ -1,9 +1,8 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { ChevronDown } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
 import { OfferDropdown } from "./header/OfferDropdown";
 import { MobileMenu } from "./header/MobileMenu";
 import { ReelCtaButton } from "./ui/ReelCtaButton";
@@ -13,14 +12,12 @@ export const Header: React.FC<{ allowVisibility?: boolean }> = ({
 }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false); // Add state for background styling
-  const [isMounted, setIsMounted] = useState(false); // State to track mounting for transition
   const [hoveredNav, setHoveredNav] = useState<string | null>(null);
   const [expandedMobileNav, setExpandedMobileNav] = useState<string | null>(
     null,
   );
 
   useEffect(() => {
-    setIsMounted(true);
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
 
@@ -47,11 +44,7 @@ export const Header: React.FC<{ allowVisibility?: boolean }> = ({
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 w-full py-4 sm:py-6 px-4 sm:px-8 lg:px-16 flex items-center justify-center z-50 ${
-        isMounted
-          ? "transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
-          : ""
-      } ${allowVisibility && !isMobileMenuOpen ? "translate-y-0" : "-translate-y-full"} text-white`}
+      className={`fixed top-0 left-0 right-0 w-full py-4 sm:py-6 px-4 sm:px-8 lg:px-16 flex items-center justify-center z-50 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${allowVisibility && !isMobileMenuOpen ? "translate-y-0" : "-translate-y-full"} text-white`}
     >
       {/* Backdrop blur wrapper for better readability when scrolling over content */}
       <div
@@ -154,13 +147,11 @@ export const Header: React.FC<{ allowVisibility?: boolean }> = ({
                     />
                   </Link>
 
-                  <AnimatePresence>
-                    {hoveredNav === link.name && (
-                      <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2">
-                        <OfferDropdown />
-                      </div>
-                    )}
-                  </AnimatePresence>
+                  {hoveredNav === link.name && (
+                    <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2">
+                      <OfferDropdown />
+                    </div>
+                  )}
                 </div>
               );
             }
@@ -201,33 +192,23 @@ export const Header: React.FC<{ allowVisibility?: boolean }> = ({
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           aria-label="Menu"
         >
-          <motion.div
-            initial={false}
-            animate={isMobileMenuOpen ? "open" : "closed"}
-            className="w-6 h-6 flex flex-col justify-center items-center gap-[5px]"
-          >
-            <motion.span
-              variants={{
-                closed: { rotate: 0, y: 0 },
-                open: { rotate: 45, y: 7 },
-              }}
-              className="w-full h-[2px] bg-white block origin-center transition-all duration-300 ease-out"
+          <div className="w-6 h-6 flex flex-col justify-center items-center gap-[5px]">
+            <span
+              className={`w-full h-[2px] bg-white block origin-center transition-all duration-300 ease-out ${
+                isMobileMenuOpen ? "rotate-45 translate-y-[7px]" : ""
+              }`}
             />
-            <motion.span
-              variants={{
-                closed: { opacity: 1, x: 0 },
-                open: { opacity: 0, x: 10 },
-              }}
-              className="w-full h-[2px] bg-white block transition-all duration-300 ease-out"
+            <span
+              className={`w-full h-[2px] bg-white block transition-all duration-300 ease-out ${
+                isMobileMenuOpen ? "opacity-0 translate-x-[10px]" : ""
+              }`}
             />
-            <motion.span
-              variants={{
-                closed: { rotate: 0, y: 0 },
-                open: { rotate: -45, y: -7 },
-              }}
-              className="w-full h-[2px] bg-white block origin-center transition-all duration-300 ease-out"
+            <span
+              className={`w-full h-[2px] bg-white block origin-center transition-all duration-300 ease-out ${
+                isMobileMenuOpen ? "-rotate-45 -translate-y-[7px]" : ""
+              }`}
             />
-          </motion.div>
+          </div>
         </button>
 
         {/* Mobile slide-in menu */}

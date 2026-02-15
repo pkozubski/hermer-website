@@ -1,11 +1,6 @@
-import React, { useRef, useSyncExternalStore } from "react";
-import {
-  motion,
-  useScroll,
-  useTransform,
-  useMotionTemplate,
-  useMotionValue,
-} from "framer-motion";
+import React, { useEffect, useRef, useSyncExternalStore } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitRevealTitle } from "./ui/SplitRevealTitle";
 import { SecurityBentoCard } from "./SecurityBentoCard";
 import { LineReveal } from "./ui/LineReveal";
@@ -16,6 +11,8 @@ import jacekImg from "@/assets/team/jacek.png";
 import oliwiaImg from "@/assets/team/oliwia.png";
 import lukaszImg from "@/assets/team/lukasz.png";
 import annaImg from "@/assets/team/anna.png";
+
+gsap.registerPlugin(ScrollTrigger);
 
 // --- Components ---
 
@@ -28,8 +25,27 @@ const BentoCard = ({
   className?: string;
   hoverEffect?: boolean;
 }) => {
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
+  const spotlightRef = useRef<HTMLDivElement>(null);
+  const setSpotlightX = useRef<((value: number) => void) | null>(null);
+  const setSpotlightY = useRef<((value: number) => void) | null>(null);
+
+  useEffect(() => {
+    if (!hoverEffect || !spotlightRef.current) return;
+
+    setSpotlightX.current = gsap.quickTo(spotlightRef.current, "--spotlight-x", {
+      duration: 0.2,
+      ease: "power2.out",
+    });
+    setSpotlightY.current = gsap.quickTo(spotlightRef.current, "--spotlight-y", {
+      duration: 0.2,
+      ease: "power2.out",
+    });
+
+    return () => {
+      setSpotlightX.current = null;
+      setSpotlightY.current = null;
+    };
+  }, [hoverEffect]);
 
   const handleMouseMove = ({
     currentTarget,
@@ -38,8 +54,8 @@ const BentoCard = ({
   }: React.MouseEvent) => {
     if (!hoverEffect) return;
     const { left, top } = currentTarget.getBoundingClientRect();
-    mouseX.set(clientX - left);
-    mouseY.set(clientY - top);
+    setSpotlightX.current?.(clientX - left);
+    setSpotlightY.current?.(clientY - top);
   };
 
   return (
@@ -53,16 +69,12 @@ const BentoCard = ({
       <div className="pointer-events-none absolute z-[1] -top-5 left-1/2 -translate-x-1/2 w-36 h-12 bg-[#916AFF]/25 blur-2xl opacity-70 transition-[width,height,opacity] duration-500 group-hover:w-56 group-hover:h-16 group-hover:opacity-95" />
       {/* Hover Spotlight Effect */}
       {hoverEffect && (
-        <motion.div
+        <div
+          ref={spotlightRef}
           className="pointer-events-none absolute -inset-px opacity-0 transition duration-300 group-hover:opacity-100"
           style={{
-            background: useMotionTemplate`
-              radial-gradient(
-                650px circle at ${mouseX}px ${mouseY}px,
-                rgba(145, 106, 255, 0.1),
-                transparent 80%
-              )
-            `,
+            background:
+              "radial-gradient(650px circle at calc(var(--spotlight-x, -9999) * 1px) calc(var(--spotlight-y, -9999) * 1px), rgba(145, 106, 255, 0.1), transparent 80%)",
           }}
         />
       )}
@@ -75,23 +87,74 @@ const BentoCard = ({
 /*  ArcParallax — extracted to avoid inline useTransform in JSX        */
 /* ------------------------------------------------------------------ */
 const ArcParallax = ({
-  scrollYProgress,
+  containerRef,
 }: {
-  scrollYProgress: import("framer-motion").MotionValue<number>;
+  containerRef: React.RefObject<HTMLDivElement | null>;
 }) => {
-  const y = useTransform(scrollYProgress, [0, 1], [0, 120]);
+  const layerRef = useRef<HTMLDivElement>(null);
+  const arcPathRef = useRef<SVGPathElement>(null);
+
+  useEffect(() => {
+    const triggerEl = containerRef.current;
+    const layerEl = layerRef.current;
+    const pathEl = arcPathRef.current;
+    if (!triggerEl || !layerEl || !pathEl) return;
+
+    const totalLength = pathEl.getTotalLength();
+
+    const ctx = gsap.context(() => {
+      gsap.to(layerEl, {
+        y: 120,
+        ease: "none",
+        scrollTrigger: {
+          trigger: triggerEl,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: true,
+        },
+      });
+
+      gsap.set(pathEl, {
+        strokeDasharray: totalLength,
+        strokeDashoffset: totalLength,
+        opacity: 0,
+      });
+
+      ScrollTrigger.create({
+        trigger: triggerEl,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: true,
+        onUpdate: (self) => {
+          const drawProgress = gsap.utils.clamp(
+            0,
+            1,
+            (self.progress - 0.45) / 0.25,
+          );
+
+          gsap.set(pathEl, {
+            strokeDashoffset: totalLength * (1 - drawProgress),
+            opacity: drawProgress <= 0.01 ? 0 : 1,
+          });
+        },
+      });
+    }, layerEl);
+
+    return () => ctx.revert();
+  }, [containerRef]);
+
   return (
-    <motion.div
+    <div
+      ref={layerRef}
       className="absolute inset-0 w-full h-full pointer-events-none z-0"
-      style={{ y }}
     >
-      <AnimatedArc scrollYProgress={scrollYProgress} />
-    </motion.div>
+      <AnimatedArc pathRef={arcPathRef} />
+    </div>
   );
 };
 
 /* ------------------------------------------------------------------ */
-/*  ProjectsGrid — 48 plain divs instead of 48 motion.div instances   */
+/*  ProjectsGrid — 48 plain divs instead of JS-animated cells          */
 /* ------------------------------------------------------------------ */
 const ACCENT_CELLS = new Set([19, 20, 21, 27, 28, 29, 35, 36]);
 const CENTER_COL = 5;
@@ -124,7 +187,7 @@ const ProjectsGrid = () => (
         }}
       />
     ))}
-    {/* CSS animation for accent cells — replaces 8 infinite framer-motion instances */}
+    {/* CSS animation for accent cells — replaces JS-driven infinite loops */}
     <style>{`
       @keyframes gridPulse {
         from { opacity: 0.55; }
@@ -147,10 +210,6 @@ export const About: React.FC = () => {
     isSafariBrowser,
     () => false,
   );
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"],
-  });
 
   const projectsMaskStyle = isSafari
     ? undefined
@@ -173,7 +232,7 @@ export const About: React.FC = () => {
       {/* Background Ambience moved to MainContent wrapper */}
 
       {/* Scroll-Driven Decorative Arc (SVG) with Parallax */}
-      {!isSafari && <ArcParallax scrollYProgress={scrollYProgress} />}
+      {!isSafari && <ArcParallax containerRef={containerRef} />}
 
       <div className="container mx-auto px-4 md:px-8 relative z-10">
         {/* Section Header - Lusion Style */}

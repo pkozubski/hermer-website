@@ -1,7 +1,6 @@
 "use client";
 
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useEffect, useRef, useState } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { PROJECTS } from "@/data/projects";
 
@@ -22,17 +21,36 @@ export const ProjectPreviewPanel: React.FC<ProjectPreviewPanelProps> = ({
   fullScreen = false,
   mediaClassName = "",
 }) => {
-  const hasLiveLink = project.link.startsWith("http");
+  const panelRef = useRef<HTMLElement>(null);
+  const [isInView, setIsInView] = useState(false);
+
+  useEffect(() => {
+    const el = panelRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        setIsInView(true);
+        observer.disconnect();
+      },
+      { threshold: 0.2 },
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <motion.article
+    <article
+      ref={panelRef}
       className={`relative overflow-hidden border-y border-white/10 bg-transparent ${
         fullScreen ? "h-full" : "min-h-[600px]"
       } ${className}`}
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+      style={{
+        opacity: isInView ? 1 : 0,
+        transition: `opacity 1s cubic-bezier(0.16, 1, 0.3, 1) ${index * 0.05}s`,
+      }}
     >
       <div className="relative z-10 grid grid-cols-1 lg:grid-cols-[1fr_55%] xl:grid-cols-[1fr_60%]">
         {/* Aside: Info Mesh - Content aligns to container left */}
@@ -85,7 +103,7 @@ export const ProjectPreviewPanel: React.FC<ProjectPreviewPanelProps> = ({
 
                                 
 
-                                            <motion.a
+                                            <a
 
                                               href={project.link}
 
@@ -95,29 +113,17 @@ export const ProjectPreviewPanel: React.FC<ProjectPreviewPanelProps> = ({
 
                                               className="group relative flex items-center justify-between px-10 py-10 overflow-hidden transition-colors cursor-pointer bg-white/[0.01]"
 
-                                              initial="initial"
-
-                                              whileHover="hover"
-
-                                              animate="initial"
-
                                             >
 
                                               {/* Dot background expander (Reel Effect) */}
 
-                                              <motion.span
+                                              <span
 
-                                                className="absolute left-10 top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full bg-white z-0 pointer-events-none origin-center"
-
-                                                variants={{
-
-                                                  initial: { scale: 1 },
-
-                                                  hover: { scale: 150 }
-
+                                                style={{
+                                                  transition:
+                                                    "transform 0.6s cubic-bezier(0.35, 0, 0, 1)",
                                                 }}
-
-                                                transition={{ duration: 0.6, ease: [0.35, 0, 0, 1] }}
+                                                className="absolute left-10 top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full bg-white z-0 pointer-events-none origin-center scale-100 group-hover:scale-[150]"
 
                                               />
 
@@ -125,51 +131,39 @@ export const ProjectPreviewPanel: React.FC<ProjectPreviewPanelProps> = ({
 
                                               {/* Text Label */}
 
-                                              <motion.span
+                                              <span
 
-                                                className="relative z-10 text-lg font-medium pl-10"
-
-                                                variants={{
-
-                                                  initial: { x: 0, color: "rgba(255,255,255,0.4)" },
-
-                                                  hover: { x: -15, color: "#000000" }
-
+                                                style={{
+                                                  transition:
+                                                    "transform 0.6s cubic-bezier(0.35, 0, 0, 1), color 0.6s cubic-bezier(0.35, 0, 0, 1)",
                                                 }}
-
-                                                transition={{ duration: 0.6, ease: [0.35, 0, 0, 1] }}
+                                                className="relative z-10 text-lg font-medium pl-10 text-white/40 group-hover:text-black group-hover:-translate-x-[15px]"
 
                                               >
 
                                                 Odwiedź projekt online
 
-                                              </motion.span>
+                                              </span>
 
                                 
 
                                               {/* Sliding Arrow Icon */}
 
-                                              <motion.div
+                                              <div
 
-                                                className="relative z-10 flex items-center justify-center text-black"
-
-                                                variants={{
-
-                                                  initial: { x: 20, opacity: 0 },
-
-                                                  hover: { x: 0, opacity: 1 }
-
+                                                className="relative z-10 flex items-center justify-center text-black translate-x-5 opacity-0 group-hover:translate-x-0 group-hover:opacity-100"
+                                                style={{
+                                                  transition:
+                                                    "transform 0.6s cubic-bezier(0.35, 0, 0, 1), opacity 0.6s cubic-bezier(0.35, 0, 0, 1)",
                                                 }}
-
-                                                transition={{ duration: 0.6, ease: [0.35, 0, 0, 1] }}
 
                                               >
 
                                                 <ArrowUpRight className="h-6 w-6" />
 
-                                              </motion.div>
+                                              </div>
 
-                                            </motion.a>
+                                            </a>
 
                                           </div>                  {/* Full Width Image Content */}
                   <div
@@ -188,20 +182,22 @@ export const ProjectPreviewPanel: React.FC<ProjectPreviewPanelProps> = ({
                 </div>
               </div>
       {/* Reveal Curtains - sharp edges */}
-      <motion.div
+      <div
         className="pointer-events-none absolute inset-y-0 left-0 z-40 w-1/2 bg-[#171717]"
-        initial={{ x: 0 }}
-        whileInView={{ x: "-100%" }}
-        viewport={{ once: true, amount: 0.2 }}
-        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+        style={{
+          transform: isInView ? "translateX(-100%)" : "translateX(0)",
+          transition:
+            "transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s",
+        }}
       />
-      <motion.div
+      <div
         className="pointer-events-none absolute inset-y-0 right-0 z-40 w-1/2 bg-[#171717]"
-        initial={{ x: 0 }}
-        whileInView={{ x: "100%" }}
-        viewport={{ once: true, amount: 0.2 }}
-        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+        style={{
+          transform: isInView ? "translateX(100%)" : "translateX(0)",
+          transition:
+            "transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s",
+        }}
       />
-    </motion.article>
+    </article>
   );
 };

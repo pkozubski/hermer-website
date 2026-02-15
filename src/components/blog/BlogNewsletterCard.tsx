@@ -1,16 +1,43 @@
 "use client";
 
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 import { ArrowRight } from "lucide-react";
 
+gsap.registerPlugin(ScrollTrigger);
+
 export const BlogNewsletterCard: React.FC = () => {
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      if (!cardRef.current) return;
+
+      gsap.fromTo(
+        cardRef.current,
+        { scale: 0.9, autoAlpha: 0.8, rotate: 3 },
+        {
+          scale: 1,
+          autoAlpha: 1,
+          rotate: 0,
+          duration: 0.8,
+          ease: "power4.out",
+          scrollTrigger: {
+            trigger: cardRef.current,
+            start: "top 85%",
+            once: true,
+          },
+        },
+      );
+    },
+    { scope: cardRef },
+  );
+
   return (
-    <motion.div
-      initial={{ scale: 0.9, opacity: 0.8, rotate: 3 }}
-      whileInView={{ scale: 1, opacity: 1, rotate: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+    <div
+      ref={cardRef}
       className="bg-[#916AFF] rounded-[2.5rem] p-8 md:p-10 flex flex-col justify-center text-white relative overflow-hidden group shadow-xl h-full min-h-[400px]"
     >
       {/* Background Decor */}
@@ -41,6 +68,6 @@ export const BlogNewsletterCard: React.FC = () => {
           </button>
         </form>
       </div>
-    </motion.div>
+    </div>
   );
 };

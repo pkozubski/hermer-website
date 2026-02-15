@@ -1,6 +1,5 @@
 "use client";
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useEffect, useRef, useState } from "react";
 import {
   ArrowUpRight,
   Layers,
@@ -9,14 +8,10 @@ import {
   TrendingUp,
   Search,
   BarChart3,
-  Target,
   CreditCard,
   Package,
   ChevronRight,
   Check,
-  MousePointer,
-  Eye,
-  Users,
 } from "lucide-react";
 import { SplitRevealTitle } from "@/components/ui/SplitRevealTitle";
 import { LineReveal } from "@/components/ui/LineReveal";
@@ -26,7 +21,7 @@ import { LineReveal } from "@/components/ui/LineReveal";
 /* -------------------------------------------------------------------------- */
 const WebDesignCard = () => {
   return (
-    <motion.a
+    <a
       href="/oferta/strony-www"
       className="group relative h-[500px] rounded-[40px] overflow-hidden bg-[#1e1e1e] hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-700 block cursor-pointer border border-white/5"
     >
@@ -156,7 +151,7 @@ const WebDesignCard = () => {
           </div>
         </div>
       </div>
-    </motion.a>
+    </a>
   );
 };
 
@@ -180,7 +175,7 @@ const EcommerceCard = () => {
   ];
 
   return (
-    <motion.a
+    <a
       href="/oferta/sklepy-internetowe"
       className="group relative h-[500px] rounded-[40px] overflow-hidden bg-[#1e1e1e] hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-700 flex flex-col justify-between border border-white/5"
     >
@@ -287,7 +282,7 @@ const EcommerceCard = () => {
           </div>
         </div>
       </div>
-    </motion.a>
+    </a>
   );
 };
 
@@ -322,7 +317,7 @@ const SeoCard = () => {
   }, [cycle]);
 
   return (
-    <motion.a
+    <a
       href="/oferta/marketing"
       className="group relative h-[500px] rounded-[40px] overflow-hidden bg-[#1e1e1e] hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-700 flex flex-col justify-between border border-white/5"
     >
@@ -413,7 +408,7 @@ const SeoCard = () => {
           </div>
         </div>
       </div>
-    </motion.a>
+    </a>
   );
 };
 
@@ -422,7 +417,7 @@ const SeoCard = () => {
 /* -------------------------------------------------------------------------- */
 const MarketingCard = () => {
   return (
-    <motion.a
+    <a
       href="/oferta/marketing"
       className="group relative h-[500px] rounded-[40px] overflow-hidden bg-[#1e1e1e] hover:shadow-2xl hover:shadow-purple-500/10 transition-all duration-700 block cursor-pointer border border-white/5"
     >
@@ -612,7 +607,7 @@ const MarketingCard = () => {
           </div>
         </div>
       </div>
-    </motion.a>
+    </a>
   );
 };
 
@@ -628,13 +623,38 @@ const DashedCardWrapper = ({
   className?: string;
   delay?: number;
 }) => {
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const [isInView, setIsInView] = useState(false);
+
+  useEffect(() => {
+    const el = wrapperRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        setIsInView(true);
+        observer.disconnect();
+      },
+      { threshold: 0.1 },
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.6, delay, ease: "easeOut" }}
+    <div
+      ref={wrapperRef}
       className={`relative p-3 ${className}`}
+      style={{
+        opacity: isInView ? 1 : 0,
+        transform: isInView ? "translateY(0)" : "translateY(20px)",
+        transitionProperty: "opacity, transform",
+        transitionDuration: "0.6s",
+        transitionTimingFunction: "ease-out",
+        transitionDelay: `${delay}s`,
+      }}
     >
       {/* Dashed border pseudo-element */}
       <div
@@ -644,7 +664,7 @@ const DashedCardWrapper = ({
         }}
       />
       {children}
-    </motion.div>
+    </div>
   );
 };
 

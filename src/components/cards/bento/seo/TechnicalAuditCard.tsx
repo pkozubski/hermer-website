@@ -1,29 +1,43 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Terminal, Rocket } from "lucide-react";
+import { Terminal } from "lucide-react";
 import { GlassBentoCard } from "../GlassBentoCard";
 import { DeepDarkWindow } from "../visuals/DeepDarkWindow";
 import { DeepDarkPhone } from "../visuals/DeepDarkPhone";
-import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 
 export const TechnicalAuditCard = ({
   className = "",
 }: {
   className?: string;
 }) => {
-  const scoreValue = useMotionValue(0);
-  const roundedScore = useTransform(scoreValue, Math.round);
+  const [score, setScore] = useState(0);
   const [isScanning, setIsScanning] = useState(true);
 
   useEffect(() => {
-    const controls = animate(scoreValue, 98, {
-      duration: 2.5,
-      ease: "easeOut",
-      onComplete: () => setIsScanning(false),
-    });
-    return controls.stop;
-  }, [scoreValue]);
+    let rafId: number | null = null;
+    const duration = 2500;
+    const start = performance.now();
+
+    const tick = (now: number) => {
+      const t = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - t, 3);
+      setScore(Math.round(98 * eased));
+
+      if (t < 1) {
+        rafId = requestAnimationFrame(tick);
+      } else {
+        setScore(98);
+        setIsScanning(false);
+      }
+    };
+
+    rafId = requestAnimationFrame(tick);
+
+    return () => {
+      if (rafId !== null) cancelAnimationFrame(rafId);
+    };
+  }, []);
 
   return (
     <GlassBentoCard
@@ -79,7 +93,7 @@ export const TechnicalAuditCard = ({
                           stroke="#3c4043"
                           strokeWidth="8"
                         />
-                        <motion.circle
+                        <circle
                           cx="56"
                           cy="56"
                           r="48"
@@ -87,15 +101,17 @@ export const TechnicalAuditCard = ({
                           stroke="#0cce6b"
                           strokeWidth="8"
                           strokeLinecap="round"
-                          initial={{ pathLength: 0 }}
-                          animate={{ pathLength: 0.98 }}
-                          transition={{ duration: 2.5, ease: "easeOut" }}
+                          className="audit-draw-main"
+                          style={{
+                            strokeDasharray: "301.6",
+                            strokeDashoffset: "301.6",
+                          }}
                         />
                       </svg>
                       <div className="flex flex-col items-center">
-                        <motion.span className="text-4xl font-bold text-[#e8eaed] tabular-nums">
-                          {roundedScore}
-                        </motion.span>
+                        <span className="text-4xl font-bold text-[#e8eaed] tabular-nums">
+                          {score}
+                        </span>
                       </div>
                     </div>
 
@@ -116,7 +132,7 @@ export const TechnicalAuditCard = ({
                                 stroke="#3c4043"
                                 strokeWidth="3"
                               />
-                              <motion.circle
+                              <circle
                                 cx="16"
                                 cy="16"
                                 r="14"
@@ -124,9 +140,12 @@ export const TechnicalAuditCard = ({
                                 stroke="#0cce6b"
                                 strokeWidth="3"
                                 strokeLinecap="round"
-                                initial={{ pathLength: 0 }}
-                                animate={{ pathLength: 1 }}
-                                transition={{ delay: 1 + i * 0.2, duration: 1 }}
+                                className="audit-draw-small"
+                                style={{
+                                  strokeDasharray: "88",
+                                  strokeDashoffset: "88",
+                                  animationDelay: `${1 + i * 0.2}s`,
+                                }}
                               />
                             </svg>
                             <span className="text-[8px] font-bold text-[#e8eaed]">
@@ -141,19 +160,9 @@ export const TechnicalAuditCard = ({
 
                   {/* Scanning Laser Beam (Blue for Google Tech feel) */}
                   {isScanning && (
-                    <motion.div
-                      initial={{ top: "-10%" }}
-                      animate={{ top: "110%" }}
-                      transition={{
-                        repeat: Infinity,
-                        duration: 2,
-                        ease: "linear",
-                        repeatDelay: 0.5,
-                      }}
-                      className="absolute w-full h-[60px] bg-gradient-to-b from-transparent via-[#8ab4f8]/20 to-transparent z-50 pointer-events-none"
-                    >
+                    <div className="absolute w-full h-[60px] bg-gradient-to-b from-transparent via-[#8ab4f8]/20 to-transparent z-50 pointer-events-none audit-scan-laptop">
                       <div className="absolute bottom-0 w-full h-[1px] bg-[#8ab4f8] shadow-[0_0_10px_#4285F4]"></div>
-                    </motion.div>
+                    </div>
                   )}
                 </div>
               </div>
@@ -182,7 +191,7 @@ export const TechnicalAuditCard = ({
                       stroke="#3c4043"
                       strokeWidth="5"
                     />
-                    <motion.circle
+                    <circle
                       cx="32"
                       cy="32"
                       r="28"
@@ -190,9 +199,11 @@ export const TechnicalAuditCard = ({
                       stroke="#0cce6b"
                       strokeWidth="5"
                       strokeLinecap="round"
-                      initial={{ pathLength: 0 }}
-                      animate={{ pathLength: 0.98 }}
-                      transition={{ duration: 2.5, ease: "easeOut" }}
+                      className="audit-draw-mobile"
+                      style={{
+                        strokeDasharray: "176",
+                        strokeDashoffset: "176",
+                      }}
                     />
                   </svg>
                   <span className="text-lg font-bold text-[#e8eaed]">98</span>
@@ -211,24 +222,76 @@ export const TechnicalAuditCard = ({
                 </div>
 
                 {/* Mobile Scan Line */}
-                <motion.div
-                  initial={{ top: "-20%" }}
-                  animate={{ top: "120%" }}
-                  transition={{
-                    repeat: Infinity,
-                    duration: 1.5,
-                    ease: "linear",
-                    delay: 0.5,
-                  }}
-                  className="absolute w-full h-[30px] bg-gradient-to-b from-transparent via-[#8ab4f8]/20 to-transparent z-20 pointer-events-none"
-                >
+                <div className="absolute w-full h-[30px] bg-gradient-to-b from-transparent via-[#8ab4f8]/20 to-transparent z-20 pointer-events-none audit-scan-mobile">
                   <div className="absolute bottom-0 w-full h-[1px] bg-[#8ab4f8]"></div>
-                </motion.div>
+                </div>
               </div>
             </DeepDarkPhone>
           </div>
         </div>
       </div>
+
+      <style>{`
+        @keyframes auditDrawMain {
+          to {
+            stroke-dashoffset: 6.03;
+          }
+        }
+
+        @keyframes auditDrawSmall {
+          to {
+            stroke-dashoffset: 0;
+          }
+        }
+
+        @keyframes auditDrawMobile {
+          to {
+            stroke-dashoffset: 3.52;
+          }
+        }
+
+        @keyframes auditScanLaptop {
+          0% {
+            top: -10%;
+          }
+          80% {
+            top: 110%;
+          }
+          100% {
+            top: 110%;
+          }
+        }
+
+        @keyframes auditScanMobile {
+          0% {
+            top: -20%;
+          }
+          100% {
+            top: 120%;
+          }
+        }
+
+        .audit-draw-main {
+          animation: auditDrawMain 2.5s ease-out forwards;
+        }
+
+        .audit-draw-small {
+          animation: auditDrawSmall 1s ease-out forwards;
+        }
+
+        .audit-draw-mobile {
+          animation: auditDrawMobile 2.5s ease-out forwards;
+        }
+
+        .audit-scan-laptop {
+          animation: auditScanLaptop 2s linear infinite;
+        }
+
+        .audit-scan-mobile {
+          animation: auditScanMobile 1.5s linear infinite;
+          animation-delay: 0.5s;
+        }
+      `}</style>
     </GlassBentoCard>
   );
 };

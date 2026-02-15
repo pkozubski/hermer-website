@@ -1,30 +1,56 @@
 "use client";
 
-import React from "react";
+import React, { useRef } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 import { ArrowRight } from "lucide-react";
 import { urlFor } from "@/sanity/lib/image";
 import { Post } from "@/components/cards/BlogCard";
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface BlogFeaturedPostProps {
   post: Post;
 }
 
 export const BlogFeaturedPost: React.FC<BlogFeaturedPostProps> = ({ post }) => {
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      if (!cardRef.current) return;
+      gsap.fromTo(
+        cardRef.current,
+        { autoAlpha: 0, y: 20 },
+        {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: cardRef.current,
+            start: "top 88%",
+            once: true,
+          },
+        },
+      );
+    },
+    { scope: cardRef },
+  );
+
   if (!post) return null;
 
   return (
     <section className="container mx-auto px-4 md:px-8 mb-20">
       <Link href={`/blog/${post.slug?.current || ""}`}>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+        <div
+          ref={cardRef}
           className="relative group cursor-pointer overflow-hidden rounded-2xl bg-white/5 border border-white/10 h-[500px] md:h-[650px] flex flex-col justify-end p-8 md:p-16 shadow-lg hover:shadow-xl hover:shadow-white/5 transition-all duration-500"
         >
           {post.mainImage && (
-            <motion.img
+            <img
               src={urlFor(post.mainImage).url()}
               alt={post.title}
               className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
@@ -58,7 +84,7 @@ export const BlogFeaturedPost: React.FC<BlogFeaturedPostProps> = ({ post }) => {
               Czytaj więcej
             </div>
           </div>
-        </motion.div>
+        </div>
       </Link>
     </section>
   );

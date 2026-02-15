@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useEffect, useRef } from 'react';
+import gsap from 'gsap';
 
 interface ProjectDetailEntranceProps {
   children: React.ReactNode;
@@ -15,22 +15,26 @@ interface ProjectDetailEntranceProps {
 export const ProjectDetailEntrance: React.FC<ProjectDetailEntranceProps> = ({
   children,
 }) => {
-  const [ready, setReady] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Small delay to let the zoom clone overlay still be visible,
-    // then the real page content fades in underneath.
-    const timer = setTimeout(() => setReady(true), 100);
-    return () => clearTimeout(timer);
+    if (!containerRef.current) return;
+    gsap.set(containerRef.current, { opacity: 0 });
+    const tween = gsap.to(containerRef.current, {
+      opacity: 1,
+      delay: 0.1,
+      duration: 0.6,
+      ease: 'power4.out',
+    });
+
+    return () => {
+      tween.kill();
+    };
   }, []);
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={ready ? { opacity: 1 } : { opacity: 0 }}
-      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-    >
+    <div ref={containerRef}>
       {children}
-    </motion.div>
+    </div>
   );
 };

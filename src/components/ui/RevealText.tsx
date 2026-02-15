@@ -1,5 +1,4 @@
-import React, { useMemo } from "react";
-import { motion } from "framer-motion";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 
 interface RevealTextProps {
   text: string;
@@ -9,38 +8,6 @@ interface RevealTextProps {
   stagger?: number;
 }
 
-const charVariants = {
-  hidden: {
-    y: "100%",
-    opacity: 0,
-  },
-  visible: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      duration: 0.8,
-      ease: [0.16, 1, 0.3, 1] as const,
-    },
-  },
-};
-
-const charVariantsBlur = {
-  hidden: {
-    y: "100%",
-    opacity: 0,
-    filter: "blur(8px)",
-  },
-  visible: {
-    y: 0,
-    opacity: 1,
-    filter: "blur(0px)",
-    transition: {
-      duration: 0.8,
-      ease: [0.16, 1, 0.3, 1] as const,
-    },
-  },
-};
-
 export const RevealText = ({
   text,
   className = "",
@@ -48,35 +15,66 @@ export const RevealText = ({
   blur = true,
   stagger = 0.03,
 }: RevealTextProps) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [isInView, setIsInView] = useState(false);
   const words = useMemo(() => text.split(" "), [text]);
-  const variants = blur ? charVariantsBlur : charVariants;
+  const wordsWithIndices = useMemo(() => {
+    let globalIndex = 0;
+    return words.map((word) =>
+      word.split("").map((char) => ({ char, index: globalIndex++ })),
+    );
+  }, [words]);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInView(entry.isIntersecting);
+      },
+      {
+        threshold: 0.1,
+        rootMargin: "-100px 0px -100px 0px",
+      },
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <motion.div
-      key={text}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: false, margin: "-100px" }}
+    <div
+      ref={containerRef}
       className={`flex flex-wrap ${className}`}
-      variants={{
-        visible: {
-          transition: { staggerChildren: stagger, delayChildren: delay },
-        },
-      }}
     >
-      {words.map((word, i) => (
+      {wordsWithIndices.map((word, i) => (
         <span key={i} className="whitespace-nowrap inline-block mr-[0.25em]">
-          {word.split("").map((char, j) => (
-            <motion.span
-              key={j}
+          {word.map(({ char, index }) => (
+            <span
+              key={index}
               className="inline-block will-change-[transform,opacity]"
-              variants={variants}
+              style={{
+                transform: isInView ? "translateY(0%)" : "translateY(100%)",
+                opacity: isInView ? 1 : 0,
+                filter: blur
+                  ? isInView
+                    ? "blur(0px)"
+                    : "blur(8px)"
+                  : undefined,
+                transitionProperty: blur
+                  ? "transform, opacity, filter"
+                  : "transform, opacity",
+                transitionDuration: "0.8s",
+                transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
+                transitionDelay: `${delay + index * stagger}s`,
+              }}
             >
               {char}
-            </motion.span>
+            </span>
           ))}
         </span>
       ))}
-    </motion.div>
+    </div>
   );
 };

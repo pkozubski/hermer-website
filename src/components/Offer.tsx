@@ -1,5 +1,4 @@
-import React, { useRef, useState, useEffect, useCallback, memo } from 'react';
-import { motion, useScroll, useTransform } from 'motion/react';
+import React, { useRef, useState, useEffect, memo } from 'react';
 import { SplitRevealTitle } from './ui/SplitRevealTitle';
 import { LineReveal } from './ui/LineReveal';
 import { WebDesignCard } from './cards/bento/WebDesignCard';
@@ -92,6 +91,7 @@ export const Offer: React.FC = () => {
   const trackRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
   const [trackWidth, setTrackWidth] = useState(0);
+  const [trackX, setTrackX] = useState(0);
 
   // Debounced mobile check + ResizeObserver for track width
   useEffect(() => {
@@ -130,24 +130,44 @@ export const Offer: React.FC = () => {
     };
   }, []);
 
-  // Motion Scroll Logic
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ['start start', 'end end'],
-  });
+  // Desktop horizontal translation based on section scroll progress
+  useEffect(() => {
+    if (isMobile) return;
 
-  // Calculate horizontal translation — passive useTransform, no spring overhead
-  const x = useTransform(
-    scrollYProgress,
-    [0, 1],
-    [
-      0,
-      -Math.max(
-        trackWidth - (typeof window !== 'undefined' ? window.innerWidth : 0),
+    let rafId: number | null = null;
+
+    const update = () => {
+      if (!sectionRef.current) return;
+      const rect = sectionRef.current.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+      const totalScrollable = Math.max(
+        sectionRef.current.offsetHeight - viewportHeight,
         0,
-      ),
-    ],
-  );
+      );
+      const scrolled = Math.min(Math.max(-rect.top, 0), totalScrollable);
+      const progress = totalScrollable > 0 ? scrolled / totalScrollable : 0;
+      const maxShift = Math.max(trackWidth - window.innerWidth, 0);
+      setTrackX(-maxShift * progress);
+    };
+
+    const onScroll = () => {
+      if (rafId !== null) return;
+      rafId = requestAnimationFrame(() => {
+        rafId = null;
+        update();
+      });
+    };
+
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+
+    return () => {
+      if (rafId !== null) cancelAnimationFrame(rafId);
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+    };
+  }, [isMobile, trackWidth]);
 
   return (
     <section
@@ -158,9 +178,13 @@ export const Offer: React.FC = () => {
       <div className="relative lg:sticky lg:top-0 h-auto lg:h-screen lg:overflow-hidden flex flex-col pt-24 lg:pt-20">
         {/* Scroll Track */}
         <div className="h-full flex items-center overflow-hidden lg:overflow-visible">
-          <motion.div
+          <div
             ref={trackRef}
-            style={{ x: isMobile ? 0 : x }}
+            style={
+              isMobile
+                ? undefined
+                : { transform: `translate3d(${trackX}px, 0, 0)` }
+            }
             className={`flex ${
               isMobile
                 ? 'flex-col pb-16 w-full'
@@ -169,7 +193,7 @@ export const Offer: React.FC = () => {
           >
             <OfferTitle isMobile={isMobile} />
             <OfferContent isMobile={isMobile} />
-          </motion.div>
+          </div>
         </div>
 
         {/* Sticky Fluid Button */}

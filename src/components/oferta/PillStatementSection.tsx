@@ -1,7 +1,11 @@
 "use client";
-import React from "react";
+import React, { useRef } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const PillImage = ({
   src,
@@ -22,6 +26,51 @@ const PillImage = ({
 );
 
 export const PillStatementSection = () => {
+  const titleRef = useRef<HTMLDivElement>(null);
+  const statsRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      if (titleRef.current) {
+        gsap.fromTo(
+          titleRef.current,
+          { autoAlpha: 0, y: 30 },
+          {
+            autoAlpha: 1,
+            y: 0,
+            duration: 0.8,
+            ease: "power4.out",
+            scrollTrigger: {
+              trigger: titleRef.current,
+              start: "top 88%",
+              once: true,
+            },
+          },
+        );
+      }
+
+      if (statsRef.current) {
+        gsap.fromTo(
+          statsRef.current,
+          { autoAlpha: 0, y: 40 },
+          {
+            autoAlpha: 1,
+            y: 0,
+            duration: 0.8,
+            delay: 0.2,
+            ease: "power4.out",
+            scrollTrigger: {
+              trigger: statsRef.current,
+              start: "top 88%",
+              once: true,
+            },
+          },
+        );
+      }
+    },
+    { dependencies: [] },
+  );
+
   return (
     <section className="bg-transparent py-24 md:py-32 px-4 md:px-8 relative">
       {/* Subtle Background Elements - Adjusted for Dark Mode */}
@@ -29,11 +78,8 @@ export const PillStatementSection = () => {
       <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#916AFF]/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2 opacity-30 pointer-events-none" />
 
       <div className="container mx-auto max-w-[1600px] relative z-10 px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        <div
+          ref={titleRef}
           className="text-center"
         >
           <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-display font-medium leading-[1.4] tracking-tight text-white max-w-5xl mx-auto">
@@ -49,13 +95,10 @@ export const PillStatementSection = () => {
             z designem, który wyznacza standardy w Twojej branży
             <PillImage src="/pill-design.png" alt="Leading Design" />.
           </h2>
-        </motion.div>
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+        <div
+          ref={statsRef}
           className="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12 mt-20 md:mt-32 pt-10 border-t border-white/10"
         >
           {[
@@ -83,7 +126,7 @@ export const PillStatementSection = () => {
               </div>
             </div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

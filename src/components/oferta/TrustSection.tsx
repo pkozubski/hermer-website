@@ -1,11 +1,14 @@
 "use client";
-import React from "react";
-import { motion } from "framer-motion";
-import { Quote } from "lucide-react";
+import React, { useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 import { CustomStar } from "@/components/ui/CustomStar";
-import Image from "next/image";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const LogoMarquee = () => {
+  const trackRef = useRef<HTMLDivElement>(null);
   const brandNames = [
     "Solaris",
     "Vortex",
@@ -21,12 +24,26 @@ const LogoMarquee = () => {
     "Peak",
   ];
 
+  useGSAP(
+    () => {
+      if (!trackRef.current) return;
+      const tween = gsap.to(trackRef.current, {
+        x: -1500,
+        duration: 40,
+        repeat: -1,
+        ease: "none",
+      });
+
+      return () => tween.kill();
+    },
+    { scope: trackRef },
+  );
+
   return (
     <div className="w-full overflow-hidden flex py-12 opacity-40 grayscale hover:grayscale-0 transition-all duration-700 relative z-10">
-      <motion.div
+      <div
+        ref={trackRef}
         className="flex gap-20 items-center whitespace-nowrap"
-        animate={{ x: [0, -1500] }}
-        transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
       >
         {[...brandNames, ...brandNames, ...brandNames].map((name, i) => (
           <div
@@ -36,7 +53,7 @@ const LogoMarquee = () => {
             {name}
           </div>
         ))}
-      </motion.div>
+      </div>
     </div>
   );
 };
@@ -49,25 +66,72 @@ const TrustFeature = ({
   title: string;
   desc: string;
   delay: number;
-}) => (
-  <motion.div
-    initial={{ opacity: 0, scale: 0.95 }}
-    whileInView={{ opacity: 1, scale: 1 }}
-    viewport={{ once: true }}
-    whileHover={{ y: -5 }}
-    transition={{ delay, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-    className="group bg-white/5 border border-white/10 p-8 rounded-3xl hover:border-[#916AFF]/30 hover:shadow-lg hover:shadow-purple-500/5 transition-all duration-300"
-  >
-    <h3 className="text-xl font-bold text-white tracking-tight mb-3 group-hover:text-[#916AFF] transition-colors">
-      {title}
-    </h3>
-    <p className="text-neutral-400 text-sm leading-relaxed font-light">
-      {desc}
-    </p>
-  </motion.div>
-);
+}) => {
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      if (!cardRef.current) return;
+      gsap.fromTo(
+        cardRef.current,
+        { autoAlpha: 0, scale: 0.95 },
+        {
+          autoAlpha: 1,
+          scale: 1,
+          delay,
+          duration: 0.5,
+          ease: "power4.out",
+          scrollTrigger: {
+            trigger: cardRef.current,
+            start: "top 90%",
+            once: true,
+          },
+        },
+      );
+    },
+    { scope: cardRef, dependencies: [delay] },
+  );
+
+  return (
+    <div
+      ref={cardRef}
+      className="group bg-white/5 border border-white/10 p-8 rounded-3xl hover:border-[#916AFF]/30 hover:shadow-lg hover:shadow-purple-500/5 transition-all duration-300 hover:-translate-y-1"
+    >
+      <h3 className="text-xl font-bold text-white tracking-tight mb-3 group-hover:text-[#916AFF] transition-colors">
+        {title}
+      </h3>
+      <p className="text-neutral-400 text-sm leading-relaxed font-light">
+        {desc}
+      </p>
+    </div>
+  );
+};
 
 export const TrustSection = () => {
+  const titleRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      if (!titleRef.current) return;
+      gsap.fromTo(
+        titleRef.current,
+        { autoAlpha: 0, y: 30 },
+        {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power4.out",
+          scrollTrigger: {
+            trigger: titleRef.current,
+            start: "top 88%",
+            once: true,
+          },
+        },
+      );
+    },
+    { scope: titleRef },
+  );
+
   return (
     <section className="bg-transparent py-32 relative overflow-hidden border-t border-white/5">
       {/* Background Subtle Elements */}
@@ -75,11 +139,8 @@ export const TrustSection = () => {
 
       <div className="w-full px-4 sm:px-8 lg:px-16 relative z-10 text-center">
         {/* Title */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        <div
+          ref={titleRef}
           className="mb-20"
         >
           <span className="text-[#916AFF] text-xs font-bold uppercase tracking-[0.2em] mb-4 block">
@@ -89,7 +150,7 @@ export const TrustSection = () => {
             Współpraca, która <br className="hidden md:block" />
             przynosi realną wartość.
           </h2>
-        </motion.div>
+        </div>
 
         {/* Improved Marquee */}
         <div className="mb-32 relative">
@@ -107,9 +168,9 @@ export const TrustSection = () => {
               ))}
             </div>
             <blockquote className="text-2xl md:text-3xl lg:text-4xl font-medium font-display text-white leading-[1.2] mb-10 tracking-tight">
-              "Hermer nie jest typową agencją. To zespół, który faktycznie
+              &quot;Hermer nie jest typową agencją. To zespół, który faktycznie
               rozumie proces sprzedaży i potrafi go przełożyć na język kodu i
-              designu. Nasz wzrost po wdrożeniu nowej strategii to ponad 400%."
+              designu. Nasz wzrost po wdrożeniu nowej strategii to ponad 400%.&quot;
             </blockquote>
             <div className="flex items-center gap-4">
               <div className="w-14 h-14 rounded-full bg-white/10 flex items-center justify-center border border-white/10 overflow-hidden">

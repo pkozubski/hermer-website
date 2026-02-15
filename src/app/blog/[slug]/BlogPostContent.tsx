@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { motion, useScroll, useSpring } from "framer-motion";
 import { PortableText } from "@portabletext/react";
 import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
@@ -134,12 +133,27 @@ const ptComponents = {
 
 export default function BlogPostContent({ initialPost }: { initialPost: any }) {
   const [relatedPosts, setRelatedPosts] = useState<any[]>([]);
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001
-  });
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  useEffect(() => {
+    const updateProgress = () => {
+      const documentHeight =
+        document.documentElement.scrollHeight - window.innerHeight;
+      if (documentHeight <= 0) {
+        setScrollProgress(0);
+        return;
+      }
+      setScrollProgress(window.scrollY / documentHeight);
+    };
+
+    window.addEventListener("scroll", updateProgress, { passive: true });
+    window.addEventListener("resize", updateProgress);
+
+    return () => {
+      window.removeEventListener("scroll", updateProgress);
+      window.removeEventListener("resize", updateProgress);
+    };
+  }, []);
 
   useEffect(() => {
     async function fetchRelated() {
@@ -163,9 +177,9 @@ export default function BlogPostContent({ initialPost }: { initialPost: any }) {
 
   return (
     <div className="relative min-h-screen bg-neutral-900 font-sans text-white selection:bg-[#916AFF] selection:text-white">
-      <motion.div
+      <div
         className="fixed top-0 left-0 right-0 h-1 bg-[#916AFF] origin-left z-[100]"
-        style={{ scaleX }}
+        style={{ transform: `scaleX(${scrollProgress})` }}
       />
 
       <Header allowVisibility={true} />
@@ -174,29 +188,19 @@ export default function BlogPostContent({ initialPost }: { initialPost: any }) {
         {/* HERO SECTION */}
         <div className="relative h-[70vh] md:h-[85vh] w-full overflow-hidden">
           {initialPost.mainImage && (
-            <motion.div 
-              initial={{ scale: 1.1 }}
-              animate={{ scale: 1 }}
-              transition={{ duration: 1.5, ease: "easeOut" }}
-              className="absolute inset-0"
-            >
+            <div className="absolute inset-0">
               <img
                 src={urlFor(initialPost.mainImage).width(1920).height(1080).url()}
                 alt={initialPost.title}
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-linear-to-b from-neutral-900/40 via-neutral-900/60 to-neutral-900" />
-            </motion.div>
+            </div>
           )}
 
           <div className="absolute inset-0 flex flex-col justify-end">
             <div className="container mx-auto px-4 md:px-8 mb-16 md:mb-24">
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-                className="max-w-4xl"
-              >
+              <div className="max-w-4xl">
                 <Link
                   href="/blog"
                   className="inline-flex items-center gap-2 text-white/60 hover:text-white transition-colors mb-8 group"
@@ -230,7 +234,7 @@ export default function BlogPostContent({ initialPost }: { initialPost: any }) {
                     })}
                   </span>
                 </div>
-              </motion.div>
+              </div>
             </div>
           </div>
         </div>

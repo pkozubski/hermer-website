@@ -6,7 +6,6 @@ import { Footer } from "@/components/Footer";
 import { Faq } from "@/components/Faq";
 import { CTASection } from "@/components/CTASection";
 import { ReelCtaButton } from "@/components/ui/ReelCtaButton";
-import { motion } from "framer-motion";
 import Image from "next/image";
 import { 
   ShoppingBag, 

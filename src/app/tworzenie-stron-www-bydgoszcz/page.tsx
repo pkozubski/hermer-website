@@ -8,7 +8,6 @@ import { CTASection } from "@/components/CTASection";
 import { ReelCtaButton } from "@/components/ui/ReelCtaButton";
 import { ProjectCard } from "@/components/ProjectCard";
 import { GlassBentoCard } from "@/components/cards/bento/GlassBentoCard";
-import { motion } from "framer-motion";
 import Image from "next/image";
 import { CheckCircle2, Search, Palette, Code2, Users, Layout, TrendingUp, Gift, Phone, Mail } from "lucide-react";
 
@@ -282,11 +281,7 @@ export default function BydgoszczSeoPage() {
 
               {/* Bars Visual */}
               <div className="relative flex items-end justify-center h-[340px] w-full mb-12 group">
-                <motion.div
-                  initial={{ opacity: 0, scale: 0, y: 20 }}
-                  whileInView={{ opacity: 1, scale: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.8, duration: 0.5, type: "spring" }}
+                <div
                   className="absolute top-0 right-[15%] md:right-[20%] z-30 w-16 h-16 rounded-full bg-white flex flex-col items-center justify-center shadow-[0_0_20px_rgba(145,106,255,0.4)] border border-neutral-100"
                 >
                   <span className="text-[7px] font-bold text-[#916AFF] leading-none mb-0.5">
@@ -295,15 +290,11 @@ export default function BydgoszczSeoPage() {
                   <span className="text-[12px] font-extrabold text-[#916AFF] leading-none">
                     670%
                   </span>
-                </motion.div>
+                </div>
 
                 <div className="relative mr-4 w-16 sm:w-20">
-                  <motion.div
-                    initial={{ height: 0 }}
-                    whileInView={{ height: 80 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1, ease: "easeOut" }}
-                    className="w-full bg-[#3D3D43] rounded-t-[32px] rounded-b-[32px] relative flex flex-col items-center justify-end pb-6"
+                  <div
+                    className="w-full h-[80px] bg-[#3D3D43] rounded-t-[32px] rounded-b-[32px] relative flex flex-col items-center justify-end pb-6"
                   >
                     <span className="text-[10px] font-bold text-white uppercase tracking-wider mb-2">
                       0,2%
@@ -311,31 +302,21 @@ export default function BydgoszczSeoPage() {
                     <span className="text-[12px] font-bold text-white uppercase">
                       BYŁO
                     </span>
-                  </motion.div>
+                  </div>
                 </div>
 
                 <div className="relative w-16 sm:w-20">
-                  <motion.div
-                    initial={{ height: 0 }}
-                    whileInView={{ height: 280 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
-                    className="w-full bg-linear-to-b from-[#916AFF] to-[#52D8EA] rounded-t-[32px] rounded-b-[32px] relative flex flex-col items-center justify-end pb-6 overflow-hidden"
+                  <div
+                    className="w-full h-[280px] bg-linear-to-b from-[#916AFF] to-[#52D8EA] rounded-t-[32px] rounded-b-[32px] relative flex flex-col items-center justify-end pb-6 overflow-hidden"
                   >
                     <div className="absolute top-8 flex flex-col gap-2 opacity-50">
                       {[0, 1, 2].map((i) => (
-                        <motion.svg
+                        <svg
                           key={i}
                           width="14"
                           height="8"
                           viewBox="0 0 14 8"
                           fill="none"
-                          animate={{ y: [0, -5, 0], opacity: [0.3, 1, 0.3] }}
-                          transition={{
-                            duration: 2,
-                            repeat: Infinity,
-                            delay: i * 0.3,
-                          }}
                         >
                           <path
                             d="M1 7L7 1L13 7"
@@ -343,7 +324,7 @@ export default function BydgoszczSeoPage() {
                             strokeWidth="2"
                             strokeLinecap="round"
                           />
-                        </motion.svg>
+                        </svg>
                       ))}
                     </div>
 
@@ -353,7 +334,7 @@ export default function BydgoszczSeoPage() {
                     <span className="text-[16px] font-bold text-white uppercase">
                       JEST
                     </span>
-                  </motion.div>
+                  </div>
                 </div>
               </div>
 
@@ -376,11 +357,7 @@ export default function BydgoszczSeoPage() {
 
               {/* Bars Visual */}
               <div className="relative flex items-end justify-center h-[340px] w-full mb-12 group">
-                <motion.div
-                  initial={{ opacity: 0, scale: 0, y: 20 }}
-                  whileInView={{ opacity: 1, scale: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 1, duration: 0.5, type: "spring" }}
+                <div
                   className="absolute top-0 right-[15%] md:right-[20%] z-30 w-16 h-16 rounded-full bg-white flex flex-col items-center justify-center shadow-[0_0_20px_rgba(145,106,255,0.4)] border border-neutral-100"
                 >
                   <span className="text-[7px] font-bold text-[#916AFF] leading-none mb-0.5">
@@ -389,15 +366,11 @@ export default function BydgoszczSeoPage() {
                   <span className="text-[12px] font-extrabold text-[#916AFF] leading-none">
                     670%
                   </span>
-                </motion.div>
+                </div>
 
                 <div className="relative mr-4 w-16 sm:w-20">
-                  <motion.div
-                    initial={{ height: 0 }}
-                    whileInView={{ height: 80 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1, ease: "easeOut" }}
-                    className="w-full bg-[#3D3D43] rounded-t-[32px] rounded-b-[32px] relative flex flex-col items-center justify-end pb-6"
+                  <div
+                    className="w-full h-[80px] bg-[#3D3D43] rounded-t-[32px] rounded-b-[32px] relative flex flex-col items-center justify-end pb-6"
                   >
                     <span className="text-[10px] font-bold text-white uppercase tracking-wider mb-2">
                       0,2%
@@ -405,31 +378,21 @@ export default function BydgoszczSeoPage() {
                     <span className="text-[12px] font-bold text-white uppercase">
                       BYŁO
                     </span>
-                  </motion.div>
+                  </div>
                 </div>
 
                 <div className="relative w-16 sm:w-20">
-                  <motion.div
-                    initial={{ height: 0 }}
-                    whileInView={{ height: 280 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
-                    className="w-full bg-linear-to-b from-[#916AFF] to-[#52D8EA] rounded-t-[32px] rounded-b-[32px] relative flex flex-col items-center justify-end pb-6 overflow-hidden"
+                  <div
+                    className="w-full h-[280px] bg-linear-to-b from-[#916AFF] to-[#52D8EA] rounded-t-[32px] rounded-b-[32px] relative flex flex-col items-center justify-end pb-6 overflow-hidden"
                   >
                     <div className="absolute top-8 flex flex-col gap-2 opacity-50">
                       {[0, 1, 2].map((i) => (
-                        <motion.svg
+                        <svg
                           key={i}
                           width="14"
                           height="8"
                           viewBox="0 0 14 8"
                           fill="none"
-                          animate={{ y: [0, -5, 0], opacity: [0.3, 1, 0.3] }}
-                          transition={{
-                            duration: 2,
-                            repeat: Infinity,
-                            delay: i * 0.3,
-                          }}
                         >
                           <path
                             d="M1 7L7 1L13 7"
@@ -437,7 +400,7 @@ export default function BydgoszczSeoPage() {
                             strokeWidth="2"
                             strokeLinecap="round"
                           />
-                        </motion.svg>
+                        </svg>
                       ))}
                     </div>
 
@@ -447,7 +410,7 @@ export default function BydgoszczSeoPage() {
                     <span className="text-[16px] font-bold text-white uppercase">
                       JEST
                     </span>
-                  </motion.div>
+                  </div>
                 </div>
               </div>
 
