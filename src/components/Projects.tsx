@@ -1,10 +1,10 @@
-import React from "react";
-import { SplitRevealTitle } from "./ui/SplitRevealTitle";
-import { LineReveal } from "./ui/LineReveal";
-import FluidButton from "./ui/FluidButton";
-import { ProjectCard } from "./ProjectCard";
-import { ProjectCardScrollShaderOverlay } from "./ProjectCardScrollShader";
-import { PROJECTS } from "@/data/projects";
+import React from 'react';
+import { SplitRevealTitle } from './ui/SplitRevealTitle';
+import { LineReveal } from './ui/LineReveal';
+import FluidButton from './ui/FluidButton';
+import { ProjectCard } from './ProjectCard';
+import { ProjectCardScrollShaderOverlay } from './ProjectCardScrollShader';
+import { PROJECTS } from '@/data/projects';
 
 export function Projects() {
   return (
@@ -23,10 +23,10 @@ export function Projects() {
           />
           <LineReveal
             lines={[
-              "Zobacz realizacje, które najlepiej",
-              "pokazują, jak zamieniamy potrzeby",
-              "klientów w dopracowane i skuteczne",
-              "strony oraz sklepy internetowe.",
+              'Zobacz realizacje, które najlepiej',
+              'pokazują, jak zamieniamy potrzeby',
+              'klientów w dopracowane i skuteczne',
+              'strony oraz sklepy internetowe.',
             ]}
             className="text-neutral-400 max-w-xs md:max-w-sm text-xs md:text-sm uppercase tracking-wide leading-relaxed"
           />
@@ -41,7 +41,7 @@ export function Projects() {
       </div>
 
       {/* Sticky Fluid Button */}
-      <FluidButton label="Wszystkie realizacje" href="/realizacje" />
+      <FluidButton label="Zobacz więcej   " href="/realizacje" />
     </section>
   );
 }

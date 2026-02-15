@@ -1,7 +1,7 @@
-import React, { useRef } from "react";
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import { LucideIcon } from "lucide-react";
+import React, { useRef } from 'react';
+import { useGSAP } from '@gsap/react';
+import gsap from 'gsap';
+import { LucideIcon } from 'lucide-react';
 
 interface CardData {
   id: string;
@@ -13,7 +13,8 @@ interface CardData {
 
 interface CardWheelHorizontalProps {
   cards: CardData[];
-  direction?: "left" | "right";
+  direction?: 'left' | 'right';
+  start?: boolean;
 }
 
 const ITEM_WIDTH = 350; // Adjusted for better spacing
@@ -21,7 +22,8 @@ const GAP = 10;
 
 export const CardWheelHorizontal: React.FC<CardWheelHorizontalProps> = ({
   cards,
-  direction = "left",
+  direction = 'left',
+  start = false,
 }) => {
   const wheelRef = useRef<HTMLDivElement>(null);
 
@@ -34,23 +36,32 @@ export const CardWheelHorizontal: React.FC<CardWheelHorizontalProps> = ({
   const radius = ((ITEM_WIDTH + GAP) * total) / (2 * Math.PI);
   const angleStep = 360 / total;
 
+  // Initial setup - establish 3D position immediately on mount
   useGSAP(
     () => {
       if (!wheelRef.current) return;
-
       gsap.set(wheelRef.current, {
         z: -radius,
+        rotationY: 0,
         force3D: true,
       });
+    },
+    { scope: wheelRef },
+  );
 
-      const dirMulti = direction === "left" ? 1 : -1;
+  // Animation trigger
+  useGSAP(
+    () => {
+      if (!wheelRef.current || !start) return;
+
+      const dirMulti = direction === 'left' ? 1 : -1;
       const step = angleStep * dirMulti;
 
       const rotate = () => {
         gsap.to(wheelRef.current, {
           rotationY: `+=${step}`,
           duration: 1.6,
-          ease: "back.out(1.2)",
+          ease: 'back.out(1.2)',
           delay: 2,
           force3D: true,
           onComplete: rotate,
@@ -59,7 +70,7 @@ export const CardWheelHorizontal: React.FC<CardWheelHorizontalProps> = ({
 
       rotate();
     },
-    { scope: wheelRef },
+    { scope: wheelRef, dependencies: [start] },
   );
 
   return (
@@ -68,8 +79,8 @@ export const CardWheelHorizontal: React.FC<CardWheelHorizontalProps> = ({
         ref={wheelRef}
         className="w-full h-full absolute top-0 left-0 transform-style-3d bg-transparent flex items-center justify-center"
         style={{
-          transformStyle: "preserve-3d",
-          willChange: "transform",
+          transformStyle: 'preserve-3d',
+          willChange: 'transform',
         }}
       >
         {repeatedCards.map((card, i) => (
@@ -77,11 +88,11 @@ export const CardWheelHorizontal: React.FC<CardWheelHorizontalProps> = ({
             key={`${card.id}-${i}`}
             className="absolute top-1/2 left-1/2 w-[350px] flex justify-center items-center backface-hidden"
             style={{
-              marginTop: "-130px",
+              marginTop: '-130px',
               marginLeft: `-${ITEM_WIDTH / 2}px`,
               transform: `rotateY(${i * angleStep}deg) translateZ(${radius}px)`,
-              backfaceVisibility: "hidden",
-              contain: "content",
+              backfaceVisibility: 'hidden',
+              contain: 'content',
             }}
           >
             <div className="w-full flex justify-center">{card.content}</div>

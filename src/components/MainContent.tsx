@@ -1,48 +1,48 @@
-"use client";
-import React, { useState, useCallback, useEffect } from "react";
-import dynamic from "next/dynamic";
-import { Header } from "./Header";
-import { Hero } from "./Hero";
-import { Preloader } from "./Preloader";
-import { Review } from "./Testimonials";
+'use client';
+import React, { useState, useCallback, useEffect } from 'react';
+import dynamic from 'next/dynamic';
+import { Header } from './Header';
+import { Hero } from './Hero';
+import { Preloader } from './Preloader';
+import { Review } from './Testimonials';
 
 const Offer = dynamic(
-  () => import("./Offer").then((m) => ({ default: m.Offer })),
+  () => import('./Offer').then((m) => ({ default: m.Offer })),
   { ssr: false },
 );
 const WhoWeHelp = dynamic(
-  () => import("./WhoWeHelp").then((m) => ({ default: m.WhoWeHelp })),
+  () => import('./WhoWeHelp').then((m) => ({ default: m.WhoWeHelp })),
   { ssr: false },
 );
 const About = dynamic(
-  () => import("./About").then((m) => ({ default: m.About })),
+  () => import('./About').then((m) => ({ default: m.About })),
   { ssr: false },
 );
 const Projects = dynamic(
-  () => import("./Projects").then((m) => ({ default: m.Projects })),
+  () => import('./Projects').then((m) => ({ default: m.Projects })),
   { ssr: false },
 );
 const Blog = dynamic(
-  () => import("./Blog").then((m) => ({ default: m.Blog })),
+  () => import('./Blog').then((m) => ({ default: m.Blog })),
   { ssr: false },
 );
 const Testimonials = dynamic(
-  () => import("./Testimonials").then((m) => ({ default: m.Testimonials })),
+  () => import('./Testimonials').then((m) => ({ default: m.Testimonials })),
   { ssr: false },
 );
-const Faq = dynamic(() => import("./Faq").then((m) => ({ default: m.Faq })), {
+const Faq = dynamic(() => import('./Faq').then((m) => ({ default: m.Faq })), {
   ssr: false,
 });
 const Contact = dynamic(
-  () => import("./Contact").then((m) => ({ default: m.Contact })),
+  () => import('./Contact').then((m) => ({ default: m.Contact })),
   { ssr: false },
 );
 const Footer = dynamic(
-  () => import("./Footer").then((m) => ({ default: m.Footer })),
+  () => import('./Footer').then((m) => ({ default: m.Footer })),
   { ssr: false },
 );
 const CTASection = dynamic(
-  () => import("./CTASection").then((m) => ({ default: m.CTASection })),
+  () => import('./CTASection').then((m) => ({ default: m.CTASection })),
   { ssr: false },
 );
 
@@ -96,16 +96,14 @@ export const MainContent: React.FC<MainContentProps> = ({
       )}
       <div
         className={`relative min-h-screen bg-neutral-900 font-sans overflow-x-clip transition-opacity duration-500 ${
-          isLoaded ? "opacity-100" : "opacity-0"
+          contentReady ? 'opacity-100' : 'opacity-0'
         }`}
       >
         <Header allowVisibility={isHeaderAllowed} />
-        {isLoaded && (
-          <Hero
-            onAnimationComplete={handleHeroAnimationComplete}
-            startAnimation={isHeroAnimationAllowed}
-          />
-        )}
+        <Hero
+          onAnimationComplete={handleHeroAnimationComplete}
+          startAnimation={isHeroAnimationAllowed}
+        />
 
         <div className="relative z-20">
           <Offer />

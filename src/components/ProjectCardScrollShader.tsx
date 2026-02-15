@@ -9,6 +9,7 @@ interface TrackedImage {
   texture: THREE.Texture;
   currentReveal: number;
   currentTilt: number;
+  textureLoaded: boolean;
 }
 
 const CAM_Z = 600;
@@ -62,6 +63,7 @@ void main() {
 const fragmentShader = `
 uniform sampler2D uTexture;
 uniform vec2 uResolution;
+uniform vec2 uImageResolution; // Added for object-fit: cover
 uniform float uBorderRadius;
 uniform float uReveal;
 
@@ -73,7 +75,35 @@ float roundedBoxSDF(vec2 p, vec2 b, float r) {
 }
 
 void main() {
-  vec4 color = texture2D(uTexture, vUv);
+  // Aspect Correction (object-fit: cover) with Top Anchoring
+  vec2 uv = vUv;
+  float aspectRes = uResolution.x / uResolution.y;
+  float aspectImg = uImageResolution.x / uImageResolution.y;
+
+  vec2 scale = vec2(1.0, 1.0);
+  if (aspectRes > aspectImg) {
+      // Image is taller than container: scale y < 1
+      scale.y = aspectImg / aspectRes;
+      // Anchor Top: map mesh [0,1] to texture [1-scale, 1]
+      // Standard plane UVs go 0 to 1 (bottom to top).
+      // We want vUv.y=1 -> tex.y=1
+      // vUv.y=0 -> tex.y=1-scale.y
+      uv.y = (1.0 - scale.y) + uv.y * scale.y;
+      
+      // Center X
+      uv.x = (uv.x - 0.5) * scale.x + 0.5;
+  } else {
+      // Image is wider than container: scale x < 1
+      scale.x = aspectRes / aspectImg;
+      // Center X
+      uv.x = (uv.x - 0.5) * scale.x + 0.5;
+      // Center Y (or Anchor Top? usually center Y is preferred for wide images, but if top requested...)
+      // Let's keep Y centered if image is wider, unless strictly top-left is needed.
+      // Usually "anchor top" refers to vertical cropping.
+      uv.y = (uv.y - 0.5) * scale.y + 0.5;
+  }
+  
+  vec4 color = texture2D(uTexture, uv);
 
   vec2 fullHalf = uResolution * 0.5;
   vec2 halfSize = fullHalf * uReveal;
@@ -117,6 +147,7 @@ export const ProjectCardScrollShaderOverlay: React.FC = () => {
     renderer.setSize(w, h);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setClearColor(0x000000, 0);
+    renderer.outputColorSpace = THREE.LinearSRGBColorSpace;
     container.appendChild(renderer.domElement);
 
     const loader = new THREE.TextureLoader();
@@ -133,17 +164,30 @@ export const ProjectCardScrollShaderOverlay: React.FC = () => {
 
           const texture = loader.load(
             el.src,
-            () => {
+            // onLoad
+            (tex) => {
+              // Ensure we only mark loaded if this specific object still exists/is tracked
+              // We'll update the 'textureLoaded' flag on the object in the 'tracked' array
+              // Finding it might be O(N), but N=8 usually.
+              const found = tracked.find((t) => t.texture === tex);
+              if (found) {
+                found.textureLoaded = true;
+                // Update shader with actual image dimensions
+                found.mesh.material.uniforms.uImageResolution.value.set(
+                  tex.image.width,
+                  tex.image.height,
+                );
+              }
               el.style.opacity = '0';
             },
             undefined,
+            // onError
             () => {
               el.style.opacity = '1';
             },
           );
           texture.minFilter = THREE.LinearFilter;
           texture.generateMipmaps = false;
-          texture.colorSpace = THREE.SRGBColorSpace;
 
           const geo = new THREE.PlaneGeometry(1, 1, 32, 32);
           const mat = new THREE.ShaderMaterial({
@@ -155,6 +199,7 @@ export const ProjectCardScrollShaderOverlay: React.FC = () => {
               uSpeed: { value: 0 },
               uDirection: { value: 0 },
               uResolution: { value: new THREE.Vector2(1, 1) },
+              uImageResolution: { value: new THREE.Vector2(1, 1) }, // Init default
               uBorderRadius: { value: BORDER_RADIUS_PX },
               uReveal: { value: 1.0 },
             },
@@ -170,6 +215,7 @@ export const ProjectCardScrollShaderOverlay: React.FC = () => {
             texture,
             currentReveal: MIN_REVEAL,
             currentTilt: 0,
+            textureLoaded: false,
           });
         });
     };
@@ -217,11 +263,11 @@ export const ProjectCardScrollShaderOverlay: React.FC = () => {
 
       const delta = scrollY - prevScrollY;
       prevScrollY = scrollY;
-      
+
       // Avoid velocity spikes on initial load/scroll restoration
       const isInitial = now - startTime < 500;
-      const rawVel = (isInitial && Math.abs(delta) > 100) ? 0 : delta / dt;
-      
+      const rawVel = isInitial && Math.abs(delta) > 100 ? 0 : delta / dt;
+
       scrollVelocity += (rawVel - scrollVelocity) * 0.12;
 
       tracked.forEach((obj) => {
@@ -232,15 +278,24 @@ export const ProjectCardScrollShaderOverlay: React.FC = () => {
           obj.mesh.visible = false;
           return;
         }
-        
+
         // Only show if image is actually loaded and visible
-        obj.mesh.visible = rect.bottom > -100 && rect.top < h + 100 && obj.el.complete;
+        obj.mesh.visible =
+          rect.bottom > -100 &&
+          rect.top < h + 100 &&
+          obj.el.complete &&
+          obj.textureLoaded;
 
         meshPositionAndScale(obj.mesh, rect);
 
         // Determine direction: 1 for right, -1 for left, 0 for center
         // If the mesh is roughly in the middle of the screen (3-column layout), use 0
-        let direction = obj.mesh.position.x > 80 ? 1.0 : (obj.mesh.position.x < -80 ? -1.0 : 0.0);
+        let direction =
+          obj.mesh.position.x > 80
+            ? 1.0
+            : obj.mesh.position.x < -80
+              ? -1.0
+              : 0.0;
         obj.mesh.material.uniforms.uDirection.value = direction;
 
         const normalizedY = obj.mesh.position.y / (h * 0.5);

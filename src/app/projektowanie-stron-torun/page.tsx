@@ -1,64 +1,64 @@
-"use client";
+'use client';
 
-import React, { useRef } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { motion } from "framer-motion";
-import { Code2, Palette, Search, Users } from "lucide-react";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
-import { Faq } from "@/components/Faq";
-import { CTASection } from "@/components/CTASection";
-import { ReelCtaButton } from "@/components/ui/ReelCtaButton";
-import { ProjectCard } from "@/components/ProjectCard";
-import { GlassBentoCard } from "@/components/cards/bento/GlassBentoCard";
-import { PROJECTS } from "@/data/projects";
+import React, { useRef } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { motion } from 'framer-motion';
+import { Code2, Palette, Search, Users } from 'lucide-react';
+import { Header } from '@/components/Header';
+import { Footer } from '@/components/Footer';
+import { Faq } from '@/components/Faq';
+import { CTASection } from '@/components/CTASection';
+import { ReelCtaButton } from '@/components/ui/ReelCtaButton';
+import { ProjectCard } from '@/components/ProjectCard';
+import { GlassBentoCard } from '@/components/cards/bento/GlassBentoCard';
+import { PROJECTS } from '@/data/projects';
 
 const torunFaq = [
   {
     id: 1,
-    question: "Koszt strony internetowej Toruń",
+    question: 'Koszt strony internetowej Toruń',
     answer:
-      "Oszacowanie kosztu witryny nie jest łatwym zadaniem, co dotyczy również stron www Toruń. Cena zależy od wielu czynników np. specyfiki Twojej działalności oraz funkcji, jakie mają znaleźć się na stronie i które mogą nie być standardowe. Pierwszą rzeczą, o której należy pomyśleć, są cele biznesowe Twojej firmy. Będzie to informowało nas o tym, jakiej strony potrzebujesz i tym samym określimy koszt wykonania projektu. Zapoznaj się z naszymi pakietami i wybierz ten, który najlepiej odpowiada Twoim potrzebom.",
+      'Oszacowanie kosztu witryny nie jest łatwym zadaniem, co dotyczy również stron www Toruń. Cena zależy od wielu czynników np. specyfiki Twojej działalności oraz funkcji, jakie mają znaleźć się na stronie i które mogą nie być standardowe. Pierwszą rzeczą, o której należy pomyśleć, są cele biznesowe Twojej firmy. Będzie to informowało nas o tym, jakiej strony potrzebujesz i tym samym określimy koszt wykonania projektu. Zapoznaj się z naszymi pakietami i wybierz ten, który najlepiej odpowiada Twoim potrzebom.',
   },
   {
     id: 2,
-    question: "Co wyróżnia strony www dla firm z Torunia?",
+    question: 'Co wyróżnia strony www dla firm z Torunia?',
     answer:
-      "Nowoczesna strona internetowa jest kluczem do sukcesu, dzięki temu, że podnosi prestiż firmy. Posiadając taką stronę, jesteś w stanie prezentować swoje produkty i usługi w jakości, która spodoba się Twoim klientom. Strony internetowe Toruń są na tyle imponujące, że przyciągają wzrok klientów, dzięki czemu możesz spodziewać się większej sprzedaży produktów lub usług, a tym samym zwiększenia Twoich zysków. Staramy się również, aby aktualizacja zawartości Twojej strony była jak najłatwiejsza, dzięki czemu będziesz mógł samodzielnie m.in. edytować treści czy zmieniać zdjęcia.",
+      'Nowoczesna strona internetowa jest kluczem do sukcesu, dzięki temu, że podnosi prestiż firmy. Posiadając taką stronę, jesteś w stanie prezentować swoje produkty i usługi w jakości, która spodoba się Twoim klientom. Strony internetowe Toruń są na tyle imponujące, że przyciągają wzrok klientów, dzięki czemu możesz spodziewać się większej sprzedaży produktów lub usług, a tym samym zwiększenia Twoich zysków. Staramy się również, aby aktualizacja zawartości Twojej strony była jak najłatwiejsza, dzięki czemu będziesz mógł samodzielnie m.in. edytować treści czy zmieniać zdjęcia.',
   },
   {
     id: 3,
-    question: "Co zawiera strona internetowa Toruń?",
+    question: 'Co zawiera strona internetowa Toruń?',
     answer:
-      "Oferujemy pakiety stron dostosowane do Twoich indywidualnych potrzeb, które zawierają kluczowe elementy ważne dla każdej witryny. Ustalając najbardziej efektywną strukturę, zaprojektujemy stronę intuicyjną i przyjazną dla każdego użytkownika. Tworzenie stron internetowych Toruń odbywa się pod okiem zespołu specjalistów, którzy zapewniają: znakomicie skrojone logotypy, nowoczesny projekt graficzny pasujący do Twojej branży oraz treści, które zachęcają odwiedzających do działania. Programiści natomiast stworzą jasny i przejrzysty kod, który zapewni bezawaryjne działanie i płynne wczytywanie strony.",
+      'Oferujemy pakiety stron dostosowane do Twoich indywidualnych potrzeb, które zawierają kluczowe elementy ważne dla każdej witryny. Ustalając najbardziej efektywną strukturę, zaprojektujemy stronę intuicyjną i przyjazną dla każdego użytkownika. Tworzenie stron internetowych Toruń odbywa się pod okiem zespołu specjalistów, którzy zapewniają: znakomicie skrojone logotypy, nowoczesny projekt graficzny pasujący do Twojej branży oraz treści, które zachęcają odwiedzających do działania. Programiści natomiast stworzą jasny i przejrzysty kod, który zapewni bezawaryjne działanie i płynne wczytywanie strony.',
   },
   {
     id: 4,
-    question: "Ile czasu zajmie przygotowanie strony?",
+    question: 'Ile czasu zajmie przygotowanie strony?',
     answer:
-      "Czas potrzebny na przygotowanie strony internetowej różni się w zależności od wybranego pakietu, a więc wielkości i złożoności projektu. Ze względu na to, że każda strona ma swoją specyfikację i wymagania dopiero po omówieniu szczegółów dotyczących projektu, jesteśmy w stanie określić termin wykonania i wdrożenia Twojego projektu. Tworzenie stron internetowych Toruń to gwarancja spełnienia Twoich indywidualnych oczekiwań.",
+      'Czas potrzebny na przygotowanie strony internetowej różni się w zależności od wybranego pakietu, a więc wielkości i złożoności projektu. Ze względu na to, że każda strona ma swoją specyfikację i wymagania dopiero po omówieniu szczegółów dotyczących projektu, jesteśmy w stanie określić termin wykonania i wdrożenia Twojego projektu. Tworzenie stron internetowych Toruń to gwarancja spełnienia Twoich indywidualnych oczekiwań.',
   },
   {
     id: 5,
-    question: "Pozycjonowanie stron internetowych w Toruniu",
+    question: 'Pozycjonowanie stron internetowych w Toruniu',
     answer:
-      "Chcąc zaistnieć na rynku lokalnym i zwiększyć zasięg na skalę globalną warto zainwestować nie tylko w tworzenie stron Toruń, ale również w działania marketingowe. Profesjonalnie zbudowana strona będąca pod opieką doświadczonych marketingowców pojawi się na wysokich pozycjach wyszukiwarki Google. Działania, jakimi mogą zająć się nasi specjaliści to: kompleksowe pozycjonowanie, kampanie Google Ads, przygotowanie angażujących treści (np. blog) czy prowadzenie mediów społecznościowych.",
+      'Chcąc zaistnieć na rynku lokalnym i zwiększyć zasięg na skalę globalną warto zainwestować nie tylko w tworzenie stron Toruń, ale również w działania marketingowe. Profesjonalnie zbudowana strona będąca pod opieką doświadczonych marketingowców pojawi się na wysokich pozycjach wyszukiwarki Google. Działania, jakimi mogą zająć się nasi specjaliści to: kompleksowe pozycjonowanie, kampanie Google Ads, przygotowanie angażujących treści (np. blog) czy prowadzenie mediów społecznościowych.',
   },
   {
     id: 6,
-    question: "Czy warto zdecydować się na strony internetowe Toruń?",
+    question: 'Czy warto zdecydować się na strony internetowe Toruń?',
     answer:
-      "Zdecydowanie tak, ponieważ dzięki nowej stronie www Toruń ułatwisz dostęp do swojej oferty wielu osobom z Twojego miasta, ale również całego kraju. Wykorzystując internet, możesz rozszerzyć zasięg działania firmy, pozyskać więcej klientów i liczyć na wzrost zysków ze sprzedaży. W porównaniu z osiągniętymi korzyściami inwestycja w stronę internetową okaże się niewielkim wydatkiem.",
+      'Zdecydowanie tak, ponieważ dzięki nowej stronie www Toruń ułatwisz dostęp do swojej oferty wielu osobom z Twojego miasta, ale również całego kraju. Wykorzystując internet, możesz rozszerzyć zasięg działania firmy, pozyskać więcej klientów i liczyć na wzrost zysków ze sprzedaży. W porównaniu z osiągniętymi korzyściami inwestycja w stronę internetową okaże się niewielkim wydatkiem.',
   },
 ];
 
 const klinikaNaNowoProject = {
-  id: "klinika-nanowo-torun",
-  title: "Klinika NaNowo",
-  tags: ["UI/UX design", "Web Development", "Toruń"],
-  image: { src: "/assets/seo/torun/klinika-nanowo.webp" },
-  link: "#",
+  id: 'klinika-nanowo-torun',
+  title: 'Klinika NaNowo',
+  tags: ['UI/UX design', 'Web Development', 'Toruń'],
+  image: { src: '/assets/seo/torun/klinika-nanowo.webp' },
+  link: '#',
 } as unknown as (typeof PROJECTS)[0];
 
 export default function TorunSeoPage() {
@@ -91,7 +91,8 @@ export default function TorunSeoPage() {
               Specjalna oferta dla firm z Torunia
             </div>
             <h1 className="text-4xl md:text-6xl font-display font-medium tracking-tighter mb-6">
-              Strony internetowe <br /> <span className="text-[#916AFF]">Toruń</span>
+              Strony internetowe <br />{' '}
+              <span className="text-[#916AFF]">Toruń</span>
             </h1>
             <div className="h-1 w-20 bg-[#916AFF] mx-auto mb-8" />
             <div className="flex justify-center mt-12 mb-8">
@@ -116,8 +117,8 @@ export default function TorunSeoPage() {
                 Nieszablonowa grafika
               </h3>
               <p className="text-neutral-400 text-sm">
-                Indywidualny projekt zdobędzie uwagę klientów. Będziesz
-                posiadać stronę, jakiej nie ma konkurencja.
+                Indywidualny projekt zdobędzie uwagę klientów. Będziesz posiadać
+                stronę, jakiej nie ma konkurencja.
               </p>
             </div>
 
@@ -158,15 +159,15 @@ export default function TorunSeoPage() {
             <div className="space-y-8 text-neutral-300 text-lg md:text-xl leading-relaxed text-center">
               <p>
                 Chciałbyś zwiększyć zyski w swojej firmie? Jednym ze skutecznych
-                sposobów, który spowoduje wzrost zainteresowania Twoją firmą jest
-                posiadanie bezkonkurencyjnej strony internetowej.
+                sposobów, który spowoduje wzrost zainteresowania Twoją firmą
+                jest posiadanie bezkonkurencyjnej strony internetowej.
               </p>
               <p>
                 Teraz dla firm z Torunia mamy ofertę specjalną, dzięki której
                 możesz posiadać witrynę najlepszą w branży w jakiej działasz.
                 Oprócz skrojonej na miarę Twoich oczekiwań strony internetowej
-                zyskasz wartościowy gratis, którego zastosowanie pozwoli poprawić
-                widoczność nowej strony w sieci.
+                zyskasz wartościowy gratis, którego zastosowanie pozwoli
+                poprawić widoczność nowej strony w sieci.
               </p>
               <p>
                 Dajemy gwarancję stworzenia projektu, który będzie efektywnie
@@ -195,7 +196,7 @@ export default function TorunSeoPage() {
                 </h2>
 
                 <a
-                  href="#"
+                  href="/kontakt"
                   className="inline-flex items-center gap-2 px-8 py-3 rounded-full bg-white/10 border border-white/10 hover:bg-white/20 transition-all font-bold mb-10"
                 >
                   Sprawdź online
@@ -235,16 +236,16 @@ export default function TorunSeoPage() {
             <p className="text-neutral-300 text-lg md:text-xl leading-relaxed text-center">
               Pojawienie się strony www na najwyższych pozycjach wyszukiwania
               Google to gwarancja zdobycia wielu nowych klientów. Pomożemy Ci to
-              osiągnąć dając specjalny gratis – pozycjonowanie na frazy regionalne
-              powiązane z Toruniem i miastami pobliskimi. Umiejętnie dobrane słowa
-              kluczowe pozwolą osiągnąć satysfakcjonujące wyniki w postaci
-              pojawienia się Twojej witryny na 1. stronie wyszukiwań Google.
-              Rozwiniemy naszą współpracę, jeżeli uznasz, że wyniki są dla Ciebie
-              satysfakcjonujące i rozszerzymy ją o kolejne miasta z obszaru całej
-              Polski. Nawiążmy współpracę korzystną dla obu stron i daj sobie
-              szansę na zaistnienie w internecie oraz naznaczne zwiększenie swoich
-              zysków. Sprawdź jaka promocja cenowa promocja czeka na Ciebie na
-              przygotowanych pakietach.
+              osiągnąć dając specjalny gratis – pozycjonowanie na frazy
+              regionalne powiązane z Toruniem i miastami pobliskimi. Umiejętnie
+              dobrane słowa kluczowe pozwolą osiągnąć satysfakcjonujące wyniki w
+              postaci pojawienia się Twojej witryny na 1. stronie wyszukiwań
+              Google. Rozwiniemy naszą współpracę, jeżeli uznasz, że wyniki są
+              dla Ciebie satysfakcjonujące i rozszerzymy ją o kolejne miasta z
+              obszaru całej Polski. Nawiążmy współpracę korzystną dla obu stron
+              i daj sobie szansę na zaistnienie w internecie oraz naznaczne
+              zwiększenie swoich zysków. Sprawdź jaka promocja cenowa promocja
+              czeka na Ciebie na przygotowanych pakietach.
             </p>
           </div>
         </section>
@@ -263,12 +264,12 @@ export default function TorunSeoPage() {
           <div className="relative z-10">
             <div className="text-center mb-20">
               <h2 className="text-4xl md:text-6xl font-display font-medium mb-6 tracking-[0px]">
-                Strony www  – efekty współpracy
+                Strony www – efekty współpracy
               </h2>
               <p className="text-neutral-400 max-w-2xl mx-auto">
-                „Efektywne strony www”… takie motto zobowiązuje. Sprawdź rezultaty
-                zmiany starej strony www na nową, zostań naszym klientem i
-                spodziewaj się wzrostu zainteresowania swoją firmą.
+                „Efektywne strony www”… takie motto zobowiązuje. Sprawdź
+                rezultaty zmiany starej strony www na nową, zostań naszym
+                klientem i spodziewaj się wzrostu zainteresowania swoją firmą.
               </p>
             </div>
 
@@ -286,7 +287,7 @@ export default function TorunSeoPage() {
                     initial={{ opacity: 0, scale: 0, y: 20 }}
                     whileInView={{ opacity: 1, scale: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ delay: 0.8, duration: 0.5, type: "spring" }}
+                    transition={{ delay: 0.8, duration: 0.5, type: 'spring' }}
                     className="absolute top-0 right-[15%] md:right-[20%] z-30 w-16 h-16 rounded-full bg-white flex flex-col items-center justify-center shadow-[0_0_20px_rgba(145,106,255,0.4)] border border-neutral-100"
                   >
                     <span className="text-[7px] font-bold text-[#916AFF] leading-none mb-0.5">
@@ -302,7 +303,7 @@ export default function TorunSeoPage() {
                       initial={{ height: 0 }}
                       whileInView={{ height: 80 }}
                       viewport={{ once: true }}
-                      transition={{ duration: 1, ease: "easeOut" }}
+                      transition={{ duration: 1, ease: 'easeOut' }}
                       className="w-full bg-[#3D3D43] rounded-t-[32px] rounded-b-[32px] relative flex flex-col items-center justify-end pb-6"
                     >
                       <span className="text-[10px] font-bold text-white uppercase tracking-wider mb-2">
@@ -319,7 +320,11 @@ export default function TorunSeoPage() {
                       initial={{ height: 0 }}
                       whileInView={{ height: 280 }}
                       viewport={{ once: true }}
-                      transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
+                      transition={{
+                        duration: 1.2,
+                        ease: 'easeOut',
+                        delay: 0.2,
+                      }}
                       className="w-full bg-linear-to-b from-[#916AFF] to-[#52D8EA] rounded-t-[32px] rounded-b-[32px] relative flex flex-col items-center justify-end pb-6 overflow-hidden"
                     >
                       <div className="absolute top-8 flex flex-col gap-2 opacity-50">
@@ -378,7 +383,7 @@ export default function TorunSeoPage() {
                     initial={{ opacity: 0, scale: 0, y: 20 }}
                     whileInView={{ opacity: 1, scale: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ delay: 1, duration: 0.5, type: "spring" }}
+                    transition={{ delay: 1, duration: 0.5, type: 'spring' }}
                     className="absolute top-0 right-[15%] md:right-[20%] z-30 w-16 h-16 rounded-full bg-white flex flex-col items-center justify-center shadow-[0_0_20px_rgba(145,106,255,0.4)] border border-neutral-100"
                   >
                     <span className="text-[7px] font-bold text-[#916AFF] leading-none mb-0.5">
@@ -394,7 +399,7 @@ export default function TorunSeoPage() {
                       initial={{ height: 0 }}
                       whileInView={{ height: 80 }}
                       viewport={{ once: true }}
-                      transition={{ duration: 1, ease: "easeOut" }}
+                      transition={{ duration: 1, ease: 'easeOut' }}
                       className="w-full bg-[#3D3D43] rounded-t-[32px] rounded-b-[32px] relative flex flex-col items-center justify-end pb-6"
                     >
                       <span className="text-[10px] font-bold text-white uppercase tracking-wider mb-2">
@@ -411,7 +416,11 @@ export default function TorunSeoPage() {
                       initial={{ height: 0 }}
                       whileInView={{ height: 280 }}
                       viewport={{ once: true }}
-                      transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
+                      transition={{
+                        duration: 1.2,
+                        ease: 'easeOut',
+                        delay: 0.2,
+                      }}
                       className="w-full bg-linear-to-b from-[#916AFF] to-[#52D8EA] rounded-t-[32px] rounded-b-[32px] relative flex flex-col items-center justify-end pb-6 overflow-hidden"
                     >
                       <div className="absolute top-8 flex flex-col gap-2 opacity-50">
@@ -472,9 +481,9 @@ export default function TorunSeoPage() {
         <CTASection
           title="Skontaktuj się z nami"
           subtitleLines={[
-            "i razem ustalmy cel, jaki chcesz osiągnąć dla swojej firmy.",
-            "Poprowadzimy Cię pewną drogą do sukcesu, zapewniając sprawdzony i niezawodny,",
-            "bo nasz autorski system wspomagający projektowanie i tworzenie stron www.",
+            'i razem ustalmy cel, jaki chcesz osiągnąć dla swojej firmy.',
+            'Poprowadzimy Cię pewną drogą do sukcesu, zapewniając sprawdzony i niezawodny,',
+            'bo nasz autorski system wspomagający projektowanie i tworzenie stron www.',
           ]}
         />
 
@@ -509,16 +518,16 @@ export default function TorunSeoPage() {
                 wykonania strony według ustalonych wytycznych,
               </p>
               <p>
-                niepowtarzalny wygląd i prawidłowe funkcjonowanie strony zapewnią
-                graficy oraz programiści,
+                niepowtarzalny wygląd i prawidłowe funkcjonowanie strony
+                zapewnią graficy oraz programiści,
               </p>
               <p>
                 marketingowcy zadbają o widoczność strony w internecie, a
                 copywriter sporządzi wysokiej jakości treści,
               </p>
               <p>
-                analityk użyteczności UX – wprowadzi ulepszenia na stronie, które
-                zwiększą zainteresowanie witryną.
+                analityk użyteczności UX – wprowadzi ulepszenia na stronie,
+                które zwiększą zainteresowanie witryną.
               </p>
             </div>
 

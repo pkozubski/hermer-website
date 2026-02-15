@@ -130,9 +130,15 @@ export const Footer: React.FC = () => {
             </p>
             <div className="flex gap-4">
               {[
-                { Icon: Facebook, href: '#' },
-                { Icon: Instagram, href: '#' },
-                { Icon: Linkedin, href: '#' },
+                { Icon: Facebook, href: 'https://www.facebook.com/hermerwa/' },
+                {
+                  Icon: Instagram,
+                  href: 'https://www.instagram.com/hermer_pl/',
+                },
+                {
+                  Icon: Linkedin,
+                  href: 'https://pl.linkedin.com/company/hermer-polska',
+                },
               ].map(({ Icon, href }, i) => (
                 <a
                   key={i}
@@ -154,7 +160,7 @@ export const Footer: React.FC = () => {
             <ul className="space-y-4">
               {[
                 { label: 'Strona główna', href: '/' },
-                { label: 'Realizacje', href: '/Realizacje' },
+                { label: 'Realizacje', href: '/realizacje' },
                 { label: 'Opinie', href: '/opinie' },
                 { label: 'O firmie', href: '/o-firmie' },
                 { label: 'Blog', href: '/blog' },
@@ -180,9 +186,15 @@ export const Footer: React.FC = () => {
             <ul className="space-y-4">
               {[
                 { label: 'Strony internetowe', href: '/oferta/strony-www/' },
-                { label: 'Sklepy internetowe', href: '/oferta/sklepy-internetowe/' },
+                {
+                  label: 'Sklepy internetowe',
+                  href: '/oferta/sklepy-internetowe/',
+                },
                 { label: 'Marketing', href: '/oferta/marketing/' },
-                { label: 'Zewnętrzny dział marketingu', href: '/oferta/zewnetrzny-dzial-marketingu' },
+                {
+                  label: 'Zewnętrzny dział marketingu',
+                  href: '/oferta/marketing/',
+                },
                 { label: 'Wordpress Shield', href: '/oferta/wordpress-shield' },
               ].map((item) => (
                 <li key={item.label}>

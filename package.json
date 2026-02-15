@@ -11,6 +11,7 @@
     "seed:seo:next5": "node scripts/seed-page-seo-next5.mjs",
     "seed:seo:remaining": "node scripts/seed-page-seo-remaining.mjs",
     "seed:faqs:static": "node scripts/seed-faqs-from-static-pages.mjs",
+    "seed:seo:gorzow": "node scripts/seed-page-seo-gorzow.mjs",
     "format:faqs:seo": "node scripts/format-faqs-richtext-seo.mjs"
   },
   "dependencies": {

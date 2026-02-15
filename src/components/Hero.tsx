@@ -353,11 +353,10 @@ export const Hero: React.FC<{
         {/* Left Column */}
         <motion.div
           /* Reduced delay from 1.5s to 0.2s */
-          className={`hidden lg:block col-span-3 w-[320px] xl:w-full lg:-mr-20 xl:mr-0 justify-self-end h-[650px] relative overflow-hidden select-none ${
-            startAnimation
-              ? 'animate-[fade-in_1s_ease-out_0.2s_forwards]'
-              : 'opacity-0'
-          }`}
+          className="hidden lg:block col-span-3 w-[320px] xl:w-full lg:-mr-20 xl:mr-0 justify-self-end h-[650px] relative overflow-hidden select-none"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: startAnimation ? 1 : 0 }}
+          transition={{ duration: 1, delay: 0.2, ease: 'easeOut' }}
           style={{
             maskImage:
               'linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)',
@@ -368,7 +367,11 @@ export const Hero: React.FC<{
           }}
         >
           <div className="absolute inset-x-0 w-full h-full z-10">
-            <CardWheel cards={LEFT_COLUMN_CARDS} direction="up" />
+            <CardWheel
+              cards={LEFT_COLUMN_CARDS}
+              direction="up"
+              start={startAnimation}
+            />
           </div>
         </motion.div>
 
@@ -487,17 +490,20 @@ export const Hero: React.FC<{
                 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
             }}
           >
-            <CardWheelHorizontal cards={CARDS_DATA} direction="left" />
+            <CardWheelHorizontal
+              cards={CARDS_DATA}
+              direction="left"
+              start={startAnimation}
+            />
           </div>
         </div>
 
         {/* Right Column */}
         <motion.div
-          className={`hidden lg:block col-span-3 w-[320px] xl:w-full lg:-ml-20 xl:ml-0 justify-self-start h-[650px] relative overflow-hidden select-none ${
-            startAnimation
-              ? 'animate-[fade-in_1s_ease-out_0.2s_forwards]'
-              : 'opacity-0'
-          }`}
+          className="hidden lg:block col-span-3 w-[320px] xl:w-full lg:-ml-20 xl:ml-0 justify-self-start h-[650px] relative overflow-hidden select-none"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: startAnimation ? 1 : 0 }}
+          transition={{ duration: 1, delay: 0.2, ease: 'easeOut' }}
           style={{
             maskImage:
               'linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)',
@@ -508,7 +514,11 @@ export const Hero: React.FC<{
           }}
         >
           <div className="absolute inset-x-0 w-full h-full z-10">
-            <CardWheel cards={RIGHT_COLUMN_CARDS} direction="down" />
+            <CardWheel
+              cards={RIGHT_COLUMN_CARDS}
+              direction="down"
+              start={startAnimation}
+            />
           </div>
         </motion.div>
       </div>

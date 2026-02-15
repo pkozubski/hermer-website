@@ -15,6 +15,7 @@ interface CardData {
 interface CardWheelProps {
   cards: CardData[];
   direction?: 'up' | 'down';
+  start?: boolean;
 }
 
 const ITEM_HEIGHT = 320; // Estimated height of LiquidCard + margin
@@ -22,6 +23,7 @@ const ITEM_HEIGHT = 320; // Estimated height of LiquidCard + margin
 export const CardWheel: React.FC<CardWheelProps> = ({
   cards,
   direction = 'up',
+  start = false,
 }) => {
   const wheelRef = useRef<HTMLDivElement>(null);
 
@@ -34,19 +36,27 @@ export const CardWheel: React.FC<CardWheelProps> = ({
   const radius = (ITEM_HEIGHT * total) / (2 * Math.PI);
   const angleStep = 360 / total;
 
+  // Initial setup - establish 3D position immediately on mount
   useGSAP(
     () => {
       if (!wheelRef.current) return;
-
       gsap.set(wheelRef.current, {
         z: -radius,
+        rotationX: 0,
         force3D: true,
       });
+    },
+    { scope: wheelRef },
+  );
+
+  // Animation trigger
+  useGSAP(
+    () => {
+      if (!wheelRef.current || !start) return;
 
       const dirMulti = direction === 'up' ? -1 : 1;
       const step = angleStep * dirMulti;
 
-      // Continuous rotation using GSAP timeline for better performance
       const rotate = () => {
         gsap.to(wheelRef.current, {
           rotationX: `+=${step}`,
@@ -60,7 +70,7 @@ export const CardWheel: React.FC<CardWheelProps> = ({
 
       rotate();
     },
-    { scope: wheelRef },
+    { scope: wheelRef, dependencies: [start] },
   );
 
   return (
