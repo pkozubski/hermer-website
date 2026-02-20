@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 
 // Total number of loading milestones tracked
-const TOTAL_STEPS = 4; // fonts, window load, content ready, project assets
+const TOTAL_STEPS = 3; // fonts, content ready, project assets
 
 export function Preloader({
   onComplete,
@@ -27,17 +27,6 @@ export function Preloader({
   // Track font loading
   useEffect(() => {
     document.fonts.ready.then(() => markStep("fonts"));
-  }, []);
-
-  // Track window load (all subresources: images, scripts, stylesheets)
-  useEffect(() => {
-    if (document.readyState === "complete") {
-      markStep("window");
-      return;
-    }
-    const handler = () => markStep("window");
-    window.addEventListener("load", handler);
-    return () => window.removeEventListener("load", handler);
   }, []);
 
   // Track content readiness signal from parent
