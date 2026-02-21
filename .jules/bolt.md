@@ -1,0 +1,3 @@
+## 2026-02-15 - Custom Preloader LCP Bottleneck
+**Learning:** The custom `Preloader` component was waiting for `window.load` event before dismissing. In a Next.js app with `next/dynamic` and images below the fold, this delays the LCP element (Hero section) significantly because `window.load` waits for *all* assets to finish loading.
+**Action:** When auditing LCP, check for custom preloaders/splash screens that block the main content visibility and ensure they don't depend on `window.load` or other late events unless absolutely necessary. Prefer `document.fonts.ready` or component mount signals.
