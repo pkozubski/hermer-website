@@ -5,6 +5,7 @@ import { Header } from './Header';
 import { Hero } from './Hero';
 import { Preloader } from './Preloader';
 import { Review } from './Testimonials';
+import { LazyLoadSection } from './ui/LazyLoadSection';
 import type { FaqItem } from './Faq';
 
 const Offer = dynamic(
@@ -108,23 +109,43 @@ export const MainContent: React.FC<MainContentProps> = ({
         />
 
         <div className="relative z-20">
-          <Offer />
-          <WhoWeHelp />
+          <LazyLoadSection>
+            <Offer />
+          </LazyLoadSection>
+          <LazyLoadSection>
+            <WhoWeHelp />
+          </LazyLoadSection>
 
           {/* Unified Dark Section (About + Projects + Testimonials) */}
           <section className="relative bg-neutral-900 overflow-visible">
             <div className="relative z-10">
-              <About />
-              <Projects />
-              <Testimonials reviews={reviews} />
+              <LazyLoadSection>
+                <About />
+              </LazyLoadSection>
+              <LazyLoadSection>
+                <Projects />
+              </LazyLoadSection>
+              <LazyLoadSection>
+                <Testimonials reviews={reviews} />
+              </LazyLoadSection>
             </div>
           </section>
 
-          <Blog />
-          <Contact />
-          <Faq items={faqItems} />
-          <CTASection />
-          <Footer />
+          <LazyLoadSection>
+            <Blog />
+          </LazyLoadSection>
+          <LazyLoadSection>
+            <Contact />
+          </LazyLoadSection>
+          <LazyLoadSection>
+            <Faq items={faqItems} />
+          </LazyLoadSection>
+          <LazyLoadSection>
+            <CTASection />
+          </LazyLoadSection>
+          <LazyLoadSection>
+            <Footer />
+          </LazyLoadSection>
         </div>
       </div>
     </>
