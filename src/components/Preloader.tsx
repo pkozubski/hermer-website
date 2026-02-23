@@ -3,7 +3,9 @@
 import { useState, useEffect, useRef } from "react";
 
 // Total number of loading milestones tracked
-const TOTAL_STEPS = 4; // fonts, window load, content ready, project assets
+// Reduced from 4 to 3 (fonts, content ready, project assets)
+// Removed window.load dependency to improve LCP and perceived load time
+const TOTAL_STEPS = 3;
 
 export function Preloader({
   onComplete,
@@ -29,16 +31,8 @@ export function Preloader({
     document.fonts.ready.then(() => markStep("fonts"));
   }, []);
 
-  // Track window load (all subresources: images, scripts, stylesheets)
-  useEffect(() => {
-    if (document.readyState === "complete") {
-      markStep("window");
-      return;
-    }
-    const handler = () => markStep("window");
-    window.addEventListener("load", handler);
-    return () => window.removeEventListener("load", handler);
-  }, []);
+  // Removed window.load listener as it blocks initial render on all subresources
+  // which significantly delays LCP without user benefit.
 
   // Track content readiness signal from parent
   useEffect(() => {
