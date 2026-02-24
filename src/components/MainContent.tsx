@@ -1,9 +1,8 @@
 'use client';
-import React, { useState, useCallback, useEffect } from 'react';
+import React from 'react';
 import dynamic from 'next/dynamic';
 import { Header } from './Header';
 import { Hero } from './Hero';
-import { Preloader } from './Preloader';
 import { Review } from './Testimonials';
 import type { FaqItem } from './Faq';
 
@@ -56,56 +55,15 @@ export const MainContent: React.FC<MainContentProps> = ({
   faqItems,
   reviews = [],
 }) => {
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [isHeaderAllowed, setIsHeaderAllowed] = useState(false);
-  const [contentReady, setContentReady] = useState(false);
-  const [isHeroAnimationAllowed, setIsHeroAnimationAllowed] = useState(false);
-
-  // Signal content ready once MainContent has mounted and painted
-  useEffect(() => {
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        setContentReady(true);
-      });
-    });
-  }, []);
-
-  useEffect(() => {
-    if (isLoaded) {
-      const timer = setTimeout(() => {
-        setIsHeroAnimationAllowed(true);
-      }, 500); // 500ms matches the fade transition duration
-      return () => clearTimeout(timer);
-    }
-  }, [isLoaded]);
-
-  const handlePreloaderComplete = useCallback(() => {
-    setIsLoaded(true);
-  }, []);
-
-  const handleHeroAnimationComplete = useCallback(() => {
-    setIsHeaderAllowed(true);
-  }, []);
+  // Removed Preloader logic for immediate rendering
+  const isHeaderAllowed = true;
+  const isHeroAnimationAllowed = true;
 
   return (
     <>
-      {!isLoaded && (
-        <Preloader
-          onComplete={handlePreloaderComplete}
-          contentReady={contentReady}
-          assetsReady={true} // Improve LCP: Don't block initial render on below-the-fold assets
-        />
-      )}
-      <div
-        className={`relative min-h-screen bg-neutral-900 font-sans overflow-x-clip transition-opacity duration-500 ${
-          contentReady ? 'opacity-100' : 'opacity-0'
-        }`}
-      >
+      <div className="relative min-h-screen bg-neutral-900 font-sans overflow-x-clip opacity-100">
         <Header allowVisibility={isHeaderAllowed} />
-        <Hero
-          onAnimationComplete={handleHeroAnimationComplete}
-          startAnimation={isHeroAnimationAllowed}
-        />
+        <Hero startAnimation={isHeroAnimationAllowed} />
 
         <div className="relative z-20">
           <Offer />
