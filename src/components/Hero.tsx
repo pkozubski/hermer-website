@@ -316,7 +316,8 @@ export const Hero: React.FC<{
   onAnimationComplete?: () => void;
   startAnimation?: boolean;
 }> = ({ onAnimationComplete, startAnimation = false }) => {
-  const [scrollY, setScrollY] = useState(0);
+  const leftColumnRef = useRef<HTMLDivElement>(null);
+  const rightColumnRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!startAnimation) return;
@@ -335,7 +336,16 @@ export const Hero: React.FC<{
       if (rafId !== null) return;
       rafId = requestAnimationFrame(() => {
         rafId = null;
-        setScrollY(window.scrollY || 0);
+        const scrollY = window.scrollY || 0;
+        const leftY = -Math.min(scrollY * 0.1, 100);
+        const rightY = Math.min(scrollY * 0.1, 100);
+
+        if (leftColumnRef.current) {
+          leftColumnRef.current.style.transform = `perspective(1500px) rotateY(12deg) translateZ(-20px) translateY(${leftY}px)`;
+        }
+        if (rightColumnRef.current) {
+          rightColumnRef.current.style.transform = `perspective(1500px) rotateY(-12deg) translateZ(-20px) translateY(${rightY}px)`;
+        }
       });
     };
 
@@ -347,9 +357,6 @@ export const Hero: React.FC<{
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
-
-  const leftColumnY = -Math.min(scrollY * 0.1, 100);
-  const rightColumnY = Math.min(scrollY * 0.1, 100);
 
   return (
     <section
@@ -375,11 +382,12 @@ export const Hero: React.FC<{
 
       <div className="relative z-10 mx-auto grid w-full max-w-[1600px] grid-cols-1 items-center gap-8 perspective-[2000px] lg:grid-cols-12 lg:gap-0">
         <div
+          ref={leftColumnRef}
           className={`relative col-span-3 hidden h-[650px] w-[320px] select-none justify-self-end overflow-hidden transition-opacity duration-700 xl:mr-0 xl:w-full lg:-mr-20 lg:block ${startAnimation ? 'opacity-100' : 'opacity-0'}`}
           style={{
             maskImage:
               'linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)',
-            transform: `perspective(1500px) rotateY(12deg) translateZ(-20px) translateY(${leftColumnY}px)`,
+            transform: `perspective(1500px) rotateY(12deg) translateZ(-20px) translateY(0px)`,
             transformStyle: 'preserve-3d',
             willChange: 'transform',
           }}
@@ -466,11 +474,12 @@ export const Hero: React.FC<{
         </div>
 
         <div
+          ref={rightColumnRef}
           className={`relative col-span-3 hidden h-[650px] w-[320px] select-none justify-self-start overflow-hidden transition-opacity duration-700 xl:ml-0 xl:w-full lg:-ml-20 lg:block ${startAnimation ? 'opacity-100' : 'opacity-0'}`}
           style={{
             maskImage:
               'linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)',
-            transform: `perspective(1500px) rotateY(-12deg) translateZ(-20px) translateY(${rightColumnY}px)`,
+            transform: `perspective(1500px) rotateY(-12deg) translateZ(-20px) translateY(0px)`,
             transformStyle: 'preserve-3d',
             willChange: 'transform',
           }}
