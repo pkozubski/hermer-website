@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, memo } from "react";
 import { Quote } from "lucide-react";
 import { CustomStar } from "./ui/CustomStar";
 import { SplitRevealTitle } from "./ui/SplitRevealTitle";
@@ -44,7 +44,7 @@ const piecewise = (
   return mapRange(value, p1, p2, v1, v2);
 };
 
-const GlassCard = ({ review, index }: { review: Review; index: number }) => {
+const GlassCard = memo(({ review, index }: { review: Review; index: number }) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const [isInView, setIsInView] = useState(false);
 
@@ -128,9 +128,11 @@ const GlassCard = ({ review, index }: { review: Review; index: number }) => {
       </div>
     </div>
   );
-};
+});
 
-const ReviewColumn = ({
+GlassCard.displayName = "GlassCard";
+
+const ReviewColumn = memo(({
   reviews,
   y,
   className = "",
@@ -147,7 +149,9 @@ const ReviewColumn = ({
       <GlassCard key={review._id} review={review} index={i} />
     ))}
   </div>
-);
+));
+
+ReviewColumn.displayName = "ReviewColumn";
 
 export const Testimonials = ({ reviews = [] }: { reviews?: Review[] }) => {
   const containerRef = useRef<HTMLElement>(null);
