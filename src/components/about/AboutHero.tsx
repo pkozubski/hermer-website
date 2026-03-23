@@ -21,6 +21,7 @@ export const AboutHero = () => {
           <SplitRevealTitle
             line1="Tworzymy"
             line2="Profesjonalne strony"
+            as="h1"
             className="text-6xl md:text-8xl lg:text-[7rem] font-medium tracking-tighter text-white leading-[0.9] mb-12"
           />
 

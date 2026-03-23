@@ -1,30 +1,24 @@
-import { MainContent } from "@/components/MainContent";
+import { MainContent } from "@/components/homepage/MainContent";
 
+import { sanityFetch } from "@/sanity/lib/live";
+import { PAGE_FAQS_QUERY, REVIEWS_QUERY } from "@/sanity/lib/queries";
+import { Review } from "@/components/shared/Testimonials";
 import { client } from "@/sanity/lib/client";
-import { PAGE_FAQS_QUERY } from "@/sanity/lib/queries";
-import { Review } from "@/components/Testimonials";
+
+const token = process.env.SANITY_API_READ_TOKEN;
 
 export default async function Home() {
-  const data = await client.fetch(PAGE_FAQS_QUERY, { slug: "home" });
+  const { data: faqData } = await sanityFetch({ 
+    query: PAGE_FAQS_QUERY, 
+    params: { slug: "home" } 
+  });
 
-  const reviewsQuery = `*[_type == "review" && rating == 5] | order(publishedAt desc) [0...27] {
-    _id,
-    author,
-    rating,
-    text,
-    publishedAt,
-    avatarUrl,
-    platform,
-    reviewLink
-  }`;
+  // Use authenticated client — without token, Sanity returns only 5 public reviews
+  const reviews = await client
+    .withConfig({ useCdn: false, token })
+    .fetch<Review[]>(REVIEWS_QUERY, {}, { next: { revalidate: 3600 } });
 
-  const reviews = await client.fetch<Review[]>(
-    reviewsQuery,
-    {},
-    { next: { revalidate: 3600 } },
-  );
-
-  const faqItems = data?.faqs?.map((item: any, index: number) => ({
+  const faqItems = faqData?.faqs?.map((item: any, index: number) => ({
     id: index + 1,
     question: item.question,
     answer: item.answer,

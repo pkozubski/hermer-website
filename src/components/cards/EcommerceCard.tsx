@@ -36,11 +36,12 @@ export const EcommerceCard = React.memo(function EcommerceCard() {
       {/* Visual Image */}
       <div className="absolute top-0 left-0 w-full h-full opacity-80 z-0">
         <Image
-          src="/assets/hero-cards/ecommerce.png"
+          src="/assets/hero-cards/ecommerce.webp"
           alt="E-commerce Visual"
           fill
           className="object-cover object-top"
-          priority
+          loading="lazy"
+          sizes="620px"
         />
       </div>
 

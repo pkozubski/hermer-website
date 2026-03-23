@@ -1,10 +1,10 @@
 "use client";
 
 import React from "react";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
-import { ProjectCard } from "@/components/ProjectCard";
-import { ProjectCardScrollShaderOverlay } from "@/components/ProjectCardScrollShader";
+import { Header } from "@/components/shared/Header";
+import { Footer } from "@/components/shared/Footer";
+import { ProjectCard } from "@/components/homepage/ProjectCard";
+import { ProjectCardScrollShaderOverlay } from "@/components/homepage/ProjectCardScrollShader";
 import { PROJECTS } from "@/data/projects";
 import { SplitRevealTitle } from "@/components/ui/SplitRevealTitle";
 
@@ -15,11 +15,6 @@ export default function RealizacjePage() {
       className="min-h-screen bg-neutral-900 text-white overflow-x-clip"
     >
       <ProjectCardScrollShaderOverlay scopeSelector="[data-realizations-zoom-target]" />
-      {/* Background Decor */}
-      <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute top-[-10%] right-[-5%] w-[1000px] h-[1000px] bg-[#916AFF]/10 rounded-full blur-[150px] mix-blend-screen animate-pulse-slow" />
-        <div className="absolute bottom-[-10%] left-[-10%] w-[800px] h-[800px] bg-[#52D8EA]/5 rounded-full blur-[120px] mix-blend-screen" />
-      </div>
 
       <Header allowVisibility={true} />
 
@@ -30,6 +25,7 @@ export default function RealizacjePage() {
             <SplitRevealTitle
               line1="Wszystkie"
               line2="Realizacje"
+              as="h1"
               className="text-5xl md:text-8xl text-white"
             />
             <div className="max-w-xs md:max-w-sm">

@@ -36,11 +36,12 @@ export const UiUxCard = React.memo(function UiUxCard() {
       {/* Visual Image */}
       <div className="absolute top-0 -right-20 w-full h-full opacity-80 z-0">
         <Image
-          src="/assets/hero-cards/design.png"
+          src="/assets/hero-cards/design.webp"
           alt="Design Visual"
           fill
           className="object-cover object-top"
-          priority
+          loading="lazy"
+          sizes="620px"
         />
       </div>
 

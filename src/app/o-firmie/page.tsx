@@ -1,13 +1,13 @@
 import React from "react";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
+import { Header } from "@/components/shared/Header";
+import { Footer } from "@/components/shared/Footer";
 
 import { AboutHero } from "@/components/about/AboutHero";
 import { AboutMission } from "@/components/about/AboutMission";
-import { AboutStats } from "@/components/about/AboutStats";
+import { StatsGrid } from "@/components/shared/StatsGrid";
 import { AboutVision } from "@/components/about/AboutVision";
 import { AboutTeam } from "@/components/about/AboutTeam";
-import { CTASection } from "@/components/CTASection";
+import { CTASection } from "@/components/shared/CTASection";
 
 export default function AboutPage() {
   return (
@@ -27,7 +27,11 @@ export default function AboutPage() {
       <main className="relative z-10">
         <AboutHero />
         <AboutMission />
-        <AboutStats />
+        <section className="bg-transparent py-24 relative z-10">
+          <div className="container mx-auto px-4 sm:px-8 lg:px-16 relative z-10">
+            <StatsGrid />
+          </div>
+        </section>
         <AboutVision />
         <AboutTeam />
         <CTASection />

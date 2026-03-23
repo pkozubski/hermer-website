@@ -7,8 +7,8 @@ import { BlogFilters } from "./BlogFilters";
 import { BlogGridCard } from "./BlogGridCard";
 import { BlogNewsletterCard } from "./BlogNewsletterCard";
 import { Post } from "@/components/cards/BlogCard";
-import { CTASection } from "@/components/CTASection";
-import { ProjectCardScrollShaderOverlay } from "../ProjectCardScrollShader";
+import { CTASection } from "@/components/shared/CTASection";
+import { ProjectCardScrollShaderOverlay } from "@/components/homepage/ProjectCardScrollShader";
 
 interface BlogContentProps {
   posts: Post[];

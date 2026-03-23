@@ -60,7 +60,8 @@ export const BlogCard = ({ post, index = 0 }: BlogCardProps) => {
           <img
             src={post.mainImage ? urlFor(post.mainImage).width(800).url() : ""}
             alt={post.title}
-            className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+            draggable={false}
+            className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110 select-none"
           />
           <div className="absolute inset-x-0 bottom-0 h-1/2 bg-linear-to-t from-black/60 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
 
@@ -80,9 +81,9 @@ export const BlogCard = ({ post, index = 0 }: BlogCardProps) => {
           </div>
 
           {/* Title & Arrow - like Projects */}
-          <div className="flex items-center justify-start gap-1">
-            {/* Animated Arrow - Slides in from left */}
-            <div className="overflow-hidden flex items-center justify-center text-white w-0 opacity-0 -translate-x-2 mr-0 group-hover:w-6 group-hover:opacity-100 group-hover:translate-x-0 group-hover:mr-1 transition-all duration-300">
+          <div className="relative">
+            {/* Animated Arrow - absolutely positioned so it doesn't affect title layout */}
+            <div className="absolute -left-7 top-1 text-white opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 pointer-events-none">
               <ArrowRight size={24} strokeWidth={2.5} />
             </div>
 

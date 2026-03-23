@@ -36,11 +36,12 @@ export const MarketingCard = React.memo(function MarketingCard() {
       {/* Visual Image */}
       <div className="absolute inset-0 w-full h-full opacity-80 z-0">
         <Image
-          src="/assets/hero-cards/marketing.png"
+          src="/assets/hero-cards/marketing.webp"
           alt="Marketing Visual"
           fill
           className="object-contain object-left"
-          priority
+          loading="lazy"
+          sizes="620px"
         />
       </div>
 

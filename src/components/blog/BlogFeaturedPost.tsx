@@ -44,7 +44,7 @@ export const BlogFeaturedPost: React.FC<BlogFeaturedPostProps> = ({ post }) => {
 
   return (
     <section className="container mx-auto px-4 md:px-8 mb-20">
-      <Link href={`/blog/${post.slug?.current || ""}`}>
+      <Link href={`/${post.slug?.current || ""}`}>
         <div
           ref={cardRef}
           className="relative group cursor-pointer overflow-hidden rounded-2xl bg-white/5 border border-white/10 h-[500px] md:h-[650px] flex flex-col justify-end p-8 md:p-16 shadow-lg hover:shadow-xl hover:shadow-white/5 transition-all duration-500"

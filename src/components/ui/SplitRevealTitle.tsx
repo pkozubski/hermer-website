@@ -14,6 +14,7 @@ interface SplitRevealTitleProps {
   classNameLine1?: string;
   classNameLine2?: string;
   once?: boolean;
+  as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 }
 
 export const SplitRevealTitle = ({
@@ -23,6 +24,7 @@ export const SplitRevealTitle = ({
   classNameLine1 = "",
   classNameLine2 = "",
   once = false,
+  as: Tag = "h2",
 }: SplitRevealTitleProps) => {
   const containerRef = useRef<HTMLHeadingElement>(null);
   const line1Ref = useRef<HTMLSpanElement>(null);
@@ -69,8 +71,8 @@ export const SplitRevealTitle = ({
   );
 
   return (
-    <h2
-      ref={containerRef}
+    <Tag
+      ref={containerRef as React.RefObject<HTMLHeadingElement>}
       className={`font-medium tracking-tight leading-none ${className}`}
     >
       <span className={`block overflow-hidden pb-[0.05em] ${classNameLine1}`}>
@@ -85,6 +87,6 @@ export const SplitRevealTitle = ({
           {line2}
         </span>
       </span>
-    </h2>
+    </Tag>
   );
 };

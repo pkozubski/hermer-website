@@ -1,6 +1,6 @@
 import React from "react";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
+import { Header } from "@/components/shared/Header";
+import { Footer } from "@/components/shared/Footer";
 
 import { client } from "@/sanity/lib/client";
 import { Post } from "@/components/cards/BlogCard";

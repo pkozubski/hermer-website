@@ -50,6 +50,7 @@ export const BlogHero: React.FC<BlogHeroProps> = ({ stats }) => {
           <SplitRevealTitle
             line1="Nasze"
             line2="Wpisy."
+            as="h1"
             className="text-white! text-7xl md:text-8xl mb-8 leading-[0.9] tracking-tighter"
           />
           <LineReveal
@@ -62,20 +63,14 @@ export const BlogHero: React.FC<BlogHeroProps> = ({ stats }) => {
         </div>
 
         <div className="flex lg:justify-end space-x-8 text-sm md:text-base mb-2">
-          <div
-            ref={firstStatRef}
-            className="border-l border-white/20 pl-6"
-          >
+          <div ref={firstStatRef} className="border-l border-white/20 pl-6">
             <span className="block text-3xl font-black text-white">
               {stats.totalPosts}+
             </span>
             <span className="text-slate-400 font-medium">Artykułów</span>
           </div>
 
-          <div
-            ref={secondStatRef}
-            className="border-l border-white/20 pl-6"
-          >
+          <div ref={secondStatRef} className="border-l border-white/20 pl-6">
             <span className="block text-3xl font-black text-white">
               {stats.avgReadingTime} min
             </span>

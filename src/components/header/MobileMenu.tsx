@@ -151,7 +151,6 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
                                   <div className="absolute inset-0 flex items-center justify-center">
                                     <item.icon
                                       size={18}
-                                      className={item.color}
                                       strokeWidth={1.5}
                                     />
                                   </div>

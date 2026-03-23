@@ -36,11 +36,12 @@ export const SocialMediaCard = React.memo(function SocialMediaCard() {
       {/* Visual Image */}
       <div className="absolute top-0 left-0 w-full h-full opacity-80 z-0">
         <Image
-          src="/assets/hero-cards/socialmedia.png"
+          src="/assets/hero-cards/socialmedia.webp"
           alt="Social Media Visual"
           fill
           className="object-contain object-top"
-          priority
+          loading="lazy"
+          sizes="620px"
         />
       </div>
 

@@ -8,18 +8,18 @@ import {
   CarouselItem,
   CarouselPrevious,
   CarouselNext,
-} from "@/components/ui/carousel";
+} from "@/components/ui/Carousel";
 import { SplitRevealTitle } from "@/components/ui/SplitRevealTitle";
 
-import AnnaImg from "@/assets/team/anna.png";
-import DamianImg from "@/assets/team/damian.png";
-import DarekImg from "@/assets/team/darek.png";
-import EwelinaImg from "@/assets/team/ewelina.png";
-import IrekImg from "@/assets/team/irek.png";
-import JacekImg from "@/assets/team/jacek.png";
-import KasiaImg from "@/assets/team/kasia.png";
-import LukaszImg from "@/assets/team/lukasz.png";
-import OliwiaImg from "@/assets/team/oliwia.png";
+import AnnaImg from "@/assets/team/anna.webp";
+import DamianImg from "@/assets/team/damian.webp";
+import DarekImg from "@/assets/team/darek.webp";
+import EwelinaImg from "@/assets/team/ewelina.webp";
+import IrekImg from "@/assets/team/irek.webp";
+import JacekImg from "@/assets/team/jacek.webp";
+import KasiaImg from "@/assets/team/kasia.webp";
+import LukaszImg from "@/assets/team/lukasz.webp";
+import OliwiaImg from "@/assets/team/oliwia.webp";
 
 interface TeamMember {
   name: string;
@@ -43,7 +43,7 @@ const teamMembers: TeamMember[] = [
   {
     name: "Łukasz",
     role: "Systemy i Szkoła Marketingu",
-    yearsNum: "12",
+    yearsNum: "15",
     yearsText: "LAT DOŚW.",
     description: "Mistrz automatyzacji i strategii lejków sprzedażowych.",
     image: LukaszImg,

@@ -33,8 +33,8 @@ type FallbackSeoConfig = {
   title: string;
   description: string;
   canonical: string;
-  imageUrl: string;
-  imageAlt: string;
+  imageUrl?: string;
+  imageAlt?: string;
   siteName: string;
   locale?: string;
   openGraphType?: "website" | "article";
@@ -189,18 +189,20 @@ export function buildPageMetadataFromSanitySeo(
       description: seo?.openGraph?.description?.trim() || description,
       url: canonical,
       siteName: seo?.openGraph?.siteName?.trim() || fallback.siteName,
-      images: [
-        {
-          url: imageUrl,
-          alt: fallback.imageAlt,
-        },
-      ],
+      images: imageUrl
+        ? [
+            {
+              url: imageUrl,
+              alt: fallback.imageAlt || title,
+            },
+          ]
+        : undefined,
     },
     twitter: {
       card: normalizeTwitterCard(seo?.twitter?.cardType),
       title,
       description,
-      images: [imageUrl],
+      images: imageUrl ? [imageUrl] : undefined,
       creator: seo?.twitter?.creator || seo?.twitter?.handle || undefined,
       site: seo?.twitter?.site || undefined,
     },

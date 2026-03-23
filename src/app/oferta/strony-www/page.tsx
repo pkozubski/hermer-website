@@ -1,22 +1,21 @@
-import React from 'react';
-import { Header } from '@/components/Header';
-import { Footer } from '@/components/Footer';
+import React from "react";
+import { PageLayout } from "@/components/shared/PageLayout";
 
-import { WebsiteOfferHero } from '@/components/oferta/WebsiteOfferHero';
-import { ProcessSection } from '@/components/oferta/ProcessSection';
-import { WebsiteFeaturesBento } from '@/components/oferta/WebsiteFeaturesBento';
-import { WhyHermerSection } from '@/components/oferta/WhyHermerSection';
-import { TechStackSection } from '@/components/oferta/TechStackSection';
-import { PricingSection } from '@/components/oferta/PricingSection';
-import { Faq } from '@/components/Faq';
-import { OfferProjects } from '@/components/oferta/OfferProjects';
+import { WebsiteOfferHero } from "@/components/oferta/website/WebsiteOfferHero";
+import { ProcessSection } from "@/components/oferta/shared/ProcessSection";
+import { WebsiteFeaturesBento } from "@/components/oferta/website/WebsiteFeaturesBento";
+import { WhyHermerSection } from "@/components/oferta/website/WhyHermerSection";
+import { TechStackSection } from "@/components/oferta/website/TechStackSection";
+import { Contact } from "@/components/homepage/Contact";
+import { Faq } from "@/components/shared/Faq";
+import { OfferProjects } from "@/components/oferta/shared/OfferProjects";
+import { CTASection } from "@/components/shared/CTASection";
 
-import { client } from '@/sanity/lib/client';
-import { PAGE_FAQS_QUERY } from '@/sanity/lib/queries';
-import { CTASection } from '@/components/CTASection';
+import { client } from "@/sanity/lib/client";
+import { PAGE_FAQS_QUERY } from "@/sanity/lib/queries";
 
 export default async function WebDesignPage() {
-  const data = await client.fetch(PAGE_FAQS_QUERY, { slug: 'strony-www' });
+  const data = await client.fetch(PAGE_FAQS_QUERY, { slug: "strony-www" });
   const faqItems = data?.faqs?.map((item: any, index: number) => ({
     id: index + 1,
     question: item.question,
@@ -24,35 +23,16 @@ export default async function WebDesignPage() {
   }));
 
   return (
-    <div className="relative min-h-screen bg-neutral-900 text-white overflow-x-clip">
-      {/* Global Dark Background Layer */}
-      <div className="fixed inset-0 w-full h-full bg-neutral-900 z-0 pointer-events-none" />
-
-      {/* Global Gradients / Blobs */}
-      <div className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-hidden">
-        {/* Right Purple Blob */}
-        <div className="absolute top-[-10vh] right-[-10vw] w-[80vw] h-[80vw] md:w-[800px] md:h-[800px] bg-[#916AFF]/20 rounded-full blur-[100px] mix-blend-screen opacity-80 animate-pulse-slow" />
-
-        {/* Left Blue Blob */}
-        <div className="absolute top-[80vh] left-[-20vw] w-[90vw] h-[90vw] md:w-[1000px] md:h-[1000px] bg-[#52D8EA]/10 rounded-full blur-[120px] mix-blend-screen opacity-60" />
-
-        {/* Additional Connecting Blob */}
-        <div className="absolute top-[160vh] right-[-10vw] w-[60vw] h-[60vw] md:w-[800px] md:h-[800px] bg-[#916AFF]/15 rounded-full blur-[100px] mix-blend-screen opacity-50" />
-      </div>
-
-      <Header allowVisibility={true} />
-      <main className="relative z-10">
-        <WebsiteOfferHero />
-        <ProcessSection />
-        <WebsiteFeaturesBento />
-        <WhyHermerSection />
-        <TechStackSection />
-        {/* <PricingSection /> */}
-        <OfferProjects category="website" />
-        <Faq items={faqItems} />
-        <CTASection />
-      </main>
-      <Footer />
-    </div>
+    <PageLayout>
+      <WebsiteOfferHero />
+      <ProcessSection />
+      <WebsiteFeaturesBento />
+      <WhyHermerSection />
+      <TechStackSection />
+      <OfferProjects category="website" />
+      <Contact />
+      <Faq items={faqItems} />
+      <CTASection />
+    </PageLayout>
   );
 }

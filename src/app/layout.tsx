@@ -6,11 +6,14 @@ import { PAGE_SEO_QUERY } from "@/sanity/lib/queries";
 import { client } from "@/sanity/lib/client";
 import type { Metadata } from "next";
 import { Inter, Instrument_Serif } from "next/font/google";
-import { Suspense } from "react";
 import "./globals.css";
-import VisualEditingWrapper from "@/components/VisualEditingWrapper";
-import StyledComponentsRegistry from "@/lib/registry";
-import { SmoothScroll } from "@/components/SmoothScroll";
+import { draftMode } from "next/headers";
+import { VisualEditing } from "next-sanity/visual-editing";
+import { SanityLive } from "@/sanity/lib/live";
+import { ConditionalSmoothScroll } from "@/components/shared/ConditionalSmoothScroll";
+import { CustomScrollbar } from "@/components/shared/CustomScrollbar";
+import { buildOrganizationJsonLd, JsonLdScript } from "@/lib/jsonLd";
+import Script from "next/script";
 
 const inter = Inter({ subsets: ["latin"], display: "swap" });
 const instrumentSerif = Instrument_Serif({
@@ -23,9 +26,12 @@ const instrumentSerif = Instrument_Serif({
 const SEO_SLUG = "home";
 
 const metadataFallback: Metadata = {
-  title: "Hermer - Efektywne strony internetowe",
+  title: "Profesjonalne Strony internetowe - Projektowanie i Tworzenie - Hermer",
   description:
-    "Tworzymy nowoczesne i skuteczne strony internetowe, które przyciągają klientów.",
+    "Profesjonalne Strony Internetowe to Nasza Specjalność. Stworzymy dla Ciebie Wyjątkową i Skuteczną Stronę WWW. 11 lat doświadczenia, ponad 700 realizacji, 14 specjalistów. Hermer - Sprawdź nas!",
+  verification: {
+    google: "rDoyUoz8HqD0RSQxSeTqAN49O6W4OvV6chRJKHC8loQ",
+  },
 };
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -39,23 +45,28 @@ export async function generateMetadata(): Promise<Metadata> {
   );
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
     <html lang="pl">
-      {/* Added instrumentSerif.variable to the body class list */}
+      <head>
+        <Script
+          src="https://analytics.ahrefs.com/analytics.js"
+          data-key="hl1PBbimxCFcEEM+2u9EcQ"
+          strategy="afterInteractive"
+        />
+      </head>
       <body className={`${inter.className} ${instrumentSerif.variable}`}>
-        <StyledComponentsRegistry>
-          <SmoothScroll>
-            {children}
-            <Suspense fallback={null}>
-              <VisualEditingWrapper />
-            </Suspense>
-          </SmoothScroll>
-        </StyledComponentsRegistry>
+        <ConditionalSmoothScroll>
+          <JsonLdScript data={buildOrganizationJsonLd()} />
+          <CustomScrollbar />
+          {children}
+        </ConditionalSmoothScroll>
+        <SanityLive />
+        {(await draftMode()).isEnabled && <VisualEditing />}
       </body>
     </html>
   );

@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import React, { useRef } from 'react';
-import Link from 'next/link';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useGSAP } from '@gsap/react';
-import { urlFor } from '@/sanity/lib/image';
-import { Post } from '@/components/cards/BlogCard';
+import React, { useRef } from "react";
+import Link from "next/link";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+import { urlFor } from "@/sanity/lib/image";
+import { Post } from "@/components/cards/BlogCard";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -17,9 +17,7 @@ interface BlogGridCardProps {
 
 export const BlogGridCard: React.FC<BlogGridCardProps> = ({ post, index }) => {
   const imageContainerRef = useRef<HTMLDivElement>(null);
-  const destinationHref = post.slug?.current
-    ? `/blog/${post.slug.current}`
-    : '#';
+  const destinationHref = post.slug?.current ? `/${post.slug.current}` : "#";
 
   useGSAP(
     () => {
@@ -36,10 +34,10 @@ export const BlogGridCard: React.FC<BlogGridCardProps> = ({ post, index }) => {
           autoAlpha: 1,
           rotate: 0,
           duration: 0.8,
-          ease: 'power4.out',
+          ease: "power4.out",
           scrollTrigger: {
             trigger: imageContainerRef.current,
-            start: 'top 85%',
+            start: "top 85%",
             once: true,
           },
         },
@@ -68,11 +66,11 @@ export const BlogGridCard: React.FC<BlogGridCardProps> = ({ post, index }) => {
             )}
 
             {/* Overlay Gradient */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+            <div className="absolute inset-0 bg-linear-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
             <div className="absolute top-4 left-4 pointer-events-none z-30">
               <span className="bg-black/50 backdrop-blur-md text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full border border-white/10 shadow-sm">
-                {typeof post.category === "string" ? post.category : 'General'}
+                {typeof post.category === "string" ? post.category : "General"}
               </span>
             </div>
           </div>
@@ -80,7 +78,7 @@ export const BlogGridCard: React.FC<BlogGridCardProps> = ({ post, index }) => {
           <div className="flex flex-col gap-2">
             {/* Meta Info - Static */}
             <div className="text-xs font-medium tracking-wide text-neutral-400 uppercase">
-              5 min czytania • {post.year || '2024'}
+              5 min czytania • {post.year || "2024"}
             </div>
 
             {/* Title - Static with color hover */}

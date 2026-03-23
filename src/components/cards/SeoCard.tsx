@@ -36,11 +36,12 @@ export const SeoCard = React.memo(function SeoCard() {
       {/* Visual Image */}
       <div className="absolute top-0 -left-10 w-full h-full opacity-80 z-0">
         <Image
-          src="/assets/hero-cards/seo.png"
+          src="/assets/hero-cards/seo.webp"
           alt="SEO Visual"
           fill
           className="object-cover object-top"
-          priority
+          loading="lazy"
+          sizes="620px"
         />
       </div>
 

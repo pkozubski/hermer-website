@@ -53,7 +53,7 @@ export const LineReveal = ({
         force3D: true,
       });
     },
-    { scope: containerRef, dependencies: [delay, lines, once] },
+    { scope: containerRef, dependencies: [delay, JSON.stringify(lines), once] },
   );
 
   return (

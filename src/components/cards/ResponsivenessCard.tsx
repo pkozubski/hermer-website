@@ -36,11 +36,12 @@ export const ResponsivenessCard = React.memo(function ResponsivenessCard() {
       {/* Visual Image */}
       <div className="absolute top-0 -right-10 w-full h-[130%] opacity-80 z-0">
         <Image
-          src="/assets/hero-cards/responsive.png"
+          src="/assets/hero-cards/responsive.webp"
           alt="Responsiveness Visual"
           fill
           className="object-cover object-top"
-          priority
+          loading="lazy"
+          sizes="620px"
         />
       </div>
 

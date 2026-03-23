@@ -12,7 +12,7 @@ export const MarketingCard = ({ className = '' }: { className?: string }) => {
       {/* --- VISUAL BACKDROP --- */}
       <div className="absolute -bottom-10 -left-50 w-full h-[80%] opacity-80">
         <Image
-          src="/assets/hero-cards/marketing.png"
+          src="/assets/hero-cards/marketing.webp"
           alt="Marketing Chart Visual"
           fill
           className="object-contain object-left"

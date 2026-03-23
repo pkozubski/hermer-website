@@ -36,7 +36,7 @@ export const CmsCard = React.memo(function CmsCard() {
       {/* Visual Image */}
       <div className="absolute top-0 -right-20 w-full h-full opacity-80 z-0">
         <Image
-          src="/assets/hero-cards/cms.png"
+          src="/assets/hero-cards/cms.webp"
           alt="CMS Visual"
           fill
           className="object-cover object-top-left"

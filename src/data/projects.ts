@@ -29,11 +29,11 @@ import skydancerImg from '@/assets/realizations/skydancer.webp';
 import smartOdszkodowaniaImg from '@/assets/realizations/smart-odszkodowania.webp';
 import vertelImg from '@/assets/realizations/ver-tel.webp';
 import wadersworldImg from '@/assets/realizations/waders-world.webp';
-import angelsAtHomeImg from '@/assets/realizations/angelsathome.vlaanderen_.png';
-import blueNeonRecordsImg from '@/assets/realizations/blueneonrecords.pl_.png';
-import chiropraktykCzyzewskiImg from '@/assets/realizations/chiropraktyk-czyzewski.pl_.png';
-import rolkiUKarolkiImg from '@/assets/realizations/rolkiukarolki.pl_.png';
-import wyposazenieSklepoweImg from '@/assets/realizations/www.wyposazenie-sklepowe.pl_.png';
+import angelsAtHomeImg from '@/assets/realizations/angelsathome.vlaanderen_.webp';
+import blueNeonRecordsImg from '@/assets/realizations/blueneonrecords.pl_.webp';
+import chiropraktykCzyzewskiImg from '@/assets/realizations/chiropraktyk-czyzewski.pl_.webp';
+import rolkiUKarolkiImg from '@/assets/realizations/rolkiukarolki.pl_.webp';
+import wyposazenieSklepoweImg from '@/assets/realizations/www.wyposazenie-sklepowe.pl_.webp';
 
 export const PROJECTS = [
   {

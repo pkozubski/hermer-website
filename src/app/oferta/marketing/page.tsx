@@ -1,14 +1,14 @@
 import React from "react";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
+import { PageLayout } from "@/components/shared/PageLayout";
 
-import { MarketingOfferHero } from "@/components/oferta/MarketingOfferHero";
-import { MarketingProcessSection } from "@/components/oferta/MarketingProcessSection";
-import { MarketingFeaturesBento } from "@/components/oferta/MarketingFeaturesBento";
-import { MarketingBenefitsSection } from "@/components/oferta/MarketingBenefitsSection";
-import { MarketingTargetSection } from "@/components/oferta/MarketingTargetSection";
-import { Faq } from "@/components/Faq";
-import { CTASection } from "@/components/CTASection";
+import { MarketingOfferHero } from "@/components/oferta/marketing/MarketingOfferHero";
+import { MarketingProcessSection } from "@/components/oferta/marketing/MarketingProcessSection";
+import { MarketingFeaturesBento } from "@/components/oferta/marketing/MarketingFeaturesBento";
+import { MarketingBenefitsSection } from "@/components/oferta/marketing/MarketingBenefitsSection";
+import { MarketingTargetSection } from "@/components/oferta/marketing/MarketingTargetSection";
+import { Contact } from "@/components/homepage/Contact";
+import { Faq } from "@/components/shared/Faq";
+import { CTASection } from "@/components/shared/CTASection";
 
 import { client } from "@/sanity/lib/client";
 import { PAGE_FAQS_QUERY } from "@/sanity/lib/queries";
@@ -22,33 +22,15 @@ export default async function MarketingPage() {
   }));
 
   return (
-    <div className="relative min-h-screen bg-neutral-900 text-white overflow-x-clip">
-      {/* Global Dark Background Layer */}
-      <div className="fixed inset-0 w-full h-full bg-neutral-900 z-0 pointer-events-none" />
-
-      {/* Global Gradients / Blobs */}
-      <div className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-hidden">
-        {/* Right Purple Blob */}
-        <div className="absolute top-[-10vh] right-[-10vw] w-[80vw] h-[80vw] md:w-[800px] md:h-[800px] bg-[#916AFF]/20 rounded-full blur-[100px] mix-blend-screen opacity-80 animate-pulse-slow" />
-
-        {/* Left Blue Blob */}
-        <div className="absolute top-[80vh] left-[-20vw] w-[90vw] h-[90vw] md:w-[1000px] md:h-[1000px] bg-[#52D8EA]/10 rounded-full blur-[120px] mix-blend-screen opacity-60" />
-
-        {/* Additional Connecting Blob */}
-        <div className="absolute top-[160vh] right-[-10vw] w-[60vw] h-[60vw] md:w-[800px] md:h-[800px] bg-[#916AFF]/15 rounded-full blur-[100px] mix-blend-screen opacity-50" />
-      </div>
-
-      <Header allowVisibility={true} />
-      <main className="relative z-10">
-        <MarketingOfferHero />
-        <MarketingFeaturesBento />
-        <MarketingTargetSection />
-        <MarketingBenefitsSection />
-        <MarketingProcessSection />
-        <Faq items={faqItems} />
-        <CTASection />
-      </main>
-      <Footer />
-    </div>
+    <PageLayout>
+      <MarketingOfferHero />
+      <MarketingFeaturesBento />
+      <MarketingTargetSection />
+      <MarketingBenefitsSection />
+      <MarketingProcessSection />
+      <Contact />
+      <Faq items={faqItems} />
+      <CTASection />
+    </PageLayout>
   );
 }

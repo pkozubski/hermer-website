@@ -5,19 +5,20 @@ import {
 import { PAGE_SEO_QUERY } from "@/sanity/lib/queries";
 import type { Metadata } from "next";
 import React from "react";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
+import { Header } from "@/components/shared/Header";
+import { Footer } from "@/components/shared/Footer";
 import { SplitRevealTitle } from "@/components/ui/SplitRevealTitle";
 import { client } from "@/sanity/lib/client";
-import { Review } from "@/components/Testimonials";
-import { ReviewsGrid } from "@/components/ReviewsGrid";
+
+import { Review } from "@/components/shared/Testimonials";
+import { ReviewsGrid } from "@/components/shared/ReviewsGrid";
 
 const SEO_SLUG = "opinie";
 
 const metadataFallback: Metadata = {
-  title: "Opinie Klientów | Hermer",
+  title: "Strony internetowe Opinie - Opinie Hermer",
   description:
-    "Zobacz, co mówią o nas klienci, którym pomogliśmy osiągnąć sukces w świecie cyfrowym. Przeczytaj autentyczne opinie o współpracy z Hermer.",
+    "Sprawdź opinie o tworzonych przez nasz sklepach i stronach www. Zaufaj profesjonalistom.",
 };
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -25,7 +26,10 @@ export async function generateMetadata(): Promise<Metadata> {
     slug: SEO_SLUG,
   });
 
-  return buildMetadataFromSanityWithFallbackMetadata(page?.seo ?? null, metadataFallback);
+  return buildMetadataFromSanityWithFallbackMetadata(
+    page?.seo ?? null,
+    metadataFallback,
+  );
 }
 
 export default async function OpiniePage() {
@@ -40,19 +44,14 @@ export default async function OpiniePage() {
     reviewLink
   }`;
 
-  const reviews = await client.fetch<Review[]>(
-    reviewsQuery,
-    {},
-    { next: { revalidate: 3600 } },
-  );
+  // Use authenticated client — without token, Sanity returns only 5 public reviews
+  const token = process.env.SANITY_API_READ_TOKEN;
+  const reviews = await client
+    .withConfig({ useCdn: false, token })
+    .fetch<Review[]>(reviewsQuery, {}, { next: { revalidate: 3600 } });
 
   return (
     <div className="min-h-screen bg-neutral-900 text-white overflow-x-clip">
-      {/* Background Decor */}
-      <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute top-[-10%] right-[-5%] w-[1000px] h-[1000px] bg-[#916AFF]/10 rounded-full blur-[150px] mix-blend-screen animate-pulse-slow" />
-        <div className="absolute bottom-[-10%] left-[-10%] w-[800px] h-[800px] bg-[#52D8EA]/5 rounded-full blur-[120px] mix-blend-screen" />
-      </div>
 
       <Header allowVisibility={true} />
 
@@ -61,8 +60,9 @@ export default async function OpiniePage() {
           {/* Header Section */}
           <div className="w-full flex flex-col md:flex-row justify-between items-start md:items-end mb-16 md:mb-24 gap-6">
             <SplitRevealTitle
-              line1="Zaufali nam"
-              line2="Liderzy Branży"
+              line1="Opinie Naszych"
+              line2="Klientów"
+              as="h1"
               className="text-5xl md:text-8xl text-white"
             />
             <div className="max-w-xs md:max-w-sm">

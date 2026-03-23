@@ -2,15 +2,15 @@ import React from 'react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArrowLeft, ArrowUpRight } from 'lucide-react';
-import { Header } from '@/components/Header';
-import { Footer } from '@/components/Footer';
-import { ProjectPreviewPanel } from '@/components/ProjectPreviewPanel';
-import { ProjectDetailEntrance } from '@/components/ProjectDetailEntrance';
-import { ProjectCardScrollShaderOverlay } from '@/components/ProjectCardScrollShader';
+import { Header } from '@/components/shared/Header';
+import { Footer } from '@/components/shared/Footer';
+import { ProjectPreviewPanel } from '@/components/homepage/ProjectPreviewPanel';
+import { ProjectDetailEntrance } from '@/components/homepage/ProjectDetailEntrance';
+import { ProjectCardScrollShaderOverlay } from '@/components/homepage/ProjectCardScrollShader';
 import { SplitRevealTitle } from '@/components/ui/SplitRevealTitle';
 import { LineReveal } from '@/components/ui/LineReveal';
-import { ProjectCard } from '@/components/ProjectCard';
-import { CTASection } from '@/components/CTASection';
+import { ProjectCard } from '@/components/homepage/ProjectCard';
+import { CTASection } from '@/components/shared/CTASection';
 import { PROJECTS } from '@/data/projects';
 
 interface ProjectDetailPageProps {
@@ -191,7 +191,8 @@ export default async function ProjectDetailPage({
           </section>
 
           <CTASection
-            title="Twój projekt może być następny"
+            titleLine1="Twój projekt może"
+            titleLine2="być następny"
             subtitleLines={[
               'Podoba Ci się ta realizacja?',
               'Zaprojektujmy wspólnie system,',

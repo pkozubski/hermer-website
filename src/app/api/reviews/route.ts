@@ -1,9 +1,14 @@
 import { NextResponse } from "next/server";
 
 export async function GET() {
-  const API_KEY =
-    process.env.GOOGLE_PLACES_API_KEY ||
-    "AIzaSyCtHF0dp89HD4O8cA6cOFgC67DybpqDftU";
+  const API_KEY = process.env.GOOGLE_MAPS_API_KEY;
+
+  if (!API_KEY) {
+    return NextResponse.json(
+      { error: "Missing GOOGLE_MAPS_API_KEY" },
+      { status: 500 },
+    );
+  }
   const PLACE_ID = "ChIJX9DgUnRdAUcRwA8xIRfGi5Q"; // Hermer - Tworzenie stron www, Wałcz
   const URL = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${PLACE_ID}&fields=name,rating,reviews,user_ratings_total&key=${API_KEY}&language=pl`;
 

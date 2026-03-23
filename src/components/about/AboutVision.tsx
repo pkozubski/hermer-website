@@ -5,7 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { SplitRevealTitle } from "@/components/ui/SplitRevealTitle";
-import targetImg from "@/assets/target.png";
+import targetImg from "@/assets/target.webp";
 
 gsap.registerPlugin(ScrollTrigger);
 

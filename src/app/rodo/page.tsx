@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
+import { Header } from "@/components/shared/Header";
+import { Footer } from "@/components/shared/Footer";
 import { SplitRevealTitle } from "@/components/ui/SplitRevealTitle";
 
 export default function RodoPage() {
@@ -17,6 +17,7 @@ export default function RodoPage() {
             <SplitRevealTitle
               line1="Informacja"
               line2="RODO"
+              as="h1"
               className="text-5xl md:text-8xl text-white tracking-tighter mb-8"
             />
             <p className="text-neutral-400 text-lg uppercase tracking-wide leading-relaxed font-medium">
@@ -38,9 +39,9 @@ export default function RodoPage() {
                 Administrator danych osobowych
               </h2>
               <p>
-                My, Firma usługowa Hermer Jacek Chudyński z siedzibą w Wałczu pod
-                adresem ul. Bydgoska 50 jesteśmy administratorem Twoich danych
-                osobowych.
+                My, Firma usługowa Hermer Jacek Chudyński z siedzibą w Wałczu
+                pod adresem ul. Bydgoska 50 jesteśmy administratorem Twoich
+                danych osobowych.
               </p>
             </section>
 
@@ -60,15 +61,16 @@ export default function RodoPage() {
                 </li>
                 <li>
                   w celu wykonania i na podstawie zawartej przez Ciebie z nami
-                  umowy o świadczenie naszych usług (podstawa z art. 6 ust. 1 lit.
-                  b) RODO);
+                  umowy o świadczenie naszych usług (podstawa z art. 6 ust. 1
+                  lit. b) RODO);
                 </li>
                 <li>
                   w celach analitycznych (np. optymalizacji naszych produktów na
                   podstawie Twoich uwag na ich temat; optymalizacji procesów
                   obsługi na podstawie obsługi procesów sprzedaży i
                   posprzedażowej, w tym reklamacji), co jest naszym prawnie
-                  uzasadnionym interesem (podstawa z art. 6 ust. 1 lit. f) RODO);
+                  uzasadnionym interesem (podstawa z art. 6 ust. 1 lit. f)
+                  RODO);
                 </li>
                 <li>
                   w celach archiwalnych (dowodowych) dla zabezpieczenia
@@ -82,8 +84,8 @@ export default function RodoPage() {
                   (podstawa z art. 6 ust. 1 lit. f) RODO);
                 </li>
                 <li>
-                  w celu badania satysfakcji klientów i określania jakości naszej
-                  obsługi, co jest naszym prawnie uzasadnionym interesem
+                  w celu badania satysfakcji klientów i określania jakości
+                  naszej obsługi, co jest naszym prawnie uzasadnionym interesem
                   (podstawa z art. 6 ust. 1 lit. f) RODO);
                 </li>
               </ul>
@@ -150,10 +152,10 @@ export default function RodoPage() {
                 </li>
                 <li>
                   Twoje dane kontaktowe przechowujemy dla potrzeb marketingu
-                  bezpośredniego naszych produktów i usług do czasu, aż
-                  zgłosisz sprzeciw względem ich przetwarzania w tym celu,
-                  cofniesz zgodę, jeśli przetwarzaliśmy je na podstawie zgody
-                  lub gdy sami stwierdzimy, że się zdezaktualizowały.
+                  bezpośredniego naszych produktów i usług do czasu, aż zgłosisz
+                  sprzeciw względem ich przetwarzania w tym celu, cofniesz
+                  zgodę, jeśli przetwarzaliśmy je na podstawie zgody lub gdy
+                  sami stwierdzimy, że się zdezaktualizowały.
                 </li>
               </ul>
             </section>
@@ -168,8 +170,8 @@ export default function RodoPage() {
                 <li>Prawo sprostowania i uzupełniania Twoich danych;</li>
                 <li>
                   Prawo do usunięcia Twoich danych (jeśli Twoim zdaniem nie ma
-                  podstaw do tego, abyśmy przetwarzali Twoje dane, możesz
-                  żądać, abyśmy je usunęli);
+                  podstaw do tego, abyśmy przetwarzali Twoje dane, możesz żądać,
+                  abyśmy je usunęli);
                 </li>
                 <li>
                   Prawo do ograniczenia przetwarzania danych (możesz żądać,
@@ -180,10 +182,10 @@ export default function RodoPage() {
                 </li>
                 <li>
                   Prawo do przenoszenia danych (masz prawo otrzymać od nas w
-                  ustrukturyzowanym, powszechnie używanym formacie nadającym
-                  się do odczytu maszynowego np. format .csv dane osobowe
-                  Ciebie dotyczące, które nam dostarczyłeś na podstawie umowy
-                  lub Twojej zgody);
+                  ustrukturyzowanym, powszechnie używanym formacie nadającym się
+                  do odczytu maszynowego np. format .csv dane osobowe Ciebie
+                  dotyczące, które nam dostarczyłeś na podstawie umowy lub
+                  Twojej zgody);
                 </li>
                 <li>
                   Prawo do sprzeciwu względem przetwarzania:
@@ -194,10 +196,10 @@ export default function RodoPage() {
                       bezpośredniego.
                     </li>
                     <li>
-                      Sprzeciw z uwagi na szczególną sytuację – masz także
-                      prawo sprzeciwu wobec przetwarzania Twoich danych
-                      osobowych na podstawie prawnie uzasadnionego interesu w
-                      celach innych niż marketing bezpośredni.
+                      Sprzeciw z uwagi na szczególną sytuację – masz także prawo
+                      sprzeciwu wobec przetwarzania Twoich danych osobowych na
+                      podstawie prawnie uzasadnionego interesu w celach innych
+                      niż marketing bezpośredni.
                     </li>
                   </ul>
                 </li>
@@ -221,8 +223,20 @@ export default function RodoPage() {
               </p>
               <p>
                 W celu wykonania swoich praw skieruj żądanie na adres mailowy:{" "}
-                <a href="mailto:bok@e-hermer.pl" className="text-white font-bold hover:text-[#916AFF] transition-colors">bok@e-hermer.pl</a>, zadzwoń pod nr{" "}
-                <a href="tel:+48531004661" className="text-white font-bold hover:text-[#916AFF] transition-colors">531 004 661</a> lub przyjdź do nas osobiście.
+                <a
+                  href="mailto:bok@e-hermer.pl"
+                  className="text-white font-bold hover:text-[#916AFF] transition-colors"
+                >
+                  bok@e-hermer.pl
+                </a>
+                , zadzwoń pod nr{" "}
+                <a
+                  href="tel:+48531004661"
+                  className="text-white font-bold hover:text-[#916AFF] transition-colors"
+                >
+                  531 004 661
+                </a>{" "}
+                lub przyjdź do nas osobiście.
               </p>
             </section>
 

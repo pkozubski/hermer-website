@@ -3,9 +3,10 @@
 import React, { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
-import { CTASection } from "@/components/CTASection";
+import { Header } from "@/components/shared/Header";
+import { Footer } from "@/components/shared/Footer";
+import { Contact } from "@/components/homepage/Contact";
+import { CTASection } from "@/components/shared/CTASection";
 import { ReelCtaButton } from "@/components/ui/ReelCtaButton";
 import { GlassBentoCard } from "@/components/cards/bento/GlassBentoCard";
 import {
@@ -181,7 +182,7 @@ export default function WordPressShieldPage() {
           {/* Background Image & Overlay */}
           <div className="absolute inset-0 z-0">
             <Image
-              src="/assets/wordpress-shield/wordpress-shield-bg.png"
+              src="/assets/wordpress-shield/wordpress-shield-bg.webp"
               alt="WordPress Shield Security Background"
               fill
               className="object-cover opacity-60"
@@ -403,9 +404,13 @@ export default function WordPressShieldPage() {
           </div>
         </section>
 
+        {/* --- CONTACT --- */}
+        <Contact />
+
         {/* --- CTA --- */}
         <CTASection
-          title="Zadbaj o bezpieczeństwo"
+          titleLine1="Zadbaj o"
+          titleLine2="bezpieczeństwo"
           subtitleLines={[
             "swojej strony już dziś.",
             "Skontaktuj się z nami i wybierz",
