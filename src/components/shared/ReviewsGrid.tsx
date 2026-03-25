@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useRef, useState, useEffect } from "react";
+import Image from "next/image";
 import { Quote } from "lucide-react";
 import { CustomStar } from "@/components/ui/CustomStar";
 import { JsonLdScript } from "@/lib/jsonLd";
@@ -62,8 +63,8 @@ export const ReviewCard = ({
       <div className="mt-8 pt-6 border-t border-white/5 flex items-center gap-4">
         {review.avatarUrl ? (
           <div className="relative">
-            <div className="w-11 h-11 rounded-full overflow-hidden ring-2 ring-white/5 group-hover:ring-[#916AFF]/40 transition-all duration-500">
-              <img src={review.avatarUrl} alt={review.author} referrerPolicy="no-referrer" className="w-full h-full object-cover" />
+            <div className="relative w-11 h-11 rounded-full overflow-hidden ring-2 ring-white/5 group-hover:ring-[#916AFF]/40 transition-all duration-500">
+              <Image src={review.avatarUrl} alt={review.author} fill sizes="44px" className="object-cover" referrerPolicy="no-referrer" />
             </div>
             <div className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-zinc-900 border border-white/10 flex items-center justify-center">
               <CustomStar size={12} fill="#916AFF" />

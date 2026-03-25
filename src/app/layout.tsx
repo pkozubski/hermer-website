@@ -52,14 +52,12 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="pl">
-      <head>
+      <body className={`${inter.className} ${instrumentSerif.variable}`}>
         <Script
           src="https://analytics.ahrefs.com/analytics.js"
           data-key="hl1PBbimxCFcEEM+2u9EcQ"
           strategy="afterInteractive"
         />
-      </head>
-      <body className={`${inter.className} ${instrumentSerif.variable}`}>
         <ConditionalSmoothScroll>
           <JsonLdScript data={buildOrganizationJsonLd()} />
           <CustomScrollbar />

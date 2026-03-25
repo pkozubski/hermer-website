@@ -74,7 +74,10 @@ export default async function OpiniePage() {
           </div>
 
           {/* Grid */}
-          <ReviewsGrid reviews={reviews} />
+          <ReviewsGrid reviews={reviews.map((r) => ({
+            ...r,
+            avatarUrl: r.avatarUrl ? r.avatarUrl.replace(/=s\d+$/, "=s96") : r.avatarUrl,
+          }))} />
         </div>
       </main>
 

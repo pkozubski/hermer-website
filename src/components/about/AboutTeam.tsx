@@ -9,17 +9,17 @@ import {
   CarouselPrevious,
   CarouselNext,
 } from "@/components/ui/Carousel";
-import { SplitRevealTitle } from "@/components/ui/SplitRevealTitle";
 
 import AnnaImg from "@/assets/team/anna.webp";
 import DamianImg from "@/assets/team/damian.webp";
 import DarekImg from "@/assets/team/darek.webp";
-import EwelinaImg from "@/assets/team/ewelina.webp";
 import IrekImg from "@/assets/team/irek.webp";
 import JacekImg from "@/assets/team/jacek.webp";
 import KasiaImg from "@/assets/team/kasia.webp";
 import LukaszImg from "@/assets/team/lukasz.webp";
 import OliwiaImg from "@/assets/team/oliwia.webp";
+
+import { StaticImageData } from "next/image";
 
 interface TeamMember {
   name: string;
@@ -27,7 +27,7 @@ interface TeamMember {
   yearsNum: string;
   yearsText: string;
   description: string;
-  image: any;
+  image: StaticImageData;
 }
 
 const teamMembers: TeamMember[] = [
@@ -143,36 +143,9 @@ export const AboutTeam = () => {
                     />
                   </div>
 
-                  {/* Progressive Blur Overlay */}
+                  {/* Optimized Gradient Overlay */}
                   <div className="absolute inset-x-0 bottom-0 h-[60%] pointer-events-none z-10">
-                    <div
-                      className="absolute inset-0 backdrop-blur-[2px]"
-                      style={{
-                        maskImage:
-                          "linear-gradient(to bottom, transparent 0%, black 30%)",
-                        WebkitMaskImage:
-                          "linear-gradient(to bottom, transparent 0%, black 30%)",
-                      }}
-                    />
-                    <div
-                      className="absolute inset-0 backdrop-blur-sm"
-                      style={{
-                        maskImage:
-                          "linear-gradient(to bottom, transparent 30%, black 60%)",
-                        WebkitMaskImage:
-                          "linear-gradient(to bottom, transparent 30%, black 60%)",
-                      }}
-                    />
-                    <div
-                      className="absolute inset-0 backdrop-blur-md"
-                      style={{
-                        maskImage:
-                          "linear-gradient(to bottom, transparent 60%, black 100%)",
-                        WebkitMaskImage:
-                          "linear-gradient(to bottom, transparent 60%, black 100%)",
-                      }}
-                    />
-                    <div className="absolute inset-0 bg-linear-to-b from-transparent via-[rgba(26,26,26,0.6)] to-[#1a1a1a]" />
+                    <div className="absolute inset-0 bg-linear-to-b from-transparent via-[rgba(26,26,26,0.85)] to-[#1a1a1a]" />
                   </div>
 
                   {/* Content */}

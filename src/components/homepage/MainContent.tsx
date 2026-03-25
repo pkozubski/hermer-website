@@ -8,24 +8,19 @@ import type { FaqItem } from '../shared/Faq';
 
 const Offer = dynamic(
   () => import('./Offer').then((m) => ({ default: m.Offer })),
-  { ssr: false },
 );
 
 const About = dynamic(
   () => import('./About').then((m) => ({ default: m.About })),
-  { ssr: false },
 );
 const Projects = dynamic(
   () => import('./Projects').then((m) => ({ default: m.Projects })),
-  { ssr: false },
 );
 const Blog = dynamic(
   () => import('./Blog').then((m) => ({ default: m.Blog })),
-  { ssr: false },
 );
 const Testimonials = dynamic(
   () => import('../shared/Testimonials').then((m) => ({ default: m.Testimonials })),
-  { ssr: false },
 );
 const Faq = dynamic(() => import('../shared/Faq').then((m) => ({ default: m.Faq })), {
   ssr: false,
@@ -36,11 +31,9 @@ const Contact = dynamic(
 );
 const Footer = dynamic(
   () => import('../shared/Footer').then((m) => ({ default: m.Footer })),
-  { ssr: false },
 );
 const CTASection = dynamic(
   () => import('../shared/CTASection').then((m) => ({ default: m.CTASection })),
-  { ssr: false },
 );
 
 interface MainContentProps {
@@ -55,7 +48,7 @@ export const MainContent: React.FC<MainContentProps> = ({
   const [isHeaderAllowed, setIsHeaderAllowed] = useState(false);
   const [isHeroAnimationAllowed, setIsHeroAnimationAllowed] = useState(false);
 
-  // Start hero animation shortly after mount
+  // Restore hero animation sequence (user requested the delayed stagger back)
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsHeroAnimationAllowed(true);

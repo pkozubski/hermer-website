@@ -328,8 +328,8 @@ export const Hero: React.FC<{
   const rightColRef = useRef<HTMLDivElement>(null);
 
   const revealClass = `transition-all duration-1000 ease-out`;
-  const revealState = startAnimation ? 'opacity-100 translate-y-0 blur-none' : 'opacity-0 translate-y-8 blur-[10px]';
-  const revealStateNoTransform = startAnimation ? 'opacity-100 blur-none' : 'opacity-0 blur-[10px]';
+  const revealState = startAnimation ? 'opacity-100 translate-y-0 blur-none' : 'opacity-[0.01] translate-y-8 blur-[10px]';
+  const revealStateNoTransform = startAnimation ? 'opacity-100 blur-none' : 'opacity-[0.01] blur-[10px]';
 
   useEffect(() => {
     if (!startAnimation) return;
@@ -381,15 +381,16 @@ export const Hero: React.FC<{
       <div className="relative z-10 mx-auto grid w-full max-w-[1600px] grid-cols-1 items-center gap-8 perspective-[2000px] lg:grid-cols-12 lg:gap-0">
         <div
           ref={leftColRef}
-          className={`relative col-span-3 hidden h-[650px] w-[320px] select-none justify-self-end overflow-hidden xl:mr-0 xl:w-full lg:-mr-20 lg:block ${revealClass} ${revealStateNoTransform} delay-[1000ms]`}
+          className={`relative col-span-3 hidden h-[650px] w-[320px] select-none justify-self-end overflow-hidden xl:mr-0 xl:w-full lg:-mr-20 lg:block ${revealClass} ${revealStateNoTransform} delay-1000`}
           style={{
             maskImage:
               'linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)',
             transform: 'perspective(1500px) rotateY(12deg) translateZ(-20px) translateY(0px)',
             transformStyle: 'preserve-3d',
+            willChange: 'transform',
           }}
         >
-          <div className={`absolute inset-x-0 z-10 h-full w-full ${revealClass} ${startAnimation ? 'translate-y-0' : 'translate-y-12'} delay-[1000ms]`}>
+          <div className={`absolute inset-x-0 z-10 h-full w-full ${revealClass} ${startAnimation ? 'translate-y-0' : 'translate-y-12'} delay-1000`}>
             <CardWheel cards={LEFT_COLUMN_CARDS} direction="up" start={startAnimation} />
           </div>
         </div>
@@ -400,22 +401,22 @@ export const Hero: React.FC<{
           </div>
 
           <p
-            className={`mb-8 max-w-lg text-base font-light leading-relaxed tracking-wide text-neutral-400 sm:text-lg lg:mb-10 lg:text-xl ${revealClass} ${revealState} delay-[800ms]`}
+            className={`mb-8 max-w-lg text-base font-light leading-relaxed tracking-wide text-neutral-400 sm:text-lg lg:mb-10 lg:text-xl ${revealClass} ${revealState} delay-700`}
           >
             Zajmiemy się Twoją stroną kompleksowo — <br className="hidden sm:block" />
             od przygotowania koncepcji po wdrożenie gotowego projektu.
           </p>
 
-          <div className={`${revealClass} ${revealState} delay-[900ms]`}>
+          <div className={`${revealClass} ${revealState} delay-1000`}>
             <ReelCtaButton text="Rozpocznij projekt" href="/kontakt" className="" size="large" />
           </div>
 
           <div
-            className={`mb-8 mt-10 h-px w-full max-w-xs bg-white/10 lg:mb-10 lg:mt-16 ${revealClass} ${revealState} delay-[1000ms]`}
+            className={`mb-8 mt-10 h-px w-full max-w-xs bg-white/10 lg:mb-10 lg:mt-16 ${revealClass} ${revealState} delay-1000`}
           />
 
           <div
-            className={`flex w-full flex-nowrap justify-center gap-2 sm:gap-8 lg:gap-16 ${revealClass} ${revealState} delay-[1100ms]`}
+            className={`flex w-full flex-nowrap justify-center gap-2 sm:gap-8 lg:gap-16 ${revealClass} ${revealState} delay-1000`}
           >
             <div className="group flex cursor-default flex-col items-center">
               <span className="mb-2 flex items-center text-2xl font-semibold tracking-tight text-white sm:text-4xl lg:text-5xl">
@@ -478,6 +479,7 @@ export const Hero: React.FC<{
               'linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)',
             transform: 'perspective(1500px) rotateY(-12deg) translateZ(-20px) translateY(0px)',
             transformStyle: 'preserve-3d',
+            willChange: 'transform',
           }}
         >
           <div className={`absolute inset-x-0 z-10 h-full w-full ${revealClass} ${startAnimation ? 'translate-y-0' : 'translate-y-12'} delay-[1200ms]`}>

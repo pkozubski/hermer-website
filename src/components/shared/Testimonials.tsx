@@ -133,17 +133,19 @@ const GlassCard = ({ review, index }: { review: Review; index: number }) => {
   );
 };
 
+import { useLenis } from "lenis/react";
+
 const ReviewColumn = ({
   reviews,
-  y,
   className = "",
+  columnRef,
 }: {
   reviews: Review[];
-  y: number;
   className?: string;
+  columnRef: React.RefObject<HTMLDivElement | null>;
 }) => (
   <div
-    style={{ transform: `translate3d(0, ${y}px, 0)` }}
+    ref={columnRef}
     className={`flex flex-col gap-6 will-change-transform ${className}`}
   >
     {reviews.map((review, i) => (
@@ -154,48 +156,68 @@ const ReviewColumn = ({
 
 export const Testimonials = ({ reviews = [] }: { reviews?: Review[] }) => {
   const containerRef = useRef<HTMLElement>(null);
-  const [progress, setProgress] = useState(0);
+  const col1Ref = useRef<HTMLDivElement>(null);
+  const col2Ref = useRef<HTMLDivElement>(null);
+  const col3Ref = useRef<HTMLDivElement>(null);
+  const separatorRef = useRef<HTMLDivElement>(null);
+  const containerScaleRef = useRef<HTMLDivElement>(null);
+
   const [headerVisible, setHeaderVisible] = useState(false);
+  const headerVisibleRef = useRef(false);
+
+  const cachedRectParams = useRef({ docTop: 0, height: 0, vh: 0 });
+
+  const updateCache = () => {
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    cachedRectParams.current = {
+      docTop: rect.top + window.scrollY,
+      height: rect.height,
+      vh: window.innerHeight,
+    };
+  };
 
   useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
-
-    let rafId: number | null = null;
-
-    const updateProgress = () => {
-      const rect = el.getBoundingClientRect();
-      const vh = window.innerHeight;
-      const raw = (vh - rect.top) / (vh + rect.height);
-      const clamped = clamp(raw, 0, 1);
-      setProgress(clamped);
-      if (clamped > 0.05) setHeaderVisible(true);
-    };
-
-    const onScroll = () => {
-      if (rafId !== null) return;
-      rafId = requestAnimationFrame(() => {
-        rafId = null;
-        updateProgress();
-      });
-    };
-
-    updateProgress();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-
+    updateCache();
+    window.addEventListener("resize", updateCache);
+    const ob = new ResizeObserver(updateCache);
+    if (containerRef.current) ob.observe(containerRef.current);
+    
+    // Fallback: update cache after fonts/images load
+    const timeout = setTimeout(updateCache, 1000);
     return () => {
-      if (rafId !== null) cancelAnimationFrame(rafId);
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
+      window.removeEventListener("resize", updateCache);
+      ob.disconnect();
+      clearTimeout(timeout);
     };
   }, []);
 
-  const y1 = piecewise(progress, 0.45, 1, 200, 0, -150);
-  const y2 = piecewise(progress, 0.45, 1, 400, 0, -300);
-  const y3 = piecewise(progress, 0.45, 1, 300, 0, -200);
-  const containerScale = piecewise(progress, 0.4, 0.6, 0.85, 1.02, 1);
-  const separatorHeight = mapRange(progress, 0, 0.3, 0, 100);
+  useLenis(({ scroll }) => {
+    const { docTop, height, vh } = cachedRectParams.current;
+    if (height === 0 || vh === 0) return;
+    
+    // Calculate viewport-relative top using cached absolute top minus current scroll
+    const top = docTop - scroll;
+    const raw = (vh - top) / (vh + height);
+    const clamped = clamp(raw, 0, 1);
+
+    const y1 = piecewise(clamped, 0.45, 1, 200, 0, -150);
+    const y2 = piecewise(clamped, 0.45, 1, 400, 0, -300);
+    const y3 = piecewise(clamped, 0.45, 1, 300, 0, -200);
+    const containerScale = piecewise(clamped, 0.4, 0.6, 0.85, 1.02, 1);
+    const separatorHeight = mapRange(clamped, 0, 0.3, 0, 100);
+
+    if (col1Ref.current) col1Ref.current.style.transform = `translate3d(0, ${y1}px, 0)`;
+    if (col2Ref.current) col2Ref.current.style.transform = `translate3d(0, ${y2}px, 0)`;
+    if (col3Ref.current) col3Ref.current.style.transform = `translate3d(0, ${y3}px, 0)`;
+    if (separatorRef.current) separatorRef.current.style.height = `${separatorHeight}%`;
+    if (containerScaleRef.current) containerScaleRef.current.style.transform = `scale(${containerScale})`;
+
+    if (clamped > 0.05 && !headerVisibleRef.current) {
+      headerVisibleRef.current = true;
+      setHeaderVisible(true);
+    }
+  });
 
   const third = Math.ceil(reviews.length / 3);
   const col1 = reviews.slice(0, third);
@@ -265,7 +287,8 @@ export const Testimonials = ({ reviews = [] }: { reviews?: Review[] }) => {
             </div>
             <div className="w-px h-10 bg-white/10 relative overflow-hidden">
               <div
-                style={{ height: `${separatorHeight}%` }}
+                ref={separatorRef}
+                style={{ height: "0%" }}
                 className="absolute top-0 left-0 w-full bg-[#916AFF]"
               />
             </div>
@@ -293,16 +316,16 @@ export const Testimonials = ({ reviews = [] }: { reviews?: Review[] }) => {
         </div>
 
         <div
-          style={{ transform: `scale(${containerScale})` }}
+          ref={containerScaleRef}
           className="relative h-[600px] md:h-[800px] overflow-hidden rounded-3xl bg-white/[0.01] border border-white/5"
         >
           <div className="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-neutral-900 to-transparent z-20 pointer-events-none" />
           <div className="absolute top-0 left-0 w-full h-20 bg-gradient-to-b from-neutral-900 to-transparent z-20 pointer-events-none" />
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6 md:p-8">
-            <ReviewColumn reviews={col1} y={y1} />
-            <ReviewColumn reviews={col2} y={y2} className="hidden md:flex pt-12" />
-            <ReviewColumn reviews={col3} y={y3} className="hidden lg:flex" />
+            <ReviewColumn reviews={col1} columnRef={col1Ref} />
+            <ReviewColumn reviews={col2} columnRef={col2Ref} className="hidden md:flex pt-12" />
+            <ReviewColumn reviews={col3} columnRef={col3Ref} className="hidden lg:flex" />
           </div>
         </div>
       </div>

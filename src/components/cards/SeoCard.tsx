@@ -40,39 +40,14 @@ export const SeoCard = React.memo(function SeoCard() {
           alt="SEO Visual"
           fill
           className="object-cover object-top"
-          loading="lazy"
+          loading="eager"
           sizes="620px"
         />
       </div>
 
-      {/* Progressive Blur and Gradient Overlay */}
+      {/* Optimized Gradient Overlay */}
       <div className="absolute h-[340px] left-0 bottom-0 w-full pointer-events-none z-0">
-        <div
-          className="absolute inset-0 backdrop-blur-xs"
-          style={{
-            maskImage: 'linear-gradient(to bottom, transparent 0%, black 30%)',
-            WebkitMaskImage:
-              'linear-gradient(to bottom, transparent 0%, black 30%)',
-          }}
-        />
-        <div
-          className="absolute inset-0 backdrop-blur-sm"
-          style={{
-            maskImage: 'linear-gradient(to bottom, transparent 30%, black 60%)',
-            WebkitMaskImage:
-              'linear-gradient(to bottom, transparent 30%, black 60%)',
-          }}
-        />
-        <div
-          className="absolute inset-0 backdrop-blur-md"
-          style={{
-            maskImage:
-              'linear-gradient(to bottom, transparent 60%, black 100%)',
-            WebkitMaskImage:
-              'linear-gradient(to bottom, transparent 60%, black 100%)',
-          }}
-        />
-        <div className="absolute inset-0 bg-linear-to-b from-transparent via-[rgba(26,26,26,0.8)] to-[#1a1a1a]" />
+        <div className="absolute inset-0 bg-linear-to-b from-transparent via-[rgba(26,26,26,0.85)] to-[#1a1a1a]" />
       </div>
 
       {/* Bottom Content Group (Right Aligned) */}

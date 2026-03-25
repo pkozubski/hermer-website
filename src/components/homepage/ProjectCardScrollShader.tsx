@@ -10,6 +10,10 @@ interface TrackedImage {
   currentReveal: number;
   currentTilt: number;
   textureLoaded: boolean;
+  docTop: number;
+  docLeft: number;
+  width: number;
+  height: number;
 }
 
 interface ProjectCardScrollShaderOverlayProps {
@@ -170,6 +174,19 @@ export const ProjectCardScrollShaderOverlay: React.FC<
     const warmupReadyFlagKey = `__${warmupEventName}__`;
     let frameCount = 0;
 
+    const updateCachedRects = () => {
+      const cy = window.scrollY;
+      const cx = window.scrollX;
+      tracked.forEach((obj) => {
+        if (!obj.el.isConnected) return;
+        const r = obj.el.getBoundingClientRect();
+        obj.docTop = r.top + cy;
+        obj.docLeft = r.left + cx;
+        obj.width = r.width;
+        obj.height = r.height;
+      });
+    };
+
     // Shared geometry for all meshes — avoid per-card allocation
     const sharedGeometry = new THREE.PlaneGeometry(
       1,
@@ -253,9 +270,14 @@ export const ProjectCardScrollShaderOverlay: React.FC<
             currentReveal: MIN_REVEAL,
             currentTilt: 0,
             textureLoaded,
+            docTop: 0,
+            docLeft: 0,
+            width: 0,
+            height: 0,
           });
         });
 
+      updateCachedRects();
       runWarmupPass();
     };
     const scheduleScan = () => {
@@ -280,7 +302,7 @@ export const ProjectCardScrollShaderOverlay: React.FC<
 
     const meshPositionAndScale = (
       mesh: THREE.Mesh<THREE.PlaneGeometry, THREE.ShaderMaterial>,
-      rect: DOMRect,
+      rect: { width: number; height: number; left: number; top: number; },
     ) => {
       mesh.scale.set(rect.width, rect.height, 1);
       mesh.position.x = rect.left - w / 2 + rect.width / 2;
@@ -397,7 +419,16 @@ export const ProjectCardScrollShaderOverlay: React.FC<
           return;
         }
 
-        const rect = obj.el.getBoundingClientRect();
+        const top = obj.docTop - scrollY;
+        const left = obj.docLeft - window.scrollX;
+        const rect = {
+          top,
+          bottom: top + obj.height,
+          left,
+          right: left + obj.width,
+          width: obj.width,
+          height: obj.height,
+        };
         if (rect.width <= 0 || rect.height <= 0 || rect.bottom < -100 || rect.top > h + 100) {
           obj.mesh.visible = false;
           return;
@@ -498,8 +529,14 @@ export const ProjectCardScrollShaderOverlay: React.FC<
         camera.aspect = w / h;
         camera.fov = calcFov();
         camera.updateProjectionMatrix();
+        updateCachedRects();
       };
       window.addEventListener('resize', onResize);
+
+      const layoutObserver = new ResizeObserver(() => {
+        updateCachedRects();
+      });
+      layoutObserver.observe(document.body);
 
       return () => {
         stopLoop();
@@ -508,6 +545,7 @@ export const ProjectCardScrollShaderOverlay: React.FC<
         mutationObserver.disconnect();
         warmupObserver.disconnect();
         sectionObserver.disconnect();
+        layoutObserver.disconnect();
         window.removeEventListener('resize', onResize);
 
         tracked.forEach(({ el, mesh, texture }) => {

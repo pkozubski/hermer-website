@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import { ArrowRight } from "lucide-react";
 import { urlFor } from "@/sanity/lib/image";
 import Link from "next/link";
@@ -21,39 +21,9 @@ interface BlogCardProps {
 }
 
 export const BlogCard = ({ post, index = 0 }: BlogCardProps) => {
-  const cardRef = useRef<HTMLDivElement>(null);
-  const [isInView, setIsInView] = useState(false);
-
-  useEffect(() => {
-    const el = cardRef.current;
-    if (!el) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting) return;
-        setIsInView(true);
-        observer.disconnect();
-      },
-      { threshold: 0.3 },
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
   return (
     <div
-      ref={cardRef}
       className="group relative w-[300px] md:w-[400px] shrink-0 cursor-pointer"
-      style={{
-        opacity: isInView ? 1 : 0,
-        transform: isInView ? "scale(1)" : "scale(0.9)",
-        filter: isInView ? "blur(0px)" : "blur(10px)",
-        transitionProperty: "opacity, transform, filter",
-        transitionDuration: "0.7s",
-        transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
-        transitionDelay: `${index * 0.1}s`,
-      }}
     >
       <Link href={`/blog/${post.slug?.current || ""}`}>
         <div className="relative aspect-3/4 overflow-hidden bg-slate-200 rounded-3xl">
@@ -87,25 +57,8 @@ export const BlogCard = ({ post, index = 0 }: BlogCardProps) => {
               <ArrowRight size={24} strokeWidth={2.5} />
             </div>
 
-            <h3 className="text-2xl font-display font-bold text-white leading-tight group-hover:text-[#916AFF] transition-colors duration-300 flex flex-wrap">
-              {post.title.split(" ").map((word, i) => (
-                <span key={i} className="overflow-hidden mr-[0.3em]">
-                  <span
-                    className="inline-block"
-                    style={{
-                      transform: isInView
-                        ? "translateY(0%)"
-                        : "translateY(100%)",
-                      transitionProperty: "transform",
-                      transitionDuration: "0.5s",
-                      transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
-                      transitionDelay: `${i * 0.08}s`,
-                    }}
-                  >
-                    {word}
-                  </span>
-                </span>
-              ))}
+            <h3 className="text-2xl font-display font-bold text-white leading-tight group-hover:text-[#916AFF] transition-colors duration-300">
+              {post.title}
             </h3>
           </div>
         </div>
