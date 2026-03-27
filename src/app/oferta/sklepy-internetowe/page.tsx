@@ -25,7 +25,7 @@ export default async function EcommerceOfferPage() {
   }));
 
   return (
-    <PageLayout>
+    <PageLayout showGradientBlobs={false}>
       <EcommerceOfferHero />
       <WhatIsEcommerceSection />
       <EcommerceProcessSection />

@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import React, { useEffect, useRef } from 'react';
-import * as THREE from 'three';
+import React, { useEffect, useRef } from "react";
+import * as THREE from "three";
 
 interface TrackedImage {
   el: HTMLImageElement;
@@ -33,8 +33,8 @@ const TILT_LERP = 0.14;
 const ENTER_THRESHOLD = 0.92;
 const MAX_TILT = 0.07;
 const PLANE_SEGMENTS = 8;
-const CLEANUP_INTERVAL = 30; // only check disconnected elements every N frames
-export const PROJECTS_SHADER_WARMUP_EVENT = 'projects-shader-warmup-ready';
+const CLEANUP_INTERVAL = 30; // Sprawdzanie odłączonych elementów co N klatek
+export const PROJECTS_SHADER_WARMUP_EVENT = "projects-shader-warmup-ready";
 
 const vertexShader = `
 uniform float uOffset;
@@ -67,7 +67,6 @@ void main() {
   float bend = sideMask * verticalMask * absSpeed * intensity * 0.03;
 
   pos.z += bend;
-  pos.y -= (uOffset > 0.0 ? -1.0 : 1.0) * bend * 0.002;
 
   gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
 }
@@ -118,8 +117,8 @@ export const ProjectCardScrollShaderOverlay: React.FC<
   ProjectCardScrollShaderOverlayProps
 > = ({
   scopeSelector,
-  activationRootMargin = '220px 0px 220px 0px',
-  warmupRootMargin = '1200px 0px 1200px 0px',
+  activationRootMargin = "220px 0px 220px 0px",
+  warmupRootMargin = "1200px 0px 1200px 0px",
   maxPixelRatio = 1.5,
   forceWarmupOnMount = false,
   warmupEventName = PROJECTS_SHADER_WARMUP_EVENT,
@@ -129,8 +128,11 @@ export const ProjectCardScrollShaderOverlay: React.FC<
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
+    let isUnmounted = false; // Zabezpieczenie przed błędem uciekającego asynchronicznego obrazka
+
+    // --- 1. Zakres (Scope) i Inicjalizacja Three.js ---
     const scopeElement = scopeSelector
       ? (document.querySelector(scopeSelector) as HTMLElement | null)
       : container.parentElement;
@@ -152,11 +154,12 @@ export const ProjectCardScrollShaderOverlay: React.FC<
       renderer = new THREE.WebGLRenderer({
         alpha: true,
         antialias: false,
-        powerPreference: 'high-performance',
+        powerPreference: "high-performance",
       });
     } catch {
       return;
     }
+
     renderer.setSize(w, h);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, maxPixelRatio));
     renderer.setClearColor(0x000000, 0);
@@ -164,9 +167,19 @@ export const ProjectCardScrollShaderOverlay: React.FC<
     container.appendChild(renderer.domElement);
 
     const loader = new THREE.TextureLoader();
-    loader.setCrossOrigin('anonymous');
+    loader.setCrossOrigin("anonymous");
+
+    const sharedGeometry = new THREE.PlaneGeometry(
+      1,
+      1,
+      PLANE_SEGMENTS,
+      PLANE_SEGMENTS,
+    );
+
+    // --- 2. Zmienne stanu śledzenia i animacji ---
     const tracked: TrackedImage[] = [];
     const known = new Set<HTMLImageElement>();
+
     let pendingScanFrame: number | null = null;
     let hasWarmupPass = false;
     let warmupNotified = false;
@@ -174,6 +187,13 @@ export const ProjectCardScrollShaderOverlay: React.FC<
     const warmupReadyFlagKey = `__${warmupEventName}__`;
     let frameCount = 0;
 
+    let scrollY = window.scrollY;
+    let prevScrollY = scrollY;
+    let scrollVelocity = 0;
+    let lastTime = performance.now();
+    const startTime = performance.now();
+
+    // --- 3. Funkcje pomocnicze ---
     const updateCachedRects = () => {
       const cy = window.scrollY;
       const cx = window.scrollX;
@@ -187,122 +207,9 @@ export const ProjectCardScrollShaderOverlay: React.FC<
       });
     };
 
-    // Shared geometry for all meshes — avoid per-card allocation
-    const sharedGeometry = new THREE.PlaneGeometry(
-      1,
-      1,
-      PLANE_SEGMENTS,
-      PLANE_SEGMENTS,
-    );
-
-    const createTextureFromImage = (el: HTMLImageElement) => {
-      const texture = new THREE.Texture(el);
-      texture.needsUpdate = true;
-      texture.minFilter = THREE.LinearFilter;
-      texture.generateMipmaps = false;
-      return texture;
-    };
-
-    const scanImages = () => {
-      scanRoot
-        .querySelectorAll<HTMLImageElement>('img.webgl-image')
-        .forEach((el) => {
-          if (known.has(el)) return;
-          known.add(el);
-
-          const texture =
-            el.complete && el.naturalWidth > 0
-              ? createTextureFromImage(el)
-              : loader.load(
-                  el.src,
-                  (tex) => {
-                    const found = tracked.find((t) => t.texture === tex);
-                    if (found) {
-                      found.textureLoaded = true;
-                      found.mesh.material.uniforms.uImageResolution.value.set(
-                        tex.image.width,
-                        tex.image.height,
-                      );
-                    }
-                    el.style.opacity = '0';
-                  },
-                  undefined,
-                  () => {
-                    el.style.opacity = '1';
-                  },
-                );
-          texture.minFilter = THREE.LinearFilter;
-          texture.generateMipmaps = false;
-
-          const mat = new THREE.ShaderMaterial({
-            vertexShader,
-            fragmentShader,
-            uniforms: {
-              uTexture: { value: texture },
-              uOffset: { value: 0 },
-              uSpeed: { value: 0 },
-              uDirection: { value: 0 },
-              uResolution: { value: new THREE.Vector2(1, 1) },
-              uImageResolution: { value: new THREE.Vector2(1, 1) },
-              uBorderRadius: { value: BORDER_RADIUS_PX },
-              uReveal: { value: 1.0 },
-            },
-            side: THREE.FrontSide,
-            transparent: true,
-          });
-
-          const mesh = new THREE.Mesh(sharedGeometry, mat);
-          scene.add(mesh);
-
-          const textureLoaded = el.complete && el.naturalWidth > 0;
-          if (textureLoaded) {
-            mesh.material.uniforms.uImageResolution.value.set(
-              el.naturalWidth,
-              el.naturalHeight,
-            );
-            el.style.opacity = '0';
-          }
-
-          tracked.push({
-            el,
-            mesh,
-            texture,
-            currentReveal: MIN_REVEAL,
-            currentTilt: 0,
-            textureLoaded,
-            docTop: 0,
-            docLeft: 0,
-            width: 0,
-            height: 0,
-          });
-        });
-
-      updateCachedRects();
-      runWarmupPass();
-    };
-    const scheduleScan = () => {
-      if (pendingScanFrame !== null) return;
-      pendingScanFrame = requestAnimationFrame(() => {
-        pendingScanFrame = null;
-        scanImages();
-      });
-    };
-
-    // Observe DOM changes and rescan only when project images are added/removed.
-    const mutationObserver = new MutationObserver(() => {
-      scheduleScan();
-    });
-    mutationObserver.observe(scanRoot, { childList: true, subtree: true });
-
-    let scrollY = typeof window !== 'undefined' ? window.scrollY : 0;
-    let prevScrollY = scrollY;
-    let scrollVelocity = 0;
-    let lastTime = performance.now();
-    const startTime = performance.now();
-
     const meshPositionAndScale = (
       mesh: THREE.Mesh<THREE.PlaneGeometry, THREE.ShaderMaterial>,
-      rect: { width: number; height: number; left: number; top: number; },
+      rect: { width: number; height: number; left: number; top: number },
     ) => {
       mesh.scale.set(rect.width, rect.height, 1);
       mesh.position.x = rect.left - w / 2 + rect.width / 2;
@@ -320,7 +227,10 @@ export const ProjectCardScrollShaderOverlay: React.FC<
 
         hasRenderableMesh = true;
         meshPositionAndScale(obj.mesh, rect);
-        obj.mesh.material.uniforms.uResolution.value.set(rect.width, rect.height);
+        obj.mesh.material.uniforms.uResolution.value.set(
+          rect.width,
+          rect.height,
+        );
         obj.mesh.material.uniforms.uReveal.value = 1;
         obj.mesh.visible = true;
       });
@@ -345,6 +255,101 @@ export const ProjectCardScrollShaderOverlay: React.FC<
       }
     };
 
+    const createTextureFromImage = (el: HTMLImageElement) => {
+      const texture = new THREE.Texture(el);
+      texture.needsUpdate = true;
+      texture.minFilter = THREE.LinearFilter;
+      texture.generateMipmaps = false;
+      return texture;
+    };
+
+    const scanImages = () => {
+      scanRoot
+        .querySelectorAll<HTMLImageElement>("img.webgl-image")
+        .forEach((el) => {
+          if (known.has(el)) return;
+          known.add(el);
+
+          const textureLoaded = el.complete && el.naturalWidth > 0;
+          const texture = textureLoaded
+            ? createTextureFromImage(el)
+            : loader.load(
+                el.src,
+                (tex) => {
+                  if (isUnmounted) return;
+                  const found = tracked.find((t) => t.texture === tex);
+                  if (found) {
+                    found.textureLoaded = true;
+                    found.mesh.material.uniforms.uImageResolution.value.set(
+                      tex.image.width,
+                      tex.image.height,
+                    );
+                  }
+                  el.style.opacity = "0";
+                },
+                undefined,
+                () => {
+                  if (!isUnmounted) el.style.opacity = "1";
+                },
+              );
+
+          texture.minFilter = THREE.LinearFilter;
+          texture.generateMipmaps = false;
+
+          const mat = new THREE.ShaderMaterial({
+            vertexShader,
+            fragmentShader,
+            uniforms: {
+              uTexture: { value: texture },
+              uOffset: { value: 0 },
+              uSpeed: { value: 0 },
+              uDirection: { value: 0 },
+              uResolution: { value: new THREE.Vector2(1, 1) },
+              uImageResolution: { value: new THREE.Vector2(1, 1) },
+              uBorderRadius: { value: BORDER_RADIUS_PX },
+              uReveal: { value: 1.0 },
+            },
+            side: THREE.FrontSide,
+            transparent: true,
+          });
+
+          const mesh = new THREE.Mesh(sharedGeometry, mat);
+          scene.add(mesh);
+
+          if (textureLoaded) {
+            mesh.material.uniforms.uImageResolution.value.set(
+              el.naturalWidth,
+              el.naturalHeight,
+            );
+            el.style.opacity = "0";
+          }
+
+          tracked.push({
+            el,
+            mesh,
+            texture,
+            currentReveal: MIN_REVEAL,
+            currentTilt: 0,
+            textureLoaded,
+            docTop: 0,
+            docLeft: 0,
+            width: 0,
+            height: 0,
+          });
+        });
+
+      updateCachedRects();
+      runWarmupPass();
+    };
+
+    const scheduleScan = () => {
+      if (pendingScanFrame !== null) return;
+      pendingScanFrame = requestAnimationFrame(() => {
+        pendingScanFrame = null;
+        scanImages();
+      });
+    };
+
     const scheduleWarmupRetry = (attempt = 0) => {
       if (hasWarmupPass || !forceWarmupOnMount) return;
       scheduleScan();
@@ -356,14 +361,7 @@ export const ProjectCardScrollShaderOverlay: React.FC<
       );
     };
 
-    // Initial scan once after mount.
-    scheduleScan();
-    if (forceWarmupOnMount) {
-      warmupTimer = window.setTimeout(() => {
-        scheduleWarmupRetry(0);
-      }, 40);
-    }
-
+    // --- 4. Główna pętla animacji (Render Loop) ---
     const stopLoop = () => {
       if (animId === 0) return;
       cancelAnimationFrame(animId);
@@ -383,7 +381,7 @@ export const ProjectCardScrollShaderOverlay: React.FC<
       animId = requestAnimationFrame(animate);
       frameCount++;
 
-      // Throttle cleanup of disconnected elements — every N frames instead of every frame
+      // Odpinanie nieużywanych elementów co N klatek
       if (frameCount % CLEANUP_INTERVAL === 0) {
         for (let i = tracked.length - 1; i >= 0; i--) {
           const obj = tracked[i];
@@ -397,8 +395,8 @@ export const ProjectCardScrollShaderOverlay: React.FC<
         }
       }
 
-      // Read scrollY directly every frame for better sync with Lenis/Main thread
       scrollY = window.scrollY;
+      const currentScrollX = window.scrollX;
 
       const now = performance.now();
       const dt = Math.max((now - lastTime) / 1000, 0.001);
@@ -407,7 +405,11 @@ export const ProjectCardScrollShaderOverlay: React.FC<
       const delta = scrollY - prevScrollY;
       prevScrollY = scrollY;
 
-      // Avoid velocity spikes on initial load/scroll restoration
+      // Auto-heal: stabilizacja pozycji np. przy wejściach (CSS/GSAP fixes)
+      if (Math.abs(delta) < 2.0 && frameCount % 3 === 0) {
+        updateCachedRects();
+      }
+
       const isInitial = now - startTime < 500;
       const rawVel = isInitial && Math.abs(delta) > 100 ? 0 : delta / dt;
 
@@ -420,7 +422,7 @@ export const ProjectCardScrollShaderOverlay: React.FC<
         }
 
         const top = obj.docTop - scrollY;
-        const left = obj.docLeft - window.scrollX;
+        const left = obj.docLeft - currentScrollX;
         const rect = {
           top,
           bottom: top + obj.height,
@@ -429,17 +431,20 @@ export const ProjectCardScrollShaderOverlay: React.FC<
           width: obj.width,
           height: obj.height,
         };
-        if (rect.width <= 0 || rect.height <= 0 || rect.bottom < -100 || rect.top > h + 100) {
+
+        if (
+          rect.width <= 0 ||
+          rect.height <= 0 ||
+          rect.bottom < -100 ||
+          rect.top > h + 100
+        ) {
           obj.mesh.visible = false;
           return;
         }
 
         obj.mesh.visible = true;
-
         meshPositionAndScale(obj.mesh, rect);
 
-        // Determine direction: 1 for right, -1 for left, 0 for center
-        // If the mesh is roughly in the middle of the screen (3-column layout), use 0
         const direction =
           obj.mesh.position.x > 80
             ? 1.0
@@ -482,23 +487,45 @@ export const ProjectCardScrollShaderOverlay: React.FC<
 
       renderer.render(scene, camera);
     };
+
+    // --- 5. Nasłuchiwacze i Obserwatory (Events / Observers) ---
+    const mutationObserver = new MutationObserver(() => {
+      scheduleScan();
+    });
+    mutationObserver.observe(scanRoot, { childList: true, subtree: true });
+
+    const layoutObserver = new ResizeObserver(() => {
+      updateCachedRects();
+    });
+    layoutObserver.observe(document.body);
+
+    const onResize = () => {
+      w = window.innerWidth;
+      h = window.innerHeight;
+      renderer.setSize(w, h);
+      camera.aspect = w / h;
+      camera.fov = calcFov();
+      camera.updateProjectionMatrix();
+      updateCachedRects();
+    };
+    window.addEventListener("resize", onResize);
+
+    let warmupObserver: IntersectionObserver | null = null;
+    let sectionObserver: IntersectionObserver | null = null;
+
     if (scopeElement) {
-      const warmupObserver = new IntersectionObserver(
+      warmupObserver = new IntersectionObserver(
         ([entry]) => {
           if (!entry.isIntersecting) return;
           scheduleScan();
           runWarmupPass();
-          warmupObserver.disconnect();
+          warmupObserver?.disconnect();
         },
-        {
-          root: null,
-          rootMargin: warmupRootMargin,
-          threshold: 0,
-        },
+        { root: null, rootMargin: warmupRootMargin, threshold: 0 },
       );
       warmupObserver.observe(scopeElement);
 
-      const sectionObserver = new IntersectionObserver(
+      sectionObserver = new IntersectionObserver(
         ([entry]) => {
           isActive = entry.isIntersecting;
           if (isActive) {
@@ -509,11 +536,7 @@ export const ProjectCardScrollShaderOverlay: React.FC<
             stopLoop();
           }
         },
-        {
-          root: null,
-          rootMargin: activationRootMargin,
-          threshold: 0,
-        },
+        { root: null, rootMargin: activationRootMargin, threshold: 0 },
       );
       sectionObserver.observe(scopeElement);
 
@@ -521,74 +544,40 @@ export const ProjectCardScrollShaderOverlay: React.FC<
       isActive = rect.bottom > -200 && rect.top < h + 200;
       if (isActive) startLoop();
       runWarmupPass();
-
-      const onResize = () => {
-        w = window.innerWidth;
-        h = window.innerHeight;
-        renderer.setSize(w, h);
-        camera.aspect = w / h;
-        camera.fov = calcFov();
-        camera.updateProjectionMatrix();
-        updateCachedRects();
-      };
-      window.addEventListener('resize', onResize);
-
-      const layoutObserver = new ResizeObserver(() => {
-        updateCachedRects();
-      });
-      layoutObserver.observe(document.body);
-
-      return () => {
-        stopLoop();
-        if (pendingScanFrame !== null) cancelAnimationFrame(pendingScanFrame);
-        if (warmupTimer !== null) clearTimeout(warmupTimer);
-        mutationObserver.disconnect();
-        warmupObserver.disconnect();
-        sectionObserver.disconnect();
-        layoutObserver.disconnect();
-        window.removeEventListener('resize', onResize);
-
-        tracked.forEach(({ el, mesh, texture }) => {
-          el.style.opacity = '1';
-          mesh.material.dispose();
-          texture.dispose();
-        });
-
-        sharedGeometry.dispose();
-        renderer.dispose();
-        if (container.contains(renderer.domElement)) {
-          container.removeChild(renderer.domElement);
-        }
-      };
+    } else {
+      startLoop();
     }
 
-    startLoop();
+    scheduleScan();
+    if (forceWarmupOnMount) {
+      warmupTimer = window.setTimeout(() => {
+        scheduleWarmupRetry(0);
+      }, 40);
+    }
 
-    const onResize = () => {
-      w = window.innerWidth;
-      h = window.innerHeight;
-      renderer.setSize(w, h);
-      camera.aspect = w / h;
-      camera.fov = calcFov();
-      camera.updateProjectionMatrix();
-    };
-    window.addEventListener('resize', onResize);
-
+    // --- 6. Jeden czysty Return (Unified Cleanup) ---
     return () => {
+      isUnmounted = true;
       stopLoop();
+
       if (pendingScanFrame !== null) cancelAnimationFrame(pendingScanFrame);
       if (warmupTimer !== null) clearTimeout(warmupTimer);
+
+      window.removeEventListener("resize", onResize);
       mutationObserver.disconnect();
-      window.removeEventListener('resize', onResize);
+      layoutObserver.disconnect();
+      if (warmupObserver) warmupObserver.disconnect();
+      if (sectionObserver) sectionObserver.disconnect();
 
       tracked.forEach(({ el, mesh, texture }) => {
-        el.style.opacity = '1';
+        el.style.opacity = "1";
         mesh.material.dispose();
         texture.dispose();
       });
 
       sharedGeometry.dispose();
       renderer.dispose();
+
       if (container.contains(renderer.domElement)) {
         container.removeChild(renderer.domElement);
       }
@@ -606,13 +595,13 @@ export const ProjectCardScrollShaderOverlay: React.FC<
     <div
       ref={containerRef}
       style={{
-        position: 'fixed',
+        position: "fixed",
         top: 0,
         left: 0,
-        width: '100%',
-        height: '100%',
+        width: "100%",
+        height: "100%",
         zIndex: 20,
-        pointerEvents: 'none',
+        pointerEvents: "none",
       }}
     />
   );

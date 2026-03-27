@@ -15,6 +15,20 @@ interface FluidButtonProps {
   scrollThreshold?: number;
 }
 
+const activeConfig = {
+  pillUp: { start: 0.01, duration: 1.6, ease: "elastic.out(1.2,.4)" },
+  tailUp: { start: 0.02, duration: 1.6, ease: "elastic.out(1.2,.4)" },
+  pillExpand: { start: 0.38, duration: 1, ease: "back.out(1.5)" },
+  pillSquish: { start: 0.29, duration: 0.4, ease: "power2.out" },
+  pillUnsquish: { start: 0.69, duration: 0.98, ease: "back.out(1.5)" },
+  tailScale: { start: 0.19, duration: 0.47, ease: "power2.out" },
+  iconScale: { start: 0, duration: 1.01, ease: "back.out(2)" },
+  iconMove: { start: 0.25, duration: 1, ease: "power2.out" },
+  iconSquish: { start: 0.27, duration: 0.34, ease: "power2.inOut" },
+  iconUnsquish: { start: 0.61, duration: 0.66, ease: "elastic.out(1,0.5)" },
+  textFade: { start: 0.56, duration: 0.5, ease: "power2.out" }
+};
+
 const FluidButton: React.FC<FluidButtonProps> = ({
   label = "Dowiedz się więcej",
   className = "",
@@ -23,189 +37,138 @@ const FluidButton: React.FC<FluidButtonProps> = ({
   scrollThreshold,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const mainBlobRef = useRef<HTMLElement>(null);
-  const trailBlobRef = useRef<HTMLDivElement>(null);
-  const blueCircleRef = useRef<HTMLDivElement>(null);
-  const blueTrailRef = useRef<HTMLDivElement>(null);
-  const textRef = useRef<HTMLSpanElement>(null);
+  const yWrapperRef = useRef<HTMLDivElement>(null);
+  const tailWrapperRef = useRef<HTMLDivElement>(null);
+  const tailRef = useRef<HTMLDivElement>(null);
+  const dynamicPillRef = useRef<HTMLElement>(null);
+  const iconCircleRef = useRef<HTMLDivElement>(null);
+  const iconBgRef = useRef<HTMLDivElement>(null);
+  const pillTextRef = useRef<HTMLSpanElement>(null);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      // --- SETUP ---
-      const startY = 180;
-
-      // 1. Measure natural width (Dynamic Size Calculation)
-      // Set to auto state momentarily to measure
-      gsap.set(mainBlobRef.current, { width: "auto" });
-      gsap.set(textRef.current, {
-        width: "auto",
-        opacity: 1,
-        x: 0,
-        display: "block",
-      });
-
-      // Calculate final width (padding is included in offsetWidth)
-      // We force a layout calc here
-      const naturalWidth = mainBlobRef.current?.offsetWidth || 220;
-      const finalWidth = Math.max(naturalWidth + 64, 56); // Ensure it doesn't shrink below initial size
-
-      // 2. Initial States (Reset to collapsed)
-      gsap.set([mainBlobRef.current, trailBlobRef.current], { y: startY });
-      gsap.set(mainBlobRef.current, { width: 64 });
-      gsap.set(trailBlobRef.current, { scale: 1 });
-
-      gsap.set(blueCircleRef.current, {
-        scale: 0.1,
-        right: "50%",
-        xPercent: 50,
-      });
-
-      gsap.set(blueTrailRef.current, {
-        scale: 0.1,
-        right: "50%",
-        xPercent: 50,
-      });
-
-      gsap.set(textRef.current, { width: 0, opacity: 0, x: 15 });
+      // 2. Initial States
+      gsap.set([yWrapperRef.current, tailWrapperRef.current], { y: 180, opacity: 1, scale: 1, transformOrigin: "center center" });
+      gsap.set(pillTextRef.current, { opacity: 0, x: 15, display: "block" });
+      gsap.set(iconCircleRef.current, { scale: 0.1, right: "50%", xPercent: 50, top: "50%", yPercent: -50 });
+      gsap.set(dynamicPillRef.current, { width: 64, height: 56, borderRadius: 28, y: 0 });
+      gsap.set(iconBgRef.current, { width: 44, right: 0, top: 0, height: 44, borderRadius: 22 });
 
       // --- TIMELINE ---
-      const tl = gsap.timeline({ paused: true });
+      const masterTl = gsap.timeline({ paused: true });
 
       // 1. Ruch w górę
-      tl.to(mainBlobRef.current, {
+      masterTl.to(yWrapperRef.current, {
         y: 0,
-        duration: 1.2,
-        ease: "elastic.out(2,.8)",
-      })
-        // Ogon - leci wolniej
-        .to(
-          trailBlobRef.current,
-          {
-            y: 0,
-            duration: 1.5,
-            ease: "elastic.out(2,.8)",
-          },
-          0,
-        )
+        duration: activeConfig.pillUp.duration,
+        ease: activeConfig.pillUp.ease,
+      }, activeConfig.pillUp.start)
+      .to(tailWrapperRef.current, {
+        y: 0,
+        duration: activeConfig.tailUp.duration,
+        ease: activeConfig.tailUp.ease,
+      }, activeConfig.tailUp.start);
 
-        // 2. Rozszerzanie (Expansion)
-        .addLabel("expand", "-=1.5")
-        .to(
-          mainBlobRef.current,
-          {
-            width: finalWidth,
-            duration: 1,
-            ease: "back.inOut(2)",
-          },
-          "expand",
-        )
-        .to(
-          trailBlobRef.current,
-          {
-            scale: 0,
-            duration: 0.3,
-          },
-          0.15,
-        )
+      // 2. Rozszerzanie (Expansion) & Squish
+      masterTl.to(dynamicPillRef.current, {
+        width: "auto",
+        duration: activeConfig.pillExpand.duration,
+        ease: activeConfig.pillExpand.ease,
+      }, activeConfig.pillExpand.start)
+      .to(dynamicPillRef.current, {
+        height: 48, y: -4, borderRadius: 24,
+        duration: activeConfig.pillSquish.duration,
+        ease: activeConfig.pillSquish.ease,
+      }, activeConfig.pillSquish.start)
+      .to(dynamicPillRef.current, {
+        height: 56, y: 0, borderRadius: 28,
+        duration: activeConfig.pillUnsquish.duration,
+        ease: activeConfig.pillUnsquish.ease,
+      }, activeConfig.pillUnsquish.start)
+      .to(tailWrapperRef.current, {
+        scale: 0,
+        duration: activeConfig.tailScale.duration,
+        ease: activeConfig.tailScale.ease,
+      }, activeConfig.tailScale.start);
 
-        // 3. Plus (Blue Circle) powiększa się i przesuwa
-        .to(
-          blueCircleRef.current,
-          {
-            scale: 1,
-            duration: 1,
-            ease: "power2.out",
-            right: "8px",
-            xPercent: 0, // Reset translateX
-          },
-          "expand",
-        )
-        // Blue Trail
-        .to(
-          blueTrailRef.current,
-          {
-            ease: "power2.out",
-            duration: 1,
-            scale: 1,
-          },
-          "expand",
-        )
-        .to(
-          blueTrailRef.current,
-          {
-            ease: "elastic.out(3,2)",
-            duration: 0.7,
-            right: "8px",
-            xPercent: 0,
-          },
-          0.4,
-        )
+      // Visual Polish Toolkit (Blur background)
+      masterTl.to(dynamicPillRef.current, {
+        backgroundColor: "#262626CC",
+        backdropFilter: "blur(16px)",
+        duration: 0.5,
+      }, activeConfig.pillExpand.start + 0.5);
 
-        // 4. Tekst
-        .to(
-          textRef.current,
-          {
-            width: "auto",
-            opacity: 1,
-            x: 0,
-            duration: 0.5,
-            ease: "power2.out",
-          },
-          "expand+=.5",
-        )
+      // 3. Plus (Blue Circle)
+      masterTl.to(iconCircleRef.current, {
+        scale: 1,
+        duration: activeConfig.iconScale.duration,
+        ease: activeConfig.iconScale.ease,
+      }, activeConfig.iconScale.start)
+      .to(iconCircleRef.current, {
+        right: "8px",
+        xPercent: 0,
+        top: "50%",
+        yPercent: -50,
+        duration: activeConfig.iconMove.duration,
+        ease: activeConfig.iconMove.ease,
+      }, activeConfig.iconMove.start)
+      .to(iconBgRef.current, {
+        width: 50, // Squish in X direction when moving
+        duration: activeConfig.iconSquish.duration,
+        ease: activeConfig.iconSquish.ease,
+      }, activeConfig.iconSquish.start)
+      .to(iconBgRef.current, {
+        width: 44, // Restore width
+        duration: activeConfig.iconUnsquish.duration,
+        ease: activeConfig.iconUnsquish.ease,
+      }, activeConfig.iconUnsquish.start);
 
-        // Visual Polish (Blur background)
-        .to(mainBlobRef.current, {
-          backgroundColor: "#262626CC", // neutral-800 with 0.8 opacity
-          backdropFilter: "blur(16px)",
-        });
+      // 4. Tekst
+      masterTl.to(pillTextRef.current, {
+        opacity: 1,
+        x: 0,
+        duration: activeConfig.textFade.duration,
+        ease: activeConfig.textFade.ease,
+      }, activeConfig.textFade.start);
 
       // --- SCROLL TRIGGER ---
-      // Use parent or container as trigger
       const triggerEl = containerRef.current?.parentElement || document.body;
       const startValue = scrollThreshold
         ? `top ${Math.round((1 - scrollThreshold) * 100)}%`
-        : "top 0";
+        : "top 75%";
 
       ScrollTrigger.create({
         trigger: triggerEl,
         start: startValue,
         toggleActions: "play none none reverse",
-        animation: tl,
+        animation: masterTl,
       });
     }, containerRef);
 
     return () => ctx.revert();
-  }, [label, scrollThreshold]); // Re-calculate if label or scrollThreshold changes
+  }, [label, scrollThreshold]);
 
-  // Inner content (shared between link and non-link variants)
   const blobContent = (
     <>
-      {/* Content Wrapper */}
-      <div className="flex items-center w-full h-full">
-        {/* Text */}
-        <span
-          ref={textRef}
-          className="whitespace-nowrap text-[17px] font-medium tracking-tight text-[#f5f5f7] opacity-0 translate-x-[15px] w-0 mx-2 block"
-        >
-          {label}
-        </span>
-
-        {/* Blue Trail */}
-        <div
-          ref={blueTrailRef}
-          className="w-10 h-10 bg-[#8b5cf6] rounded-full absolute -z-10"
-          style={{ right: "50%" }}
+      <span
+        ref={pillTextRef}
+        className="text-[17px] leading-none font-medium tracking-tight text-[#f5f5f7] whitespace-nowrap pointer-events-none pl-[24px] pr-[64px]"
+      >
+        {label}
+      </span>
+      
+      <div 
+        ref={iconCircleRef} 
+        className="absolute z-10 w-[44px] h-[44px] shrink-0 flex items-center justify-center top-1/2"
+        style={{ right: "50%" }} // Important to keep its natural un-animated state aligned
+      >
+        <div 
+          ref={iconBgRef} 
+          className="absolute right-0 top-0 h-[44px] w-[44px] rounded-[22px] bg-[#8b5cf6] shadow-[0_4px_12px_rgba(139,92,246,0.3)]" 
         />
-
-        {/* Blue Circle (Icon) */}
-        <div
-          ref={blueCircleRef}
-          className="w-10 h-10 bg-[#8b5cf6] rounded-full flex items-center justify-center shrink-0 shadow-[0_4px_12px_rgba(139,92,246,0.3)] absolute"
-          style={{ right: "50%" }}
-        >
+        <div className="relative z-10 flex items-center justify-center">
           {icon || (
-            <svg viewBox="0 0 24 24" className="w-[22px] h-[22px] fill-white">
+            <svg viewBox="0 0 24 24" className="w-[22px] h-[22px] fill-white relative z-10">
               <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z" />
             </svg>
           )}
@@ -214,50 +177,48 @@ const FluidButton: React.FC<FluidButtonProps> = ({
     </>
   );
 
-  // Determine if href is an external or special link (tel:, mailto:, http)
   const isExternalOrSpecial = href && (href.startsWith("tel:") || href.startsWith("mailto:") || href.startsWith("http"));
 
   return (
-    // Sticky Wrapper
     <div
       ref={containerRef}
       className={`sticky bottom-10 w-full h-[100px] pointer-events-none z-[999] flex justify-center items-end ${className}`}
     >
-      {/* Liquid Layer */}
-      <div className="absolute bottom-0 w-[300px] h-full flex justify-center items-end opacity-100">
-        {/* Blob Trail (Ogon) */}
-        <div
-          ref={trailBlobRef}
-          className="bg-[#262626] w-12 h-12 rounded-full absolute bottom-0 z-10 translate-y-[180px]"
-        />
-
-        {/* Main Blob (Lider) - Pigułka */}
-        {href ? (
-          isExternalOrSpecial ? (
-            <a
-              href={href}
-              ref={mainBlobRef as React.Ref<HTMLAnchorElement>}
-              className="bg-[#262626] translate-y-[180px] w-[64px] h-[56px] p-2 rounded-[500px] absolute bottom-0 z-20 overflow-hidden flex items-center justify-center pointer-events-auto cursor-pointer border border-transparent no-underline"
-            >
-              {blobContent}
-            </a>
+      <div className="absolute bottom-0 left-0 w-full h-full flex justify-center">
+        {/* Tail Pill */}
+        <div ref={tailWrapperRef} className="absolute bottom-0 flex justify-center pointer-events-auto cursor-pointer">
+          <div ref={tailRef} className="w-[56px] h-[56px] rounded-full bg-[#262626]" />
+        </div>
+        
+        {/* Main Pill Wrapper for Y animation */}
+        <div ref={yWrapperRef} className="absolute bottom-0 flex justify-center pointer-events-auto cursor-pointer">
+          {href ? (
+            isExternalOrSpecial ? (
+              <a
+                href={href}
+                ref={dynamicPillRef as React.Ref<HTMLAnchorElement>}
+                className="bg-[#262626] relative flex items-center justify-start overflow-hidden no-underline border border-transparent"
+              >
+                {blobContent}
+              </a>
+            ) : (
+              <Link
+                href={href}
+                ref={dynamicPillRef as React.Ref<HTMLAnchorElement>}
+                className="bg-[#262626] relative flex items-center justify-start overflow-hidden no-underline border border-transparent"
+              >
+                {blobContent}
+              </Link>
+            )
           ) : (
-            <Link
-              href={href}
-              ref={mainBlobRef as React.Ref<HTMLAnchorElement>}
-              className="bg-[#262626] translate-y-[180px] w-[64px] h-[56px] p-2 rounded-[500px] absolute bottom-0 z-20 overflow-hidden flex items-center justify-center pointer-events-auto cursor-pointer border border-transparent no-underline"
+            <div
+              ref={dynamicPillRef as React.Ref<HTMLDivElement>}
+              className="bg-[#262626] relative flex items-center justify-start overflow-hidden border border-transparent"
             >
               {blobContent}
-            </Link>
-          )
-        ) : (
-          <div
-            ref={mainBlobRef as React.Ref<HTMLDivElement>}
-            className="bg-[#262626] translate-y-[180px] w-[64px] h-[56px] p-2 rounded-[500px] absolute bottom-0 z-20 overflow-hidden flex items-center justify-center pointer-events-auto cursor-pointer border border-transparent"
-          >
-            {blobContent}
-          </div>
-        )}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
@@ -265,3 +226,4 @@ const FluidButton: React.FC<FluidButtonProps> = ({
 
 export { FluidButton };
 export default FluidButton;
+
