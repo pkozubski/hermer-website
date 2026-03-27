@@ -10,6 +10,8 @@ interface GlassBentoCardProps {
   children: React.ReactNode; // The visual content
   className?: string;
   contentAlign?: "left" | "right";
+  contentPosition?: "top" | "bottom";
+  hideOverlay?: boolean;
   onClick?: () => void;
 }
 
@@ -21,6 +23,8 @@ export const GlassBentoCard: React.FC<GlassBentoCardProps> = ({
   children,
   className = "",
   contentAlign = "left",
+  contentPosition = "bottom",
+  hideOverlay = false,
   onClick,
 }) => {
   const isRight = contentAlign === "right";
@@ -28,7 +32,7 @@ export const GlassBentoCard: React.FC<GlassBentoCardProps> = ({
   return (
     <div
       onClick={onClick}
-      className={`group relative w-full h-full bg-[rgba(26,26,26,0.4)] backdrop-blur-[7px] flex flex-col items-center justify-end overflow-hidden rounded-[40px] shadow-xl border border-white/5 transition-transform duration-500 hover:scale-[1.01] ${className}`}
+      className={`group relative w-full h-full bg-[rgba(26,26,26,0.4)] backdrop-blur-[7px] flex flex-col overflow-hidden rounded-[40px] shadow-xl border border-white/5 transition-transform duration-500 hover:scale-[1.01] ${className}`}
     >
       {/* Visual Content Area (Top/Center) */}
       <div className="absolute inset-x-0 top-0 bottom-0 overflow-hidden">
@@ -36,15 +40,17 @@ export const GlassBentoCard: React.FC<GlassBentoCardProps> = ({
       </div>
 
       {/* Optimized Gradient Overlay */}
-      <div className="absolute h-[60%] left-0 bottom-0 w-full pointer-events-none z-0">
-        <div className="absolute inset-0 bg-linear-to-b from-transparent via-[rgba(26,26,26,0.85)] to-[#1a1a1a]" />
-      </div>
+      {!hideOverlay && (
+        <div className="absolute h-[60%] left-0 bottom-0 w-full pointer-events-none z-0">
+          <div className="absolute inset-0 bg-linear-to-b from-transparent via-[rgba(26,26,26,0.85)] to-[#1a1a1a]" />
+        </div>
+      )}
 
-      {/* Content Group (Bottom) */}
+      {/* Content Group */}
       <div
-        className={`relative z-20 flex flex-col gap-4 p-8 w-full mt-auto ${
-          isRight ? "items-end text-right" : "items-start text-left"
-        }`}
+        className={`relative z-20 flex flex-col gap-4 p-8 w-full ${
+          contentPosition === "bottom" ? "mt-auto" : "mb-auto"
+        } ${isRight ? "items-end text-right" : "items-start text-left"}`}
       >
         {/* Floating Icon */}
         {(Icon || iconSrc) && (

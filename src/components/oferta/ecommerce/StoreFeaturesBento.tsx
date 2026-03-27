@@ -33,20 +33,20 @@ export const StoreFeaturesBento: React.FC = () => {
                          In WebsiteBento, SpeedCard is Large.
                          Let's put MobileCartCard in the first Large slot.
                      */}
-          <div className="lg:col-span-1 min-h-[400px]">
+          <div className="lg:col-span-1 min-h-[430px]">
             <MobileCartCard className="h-full" />
           </div>
 
           {/* Handlers for missing cards - placeholders using existing GlassBentoCard styled wrappers or just placeholders */}
-          <div className="lg:col-span-2 min-h-[400px]">
+          <div className="lg:col-span-2 min-h-[430px]">
             <ManagementCard className="h-full" contentAlign="right" />
           </div>
 
-          <div className="lg:col-span-2 min-h-[400px]">
+          <div className="lg:col-span-2 min-h-[430px]">
             <IntegrationsCard className="h-full" />
           </div>
 
-          <div className="lg:col-span-1 min-h-[400px]">
+          <div className="lg:col-span-1 min-h-[430px]">
             <ProductSeoCard className="h-full" />
           </div>
         </div>

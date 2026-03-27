@@ -205,7 +205,7 @@ export const Offer: React.FC = () => {
         <FluidButton
           label="Zadzwoń teraz"
           icon={<Phone size={20} className="text-white" strokeWidth={2} />}
-          href="tel:+48123456789"
+          href="tel:+48666829895"
         />
       </div>
     </section>
